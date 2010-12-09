@@ -1,0 +1,86 @@
+package ru.ipo.structurededitor.view.editors;
+
+import ru.ipo.structurededitor.view.StructuredEditorModel;
+import ru.ipo.structurededitor.view.elements.ArrayElement;
+import ru.ipo.structurededitor.view.elements.ComboBoxTextEditorElement;
+import ru.ipo.structurededitor.view.elements.ContainerElement;
+import ru.ipo.structurededitor.view.elements.VisibleElement;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: oleg
+ * Date: 29.07.2010
+ * Time: 13:17:50
+ * To change this template use File | Settings | File Templates.
+ */
+public class ArrayEditor extends FieldEditor {
+    public ArrayEditor(Object o, String fieldName) {
+            super(o, fieldName);
+        }
+    private ArrayElement arrayElement;
+    private ContainerElement container;
+
+    @Override
+    public VisibleElement createElement(StructuredEditorModel model) {
+        arrayElement = createArrayElement(model);
+        container = new ContainerElement(model, arrayElement);
+        Field[] possibleValues = new Field[20];
+        PropertyDescriptor pd;
+        try {
+            pd = new PropertyDescriptor(getFieldName(), getObject().getClass());
+            possibleValues = pd.getPropertyType().getFields();
+        }
+        catch (Exception e) {
+         throw new Error("Fail in EnumEditor.createElement()");
+        }
+        //Method[] possibleMethods = getObject().getClass().getMethods();
+        String const_name;
+        for (Field pv : possibleValues) {
+                if (pv.isEnumConstant()){
+                   const_name=pv.getName();
+                   @SuppressWarnings("unchecked")
+                   Class<? extends Enum> eclass = (Class<? extends Enum>)(pd.getPropertyType());
+                   EnumSelectionElement.addValue(const_name, Enum.valueOf(eclass,const_name));
+                }
+          }
+        // else {
+       //       System.out.println("This is not enum ");
+       // }
+    /*
+        container.addKeyListener(new KeyListener() {
+            public void keyTyped(KeyEvent e) {
+                //if ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0 && e.getKeyChar() == '\u0001') //Ctrl+a
+                //    container.setSubElement(beanClassSelectionElement);
+            }
+
+            public void keyPressed(KeyEvent e) {
+            }
+
+            public void keyReleased(KeyEvent e) {
+            }
+        });
+        */
+        return container;
+    }
+
+    private ArrayElement  createArrayElement(final StructuredEditorModel model) {
+        final ComboBoxTextEditorElement <Enum<?>> res = new ComboBoxTextEditorElement<Enum<?>>(model);
+        res.addPropertyChangeListener("text", new PropertyChangeListener(){
+            public void propertyChange(PropertyChangeEvent evt) {
+                Enum<?> value = res.getValue();
+                System.out.println("enum value ="+value);
+                if (value != null){
+                    setValue(value);
+                }
+            }
+        });
+
+        return res;
+    }
+    }
+}

@@ -2,10 +2,15 @@ package ru.ipo.structurededitor.view;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Vector;
 
 import ru.ipo.structurededitor.StructuredEditor;
 import ru.ipo.structurededitor.model.DSLBean;
+import ru.ipo.structurededitor.view.elements.ComboBoxTextEditorElement;
 import ru.ipo.structurededitor.view.elements.VisibleElement;
+import ru.ipo.structurededitor.view.events.*;
+
+import javax.swing.event.EventListenerList;
 
 /**
  * Корень дерева ячеек
@@ -13,9 +18,9 @@ import ru.ipo.structurededitor.view.elements.VisibleElement;
 public class StructuredEditorModel {
 
     private VisibleElement rootElement;
-    private StructuredEditor editor;
+    //private StructuredEditor editor;
     private VisibleElement focusedElement;
-
+    private EventListenerList listenerList = new EventListenerList();
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     /**
@@ -38,8 +43,31 @@ public class StructuredEditorModel {
         pcs.addPropertyChangeListener(propertyName, listener);
     }
 
-    public StructuredEditor getEditor() {
+    /*public StructuredEditor getEditor() {
         return editor;
+    } */
+
+    public void addPopupListener(PopupListener l) {
+        listenerList.add(PopupListener.class, l);
+    }
+
+    public void removePopupListener(PopupListener l) {
+        listenerList.remove(PopupListener.class, l);
+    }
+
+    public ListDialog showPopup(Vector<String> filteredPopupList, String longStr, int x, int y) {
+        return firePopupShow(new PopupEvent(this, filteredPopupList, longStr, x, y));
+
+    }
+
+
+
+    protected ListDialog firePopupShow(PopupEvent pe) {
+        Object[] listeners = listenerList.getListeners(PopupListener.class);
+        /*for (int i = 0; i < listeners.length; i++) {
+            ((PopupListener) listeners[i]).showPopup(pe);
+        } */
+         return ((PopupListener) listeners[0]).showPopup(pe);
     }
 
 
@@ -64,12 +92,12 @@ public class StructuredEditorModel {
         return rootElement;
     }
 
-    public StructuredEditorUI getUI() {
+    /*public StructuredEditorUI getUI() {
         if (editor != null)
             return editor.getUI();
         else
             return null;
-    }
+    } */
 
     // PropertyChangeSupport
 
@@ -82,9 +110,9 @@ public class StructuredEditorModel {
         pcs.removePropertyChangeListener(propertyName, listener);
     }
 
-    public void setEditor(StructuredEditor editor) {
+    /* public void setEditor(StructuredEditor editor) {
         this.editor = editor;
-    }
+    }*/
 
     /**
      * Установить активный элемент и вызвать всех подписанных слушателей
@@ -93,7 +121,7 @@ public class StructuredEditorModel {
      */
     public void setFocusedElement(VisibleElement focusedElement) {
         if (focusedElement == this.focusedElement)
-                return;
+            return;
 
         // Фокус может иметь только элемент без дочерних элементов
         // Спускаемся к самому вложенному элементу

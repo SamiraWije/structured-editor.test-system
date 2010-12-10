@@ -3,22 +3,24 @@ package ru.ipo.structurededitor.view;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Vector;
 
 import javax.swing.JComponent;
 import javax.swing.plaf.ComponentUI;
 
 import ru.ipo.structurededitor.StructuredEditor;
 import ru.ipo.structurededitor.view.elements.VisibleElement;
+import ru.ipo.structurededitor.view.events.*;
 
 /**
  * Created by IntelliJ IDEA. User: Ilya Date: 02.01.2010 Time: 16:59:16
  */
 public class StructuredEditorUI extends ComponentUI {
 
-  protected StructuredEditor editor;
-  public static final int HORIZONTAL_MARGIN = 0;
-  public static final int VERTICAL_MARGIN = 0;
-  public static final Font FONT = new Font(Font.MONOSPACED, Font.PLAIN, 14);
+    protected StructuredEditor editor;
+    public static final int HORIZONTAL_MARGIN = 0;
+    public static final int VERTICAL_MARGIN = 0;
+    public static final Font FONT = new Font(Font.MONOSPACED, Font.PLAIN, 14);
 
     private int charHeight;
     private int charWidth;
@@ -66,6 +68,25 @@ public class StructuredEditorUI extends ComponentUI {
                     }
                 });
 
+        editor.getModel().addPopupListener(new PopupListener() {
+            public ListDialog showPopup(PopupEvent evt) {
+                int x= evt.getX();
+                int y = evt.getY();
+                Vector<String> filteredPopupList = evt.getFilteredPopupList();
+
+                x = xToPixels(x) + editor.getLocationOnScreen().x;
+                y = yToPixels(y)+ editor.getLocationOnScreen().y;
+                ListDialog.showDialog(editor, filteredPopupList.toArray(),
+                        filteredPopupList.get(0), evt.getLongStr(), x,y);
+                ListDialog dialog = ListDialog.getDialog();
+                redrawEditor();
+                return dialog;
+            }
+
+           
+
+
+        });
         FontMetrics fontMetrics = c.getFontMetrics(FONT);
         charHeight = fontMetrics.getHeight();
         charWidth = fontMetrics.charWidth('m');
@@ -126,5 +147,5 @@ public class StructuredEditorUI extends ComponentUI {
     public int yToPixels(int y) {
         return StructuredEditorUI.VERTICAL_MARGIN + y * getCharHeight();
     }
-    
+
 }

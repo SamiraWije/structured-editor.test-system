@@ -1,4 +1,4 @@
-package  ru.ipo.structurededitor.view.editors;
+package ru.ipo.structurededitor.view.editors;
 
 import ru.ipo.structurededitor.controller.EmptyFieldsRegistry;
 import ru.ipo.structurededitor.model.DSLBean;
@@ -11,7 +11,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * Created by IntelliJ IDEA.
+ * Creat  ed by IntelliJ IDEA.
  * User: Ilya
  * Date: 20.12.2009
  * Time: 22:36:47

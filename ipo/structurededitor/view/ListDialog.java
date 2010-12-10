@@ -62,7 +62,8 @@ public class ListDialog extends JDialog
     private static ListDialog dialog;
     private static String value = "";
     private static JList list;
-    private static ComboBoxTextEditorElement cmb;
+    private static JButton setButton;
+
 
     /**
      * Set up and show the dialog.  The first Component argument
@@ -83,7 +84,7 @@ public class ListDialog extends JDialog
                 possibleValues,
                 initialValue,
                 longValue,
-                x, y, cmb);
+                x, y);
         dialog.setVisible(true);
         return dialog.getList();
     }
@@ -105,16 +106,16 @@ public class ListDialog extends JDialog
                        Object[] data,
                        String initialValue,
                        String longValue,
-                       int x, int y, ComboBoxTextEditorElement cmb) {
+                       int x, int y) {
         super(frame, true);
         setUndecorated(true);
-        ListDialog.cmb = cmb;
+
         setModal(false);
         //Create and initialize the buttons.
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(this);
         //
-        final JButton setButton = new JButton("Set");
+        setButton = new JButton("Set");
         setButton.setActionCommand("Set");
         setButton.addActionListener(this);
         getRootPane().setDefaultButton(setButton);
@@ -177,7 +178,7 @@ public class ListDialog extends JDialog
                         setButton.doClick();
                         e.consume();
                 }
-                ListDialog.cmb.processKeyEvent(e);
+
             }
 
             public void keyReleased(KeyEvent e) {
@@ -229,14 +230,16 @@ public class ListDialog extends JDialog
     public void actionPerformed(ActionEvent e) {
         if ("Set".equals(e.getActionCommand())) {
             ListDialog.value = (String) (list.getSelectedValue());
-            String text = ListDialog.value;
-            if (text != null) {
-                if (text.indexOf(' ') != -1)
-                    text = text.substring(0, text.indexOf(' '));
-                ListDialog.cmb.setText(text);
-                ListDialog.cmb.setCaretPosition(text.length(), 0);
-            }
+            
         }
         ListDialog.dialog.setVisible(false);
     }
+
+    public JButton getSetButton() {
+        return setButton;
+    }
+    public String getValue() {
+        return value;
+    }
+
 }

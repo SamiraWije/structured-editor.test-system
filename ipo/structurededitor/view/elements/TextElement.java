@@ -158,10 +158,10 @@ public class TextElement extends VisibleElement {
         String oldText = this.text;
         this.text = text;
         pcs.firePropertyChange("text", oldText, text);
-        StructuredEditorUI ui = getModel().getUI();
+        /*StructuredEditorUI ui = getModel().getUI();
         if (ui != null)
             ui.redrawEditor();
-        else
+        else*/
             repaint();
     }
 
@@ -171,10 +171,10 @@ public class TextElement extends VisibleElement {
         setWidth(countWidth());
         setHeight(countHeight());
 
-        StructuredEditorUI ui = getModel().getUI();
+        /*StructuredEditorUI ui = getModel().getUI();
         if (ui != null)
             ui.redrawEditor();
-        else
+        else*/
             repaint();
     }
 

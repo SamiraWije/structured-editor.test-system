@@ -13,6 +13,7 @@ import javax.swing.*;
  * Date: 03.01.2010
  * Time: 23:14:57
  */
+// !!! Invalid due to deleting of editor from model !!!
 public class IconElement extends VisibleElement {
 
     private Icon icon;
@@ -30,20 +31,20 @@ public class IconElement extends VisibleElement {
     public void drawElement(int x0, int y0, Display d) {
         int x = d.xToPixels(x0);
         int y = d.yToPixels(y0);
-        icon.paintIcon(getModel().getEditor(), d.getGraphics(), x, y);
+        //icon.paintIcon(getModel().getEditor(), d.getGraphics(), x, y);
     }
 
-    @Override
+    /*@Override
     public int getWidth() {
         StructuredEditorUI editorUI = getModel().getUI();
         return getSize(icon.getIconWidth(), editorUI.getCharWidth());
-    }
+    } */
 
-    @Override
+    /*@Override
     public int getHeight() {
         StructuredEditorUI editorUI = getModel().getUI();
         return getSize(icon.getIconHeight(), editorUI.getCharHeight());
-    }
+    } */
 
     private int getSize(int icon, int chr) {
         if (icon % chr == 0)

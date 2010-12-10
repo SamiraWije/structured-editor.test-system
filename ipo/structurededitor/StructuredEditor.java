@@ -125,7 +125,7 @@ public class StructuredEditor extends JComponent implements Scrollable {
     }
 
     public void setModel(StructuredEditorModel model) {
-        model.setEditor(this);
+        //model.setEditor(this);
         this.model = model;
         setUI(new StructuredEditorUI());
     }

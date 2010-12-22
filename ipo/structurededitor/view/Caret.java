@@ -1,4 +1,4 @@
-package ru.ipo.structurededitor.view;
+/*package ru.ipo.structurededitor.view;
 
 import java.awt.Graphics;
 import java.awt.Point;
@@ -7,7 +7,7 @@ import java.beans.PropertyChangeSupport;
 
 /**
  * Created by IntelliJ IDEA. User: Ilya Date: 13.01.2010 Time: 18:26:54
- */
+
 public class Caret {
 
     PropertyChangeSupport pcs = new PropertyChangeSupport(this);
@@ -61,7 +61,7 @@ public class Caret {
      * Отрисовка каретки
      *
      * @param g полотно для рисования
-     */
+     *\/
     public void paint(Graphics g) {
         StructuredEditorUI ui = model.getUI();
         int x0 = ui.getCharWidth() * column;
@@ -97,3 +97,4 @@ public class Caret {
         column = col_;
     }
 }
+ */

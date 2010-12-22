@@ -4,8 +4,12 @@ import ru.ipo.structurededitor.StructuredEditor;
 import ru.ipo.structurededitor.view.ListDialog;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.TextPosition;
+import ru.ipo.structurededitor.view.events.ComboBoxSelectListener;
+import ru.ipo.structurededitor.view.events.PopupListener;
+import ru.ipo.structurededitor.view.events.RepaintListener;
 
 import javax.swing.*;
+import javax.swing.event.EventListenerList;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,25 +26,49 @@ import java.util.Vector;
  * Date: 04.01.2010
  * Time: 0:15:01
  */
-public class ComboBoxTextEditorElement<T> extends TextEditorElement implements ActionListener {
+public class ComboBoxTextEditorElement<T> extends TextEditorElement {
+
+    private EventListenerList listenerList = new EventListenerList();
     private HashMap<String, T> values = new HashMap<String, T>();
+
 //    private DefaultListModel listModel = new DefaultListModel();
 //    private JList list;
     private ListDialog dialog;
     private Vector<String> popupList = new Vector<String>();
+
+    public Vector<String> getFilteredPopupList() {
+        return filteredPopupList;
+    }
+
+    private Vector<String> shortcutList = new Vector<String>();
+
+    public Vector<String> getFilteredShortcutList() {
+        return filteredShortcutList;
+    }
+
+    private Vector<String> filteredShortcutList;
     private Vector<String> filteredPopupList;
     private String longStr;
+
+    public void addComboBoxSelectListener(ComboBoxSelectListener l) {
+        listenerList.add(ComboBoxSelectListener.class, l);
+    }
+
+    public void removeComboBoxSelectListener(ComboBoxSelectListener l) {
+        listenerList.remove(ComboBoxSelectListener.class, l);
+    }
+
     //private JList popupList = new JList(listModel);
     //private int maxListItemLength = 0;
 
-    public void actionPerformed(ActionEvent e) {
+    /*public void actionPerformed(ActionEvent e) {
         setMarkPosition(-1, -1);
         String text = e.getActionCommand();
         if (text.indexOf(' ') != -1)
             text = text.substring(0, text.indexOf(' '));
         setText(text);
         setCaretPosition(text.length(), 0);
-    }
+    } */
 
     /*public void showPopup(int x, int y) {
         /*if (isPopupVisible())
@@ -67,6 +95,19 @@ public class ComboBoxTextEditorElement<T> extends TextEditorElement implements A
         //popup = null;
     } */
 
+    public void fireSelect() {
+        Object[] listeners = listenerList.getListenerList();
+        for (int i = listeners.length-2; i>=0; i-=2) {
+                 if (listeners[i]==ComboBoxSelectListener.class) {
+                     // Lazily create the event:
+                     /*if (Event == null)
+                         fooEvent = new FooEvent(this);*/
+                     ((ComboBoxSelectListener)listeners[i+1]).itemSelected();
+                 }
+        }
+
+
+    }
     public ComboBoxTextEditorElement(StructuredEditorModel model) {
         super(model);
         /*addPropertyChangeListener("text",new PropertyChangeListener() {
@@ -84,16 +125,19 @@ public class ComboBoxTextEditorElement<T> extends TextEditorElement implements A
 
     private void updateList(String text, int xCaretPos) {
         filteredPopupList = new Vector<String>();
+        filteredShortcutList= new Vector<String>();
         text = text.substring(0, xCaretPos);
         for (int i = 0; i < popupList.size(); i++) {
             String item = popupList.get(i);
             if (item.indexOf(text) == 0) {
                 filteredPopupList.add(item);
+                filteredShortcutList.add(shortcutList.get(i));
             }
         }
 
         if (filteredPopupList.isEmpty()) {
             filteredPopupList.add("(Пусто)");
+            filteredShortcutList.add("");
         }
         justifyList();
         if (dialog != null && dialog.isVisible()) {
@@ -110,14 +154,10 @@ public class ComboBoxTextEditorElement<T> extends TextEditorElement implements A
             case KeyEvent.VK_ENTER:
                 return;
             case KeyEvent.VK_SPACE:
-                if (e.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK && dialog != null && dialog.isVisible()) {
-                    justifyList();
-
+                if (e.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK && (dialog == null || !dialog.isVisible())) {
+                    updateList("", 0);
                     findLocAndShowPopup();
-
                     e.consume();
-
-
                     return;
                 }
                 break;
@@ -177,6 +217,7 @@ public class ComboBoxTextEditorElement<T> extends TextEditorElement implements A
                 getModel().getUI().yToPixels(y) + editor.getLocationOnScreen().y
         );*/
         dialog = getModel().showPopup(filteredPopupList, longStr, x, y);
+        dialog.setCmb(this);
         dialog.getList().addKeyListener(new KeyListener() {
 
             public void keyTyped(KeyEvent e) {
@@ -189,21 +230,7 @@ public class ComboBoxTextEditorElement<T> extends TextEditorElement implements A
             public void keyReleased(KeyEvent e) {
             }
         });
-        dialog.getSetButton().addActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent e) {
-                if ("Set".equals(e.getActionCommand())) {
-                    String text = dialog.getValue();
-                    if (text != null) {
-                        if (text.indexOf(' ') != -1)
-                            text = text.substring(0, text.indexOf(' '));
-                        setText(text);
-                        setCaretPosition(text.length(), 0);
-                    }
-                }
-            }
-
-        });
         /*
         if (sm.getSelectedIndex() == -1) {
             if (popup.getComponentCount() == 0)
@@ -254,12 +281,11 @@ public class ComboBoxTextEditorElement<T> extends TextEditorElement implements A
     }
 
 
-    public void addValue(final String text, final T value) {
+    public void addValue(final String shortcut, String description, final T value) {
+        String text=shortcut+" "+description;
         popupList.add(text);
-        String str = text;
-        if (text.indexOf(' ') != -1)
-            str = text.substring(0, text.indexOf(' '));
-        values.put(str, value);
+        shortcutList.add(shortcut);
+        values.put(shortcut, value);
     }
 
     public T getValue() {

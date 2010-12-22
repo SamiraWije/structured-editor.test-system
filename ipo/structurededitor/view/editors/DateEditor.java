@@ -1,4 +1,4 @@
-package ru.ipo.structurededitor.view.editors;
+/*package ru.ipo.structurededitor.view.editors;
 
 import ru.ipo.structurededitor.StructuredEditor;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
@@ -23,7 +23,7 @@ import java.util.Date;
  * User: ilya
  * Date: 10.11.2010
  * Time: 16:22:29
- */
+ *\/
 public class DateEditor extends FieldEditor {
 
     private TextEditorElement editorElement;
@@ -148,4 +148,4 @@ public class DateEditor extends FieldEditor {
     protected void updateElement() {
         editorElement.setText(valueToString());
     }
-}
+} */

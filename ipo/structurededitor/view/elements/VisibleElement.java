@@ -200,9 +200,7 @@ public abstract class VisibleElement {
     }
 
     public void repaint() {
-        StructuredEditor editor = getModel().getEditor();
-        if (editor != null)
-            editor.getUI().redrawEditor();
+        getModel().repaint();
     }
 
     protected void setHeight(int height) {

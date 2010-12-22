@@ -76,16 +76,17 @@ public class StructuredEditorUI extends ComponentUI {
 
                 x = xToPixels(x) + editor.getLocationOnScreen().x;
                 y = yToPixels(y)+ editor.getLocationOnScreen().y;
-                ListDialog.showDialog(editor, filteredPopupList.toArray(),
+                ListDialog dialog = new ListDialog(editor, filteredPopupList.toArray(),
                         filteredPopupList.get(0), evt.getLongStr(), x,y);
-                ListDialog dialog = ListDialog.getDialog();
                 redrawEditor();
                 return dialog;
             }
 
-           
-
-
+        });
+        editor.getModel().addRepaintListener(new RepaintListener() {
+            public void repaint() {
+                redrawEditor();
+            }
         });
         FontMetrics fontMetrics = c.getFontMetrics(FONT);
         charHeight = fontMetrics.getHeight();

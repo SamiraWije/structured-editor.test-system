@@ -59,10 +59,16 @@ import java.awt.event.*;
  */
 public class ListDialog extends JDialog
         implements ActionListener {
-    private static ListDialog dialog;
-    private static String value = "";
-    private static JList list;
-    private static JButton setButton;
+    //private ListDialog dialog;
+    //private String value = "";
+    private JList list;
+
+    public void setCmb(ComboBoxTextEditorElement cmb) {
+        this.cmb = cmb;
+    }
+
+    //private static JButton setButton;
+    private ComboBoxTextEditorElement cmb;
 
 
     /**
@@ -74,11 +80,11 @@ public class ListDialog extends JDialog
      * otherwise, it should be the component on top of which the
      * dialog should appear.
      */
-    public static JList showDialog(Component frameComp,
+    /*public JList showDialog(Component frameComp,
                                    Object[] possibleValues,
                                    String initialValue,
                                    String longValue,
-                                   int x, int y, ComboBoxTextEditorElement cmb) {
+                                   int x, int y) {
         Frame frame = JOptionPane.getFrameForComponent(frameComp);
         dialog = new ListDialog(frame,
                 possibleValues,
@@ -87,27 +93,25 @@ public class ListDialog extends JDialog
                 x, y);
         dialog.setVisible(true);
         return dialog.getList();
-    }
+    } */
 
     public JList getList() {
         return list;
     }
 
-    private void setValue(String newValue) {
+   /* private void setValue(String newValue) {
         value = newValue;
         list.setSelectedValue(value, true);
-    }
+    }  */
 
-    public static ListDialog getDialog() {
-        return dialog;
-    }
 
-    private ListDialog(Frame frame,
+    public ListDialog(JComponent frameComp,
                        Object[] data,
                        String initialValue,
                        String longValue,
                        int x, int y) {
-        super(frame, true);
+        super(JOptionPane.getFrameForComponent(frameComp), true);
+
         setUndecorated(true);
 
         setModal(false);
@@ -115,7 +119,7 @@ public class ListDialog extends JDialog
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(this);
         //
-        setButton = new JButton("Set");
+        final JButton setButton = new JButton("Set");
         setButton.setActionCommand("Set");
         setButton.addActionListener(this);
         getRootPane().setDefaultButton(setButton);
@@ -146,6 +150,7 @@ public class ListDialog extends JDialog
                         return prevR.height;
                     }
                 }
+
                 return super.getScrollableUnitIncrement(
                         visibleRect, orientation, direction);
             }
@@ -218,9 +223,10 @@ public class ListDialog extends JDialog
         //contentPane.add(buttonPane, BorderLayout.PAGE_END);
 
         //Initialize values.
-        setValue(initialValue);
+        list.setSelectedValue(initialValue, true);
         pack();
         setLocation(x, y);
+        setVisible(true);
 
     }
 
@@ -229,17 +235,21 @@ public class ListDialog extends JDialog
 
     public void actionPerformed(ActionEvent e) {
         if ("Set".equals(e.getActionCommand())) {
-            ListDialog.value = (String) (list.getSelectedValue());
-            
+            //ListDialog.value = (String) ();
+            String text = (String) list.getSelectedValue();
+                    if (text != null) {
+                        text=(String) cmb.getFilteredShortcutList().get(cmb.getFilteredPopupList().indexOf(text));
+                        cmb.setText(text);
+                        cmb.setCaretPosition(text.length(), 0);
+                        cmb.fireSelect();
+                    }
         }
-        ListDialog.dialog.setVisible(false);
+        setVisible(false);
     }
 
-    public JButton getSetButton() {
-        return setButton;
-    }
-    public String getValue() {
+
+    /*public String getValue() {
         return value;
-    }
+    } */
 
 }

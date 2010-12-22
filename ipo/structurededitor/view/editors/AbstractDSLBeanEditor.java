@@ -9,6 +9,8 @@ import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.elements.ComboBoxTextEditorElement;
 import ru.ipo.structurededitor.view.elements.ContainerElement;
 import ru.ipo.structurededitor.view.elements.VisibleElement;
+import ru.ipo.structurededitor.view.events.ComboBoxSelectListener;
+import ru.ipo.structurededitor.view.events.RepaintListener;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -116,24 +118,33 @@ public class AbstractDSLBeanEditor extends FieldEditor {
         for (Class<? extends DSLBean> clazz : classes){
             DSLBeanParams beanParams;
             beanParams = clazz.getAnnotation(DSLBeanParams.class);
-            String str;
-            if (beanParams==null)
-                str = clazz.getSimpleName();
-            else {
-                str=beanParams.shortcut() + "   " + beanParams.description();
+            //String str;
+            if (beanParams==null){
+                beanClassSelectionElement.addValue(clazz.getSimpleName(),"", clazz);
             }
-            beanClassSelectionElement.addValue(str, clazz);
+            else {
+                beanClassSelectionElement.addValue(beanParams.shortcut(),beanParams.description(), clazz);
+            }
+
         }
     }
     private ComboBoxTextEditorElement<Class<? extends DSLBean>> createBeanSelectionElement(final StructuredEditorModel model) {
         final ComboBoxTextEditorElement<Class<? extends DSLBean>> res = new ComboBoxTextEditorElement<Class<? extends DSLBean>>(model);
         res.setEmptyString("[Выберите вариант]");
 
+        res.addComboBoxSelectListener(new ComboBoxSelectListener() {
+            public void itemSelected() {
+               Class<? extends DSLBean> value = res.getValue();
+               if (value != null) {
+                  setNewBean(value, model);
+               }
+            }
+        });
         res.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     Class<? extends DSLBean> value = res.getValue();
-                    if (value != null){
+                    if (value != null) {
                         setNewBean(value, model);
                         e.consume();
                     }

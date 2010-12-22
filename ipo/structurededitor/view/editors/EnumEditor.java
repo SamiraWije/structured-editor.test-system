@@ -61,7 +61,7 @@ public class EnumEditor extends FieldEditor {
         for (Field pv : possibleValues) {
             if (pv.isEnumConstant()) {
                 const_name = pv.getName();
-                EnumSelectionElement.addValue(const_name, Enum.valueOf(eclass, const_name));
+                EnumSelectionElement.addValue(const_name, "",Enum.valueOf(eclass, const_name));
             }
         }
         // else {

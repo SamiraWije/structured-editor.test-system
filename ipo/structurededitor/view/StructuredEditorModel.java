@@ -20,6 +20,8 @@ public class StructuredEditorModel {
     private VisibleElement rootElement;
     //private StructuredEditor editor;
     private VisibleElement focusedElement;
+
+
     private EventListenerList listenerList = new EventListenerList();
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
@@ -54,20 +56,47 @@ public class StructuredEditorModel {
     public void removePopupListener(PopupListener l) {
         listenerList.remove(PopupListener.class, l);
     }
+    public void addRepaintListener(RepaintListener l) {
+        listenerList.add(RepaintListener.class, l);
+    }
 
+    public void removeRepaintListener(RepaintListener l) {
+        listenerList.remove(RepaintListener.class, l);
+    }
     public ListDialog showPopup(Vector<String> filteredPopupList, String longStr, int x, int y) {
         return firePopupShow(new PopupEvent(this, filteredPopupList, longStr, x, y));
 
     }
+    public void repaint() {
+        fireRepaint();
+
+    }
+
+    protected void fireRepaint() {
+        Object[] listeners = listenerList.getListenerList();
+        for (int i = listeners.length-2; i>=0; i-=2) {
+                 if (listeners[i]==RepaintListener.class) {
+                     // Lazily create the event:
+                     /*if (Event == null)
+                         fooEvent = new FooEvent(this);*/
+                     ((RepaintListener)listeners[i+1]).repaint();
+                 }
+        }
 
 
-
+    }
     protected ListDialog firePopupShow(PopupEvent pe) {
-        Object[] listeners = listenerList.getListeners(PopupListener.class);
-        /*for (int i = 0; i < listeners.length; i++) {
-            ((PopupListener) listeners[i]).showPopup(pe);
-        } */
-         return ((PopupListener) listeners[0]).showPopup(pe);
+        Object[] listeners = listenerList.getListenerList();
+        for (int i = listeners.length-2; i>=0; i-=2) {
+                 if (listeners[i]==PopupListener.class) {
+                     // Lazily create the event:
+                     /*if (Event == null)
+                         fooEvent = new FooEvent(this);*/
+                     return ((PopupListener)listeners[i+1]).showPopup(pe);
+                 }
+        }
+        return null;
+
     }
 
 
@@ -98,7 +127,6 @@ public class StructuredEditorModel {
         else
             return null;
     } */
-
     // PropertyChangeSupport
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {

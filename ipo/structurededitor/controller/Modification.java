@@ -45,7 +45,8 @@ public class Modification {
         }
         position++;
         vector.add(this);
-        checkMenus();
+        if (redoButton!=null)
+            checkMenus();
     }
 
     public static void setMenus(JButton redoButton, JButton undoButton, MenuItem redoItem, MenuItem undoItem){

@@ -83,18 +83,18 @@ public class EnumEditor extends FieldEditor {
         */
         //return container;
 
+        //updateElement();
         updateElement();
-
         return EnumSelectionElement;
     }
 
     @Override
     protected void updateElement() {
         if (EmptyFieldsRegistry.getInstance().isEmpty((DSLBean) getObject(), getFieldName())){
-            EnumSelectionElement.setValue(null);
+            EnumSelectionElement.forcedSetValue(null);
         }
         else {
-            EnumSelectionElement.setValue((Enum<?>) getValue());
+            EnumSelectionElement.forcedSetValue((Enum<?>) getValue());
         }
     }
 

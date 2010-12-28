@@ -5,6 +5,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.Vector;
 
 import ru.ipo.structurededitor.StructuredEditor;
+import ru.ipo.structurededitor.controller.ModificationVector;
 import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.view.elements.ComboBoxTextEditorElement;
 import ru.ipo.structurededitor.view.elements.VisibleElement;
@@ -20,6 +21,17 @@ public class StructuredEditorModel {
     private VisibleElement rootElement;
     //private StructuredEditor editor;
     private VisibleElement focusedElement;
+
+    public ModificationVector getModificationVector() {
+        return modificationVector;
+    }
+
+    public void setModificationVector(ModificationVector modificationVector) {
+
+        this.modificationVector = modificationVector;
+    }
+
+    private ModificationVector modificationVector;
 
 
     private EventListenerList listenerList = new EventListenerList();

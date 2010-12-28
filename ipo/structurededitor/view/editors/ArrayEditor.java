@@ -104,6 +104,7 @@ public class ArrayEditor extends FieldEditor {
     @Override
     public VisibleElement createElement(final StructuredEditorModel model) {
         arrayElement = new ArrayElement(model, orientation, spaceChar);
+        setModificationVector(model.getModificationVector());
         updateElement();
         /*try {
             Object val = getValue();

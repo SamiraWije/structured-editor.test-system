@@ -1,8 +1,5 @@
 package ru.ipo.structurededitor.view.editors;
 
-import ru.ipo.structurededitor.controller.EmptyFieldsRegistry;
-import ru.ipo.structurededitor.model.DSLBean;
-import ru.ipo.structurededitor.view.editors.FieldEditor;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.elements.DoubleEditorElement;
 import ru.ipo.structurededitor.view.elements.VisibleElement;
@@ -30,16 +27,17 @@ public class DoubleEditor extends FieldEditor {
 
     @Override
     public VisibleElement createElement(StructuredEditorModel model) {
+        setModificationVector(model.getModificationVector());
         String text;
-        if (EmptyFieldsRegistry.getInstance().isEmpty((DSLBean) getObject(), getFieldName()))
+        /*if (EmptyFieldsRegistry.getInstance().isEmpty((DSLBean) getObject(), getFieldName()))
             text = null;
-        else {
+        else {*/
             Object val = getValue();
             if (val == null)
                 text = null;
             else
                 text = Double.toString((Double) val);
-        }
+        //}
         editorElement = new DoubleEditorElement(model, text);
         editorElement.addPropertyChangeListener("text", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {

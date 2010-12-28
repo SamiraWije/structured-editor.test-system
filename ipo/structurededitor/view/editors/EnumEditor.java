@@ -1,19 +1,11 @@
 package ru.ipo.structurededitor.view.editors;
 
-import ru.ipo.structurededitor.controller.EmptyFieldsRegistry;
-import ru.ipo.structurededitor.model.DSLBean;
-import ru.ipo.structurededitor.model.DSLBeansRegistry;
-import ru.ipo.structurededitor.view.EditorRenderer;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.elements.ComboBoxTextEditorElement;
-import ru.ipo.structurededitor.view.elements.ContainerElement;
 import ru.ipo.structurededitor.view.elements.VisibleElement;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
 import java.lang.reflect.Field;
 import java.beans.PropertyDescriptor;
 
@@ -39,6 +31,7 @@ public class EnumEditor extends FieldEditor {
     @Override
     public VisibleElement createElement(StructuredEditorModel model) {
         EnumSelectionElement = createEnumSelectionElement(model);
+        setModificationVector(model.getModificationVector());
         //container = new ContainerElement(model, EnumSelectionElement);
         Field[] possibleValues = new Field[20];
         PropertyDescriptor pd;
@@ -90,12 +83,12 @@ public class EnumEditor extends FieldEditor {
 
     @Override
     protected void updateElement() {
-        if (EmptyFieldsRegistry.getInstance().isEmpty((DSLBean) getObject(), getFieldName())){
+        /*if (EmptyFieldsRegistry.getInstance().isEmpty((DSLBean) getObject(), getFieldName())){
             EnumSelectionElement.forcedSetValue(null);
         }
-        else {
+        else {*/
             EnumSelectionElement.forcedSetValue((Enum<?>) getValue());
-        }
+        //}
     }
 
     private ComboBoxTextEditorElement<Enum<?>> createEnumSelectionElement(final StructuredEditorModel model) {

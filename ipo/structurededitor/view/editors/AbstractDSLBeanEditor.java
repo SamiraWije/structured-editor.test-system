@@ -1,6 +1,5 @@
 package ru.ipo.structurededitor.view.editors;
 
-import ru.ipo.structurededitor.controller.EmptyFieldsRegistry;
 import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.model.DSLBeanParams;
 import ru.ipo.structurededitor.model.DSLBeansRegistry;
@@ -10,12 +9,9 @@ import ru.ipo.structurededitor.view.elements.ComboBoxTextEditorElement;
 import ru.ipo.structurededitor.view.elements.ContainerElement;
 import ru.ipo.structurededitor.view.elements.VisibleElement;
 import ru.ipo.structurededitor.view.events.ComboBoxSelectListener;
-import ru.ipo.structurededitor.view.events.RepaintListener;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.List;
 
 /**
@@ -41,13 +37,14 @@ public class AbstractDSLBeanEditor extends FieldEditor {
     @Override
     public VisibleElement createElement(final StructuredEditorModel model) {
         this.model = model;
+        setModificationVector(model.getModificationVector());
 
         beanClassSelectionElement = createBeanSelectionElement(model);
 
         container = new ContainerElement(model, beanClassSelectionElement);
         setComboBoxList();
 
-        //beanClassSelectionElement.justifyList();
+
         container.addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent e) {
                 if ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0 && e.getKeyChar() == '\u0001') { //Ctrl+a
@@ -66,41 +63,7 @@ public class AbstractDSLBeanEditor extends FieldEditor {
             public void keyReleased(KeyEvent e) {
             }
         });
-        /*container.addPropertyChangeListener("refresh", new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                VisibleElement.RefreshProperties rp = (VisibleElement.RefreshProperties) evt.getNewValue();
-                setEmpty(rp.getEmpty());
-                setObject(rp.getObject());
-                beanClassSelectionElement.Refresh(new VisibleElement.RefreshProperties(rp.getEmpty(), getObject()));
-                if (rp.getEmpty() || getValue() == null) {
-                    container.setSubElement(beanClassSelectionElement);
-                    setValue(null);
-                } else {
-                    /*    if (container.getChild(0) == beanClassSelectionElement) {
-                        try {
-                            DSLBean o;
-                            o = (DSLBean) getValue();
-                            setNewBean(o.getClass(), model);
-                        } catch (Exception e1) {
-                            throw new Error("Failed to instantiate bean: " + e1);
-                        }
-                    }* /
-                    DSLBean bean1 = (DSLBean) getValue();
-                    try {
-                        DSLBean bean = (DSLBean) getValue().getClass().newInstance();
-                        EditorRenderer renderer = new EditorRenderer(model, bean);
-                        container.setSubElement(renderer.getRenderResult());
-                    } catch (Exception e) {
-                        throw new Error("Failed to initialize DSL Bean");
-                    }
 
-                    container.getChild(0).Refresh(new VisibleElement.RefreshProperties(false, bean1));
-                }
-            }
-        });
-        if (!isEmpty())
-            container.Refresh(new VisibleElement.RefreshProperties(false, getObject()));
-        */
         updateElement();
 
         return container;
@@ -201,7 +164,7 @@ public class AbstractDSLBeanEditor extends FieldEditor {
             return;
 
         Object value = getValue();
-        if (value == null ||  EmptyFieldsRegistry.getInstance().isEmpty((DSLBean)getObject(), getFieldName())){
+        if (value == null /*||  EmptyFieldsRegistry.getInstance().isEmpty((DSLBean)getObject(), getFieldName())*/){
             beanClassSelectionElement.setText("");
             container.setSubElement(beanClassSelectionElement);
         }

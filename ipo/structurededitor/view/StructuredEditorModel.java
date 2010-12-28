@@ -22,6 +22,24 @@ public class StructuredEditorModel {
     //private StructuredEditor editor;
     private VisibleElement focusedElement;
 
+    private DSLBean o;
+
+    public StructuredEditorModel(DSLBean o) {
+        this(o,new ModificationVector());
+    }
+
+    public StructuredEditorModel(DSLBean o, ModificationVector modificationVector) {
+       this.o = o;
+       setModificationVector(modificationVector);
+       setRootElement(new EditorRenderer(this, o).getRenderResult());
+    }
+    public void setObject(DSLBean o) {
+        this.o = o;
+    }
+    public DSLBean getObject() {
+        return o;
+    }
+
     public ModificationVector getModificationVector() {
         return modificationVector;
     }

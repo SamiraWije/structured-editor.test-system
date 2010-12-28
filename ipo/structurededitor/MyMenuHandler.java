@@ -34,13 +34,9 @@ public class MyMenuHandler implements ActionListener, ItemListener {
     }
 
     private void refreshEditor(Statement st, ModificationVector modificationVector){
-        StructuredEditorModel model = new StructuredEditorModel();
-        model.setModificationVector(modificationVector);
-        VisibleElement newRoot = new EditorRenderer(model, st).getRenderResult();
-        model.setRootElement(newRoot);
+        StructuredEditorModel model = new StructuredEditorModel(st, modificationVector);
         structuredEditor.getModel().setFocusedElement(null);
         structuredEditor.setModel(model);
-        structuredEditor.setObject(st);
         structuredEditor.getUI().redrawEditor();
     }
 
@@ -78,17 +74,17 @@ public class MyMenuHandler implements ActionListener, ItemListener {
 
                 StructureSerializer structureSerializer = new StructureSerializer(fn);
 
-                structureSerializer.saveStructure(structuredEditor.getObject());
+                structureSerializer.saveStructure(structuredEditor.getModel().getObject());
             }
         } else if (arg.equals("Выход")) {
             f.setVisible(false);
             System.exit(0);
         } else if (arg.equals("Отменить")) {
            structuredEditor.getModel().getModificationVector().undo();
-           refreshEditor((Statement) structuredEditor.getObject(),structuredEditor.getModel().getModificationVector());
+           refreshEditor((Statement) structuredEditor.getModel().getObject(),structuredEditor.getModel().getModificationVector());
         } else if (arg.equals("Повторить")) {
            structuredEditor.getModel().getModificationVector().redo();
-           refreshEditor((Statement) structuredEditor.getObject(),structuredEditor.getModel().getModificationVector());
+           refreshEditor((Statement) structuredEditor.getModel().getObject(),structuredEditor.getModel().getModificationVector());
         }
     }
 

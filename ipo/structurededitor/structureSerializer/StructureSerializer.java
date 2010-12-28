@@ -1,16 +1,9 @@
 package ru.ipo.structurededitor.structureSerializer;
 
-import com.sun.org.apache.xerces.internal.impl.PropertyManager;
 import org.w3c.dom.*;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import ru.ipo.structurededitor.controller.EmptyFieldsRegistry;
 import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.structureBuilder.MyErrorHandler;
-import ru.ipo.structurededitor.testLang.comb.*;
 import ru.ipo.structurededitor.testLang.comb.Statement;
-import ru.ipo.structurededitor.view.editors.ArrayEditor;
-import ru.ipo.structurededitor.view.elements.TextElement;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -253,14 +246,13 @@ public class StructureSerializer {
 
     private Object getValue(DSLBean bean, String fieldName) {
         try {
-            if (EmptyFieldsRegistry.getInstance().isEmpty(bean, fieldName)) {
+            /*if (EmptyFieldsRegistry.getInstance().isEmpty(bean, fieldName)) {
                 return null;
-            }
+            } */
             PropertyDescriptor pd = new PropertyDescriptor(fieldName, bean.getClass());
             Method rm = pd.getReadMethod();
             //empty = false;
-            Object value = rm.invoke(bean);
-            return value;
+            return rm.invoke(bean);
         } catch (Exception e1) {
             throw new Error("Fail in StructureSerializer.getValue()");
         }

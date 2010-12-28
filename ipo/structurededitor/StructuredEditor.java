@@ -23,6 +23,7 @@ public class StructuredEditor extends JComponent implements Scrollable {
     private StructuredEditorModel model;
     private DSLBean o;
 
+
     public StructuredEditor(StructuredEditorModel model, DSLBean o) {
         setModel(model);
         setObject(o);

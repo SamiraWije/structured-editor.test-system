@@ -30,6 +30,7 @@ public class BooleanEditor extends FieldEditor {
 
     @Override
     public VisibleElement createElement(StructuredEditorModel model) {
+        setModificationVector(model.getModificationVector());
         String bool_str = BooleanEditorElement.RUS_FALSE;
         Object val = getValue();
         if (val == null)

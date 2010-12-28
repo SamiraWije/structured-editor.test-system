@@ -1,8 +1,7 @@
 package ru.ipo.structurededitor;
 
 import org.w3c.dom.*;
-import ru.ipo.structurededitor.controller.EditorsRegistry;
-import ru.ipo.structurededitor.controller.Modification;
+import ru.ipo.structurededitor.controller.*;
 import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.model.DSLBeansRegistry;
 import ru.ipo.structurededitor.structureBuilder.MyErrorHandler;
@@ -24,6 +23,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.EventListener;
 
 /**
  * Created by IntelliJ IDEA.
@@ -109,6 +109,7 @@ public class TestEditor3 {
 
         Statement st = new Statement();
         final StructuredEditorModel model = createModel(st);
+
 //        f.add(new JScrollPane(new JTextArea("asdf")));
         final StructuredEditor structuredEditor = new StructuredEditor(model, st);
         JScrollPane structuredEditorScrPane = new JScrollPane(structuredEditor);
@@ -136,7 +137,7 @@ public class TestEditor3 {
         file.add(item5 = new MenuItem("Выход"));
         menuBar.add(file);
         Menu edit = new Menu("Редактирование");
-        MenuItem undoItem, redoItem;
+        final MenuItem undoItem, redoItem;
         edit.add(undoItem = new MenuItem("Отменить"));
         edit.add(redoItem = new MenuItem("Повторить"));
         undoItem.setEnabled(false);
@@ -162,8 +163,8 @@ public class TestEditor3 {
         JToolBar toolBar = new JToolBar();
         addButtonToToolBar(toolBar, "menu-open.png", "Открыть . . .", true, handler);
         addButtonToToolBar(toolBar, "save.png", "Сохранить . . .", true, handler);
-        JButton undoButton=addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
-        JButton redoButton=addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
+        final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
+        final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
         addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);
         addButtonToToolBar(toolBar, "help.png", "Помощь", true, handler);
 
@@ -171,10 +172,29 @@ public class TestEditor3 {
         redoButton.setEnabled(false);
 
         f.add(toolBar, BorderLayout.NORTH);
-        
+
         structuredEditorScrPane.requestFocusInWindow();
         f.setVisible(true);
-        Modification.setMenus(redoButton,undoButton,redoItem,undoItem);
+        final ModificationVector modificationVector=model.getModificationVector();
+        modificationVector.addModificationListener(new ModificationListener() {
+            public void modificationPerformed() {
+                if (modificationVector.canRedo()) {
+                    redoButton.setEnabled(true);
+                    redoItem.setEnabled(true);
+                } else {
+                    redoButton.setEnabled(false);
+                    redoItem.setEnabled(false);
+                }
+                if (modificationVector.canUndo()) {
+                    undoButton.setEnabled(true);
+                    undoItem.setEnabled(true);
+                } else {
+                    undoButton.setEnabled(false);
+                    undoItem.setEnabled(false);
+                }
+            }
+        });
+        //model.setModificationVector(modificationVector);
 
 
         /*f.addKeyListener(new KeyListener() {
@@ -218,7 +238,7 @@ public class TestEditor3 {
 
             Element emptyNode = document.createElement("empty");
             NodesRegistry.getInstance().setEmptyNode(emptyNode);
-            
+
 
             Attr taskTitle = document.createAttribute("title");
             NodesRegistry.getInstance().registerNode(Statement.class, "title", taskTitle);
@@ -277,7 +297,7 @@ public class TestEditor3 {
             Element constElement = document.createElement("constElement");
             NodesRegistry.getInstance().registerNode(InnerConstantElement.class, constElement);
             NodesRegistry.getInstance().registerNode(IntConstantElement.class, constElement);
-            
+
 
             //Functions
             Element evenFnc = document.createElement("function");
@@ -401,7 +421,8 @@ public class TestEditor3 {
         root.add(new ContainerElement(model, _4thLine));*/
 
         //Bean1 bean1 = new Bean1();
-
+        final ModificationVector modificationVector = new ModificationVector();
+        model.setModificationVector(modificationVector);
         model.setRootElement(new EditorRenderer(model, st).getRenderResult());
         return model;
     }

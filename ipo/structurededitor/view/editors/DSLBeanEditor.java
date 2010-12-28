@@ -51,6 +51,7 @@ public class DSLBeanEditor extends FieldEditor {
     @Override
     public VisibleElement createElement(final StructuredEditorModel model) {
         this.model = model;
+        setModificationVector(model.getModificationVector());
 
         nullElement = new TextElement(model, "");
         nullElement.setEmptyString("[Не заполнено]");

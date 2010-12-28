@@ -1,22 +1,18 @@
 package ru.ipo.structurededitor;
 
-import ru.ipo.structurededitor.controller.EmptyFieldsRegistry;
-import ru.ipo.structurededitor.controller.Modification;
+import ru.ipo.structurededitor.controller.ModificationVector;
 import ru.ipo.structurededitor.structureSerializer.StructureSerializer;
 import ru.ipo.structurededitor.testLang.comb.Statement;
 import ru.ipo.structurededitor.view.EditorRenderer;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.structureBuilder.StructureBuilder;
 import ru.ipo.structurededitor.view.elements.VisibleElement;
-import ru.ipo.structurededitor.xmlViewer.XMLViewer;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.FilenameFilter;
 
 /**
  * Created by IntelliJ IDEA.
@@ -37,8 +33,9 @@ public class MyMenuHandler implements ActionListener, ItemListener {
         this.structuredEditor = structuredEditor;
     }
 
-    private void refreshEditor(Statement st){
+    private void refreshEditor(Statement st, ModificationVector modificationVector){
         StructuredEditorModel model = new StructuredEditorModel();
+        model.setModificationVector(modificationVector);
         VisibleElement newRoot = new EditorRenderer(model, st).getRenderResult();
         model.setRootElement(newRoot);
         structuredEditor.getModel().setFocusedElement(null);
@@ -64,9 +61,9 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 StructureBuilder structureBuilder = new StructureBuilder(fn);
 
                 Statement st = structureBuilder.getStructure();
-                refreshEditor(st);
-                Modification.clearVector();
-                EmptyFieldsRegistry.getInstance().clear();
+                refreshEditor(st,structuredEditor.getModel().getModificationVector());
+                structuredEditor.getModel().getModificationVector().clearVector();
+                //EmptyFieldsRegistry.getInstance().clear();
             }
 
         } else if (arg.equals("Сохранить . . .")) {
@@ -87,11 +84,11 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             f.setVisible(false);
             System.exit(0);
         } else if (arg.equals("Отменить")) {
-           Modification.undo();
-           refreshEditor((Statement) structuredEditor.getObject());
+           structuredEditor.getModel().getModificationVector().undo();
+           refreshEditor((Statement) structuredEditor.getObject(),structuredEditor.getModel().getModificationVector());
         } else if (arg.equals("Повторить")) {
-           Modification.redo();
-           refreshEditor((Statement) structuredEditor.getObject());
+           structuredEditor.getModel().getModificationVector().redo();
+           refreshEditor((Statement) structuredEditor.getObject(),structuredEditor.getModel().getModificationVector());
         }
     }
 

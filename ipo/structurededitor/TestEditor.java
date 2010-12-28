@@ -35,7 +35,7 @@ public class TestEditor {
         UIManager.installLookAndFeel("UI for structured editor", ComponentUI.class.getName());
     }*/
 
-    private StructuredEditorModel model = new StructuredEditorModel();
+    private StructuredEditorModel model;
 
     public TestEditor() {
         JFrame f = new JFrame("Test Editor");
@@ -59,7 +59,7 @@ public class TestEditor {
         Bean1 bean1 = new Bean1();
         final StructuredEditorModel model = createModel(bean1);
 //        f.add(new JScrollPane(new JTextArea("asdf")));
-        StructuredEditor structuredEditor = new StructuredEditor(model, bean1);
+        StructuredEditor structuredEditor = new StructuredEditor(model);
         f.add(new JScrollPane(structuredEditor));
 
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -117,7 +117,7 @@ public class TestEditor {
         root.add(new ContainerElement(model, _4thLine));*/
 
 
-        model.setRootElement(new EditorRenderer(model, bean1).getRenderResult());
+        model = new StructuredEditorModel(bean1);
         return model;
     }
 }

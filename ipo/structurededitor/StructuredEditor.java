@@ -10,6 +10,7 @@ import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 
 import ru.ipo.structurededitor.model.DSLBean;
+import ru.ipo.structurededitor.model.DefaultDSLBean;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.StructuredEditorUI;
 import ru.ipo.structurededitor.view.VisibleElementsGraph;
@@ -20,13 +21,17 @@ import ru.ipo.structurededitor.view.elements.VisibleElement;
  */
 public class StructuredEditor extends JComponent implements Scrollable {
 
+    public StructuredEditor() {
+        this(new StructuredEditorModel(new DefaultDSLBean()));
+    }
+
     private StructuredEditorModel model;
-    private DSLBean o;
 
 
-    public StructuredEditor(StructuredEditorModel model, DSLBean o) {
+
+    public StructuredEditor(StructuredEditorModel model) {
         setModel(model);
-        setObject(o);
+
         // TODO set UI by: getUiClassID, UIManager.install UI and so on
         setUI(new StructuredEditorUI());
 
@@ -35,9 +40,7 @@ public class StructuredEditor extends JComponent implements Scrollable {
         registerCaretMovementKeyStrokes();
     }
 
-    public DSLBean getObject() {
-        return o;
-    }
+
 
     public StructuredEditorModel getModel() {
         return model;
@@ -131,7 +134,5 @@ public class StructuredEditor extends JComponent implements Scrollable {
         setUI(new StructuredEditorUI());
     }
 
-    public void setObject(DSLBean o) {
-        this.o = o;
-    }
+
 }

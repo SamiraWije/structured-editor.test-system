@@ -2,8 +2,10 @@ package ru.ipo.structurededitor.controller;
 
 import ru.ipo.structurededitor.Defaults;
 import ru.ipo.structurededitor.model.DSLBean;
+import ru.ipo.structurededitor.view.editors.FieldEditor;
 
 import java.beans.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -11,59 +13,43 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * Сопоставление Beans и редакторов
  */
-public class EditorsRegistry<T> {
+public class EditorsRegistry {
 
-    static private HashMap<Class, EditorsRegistry> instances = new HashMap<Class, EditorsRegistry>();
+    static private EditorsRegistry instance;
     /**
      * Редактор по умолчанию для всех тех полей, для которых не нашлось ничего получше
      */
-    private Class<? extends T> defaultEditor;
+    private Class<? extends FieldEditor> defaultEditor;
 
     // Редактор для создания следующего элемента массива                                                      
-    private Class<? extends T> nextArrayEditor;
-    private Class<? extends T> enumEditor;
+    //private Class<? extends T> nextArrayEditor;
+    //private Class<? extends FieldEditor> enumEditor;
 
-    static public <T> EditorsRegistry<T> getInstance(Class<T> c) {
-        EditorsRegistry<T> editorsRegistry = (EditorsRegistry<T>) instances.get(c);
-
-        if (editorsRegistry == null) {
-            editorsRegistry = new EditorsRegistry<T>();
-            instances.put(c, editorsRegistry);
+    static public EditorsRegistry getInstance() {
+        if (instance == null) {
+            instance = new EditorsRegistry();
             Defaults.registerDefaultEditors();
         }
 
-        return editorsRegistry;
+        return instance;
     }
 
     /**
      * Сопоставление типов свойств и редакторов
      */
-    private HashMap<Class<?>, Class<? extends T>> propTypeToEditor = new HashMap<Class<?>, Class<? extends T>>();
+    private HashMap<Class<?>, Class<? extends FieldEditor>> propTypeToEditor = new HashMap<Class<?>, Class<? extends FieldEditor>>();
+    private ArrayList<EditorsRegistryHook>  hooks =  new ArrayList<EditorsRegistryHook>();
 
-    /**
-     * Соответствие конкретных свойств и редакторов
-     */
-    private HashMap<String, Class<? extends T>> propToEditor = new HashMap<String, Class<? extends T>>();
 
-    public Class<? extends T> getDefaultEditor() {
+    public Class<? extends FieldEditor> getDefaultEditor() {
         return defaultEditor;
     }
 
-    public void setDefaultEditor(Class<? extends T> defaultEditor) {
+    public void setDefaultEditor(Class<? extends FieldEditor> defaultEditor) {
         this.defaultEditor = defaultEditor;
     }
 
-    /**
-     * Задаем конкретный редактор для поля DSLBean
-     *
-     * @param beanClass    класс
-     * @param propertyName имя свойства
-     * @param editor       класс редактора
-     */
-    public void registerEditor(Class<? extends DSLBean> beanClass, String propertyName, Class<? extends T> editor) {
-        String key = getKey(beanClass, propertyName);
-        propToEditor.put(key, editor);
-    }
+
 
     private String getKey(Class<? extends DSLBean> beanClass, String propertyName) {
         return beanClass.getName() + "." + propertyName;
@@ -75,8 +61,11 @@ public class EditorsRegistry<T> {
      * @param propertyType тип поля
      * @param editor       класс редактора
      */
-    public void registerEditor(Class<?> propertyType, Class<? extends T> editor) {
+    public void registerEditor(Class<?> propertyType, Class<? extends FieldEditor> editor) {
         propTypeToEditor.put(propertyType, editor);
+    }
+    public void registerHook(EditorsRegistryHook hook){
+        hooks.add(hook);
     }
 
     /**
@@ -86,57 +75,54 @@ public class EditorsRegistry<T> {
      * @param beanClass    класс бина
      * @param propertyName имя свойства
      * @param obj          объект, с которым связан редактор
+     * @param mask         маска поля
      * @return редактор для свойства
      */
-    public T getEditor(Class<? extends DSLBean> beanClass, String propertyName, Object obj) {
+    public FieldEditor getEditor(Class<? extends DSLBean> beanClass, String propertyName, Object obj, FieldMask mask) {
         try {
             
-            Class<? extends T> pec = propToEditor.get(getKey(beanClass, propertyName));
-            if (pec != null)
-                return createEditorInstance(pec, obj, propertyName);
+            Class<? extends FieldEditor> pec ;
 
             BeanInfo beanInfo = Introspector.getBeanInfo(beanClass);
             PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
             for (PropertyDescriptor d : descriptors) {
                 if (d.getName().equals(propertyName)) {
                     Class<?> propClass = d.getPropertyType();
-                    if (propClass.isArray())
-                        propClass = propClass.getComponentType();
+                    if (mask!=null)
+                        propClass = mask.getValueClass(propClass);
                     pec = propTypeToEditor.get(propClass);
-                    if (pec == null && propClass.isEnum())
-                        pec = enumEditor;
+                    /*if (pec == null && propClass.isEnum())
+                        pec = enumEditor;*/
+                    Class<? extends FieldEditor> hooked=null;
+                    for (EditorsRegistryHook hook:hooks){
+                        hooked = hook.substituteEditor((Class<? extends DSLBean>)beanClass,propertyName,mask,propClass);
+                        if (hooked!=null){
+                            break;
+                        }
+                    }
+                    if (hooked!=null){
+                        pec=hooked;
+                    }
                     if (pec != null)
-                        return createEditorInstance(pec, obj, propertyName);
+                        return createEditorInstance(pec, obj, propertyName, mask);
                     break;
                 }
             }
-            return createEditorInstance(defaultEditor, obj, propertyName);
+            return createEditorInstance(defaultEditor, obj, propertyName, mask);
         } catch (Exception e) {
             throw new Error("Failed to create editor: ", e);
         }
     }
 
-    private T createEditorInstance(Class<? extends T> pec, Object obj, String propertyName) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
-        final Constructor<? extends T> c = pec.getConstructor(Object.class, String.class);
-        return c.newInstance(obj, propertyName);
+    private FieldEditor createEditorInstance(Class<? extends FieldEditor> pec, Object obj, String propertyName, FieldMask mask) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        final Constructor<? extends FieldEditor> c = pec.getConstructor(Object.class, String.class, FieldMask.class);
+        return c.newInstance(obj, propertyName,mask);
     }
 
     private EditorsRegistry() {
     }
 
-    public Class<? extends T> getNextArrayEditor() {
-        return nextArrayEditor;
-    }
 
-    public void setNextArrayEditor(Class<? extends T> nextArrayEditor) {
-        this.nextArrayEditor = nextArrayEditor;
-    }
 
-    public Class<? extends T> getEnumEditor() {
-        return enumEditor;
-    }
 
-    public void setEnumEditor(Class<? extends T> enumEditor) {
-        this.enumEditor = enumEditor;
-    }
 }

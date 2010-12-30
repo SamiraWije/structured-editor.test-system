@@ -71,29 +71,19 @@ public class ModificationVector {
            undoItem.setEnabled(false);
         }
     } */
-    private void setValue(DSLBean bean, String fieldName, Object value, int index) {
+    private void setValue(DSLBean bean, String fieldName, Object value, FieldMask mask) {
         try {
-            /*if (value == null && index == -1) {
-                EmptyFieldsRegistry.getInstance().setEmpty(bean, fieldName, true);
-                return;
-            } */
+
             PropertyDescriptor pd = new PropertyDescriptor(fieldName, bean.getClass());
             Method rm = pd.getReadMethod();
             Method wm = pd.getWriteMethod();
 
-            if (index == -1) {
-                //EmptyFieldsRegistry.getInstance().setEmpty(bean, fieldName, false);
+            if (mask==null) {
+
                 wm.invoke(bean, value);
             } else {
                 Object val = rm.invoke(bean);
-                if (val == null) {
-                    val = Array.newInstance(pd.getPropertyType().getComponentType(), 1);
-
-                }
-                if (Array.getLength(val) <= index)
-                    val = resizeArray(val, index + 1);
-
-                Array.set(val, index, value);
+                mask.set(val, value);
                 wm.invoke(bean, val);
             }
             //empty = false;
@@ -113,7 +103,7 @@ public class ModificationVector {
     public void undo() {
         if (canUndo()) {
             Modification mod = vector.get(position);
-            setValue(mod.getBean(), mod.getFieldName(), mod.getOldValue(), mod.getIndex());
+            setValue(mod.getBean(), mod.getFieldName(), mod.getOldValue(), mod.getMask());
             position--;
             mes.fireModification();
         }
@@ -123,7 +113,7 @@ public class ModificationVector {
         if (canRedo()) {
             position++;
             Modification mod = vector.get(position);
-            setValue(mod.getBean(), mod.getFieldName(), mod.getNewValue(), mod.getIndex());
+            setValue(mod.getBean(), mod.getFieldName(), mod.getNewValue(), mod.getMask());
             mes.fireModification();
         }
     }

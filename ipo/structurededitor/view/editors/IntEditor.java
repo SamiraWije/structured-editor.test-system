@@ -1,5 +1,6 @@
 package ru.ipo.structurededitor.view.editors;
 
+import ru.ipo.structurededitor.controller.FieldMask;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.elements.IntEditorElement;
 import ru.ipo.structurededitor.view.elements.VisibleElement;
@@ -17,14 +18,9 @@ public class IntEditor extends FieldEditor {
 
     private IntEditorElement editorElement;
 
-    public IntEditor(Object o, String fieldName) {
-        super(o, fieldName);
+    public IntEditor(Object o, String fieldName, FieldMask mask) {
+        super(o, fieldName, mask);
     }
-
-    public IntEditor(Object o, String fieldName, int index) {
-        super(o, fieldName, index);
-    }
-
     @Override
     public VisibleElement createElement(StructuredEditorModel model) {
         setModificationVector(model.getModificationVector());

@@ -46,7 +46,7 @@ public class TestEditor3 {
         f.setLayout(br);
         //TODO think of the appropriate place to this default registrations
         //-------Editors registry preparation
-        EditorsRegistry<FieldEditor> editorsRegistry = EditorsRegistry.getInstance(FieldEditor.class);
+        EditorsRegistry editorsRegistry = EditorsRegistry.getInstance();
         editorsRegistry.setDefaultEditor(VoidEditor.class);
         // editorsRegistry.setNextArrayEditor(NextArrayDSLBeanEditor.class);
         editorsRegistry.registerEditor(String.class, StringEditor.class);

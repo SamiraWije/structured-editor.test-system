@@ -25,17 +25,17 @@ public class Modification {
     private String fieldName;
     private Object oldValue;
     private Object newValue;
-    private int index;
+    private FieldMask mask;
 
 
 
-    public Modification(DSLBean bean, String fieldName, Object oldValue, Object newValue, int index) {
+    public Modification(DSLBean bean, String fieldName, Object oldValue, Object newValue, FieldMask mask) {
         this.bean = bean;
         this.fieldName = fieldName;
         this.newValue = newValue;
         this.oldValue = oldValue;
-        this.index = index;
-        //ModificationVector.add(this);
+        this.mask = mask;
+
     }
 
     public DSLBean getBean() {
@@ -55,7 +55,8 @@ public class Modification {
         return newValue;
     }
 
-    public int getIndex() {
-        return index;
+
+    public FieldMask getMask() {
+        return mask;
     }
 }

@@ -1,5 +1,6 @@
 package ru.ipo.structurededitor.view.editors;
 
+import ru.ipo.structurededitor.controller.FieldMask;
 import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.model.DSLBeanParams;
 import ru.ipo.structurededitor.model.DSLBeansRegistry;
@@ -26,12 +27,12 @@ public class AbstractDSLBeanEditor extends FieldEditor {
     private ContainerElement container;
     private StructuredEditorModel model;
 
-    public AbstractDSLBeanEditor(Object o, String fieldName) {
+    /*public AbstractDSLBeanEditor(Object o, String fieldName) {
         super(o, fieldName);
-    }
+    } */
 
-    public AbstractDSLBeanEditor(Object o, String fieldName, int index) {
-        super(o, fieldName, index);
+    public AbstractDSLBeanEditor(Object o, String fieldName, FieldMask mask) {
+        super(o, fieldName, mask);
     }
 
     @Override
@@ -72,10 +73,11 @@ public class AbstractDSLBeanEditor extends FieldEditor {
 
 
     private void setComboBoxList(){
-         List<Class<? extends DSLBean>> classes;
-        if (isArrItem())
+        List<Class<? extends DSLBean>> classes;
+        FieldMask mask = getMask();
+        if (mask!=null)
             classes = DSLBeansRegistry.getInstance().
-                    getAllSubclasses((Class<? extends DSLBean>) getFieldType().getComponentType(), true);
+                    getAllSubclasses((Class<? extends DSLBean>) mask.getValueClass(getFieldType()), true);
         else
             classes = DSLBeansRegistry.getInstance().getAllSubclasses((Class<? extends DSLBean>) getFieldType(), true);
         for (Class<? extends DSLBean> clazz : classes){

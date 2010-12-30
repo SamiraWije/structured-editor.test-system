@@ -1,5 +1,6 @@
 package ru.ipo.structurededitor.view.editors;
 
+import ru.ipo.structurededitor.controller.FieldMask;
 import ru.ipo.structurededitor.view.editors.FieldEditor;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.elements.BooleanEditorElement;
@@ -20,12 +21,8 @@ public class BooleanEditor extends FieldEditor {
 
     //public
 
-    public BooleanEditor(Object o, String fieldName) {
-        super(o, fieldName);
-    }
-
-    public BooleanEditor(Object o, String fieldName, int index) {
-        super(o, fieldName, index);
+    public BooleanEditor(Object o, String fieldName, FieldMask mask) {
+        super(o, fieldName, mask);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package ru.ipo.structurededitor.view.editors;
 
+import ru.ipo.structurededitor.controller.FieldMask;
+import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.elements.ComboBoxTextEditorElement;
 import ru.ipo.structurededitor.view.elements.VisibleElement;
@@ -8,6 +10,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.Field;
 import java.beans.PropertyDescriptor;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,12 +23,8 @@ public class EnumEditor extends FieldEditor {
     private ComboBoxTextEditorElement<Enum<?>> EnumSelectionElement;
     //private ContainerElement container;
 
-    public EnumEditor(Object o, String fieldName) {
-        super(o, fieldName);
-    }
-
-    public EnumEditor(Object o, String fieldName, int index) {
-        super(o, fieldName, index);
+    public EnumEditor(Object o, String fieldName, FieldMask mask) {
+        super(o, fieldName, mask);
     }
 
     @Override
@@ -37,12 +36,14 @@ public class EnumEditor extends FieldEditor {
         PropertyDescriptor pd;
         Class<? extends Enum> eclass;
         try {
-            pd = new PropertyDescriptor(getFieldName(), getObject().getClass());
-            if (isArrItem()) {
-                eclass = (Class<? extends Enum>) (pd.getPropertyType().getComponentType());
+
+
+            FieldMask mask = getMask();
+            if (mask!=null){
+                eclass = (Class<? extends Enum>) (mask.getValueClass(getFieldType()));
 
             } else {
-                eclass = (Class<? extends Enum>) (pd.getPropertyType());
+                eclass = (Class<? extends Enum>) (getFieldType());
             }
             possibleValues = eclass.getFields();
         }

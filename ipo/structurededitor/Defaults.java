@@ -1,6 +1,9 @@
 package ru.ipo.structurededitor;
 
 import ru.ipo.structurededitor.controller.EditorsRegistry;
+import ru.ipo.structurededitor.controller.EditorsRegistryHook;
+import ru.ipo.structurededitor.controller.FieldMask;
+import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.view.editors.*;
 
 /**
@@ -12,14 +15,22 @@ import ru.ipo.structurededitor.view.editors.*;
 public class Defaults {
 
     public static void registerDefaultEditors() {
-        EditorsRegistry<FieldEditor> editorsRegistry = EditorsRegistry.getInstance(FieldEditor.class);
+        EditorsRegistry editorsRegistry = EditorsRegistry.getInstance();
 
         editorsRegistry.setDefaultEditor(VoidEditor.class);
 
-        editorsRegistry.setEnumEditor(EnumEditor.class);
+        editorsRegistry.registerHook(new EditorsRegistryHook() {
+            public Class<? extends FieldEditor> substituteEditor(Class<? extends DSLBean> beanClass,
+                                                                 String propertyName, FieldMask mask, Class valueType) {
+                if (valueType.isEnum()) {
+                    return EnumEditor.class;
+                }
+                return null;
+            }
+        });
 
         editorsRegistry.registerEditor(String.class, StringEditor.class);
-        
+
         editorsRegistry.registerEditor(int.class, IntEditor.class);
         editorsRegistry.registerEditor(Integer.class, IntEditor.class);
 

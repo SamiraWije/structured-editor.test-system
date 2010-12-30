@@ -1,5 +1,6 @@
 package ru.ipo.structurededitor.view.editors;
 
+import ru.ipo.structurededitor.controller.ArrayFieldMask;
 import ru.ipo.structurededitor.controller.EditorsRegistry;
 import ru.ipo.structurededitor.controller.Modification;
 import ru.ipo.structurededitor.model.DSLBean;
@@ -26,13 +27,8 @@ import java.util.Vector;
  */
 public class ArrayEditor extends FieldEditor {
     public ArrayEditor(Object o, String fieldName, CompositeElement.Orientation orientation, char spaceChar) {
-        super(o, fieldName);
+        super(o, fieldName,null);
         this.orientation = orientation;
-        final EditorsRegistry<FieldEditor> reg;
-        reg = EditorsRegistry.getInstance(FieldEditor.class);
-        @SuppressWarnings("unchecked")
-        FieldEditor ed = reg.getEditor((Class<? extends DSLBean>) getObject().getClass(), fieldName, getObject());
-        EditorClass = ed.getClass();
         this.spaceChar = spaceChar;
     }
 
@@ -40,13 +36,15 @@ public class ArrayEditor extends FieldEditor {
     private Vector<FieldEditor> editors = new Vector<FieldEditor>();
 
     private CompositeElement.Orientation orientation;
-    private Class<? extends FieldEditor> EditorClass;
+    //private Class<? extends FieldEditor> EditorClass;
     private char spaceChar;
 
-    private FieldEditor createEditorInstance(int Index) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
-        final Constructor<? extends FieldEditor> c = EditorClass.getConstructor(Object.class, String.class,
-                int.class);
-        return c.newInstance(getObject(), getFieldName(), Index);
+    private FieldEditor createEditorInstance(int index) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        final EditorsRegistry reg;
+        reg = EditorsRegistry.getInstance();
+        return reg.getEditor((Class<? extends DSLBean>) getObject().getClass(), getFieldName(), getObject(),
+                new ArrayFieldMask(index));
+
     }
 
     /**
@@ -195,14 +193,14 @@ public class ArrayEditor extends FieldEditor {
                             } else {
                                 arr = delItem(arr, i);
                             }
-                            editors.get(i).setIndex(i + 1);
+                            editors.get(i).setMask(new ArrayFieldMask(i+1));
                             wm.invoke(getObject(), arr);
                         }
                         arr = resizeArray(arr, countItems - 1);
                         wm.invoke(getObject(), arr);
                         if (oldIndex < countItems - 1)
                             model.setFocusedElement(arrayElement.get(oldIndex));
-                       new Modification((DSLBean)getObject(),getFieldName(),oldArr,arr,-1);
+                       new Modification((DSLBean)getObject(),getFieldName(),oldArr,arr,null);
 
                     }
                 } catch (Exception e) {
@@ -241,13 +239,13 @@ public class ArrayEditor extends FieldEditor {
 
                         }
                         wm.invoke(getObject(), arr);
-                        editors.get(i).setIndex(i - 1);
+                        editors.get(i).setMask(new ArrayFieldMask(i-1));
                     }
                     arr = delItem(arr, oldIndex);
                     wm.invoke(getObject(), arr);
                     editors.get(oldIndex).updateElement();
                     model.setFocusedElement(newItem);
-                    new Modification((DSLBean)getObject(),getFieldName(),oldArr,arr,-1);
+                    new Modification((DSLBean)getObject(),getFieldName(),oldArr,arr,null);
 
                 } catch (Exception e) {
                     throw new Error("Failed to insert an array item: ", e);
@@ -286,12 +284,12 @@ public class ArrayEditor extends FieldEditor {
                             arr = delItem(arr, i);
                         }
                         wm.invoke(getObject(), arr);
-                        editors.get(i).setIndex(i - 1);
+                        editors.get(i).setMask(new ArrayFieldMask(i-1));
                     }
                     arr = delItem(arr, oldIndex + 1);
                     wm.invoke(getObject(), arr);
                     editors.get(oldIndex + 1).updateElement();
-                    new Modification((DSLBean)getObject(),getFieldName(),oldArr,arr,-1);
+                    new Modification((DSLBean)getObject(),getFieldName(),oldArr,arr,null);
                     model.setFocusedElement(nextItem);
                 } catch (Exception e) {
                     throw new Error("Failed to insert an array item: ", e);

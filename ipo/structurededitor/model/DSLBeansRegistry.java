@@ -31,7 +31,7 @@ public class DSLBeansRegistry {
         beans.add(bean);
 
         boolean isAbstract = Modifier.isAbstract(bean.getModifiers());
-        EditorsRegistry<FieldEditor> editorEditorsRegistry = EditorsRegistry.getInstance(FieldEditor.class);
+        EditorsRegistry editorEditorsRegistry = EditorsRegistry.getInstance();
 
         if (isAbstract)
             editorEditorsRegistry.registerEditor(bean, AbstractDSLBeanEditor.class);

@@ -14,7 +14,7 @@ import ru.ipo.structurededitor.view.elements.VisibleElement;
  */
 public class EditorRenderer {
 
-    private final EditorsRegistry<FieldEditor> reg;
+    private final EditorsRegistry reg;
     private final VisibleElement renderResult;
     private final StructuredEditorModel model;
 
@@ -27,7 +27,7 @@ public class EditorRenderer {
      */
     @SuppressWarnings({"JavaDoc"})
     public EditorRenderer(StructuredEditorModel model, DSLBean editableBean) {
-        reg = EditorsRegistry.getInstance(FieldEditor.class);
+        reg = EditorsRegistry.getInstance();
         this.model = model;
 
         Cell layout = editableBean.getLayout();
@@ -47,7 +47,7 @@ public class EditorRenderer {
         } else if (layout instanceof FieldCell) {
             FieldCell fieldCell = (FieldCell) layout;
             FieldEditor ed = reg.getEditor(editableBean.getClass(), fieldCell
-                    .getFieldName(), editableBean);
+                    .getFieldName(), editableBean, null);
             return ed.createElement(model);
         } else if (layout instanceof Vert || layout instanceof Horiz) {
             final Cell[] cells;

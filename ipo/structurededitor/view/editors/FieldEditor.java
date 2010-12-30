@@ -18,8 +18,18 @@ public abstract class FieldEditor {
 
     private Object o;
     private String fieldName;
-    private int index;
-    private boolean arrItem;
+
+    public FieldMask getMask() {
+        return mask;
+    }
+
+    public void setMask(FieldMask mask) {
+        this.mask = mask;
+        updateElement();
+    }
+
+    private FieldMask mask;
+    //private boolean arrItem;
     //private boolean empty = true;
 
     public void setModificationVector(ModificationVector modificationVector) {
@@ -36,21 +46,21 @@ public abstract class FieldEditor {
         mes.removeModificationListener(l);
     } */
 
-    public FieldEditor(Object o, String fieldName) {
+    public FieldEditor(Object o, String fieldName, FieldMask mask) {
         this.o = o;
         this.fieldName = fieldName;
-        this.index = 0;
-        this.arrItem = false;
+        this.mask = mask;
+
         //empty = forcedGetValue() == null;
     }
 
-    public FieldEditor(Object o, String fieldName, int index) {
+    /*public FieldEditor(Object o, String fieldName, int index) {
         this.o = o;
         this.fieldName = fieldName;
         this.index = index;
         this.arrItem = true;
         //empty = forcedGetValue() == null;
-    }
+    } */
 
     protected Object getObject() {
         return o;
@@ -64,18 +74,6 @@ public abstract class FieldEditor {
         return fieldName;
     }
 
-    protected int getIndex() {
-        return index;
-    }
-
-    protected void setIndex(int index){
-        this.index=index;
-        updateElement();
-    }
-
-    protected boolean isArrItem() {
-        return arrItem;
-    }
 
     /*protected boolean isEmpty() {
         return empty;
@@ -94,20 +92,15 @@ public abstract class FieldEditor {
             Method rm = pd.getReadMethod();
             Object val = rm.invoke(getObject());
             Method wm = pd.getWriteMethod();
-            if (value == null) {
-                            //empty = true;
-                            if (!isArrItem()){
-                                //EmptyFieldsRegistry.getInstance().setEmpty((DSLBean) getObject(), getFieldName(), true);
-                                if (val instanceof Integer || val instanceof Double)
-                                    value = 0;
-                                if (modificationVector!=null)
-                                    modificationVector.add(
-                                        new Modification((DSLBean)getObject(),getFieldName(),val,value,-1));
-                                wm.invoke(getObject(),value);
-                                //Next lines throws IrregularArgumentException
-                                //wm.invoke(getObject(), new Object[]{null});
-                                //wm.invoke(getObject(), null);
-                            } else{
+            if (value == null && mask == null) {
+                if (val instanceof Integer || val instanceof Double)
+                    value = 0;
+                if (modificationVector != null)
+                    modificationVector.add(
+                            new Modification((DSLBean) getObject(), getFieldName(), val, value, null));
+                wm.invoke(getObject(), value);
+                return;
+            } /*else{
                               Object oldItem= Array.get(val,getIndex());
                               val = ArrayEditor.delItem(val,index);
                               wm.invoke(getObject(),val);
@@ -116,8 +109,8 @@ public abstract class FieldEditor {
                                       oldItem,value,getIndex()));
                             }
 
-                            return;
-                        }
+
+
 
             /*if (EmptyFieldsRegistry.getInstance().isEmpty((DSLBean) getObject(), getFieldName())){
                 val=null;
@@ -127,25 +120,18 @@ public abstract class FieldEditor {
                 
                 empty = false;
             }   */
-            if (isArrItem()) {
+            if (mask!=null) {
 
-                if (val == null) {
-                    val = Array.newInstance(pd.getPropertyType().getComponentType(), 1);
-
-                }
-                if (Array.getLength(val) <= index)
-                    val = resizeArray(val, index + 1);
-
-                Object oldItem=Array.get(val, index);
-                Array.set(val, index, value);
+                Object oldItem = mask.get(val);
+                mask.set(val, value);
                 wm.invoke(getObject(), val);
-                if (modificationVector!=null)
-                    modificationVector.add(new Modification((DSLBean)getObject(),getFieldName(),
-                                      oldItem,value,getIndex()));
-            } else{
+                if (modificationVector != null)
+                    modificationVector.add(new Modification((DSLBean) getObject(), getFieldName(),
+                            oldItem, value, mask));
+            } else {
                 wm.invoke(getObject(), value);
-                if (modificationVector!=null)
-                    modificationVector.add(new Modification((DSLBean)getObject(),getFieldName(),val,value,-1));
+                if (modificationVector != null)
+                    modificationVector.add(new Modification((DSLBean) getObject(), getFieldName(), val, value, null));
             }
 
         } catch (Exception e1) {
@@ -161,11 +147,8 @@ public abstract class FieldEditor {
             PropertyDescriptor pd = new PropertyDescriptor(getFieldName(), getObject().getClass());
             Method wm = pd.getReadMethod();
             Object value = wm.invoke(getObject());
-            if (isArrItem() && value != null) {
-                if (index < Array.getLength(value))
-                    return Array.get(value, index);
-                else
-                    return null;
+            if (mask!=null && value != null) {
+                return mask.get(value);
             } else
                 return value;
         } catch (Exception e1) {
@@ -173,7 +156,7 @@ public abstract class FieldEditor {
         }
     }
 
-    protected Object forcedGetValue() {
+    /*protected Object forcedGetValue() {
         try {
             PropertyDescriptor pd = new PropertyDescriptor(getFieldName(), getObject().getClass());
             Method wm = pd.getReadMethod();
@@ -188,7 +171,7 @@ public abstract class FieldEditor {
         } catch (Exception e1) {
             throw new Error("Fail in FieldEditor.getValue()");
         }
-    }
+    } */
 
     protected Class<?> getFieldType() {
         try {
@@ -199,8 +182,7 @@ public abstract class FieldEditor {
         }
     }
 
-    public  abstract VisibleElement createElement(StructuredEditorModel model);
-
+    public abstract VisibleElement createElement(StructuredEditorModel model);
 
 
     protected abstract void updateElement();

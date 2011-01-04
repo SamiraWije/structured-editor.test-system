@@ -15,50 +15,24 @@ import java.beans.PropertyChangeListener;
  * Time: 22:36:47
  */
 public class StringEditor extends FieldEditor {
-
-    private TextEditorElement editorElement;
-
-    public StringEditor(Object o, String fieldName, FieldMask mask) {
-        super(o, fieldName, mask);
-    }
-
-    @Override
-    public VisibleElement createElement(StructuredEditorModel model) {
+    public StringEditor(Object o, String fieldName, FieldMask mask, StructuredEditorModel model) {
+        super(o, fieldName, mask, model);
         setModificationVector(model.getModificationVector());
         String str;
-        /*if (EmptyFieldsRegistry.getInstance().isEmpty((DSLBean)getObject(), getFieldName()))
-            str=null;
-        else*/
-            str=(String) getValue();
+        str=(String) getValue();
+        final TextEditorElement editorElement;
         editorElement = new TextEditorElement(model,str);
         editorElement.addPropertyChangeListener("text", new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                setValue(editorElement.getText());
-            }
-        });
-        /*
-        editorElement.addPropertyChangeListener("refresh", new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                String text;
-                VisibleElement.RefreshProperties rp = (VisibleElement.RefreshProperties) evt.getNewValue();
-                setEmpty(rp.getEmpty());
-                setObject(rp.getObject());
-                Object val = getValue();
-                if (val == null)
-                    text = "";
-                else
-                    text = (String) val;
-                editorElement.setText(text);
-                editorElement.resetPosition();
-                editorElement.resumeRefresh();
-            }
-        }); */
-
-        return editorElement;
+                public void propertyChange(PropertyChangeEvent evt) {
+                    setValue(editorElement.getText());
+                }
+            });
+        setElement(editorElement);
     }
 
     @Override
     protected void updateElement() {
+        TextEditorElement editorElement = (TextEditorElement) getElement();
         editorElement.setText((String) getValue());
     }
 }

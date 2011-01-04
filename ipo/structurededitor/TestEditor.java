@@ -7,21 +7,15 @@ import ru.ipo.structurededitor.testLang.Bean1;
 import ru.ipo.structurededitor.testLang.BeanA;
 import ru.ipo.structurededitor.testLang.BeanA1;
 import ru.ipo.structurededitor.testLang.BeanA2;
-import ru.ipo.structurededitor.testLang.Count;
 
 import ru.ipo.structurededitor.view.*;
-import ru.ipo.structurededitor.view.editors.FieldEditor;
-import ru.ipo.structurededitor.view.editors.NextArrayDSLBeanEditor;
 import ru.ipo.structurededitor.view.editors.StringEditor;
 import ru.ipo.structurededitor.view.editors.VoidEditor;
 import ru.ipo.structurededitor.view.editors.IntEditor;
 import ru.ipo.structurededitor.view.editors.DoubleEditor;
 import ru.ipo.structurededitor.view.editors.BooleanEditor;
-import ru.ipo.structurededitor.view.editors.EnumEditor;
 
 import javax.swing.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 /**
  * Created by IntelliJ IDEA.
@@ -43,8 +37,7 @@ public class TestEditor {
         //TODO think of the appropriate place to this default registrations
         EditorsRegistry editorsRegistry = EditorsRegistry.getInstance();
         editorsRegistry.setDefaultEditor(VoidEditor.class);
-        //editorsRegistry.setNextArrayEditor(NextArrayDSLBeanEditor.class);
-        //editorsRegistry.setEnumEditor(EnumEditor.class);
+
         editorsRegistry.registerEditor(String.class, StringEditor.class);
         editorsRegistry.registerEditor(int.class, IntEditor.class);
         editorsRegistry.registerEditor(double.class, DoubleEditor.class);

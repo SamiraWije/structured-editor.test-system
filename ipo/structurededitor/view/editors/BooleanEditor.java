@@ -17,16 +17,10 @@ import java.beans.PropertyChangeListener;
  */
 public class BooleanEditor extends FieldEditor {
 
-    private BooleanEditorElement editorElement;
-
     //public
 
-    public BooleanEditor(Object o, String fieldName, FieldMask mask) {
-        super(o, fieldName, mask);
-    }
-
-    @Override
-    public VisibleElement createElement(StructuredEditorModel model) {
+    public BooleanEditor(Object o, String fieldName, FieldMask mask, StructuredEditorModel model) {
+        super(o, fieldName, mask, model);
         setModificationVector(model.getModificationVector());
         String bool_str = BooleanEditorElement.RUS_FALSE;
         Object val = getValue();
@@ -35,7 +29,7 @@ public class BooleanEditor extends FieldEditor {
         else if ((Boolean) val) {
             bool_str = BooleanEditorElement.RUS_TRUE;
         }
-        editorElement = new BooleanEditorElement(model, bool_str);
+        final BooleanEditorElement editorElement = new BooleanEditorElement(model, bool_str);
         editorElement.addPropertyChangeListener("text", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 String val = editorElement.getText();
@@ -45,28 +39,13 @@ public class BooleanEditor extends FieldEditor {
                     setValue(false);
             }
         });
-        /*editorElement.addPropertyChangeListener("refresh", new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                VisibleElement.RefreshProperties rp = (VisibleElement.RefreshProperties) evt.getNewValue();
-                setEmpty(rp.getEmpty());
-                setObject(rp.getObject());
-                String bool_str = BooleanEditorElement.RUS_FALSE;
-                Object val = getValue();
-                if (val == null)
-                    setValue(false);
-                else if (val.equals(true)) {
-                    bool_str = BooleanEditorElement.RUS_TRUE;
-                }
-                editorElement.setText(bool_str);
-                editorElement.resumeRefresh();
-            }
-        });*/
-        return editorElement;
+        setElement(editorElement);
     }
 
     @Override
     protected void updateElement() {
-        editorElement.setText((Boolean)getValue() ? BooleanEditorElement.RUS_TRUE : BooleanEditorElement.RUS_FALSE);
+        BooleanEditorElement editorElement = (BooleanEditorElement)getElement();
+        editorElement.setText((Boolean) getValue() ? BooleanEditorElement.RUS_TRUE : BooleanEditorElement.RUS_FALSE);
     }
 
 }

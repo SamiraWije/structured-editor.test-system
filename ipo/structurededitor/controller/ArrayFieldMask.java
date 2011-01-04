@@ -26,7 +26,7 @@ public class ArrayFieldMask implements FieldMask {
                     return null;
     }
 
-    public void set(Object field, Object value) {
+    public Object set(Object field, Object value) {
         /*if (field == null) {
                     field = Array.newInstance(pd.getPropertyType().getComponentType(), 1);
 
@@ -35,10 +35,11 @@ public class ArrayFieldMask implements FieldMask {
                             field = ArrayEditor.resizeArray(field, index + 1);
 
         if (value==null){
-            ArrayEditor.delItem(field,index);
+            return ArrayEditor.delItem(field,index);
         }
         else{
             Array.set(field,index,value);
+            return field;
         }
     }
 

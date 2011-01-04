@@ -20,16 +20,12 @@ import java.util.List;
  */
 public class EnumEditor extends FieldEditor {
 
-    private ComboBoxTextEditorElement<Enum<?>> EnumSelectionElement;
+    //private ComboBoxTextEditorElement<Enum<?>> EnumSelectionElement;
     //private ContainerElement container;
 
-    public EnumEditor(Object o, String fieldName, FieldMask mask) {
-        super(o, fieldName, mask);
-    }
-
-    @Override
-    public VisibleElement createElement(StructuredEditorModel model) {
-        EnumSelectionElement = createEnumSelectionElement(model);
+    public EnumEditor(Object o, String fieldName, FieldMask mask, StructuredEditorModel model) {
+        super(o, fieldName, mask, model);
+        ComboBoxTextEditorElement<Enum<?>> EnumSelectionElement = createEnumSelectionElement(model);
         setModificationVector(model.getModificationVector());
         //container = new ContainerElement(model, EnumSelectionElement);
         Field[] possibleValues = new Field[20];
@@ -38,16 +34,15 @@ public class EnumEditor extends FieldEditor {
         try {
 
 
-            FieldMask mask = getMask();
-            if (mask!=null){
+
+            if (mask != null) {
                 eclass = (Class<? extends Enum>) (mask.getValueClass(getFieldType()));
 
             } else {
                 eclass = (Class<? extends Enum>) (getFieldType());
             }
             possibleValues = eclass.getFields();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new Error("Fail in EnumEditor.createElement()");
         }
         //Method[] possibleMethods = getObject().getClass().getMethods();
@@ -55,41 +50,20 @@ public class EnumEditor extends FieldEditor {
         for (Field pv : possibleValues) {
             if (pv.isEnumConstant()) {
                 const_name = pv.getName();
-                EnumSelectionElement.addValue(const_name, "",Enum.valueOf(eclass, const_name));
+                EnumSelectionElement.addValue(const_name, "", Enum.valueOf(eclass, const_name));
             }
         }
-        // else {
-        //       System.out.println("This is not enum ");
-        // }
-        /*
-        container.addKeyListener(new KeyListener() {
-            public void keyTyped(KeyEvent e) {
-                //if ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0 && e.getKeyChar() == '\u0001') //Ctrl+a
-                //    container.setSubElement(beanClassSelectionElement);
-            }
-
-            public void keyPressed(KeyEvent e) {
-            }
-
-            public void keyReleased(KeyEvent e) {
-            }
-        });
-        */
-        //return container;
-
-        //updateElement();
+        setElement(EnumSelectionElement);
         updateElement();
-        return EnumSelectionElement;
     }
+
+
 
     @Override
     protected void updateElement() {
-        /*if (EmptyFieldsRegistry.getInstance().isEmpty((DSLBean) getObject(), getFieldName())){
-            EnumSelectionElement.forcedSetValue(null);
-        }
-        else {*/
-            EnumSelectionElement.forcedSetValue((Enum<?>) getValue());
-        //}
+        @SuppressWarnings("unchecked")
+        ComboBoxTextEditorElement<Enum<?>> EnumSelectionElement = (ComboBoxTextEditorElement<Enum<?>>)getElement();
+        EnumSelectionElement.forcedSetValue((Enum<?>) getValue());
     }
 
     private ComboBoxTextEditorElement<Enum<?>> createEnumSelectionElement(final StructuredEditorModel model) {
@@ -100,7 +74,7 @@ public class EnumEditor extends FieldEditor {
                 Enum<?> value = res.getValue();
                 //System.out.println("enum value =" + value);
                 //if (value != null) {
-                    setValue(value);
+                setValue(value);
                 //}
 
             }

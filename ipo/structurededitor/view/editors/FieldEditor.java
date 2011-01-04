@@ -2,14 +2,15 @@ package ru.ipo.structurededitor.view.editors;
 
 import ru.ipo.structurededitor.controller.*;
 import ru.ipo.structurededitor.model.DSLBean;
+
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.elements.VisibleElement;
 
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Array;
+
 import java.lang.reflect.Method;
 
-import static ru.ipo.structurededitor.view.editors.ArrayEditor.resizeArray;
+
 
 /**
  * Базовый класс для компонент редактирования ПОЯ при помощи нового редактора
@@ -18,6 +19,16 @@ public abstract class FieldEditor {
 
     private Object o;
     private String fieldName;
+
+    public VisibleElement getElement() {
+        return editorElement;
+    }
+
+    protected void setElement(VisibleElement editorElement) {
+        this.editorElement = editorElement;
+    }
+
+    private VisibleElement editorElement;
 
     public FieldMask getMask() {
         return mask;
@@ -46,7 +57,7 @@ public abstract class FieldEditor {
         mes.removeModificationListener(l);
     } */
 
-    public FieldEditor(Object o, String fieldName, FieldMask mask) {
+    public FieldEditor(Object o, String fieldName, FieldMask mask, StructuredEditorModel model) {
         this.o = o;
         this.fieldName = fieldName;
         this.mask = mask;
@@ -86,6 +97,10 @@ public abstract class FieldEditor {
             EmptyFieldsRegistry.getInstance().setEmpty((DSLBean) getObject(), getFieldName(), empty);
     } */
 
+    public ModificationVector getModificationVector() {
+        return modificationVector;
+    }
+
     protected void setValue(Object value) {
         try {
             PropertyDescriptor pd = new PropertyDescriptor(getFieldName(), getObject().getClass());
@@ -100,34 +115,21 @@ public abstract class FieldEditor {
                             new Modification((DSLBean) getObject(), getFieldName(), val, value, null));
                 wm.invoke(getObject(), value);
                 return;
-            } /*else{
-                              Object oldItem= Array.get(val,getIndex());
-                              val = ArrayEditor.delItem(val,index);
-                              wm.invoke(getObject(),val);
-                              if (modificationVector!=null)
-                                modificationVector.add(new Modification((DSLBean)getObject(),getFieldName(),
-                                      oldItem,value,getIndex()));
-                            }
-
-
-
-
-            /*if (EmptyFieldsRegistry.getInstance().isEmpty((DSLBean) getObject(), getFieldName())){
-                val=null;
             }
-            EmptyFieldsRegistry.getInstance().setEmpty((DSLBean) getObject(), getFieldName(), false);
-            if (empty){
-                
-                empty = false;
-            }   */
             if (mask!=null) {
 
                 Object oldItem = mask.get(val);
-                mask.set(val, value);
-                wm.invoke(getObject(), val);
-                if (modificationVector != null)
+                Object oldVal=val;
+                val=mask.set(val, value);
+                if (oldVal==val) {
+                    if (modificationVector != null)
                     modificationVector.add(new Modification((DSLBean) getObject(), getFieldName(),
                             oldItem, value, mask));
+                } else {
+                   wm.invoke(getObject(), val);
+                   if (modificationVector != null)
+                    modificationVector.add(new Modification((DSLBean) getObject(), getFieldName(), oldVal, val, null));
+                }
             } else {
                 wm.invoke(getObject(), value);
                 if (modificationVector != null)
@@ -182,7 +184,7 @@ public abstract class FieldEditor {
         }
     }
 
-    public abstract VisibleElement createElement(StructuredEditorModel model);
+    //public abstract VisibleElement createElement(StructuredEditorModel model);
 
 
     protected abstract void updateElement();

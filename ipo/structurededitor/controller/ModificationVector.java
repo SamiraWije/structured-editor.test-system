@@ -73,7 +73,6 @@ public class ModificationVector {
     } */
     private void setValue(DSLBean bean, String fieldName, Object value, FieldMask mask) {
         try {
-
             PropertyDescriptor pd = new PropertyDescriptor(fieldName, bean.getClass());
             Method rm = pd.getReadMethod();
             Method wm = pd.getWriteMethod();
@@ -83,7 +82,7 @@ public class ModificationVector {
                 wm.invoke(bean, value);
             } else {
                 Object val = rm.invoke(bean);
-                mask.set(val, value);
+                val=mask.set(val, value);
                 wm.invoke(bean, val);
             }
             //empty = false;

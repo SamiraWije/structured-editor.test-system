@@ -21,8 +21,9 @@ public interface FieldMask {
      * может устанавливатся в один из элементов массива
      * @param field поле
      * @param value устанавливаемое значение
+     * @return Новое значение всего поля
      */
-    void set(Object field, Object value);
+    Object set(Object field, Object value);
 
     /**
      * Кажая маска должна уметь сообщать тип значений, с которыми она работает. Например, если

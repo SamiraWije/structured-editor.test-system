@@ -2,6 +2,7 @@ package ru.ipo.structurededitor.controller;
 
 import ru.ipo.structurededitor.Defaults;
 import ru.ipo.structurededitor.model.DSLBean;
+import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.editors.FieldEditor;
 
 import java.beans.*;
@@ -76,9 +77,11 @@ public class EditorsRegistry {
      * @param propertyName имя свойства
      * @param obj          объект, с которым связан редактор
      * @param mask         маска поля
+     * @param model        модель редактора
      * @return редактор для свойства
      */
-    public FieldEditor getEditor(Class<? extends DSLBean> beanClass, String propertyName, Object obj, FieldMask mask) {
+    public FieldEditor getEditor(Class<? extends DSLBean> beanClass, String propertyName, Object obj, FieldMask mask,
+                                 StructuredEditorModel model) {
         try {
             
             Class<? extends FieldEditor> pec ;
@@ -104,19 +107,22 @@ public class EditorsRegistry {
                         pec=hooked;
                     }
                     if (pec != null)
-                        return createEditorInstance(pec, obj, propertyName, mask);
+                        return createEditorInstance(pec, obj, propertyName, mask, model);
                     break;
                 }
             }
-            return createEditorInstance(defaultEditor, obj, propertyName, mask);
+            return createEditorInstance(defaultEditor, obj, propertyName, mask,model);
         } catch (Exception e) {
             throw new Error("Failed to create editor: ", e);
         }
     }
 
-    private FieldEditor createEditorInstance(Class<? extends FieldEditor> pec, Object obj, String propertyName, FieldMask mask) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
-        final Constructor<? extends FieldEditor> c = pec.getConstructor(Object.class, String.class, FieldMask.class);
-        return c.newInstance(obj, propertyName,mask);
+    private FieldEditor createEditorInstance(Class<? extends FieldEditor> pec, Object obj, String propertyName,
+                                             FieldMask mask, StructuredEditorModel model)
+            throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        final Constructor<? extends FieldEditor> c = pec.getConstructor(Object.class, String.class, FieldMask.class,
+                StructuredEditorModel.class);
+        return c.newInstance(obj, propertyName,mask,model);
     }
 
     private EditorsRegistry() {

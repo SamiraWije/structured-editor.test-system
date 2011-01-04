@@ -16,25 +16,17 @@ import java.beans.PropertyChangeListener;
  */
 public class IntEditor extends FieldEditor {
 
-    private IntEditorElement editorElement;
 
-    public IntEditor(Object o, String fieldName, FieldMask mask) {
-        super(o, fieldName, mask);
-    }
-    @Override
-    public VisibleElement createElement(StructuredEditorModel model) {
+    public IntEditor(Object o, String fieldName, FieldMask mask, StructuredEditorModel model) {
+        super(o, fieldName, mask, model);
         setModificationVector(model.getModificationVector());
         String text;
         Object val = getValue();
-        /*if (EmptyFieldsRegistry.getInstance().isEmpty((DSLBean) getObject(), getFieldName()))
-            text = null;
-        else {*/
-            if (val == null)
-                text = "";
-            else
-                text = Integer.toString((Integer) val);
-        //}
-        editorElement = new IntEditorElement(model, text);
+        if (val == null)
+            text = "";
+        else
+            text = Integer.toString((Integer) val);
+        final IntEditorElement editorElement = new IntEditorElement(model, text);
         editorElement.addPropertyChangeListener("text", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 try {
@@ -46,29 +38,12 @@ public class IntEditor extends FieldEditor {
 
             }
         });
-        /*editorElement.addPropertyChangeListener("refresh", new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                String text;
-                VisibleElement.RefreshProperties rp = (VisibleElement.RefreshProperties) evt.getNewValue();
-                setEmpty(rp.getEmpty());
-                setObject(rp.getObject());
-                Object val = getValue();
-                if (val == null)
-                    text = "";
-                else
-                    text = Integer.toString((Integer) val);
-                editorElement.setText(text);
-                editorElement.resetPosition();
-                editorElement.resumeRefresh();
-
-            }
-        }); */
-
-        return editorElement;
+        setElement(editorElement);
     }
 
     @Override
     protected void updateElement() {
+        IntEditorElement editorElement = (IntEditorElement)getElement();
         Object val = getValue();
         editorElement.setText(val == null ? "" : val.toString());
     }

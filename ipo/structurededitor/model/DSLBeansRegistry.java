@@ -1,9 +1,7 @@
 package ru.ipo.structurededitor.model;
 
 import ru.ipo.structurededitor.controller.EditorsRegistry;
-import ru.ipo.structurededitor.view.editors.AbstractDSLBeanEditor;
 import ru.ipo.structurededitor.view.editors.DSLBeanEditor;
-import ru.ipo.structurededitor.view.editors.FieldEditor;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -33,10 +31,10 @@ public class DSLBeansRegistry {
         boolean isAbstract = Modifier.isAbstract(bean.getModifiers());
         EditorsRegistry editorEditorsRegistry = EditorsRegistry.getInstance();
 
-        if (isAbstract)
-            editorEditorsRegistry.registerEditor(bean, AbstractDSLBeanEditor.class);
-        else
+        //if (isAbstract)
             editorEditorsRegistry.registerEditor(bean, DSLBeanEditor.class);
+        /*else
+            editorEditorsRegistry.registerEditor(bean, DSLBeanEditor.class);*/
     }
 
     public List<Class<? extends DSLBean>> getAllSubclasses(Class<? extends DSLBean> bean, boolean onlyNonAbstract) {

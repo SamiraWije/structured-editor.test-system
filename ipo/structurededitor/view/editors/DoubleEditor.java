@@ -16,27 +16,18 @@ import java.beans.PropertyChangeListener;
  */
 public class DoubleEditor extends FieldEditor {
 
-    private DoubleEditorElement editorElement;
 
-
-
-    public DoubleEditor(Object o, String fieldName, FieldMask mask) {
-        super(o, fieldName, mask);
-    }
-    @Override
-    public VisibleElement createElement(StructuredEditorModel model) {
+    public DoubleEditor(Object o, String fieldName, FieldMask mask, StructuredEditorModel model) {
+        super(o, fieldName, mask, model);
         setModificationVector(model.getModificationVector());
         String text;
-        /*if (EmptyFieldsRegistry.getInstance().isEmpty((DSLBean) getObject(), getFieldName()))
+        Object val = getValue();
+        if (val == null)
             text = null;
-        else {*/
-            Object val = getValue();
-            if (val == null)
-                text = null;
-            else
-                text = Double.toString((Double) val);
-        //}
-        editorElement = new DoubleEditorElement(model, text);
+        else
+            text = Double.toString((Double) val);
+
+        final DoubleEditorElement editorElement = new DoubleEditorElement(model, text);
         editorElement.addPropertyChangeListener("text", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 try {
@@ -49,12 +40,14 @@ public class DoubleEditor extends FieldEditor {
 
             }
         });
-
-        return editorElement;
+        setElement(editorElement);
     }
+
+
 
     @Override
     protected void updateElement() {
+        DoubleEditorElement editorElement = (DoubleEditorElement)getElement();
         Object val = getValue();
         editorElement.setText(val == null ? "" : val.toString());
     }

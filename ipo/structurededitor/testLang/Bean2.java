@@ -16,7 +16,17 @@ public class  Bean2 implements DSLBean {
     private double field4;
     private boolean field5;
     private Count field6;
-    private int[] field7;    
+    private int[] field7;
+
+    public BeanA2[] getField8() {
+        return field8;
+    }
+
+    public void setField8(BeanA2[] field8) {
+        this.field8 = field8;
+    }
+
+    private BeanA2[] field8;
 
 
     public Cell getLayout() {
@@ -28,7 +38,8 @@ public class  Bean2 implements DSLBean {
                 new Horiz(new ConstantCell("Вещественное число: "), new FieldCell("field4")),
                 new Horiz(new ConstantCell("Логический флаг: "), new FieldCell("field5")),
                 new Horiz(new ConstantCell("Поле с перечислимыми значениями: "), new FieldCell("field6")),
-                new Horiz(new ConstantCell("Массив целых чисел: "), new HorizArray("field7", ';'))
+                new Horiz(new ConstantCell("Массив целых чисел: "), new HorizArray("field7", ';')),
+                new Horiz(new ConstantCell("Массив структурных данных: "), new HorizArray("field8", ';'))
         );
     }
 

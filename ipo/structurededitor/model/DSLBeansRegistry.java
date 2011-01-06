@@ -28,11 +28,11 @@ public class DSLBeansRegistry {
     public void registerBean(Class<? extends DSLBean> bean) {
         beans.add(bean);
 
-        boolean isAbstract = Modifier.isAbstract(bean.getModifiers());
+        /*boolean isAbstract = Modifier.isAbstract(bean.getModifiers());
         EditorsRegistry editorEditorsRegistry = EditorsRegistry.getInstance();
 
         //if (isAbstract)
-            editorEditorsRegistry.registerEditor(bean, DSLBeanEditor.class);
+         //editorEditorsRegistry.registerEditor(bean, DSLBeanEditor.class);
         /*else
             editorEditorsRegistry.registerEditor(bean, DSLBeanEditor.class);*/
     }

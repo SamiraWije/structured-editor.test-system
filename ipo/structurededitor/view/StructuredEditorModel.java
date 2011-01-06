@@ -5,6 +5,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.Vector;
 
 import ru.ipo.structurededitor.StructuredEditor;
+import ru.ipo.structurededitor.controller.EditorsRegistry;
 import ru.ipo.structurededitor.controller.ModificationVector;
 import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.view.elements.ComboBoxTextEditorElement;
@@ -22,6 +23,16 @@ public class StructuredEditorModel {
     //private StructuredEditor editor;
     private VisibleElement focusedElement;
 
+    public EditorsRegistry getEditorsRegistry() {
+        return editorsRegistry;
+    }
+
+    public void setEditorsRegistry(EditorsRegistry editorsRegistry) {
+        this.editorsRegistry = editorsRegistry;
+    }
+
+    private EditorsRegistry editorsRegistry;
+
     private DSLBean o;
 
     public StructuredEditorModel(DSLBean o) {
@@ -31,7 +42,9 @@ public class StructuredEditorModel {
     public StructuredEditorModel(DSLBean o, ModificationVector modificationVector) {
        this.o = o;
        setModificationVector(modificationVector);
+       editorsRegistry = new EditorsRegistry();
        setRootElement(new EditorRenderer(this, o).getRenderResult());
+
     }
     public void setObject(DSLBean o) {
         this.o = o;

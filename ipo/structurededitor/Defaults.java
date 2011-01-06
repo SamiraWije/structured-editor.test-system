@@ -14,8 +14,7 @@ import ru.ipo.structurededitor.view.editors.*;
  */
 public class Defaults {
 
-    public static void registerDefaultEditors() {
-        EditorsRegistry editorsRegistry = EditorsRegistry.getInstance();
+    public static void registerDefaultEditors(EditorsRegistry editorsRegistry) {
 
         editorsRegistry.setDefaultEditor(VoidEditor.class);
 
@@ -28,6 +27,24 @@ public class Defaults {
                 return null;
             }
         });
+
+        editorsRegistry.registerHook(new EditorsRegistryHook() {
+            public Class<? extends FieldEditor> substituteEditor(Class<? extends DSLBean> beanClass,
+                                                                 String propertyName, FieldMask mask, Class valueType) {
+                Class superClass=valueType.getSuperclass();
+                while (superClass!=null && superClass!=Object.class){
+                    valueType=superClass;
+                    superClass=superClass.getSuperclass();
+                }
+
+                Class[] interf = valueType.getInterfaces();
+                if (interf!=null && interf.length>0 && valueType.getInterfaces()[0]==DSLBean.class) {
+                    return DSLBeanEditor.class;
+                }
+                return null;
+            }
+        });
+
 
         editorsRegistry.registerEditor(String.class, StringEditor.class);
 

@@ -29,14 +29,14 @@ public class TestEditor2 {
         JFrame f = new JFrame("Test Editor");
 
         //TODO think of the appropriate place to this default registrations
-        EditorsRegistry editorsRegistry = EditorsRegistry.getInstance();
+        /*EditorsRegistry editorsRegistry = EditorsRegistry.getInstance();
         editorsRegistry.setDefaultEditor(VoidEditor.class);
         //editorsRegistry.setNextArrayEditor(NextArrayDSLBeanEditor.class);
         editorsRegistry.registerEditor(String.class, StringEditor.class);
         editorsRegistry.registerEditor(int.class, IntEditor.class);
         editorsRegistry.registerEditor(double.class, DoubleEditor.class);
         editorsRegistry.registerEditor(Boolean.class, BooleanEditor.class);
-        editorsRegistry.registerEditor(Count.class, EnumEditor.class);
+        editorsRegistry.registerEditor(Count.class, EnumEditor.class);*/
 
         DSLBeansRegistry.getInstance().registerBean(Bean1.class);
         DSLBeansRegistry.getInstance().registerBean(BeanA.class);

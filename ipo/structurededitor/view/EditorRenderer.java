@@ -27,8 +27,9 @@ public class EditorRenderer {
      */
     @SuppressWarnings({"JavaDoc"})
     public EditorRenderer(StructuredEditorModel model, DSLBean editableBean) {
-        reg = EditorsRegistry.getInstance();
         this.model = model;
+        reg = model.getEditorsRegistry();
+
 
         Cell layout = editableBean.getLayout();
 
@@ -41,6 +42,7 @@ public class EditorRenderer {
     }
 
     private VisibleElement render(Cell layout, DSLBean editableBean) {
+
         if (layout instanceof ConstantCell) {
             ConstantCell cell = (ConstantCell) layout;
             return new TextElement(model, cell.getText());

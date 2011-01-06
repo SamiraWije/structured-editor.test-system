@@ -46,14 +46,14 @@ public class TestEditor3 {
         f.setLayout(br);
         //TODO think of the appropriate place to this default registrations
         //-------Editors registry preparation
-        EditorsRegistry editorsRegistry = EditorsRegistry.getInstance();
+        /*EditorsRegistry editorsRegistry = EditorsRegistry.getInstance();
         editorsRegistry.setDefaultEditor(VoidEditor.class);
         // editorsRegistry.setNextArrayEditor(NextArrayDSLBeanEditor.class);
         editorsRegistry.registerEditor(String.class, StringEditor.class);
         editorsRegistry.registerEditor(int.class, IntEditor.class);
         editorsRegistry.registerEditor(double.class, DoubleEditor.class);
         editorsRegistry.registerEditor(Boolean.class, BooleanEditor.class);
-        editorsRegistry.registerEditor(Count.class, EnumEditor.class);
+        editorsRegistry.registerEditor(Count.class, EnumEditor.class);     */
 
         //-------DSL beans registry preparation
         DSLBeansRegistry.getInstance().registerBean(Bean1.class);

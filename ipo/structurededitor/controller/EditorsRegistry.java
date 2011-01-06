@@ -16,7 +16,7 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class EditorsRegistry {
 
-    static private EditorsRegistry instance;
+    //static private EditorsRegistry instance;
     /**
      * Редактор по умолчанию для всех тех полей, для которых не нашлось ничего получше
      */
@@ -26,14 +26,14 @@ public class EditorsRegistry {
     //private Class<? extends T> nextArrayEditor;
     //private Class<? extends FieldEditor> enumEditor;
 
-    static public EditorsRegistry getInstance() {
+    /*static public EditorsRegistry getInstance() {
         if (instance == null) {
             instance = new EditorsRegistry();
             Defaults.registerDefaultEditors();
         }
 
         return instance;
-    }
+    } */
 
     /**
      * Сопоставление типов свойств и редакторов
@@ -125,10 +125,7 @@ public class EditorsRegistry {
         return c.newInstance(obj, propertyName,mask,model);
     }
 
-    private EditorsRegistry() {
+    public EditorsRegistry() {
+        Defaults.registerDefaultEditors(this);
     }
-
-
-
-
 }

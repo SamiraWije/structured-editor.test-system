@@ -35,7 +35,7 @@ public class TestEditor {
         JFrame f = new JFrame("Test Editor");
 
         //TODO think of the appropriate place to this default registrations
-        EditorsRegistry editorsRegistry = EditorsRegistry.getInstance();
+        /*EditorsRegistry editorsRegistry = EditorsRegistry.getInstance();
         editorsRegistry.setDefaultEditor(VoidEditor.class);
 
         editorsRegistry.registerEditor(String.class, StringEditor.class);
@@ -47,7 +47,7 @@ public class TestEditor {
         DSLBeansRegistry.getInstance().registerBean(Bean1.class);
         DSLBeansRegistry.getInstance().registerBean(BeanA.class);
         DSLBeansRegistry.getInstance().registerBean(BeanA1.class);
-        DSLBeansRegistry.getInstance().registerBean(BeanA2.class);
+        DSLBeansRegistry.getInstance().registerBean(BeanA2.class);*/
 
         Bean1 bean1 = new Bean1();
         final StructuredEditorModel model = createModel(bean1);

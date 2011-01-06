@@ -230,7 +230,7 @@ public class ArrayEditor extends FieldEditor {
     private FieldEditor createEditorInstance(int index, StructuredEditorModel model)
             throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         final EditorsRegistry reg;
-        reg = EditorsRegistry.getInstance();
+        reg = model.getEditorsRegistry();
         return reg.getEditor((Class<? extends DSLBean>) getObject().getClass(), getFieldName(), getObject(),
                 new ArrayFieldMask(index), model);
 

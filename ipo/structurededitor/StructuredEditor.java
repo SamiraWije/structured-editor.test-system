@@ -10,6 +10,7 @@ import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 
 import ru.ipo.structurededitor.model.DSLBean;
+import ru.ipo.structurededitor.model.DSLBeansRegistry;
 import ru.ipo.structurededitor.model.DefaultDSLBean;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.StructuredEditorUI;
@@ -22,7 +23,8 @@ import ru.ipo.structurededitor.view.elements.VisibleElement;
 public class StructuredEditor extends JComponent implements Scrollable {
 
     public StructuredEditor() {
-        this(new StructuredEditorModel(new DefaultDSLBean()));
+
+        this(new StructuredEditorModel(new DefaultDSLBean(),new DSLBeansRegistry()));
     }
 
     private StructuredEditorModel model;

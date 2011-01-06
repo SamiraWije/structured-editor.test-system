@@ -8,6 +8,7 @@ import ru.ipo.structurededitor.StructuredEditor;
 import ru.ipo.structurededitor.controller.EditorsRegistry;
 import ru.ipo.structurededitor.controller.ModificationVector;
 import ru.ipo.structurededitor.model.DSLBean;
+import ru.ipo.structurededitor.model.DSLBeansRegistry;
 import ru.ipo.structurededitor.view.elements.ComboBoxTextEditorElement;
 import ru.ipo.structurededitor.view.elements.VisibleElement;
 import ru.ipo.structurededitor.view.events.*;
@@ -29,20 +30,33 @@ public class StructuredEditorModel {
 
     public void setEditorsRegistry(EditorsRegistry editorsRegistry) {
         this.editorsRegistry = editorsRegistry;
+        setRootElement(new EditorRenderer(this, o).getRenderResult());
     }
 
     private EditorsRegistry editorsRegistry;
 
-    private DSLBean o;
+    private DSLBeansRegistry beansRegistry;
 
-    public StructuredEditorModel(DSLBean o) {
-        this(o,new ModificationVector());
+    public DSLBeansRegistry getBeansRegistry() {
+        return beansRegistry;
     }
 
-    public StructuredEditorModel(DSLBean o, ModificationVector modificationVector) {
+    public void setBeansRegistry(DSLBeansRegistry beansRegistry) {
+        this.beansRegistry = beansRegistry;
+        setRootElement(new EditorRenderer(this, o).getRenderResult());
+    }
+
+    private DSLBean o;
+
+    public StructuredEditorModel(DSLBean o, DSLBeansRegistry beansRegistry) {
+        this(o, beansRegistry, new ModificationVector());
+    }
+
+    public StructuredEditorModel(DSLBean o, DSLBeansRegistry beansRegistry, ModificationVector modificationVector) {
        this.o = o;
        setModificationVector(modificationVector);
        editorsRegistry = new EditorsRegistry();
+       this.beansRegistry = beansRegistry;
        setRootElement(new EditorRenderer(this, o).getRenderResult());
 
     }

@@ -37,7 +37,7 @@ public class TestEditor3 {
         UIManager.installLookAndFeel("UI for structured editor", ComponentUI.class.getName());
     }*/
 
-    private StructuredEditorModel model;
+    //private StructuredEditorModel model;
 
     public TestEditor3() {
         JFrame f = new JFrame("Модуль учителя");
@@ -55,54 +55,13 @@ public class TestEditor3 {
         editorsRegistry.registerEditor(Boolean.class, BooleanEditor.class);
         editorsRegistry.registerEditor(Count.class, EnumEditor.class);     */
 
-        //-------DSL beans registry preparation
-        DSLBeansRegistry.getInstance().registerBean(Bean1.class);
-        DSLBeansRegistry.getInstance().registerBean(BeanA.class);
-        DSLBeansRegistry.getInstance().registerBean(BeanA1.class);
-        DSLBeansRegistry.getInstance().registerBean(BeanA2.class);
 
-        DSLBeansRegistry.getInstance().registerBean(ArrayExpr.class);
-        DSLBeansRegistry.getInstance().registerBean(BinExpr.class);
-        DSLBeansRegistry.getInstance().registerBean(CountExaminer.class);
-        DSLBeansRegistry.getInstance().registerBean(IndexExaminer.class);
-        DSLBeansRegistry.getInstance().registerBean(ListExaminer.class);
-        DSLBeansRegistry.getInstance().registerBean(AnswerExaminer.class);
-        DSLBeansRegistry.getInstance().registerBean(CurElementExpr.class);
-        DSLBeansRegistry.getInstance().registerBean(DescartesPower.class);
-        DSLBeansRegistry.getInstance().registerBean(EqExpr.class);
-        DSLBeansRegistry.getInstance().registerBean(Expr.class);
-        DSLBeansRegistry.getInstance().registerBean(IntSegment.class);
-        DSLBeansRegistry.getInstance().registerBean(PrjExpr.class);
-        DSLBeansRegistry.getInstance().registerBean(Kit.class);
-        DSLBeansRegistry.getInstance().registerBean(Statement.class);
-        DSLBeansRegistry.getInstance().registerBean(Examiner.class);
-        DSLBeansRegistry.getInstance().registerBean(CombKit.class);
-        DSLBeansRegistry.getInstance().registerBean(LayoutKit.class);
-        DSLBeansRegistry.getInstance().registerBean(EnumKit.class);
-        DSLBeansRegistry.getInstance().registerBean(ConstantElement.class);
-        DSLBeansRegistry.getInstance().registerBean(InnerConstantElement.class);
-        DSLBeansRegistry.getInstance().registerBean(IntConstantElement.class);
-        DSLBeansRegistry.getInstance().registerBean(AddExpr.class);
-        DSLBeansRegistry.getInstance().registerBean(DiffExpr.class);
-        DSLBeansRegistry.getInstance().registerBean(RemExpr.class);
-        DSLBeansRegistry.getInstance().registerBean(IntDivExpr.class);
-        DSLBeansRegistry.getInstance().registerBean(EvExpr.class);
-        DSLBeansRegistry.getInstance().registerBean(NotEvExpr.class);
-        DSLBeansRegistry.getInstance().registerBean(LogAndExpr.class);
-        DSLBeansRegistry.getInstance().registerBean(LogNotExpr.class);
-        DSLBeansRegistry.getInstance().registerBean(LkExpr.class);
-        DSLBeansRegistry.getInstance().registerBean(LogOrExpr.class);
-        DSLBeansRegistry.getInstance().registerBean(GtExpr.class);
-        DSLBeansRegistry.getInstance().registerBean(SlExpr.class);
-        DSLBeansRegistry.getInstance().registerBean(ToNumExpr.class);
-        DSLBeansRegistry.getInstance().registerBean(CalcExpr.class);
-        DSLBeansRegistry.getInstance().registerBean(CalculableExpr.class);
-        //DSLBeansRegistry.getInstance().registerBean(SimpleCalculableExpr.class);
-        DSLBeansRegistry.getInstance().registerBean(ModCalculableExpr.class);
+
+
 
 
         //-------Nodes registry preparation
-        nodesRegistryPrep();
+        NodesRegistry nodesRegistry = nodesRegistryPrep();
 
 
         //------------Frame preparation
@@ -146,7 +105,7 @@ public class TestEditor3 {
         Menu help = new Menu("Помощь");
         menuBar.add(help);
         //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
-        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor);
+        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry);
         item1.addActionListener(handler);
         item2.addActionListener(handler);
         item3.addActionListener(handler);
@@ -219,7 +178,7 @@ public class TestEditor3 {
         //model.getRootElement().gainFocus(new TextPosition(0,0), false, false);
     }
 
-    private void nodesRegistryPrep() {
+    private NodesRegistry nodesRegistryPrep() {
         Document document;
         // obtain the default parser
         try {
@@ -233,147 +192,150 @@ public class TestEditor3 {
 
             document = builder.newDocument();
 
+            NodesRegistry nodesRegistry = new NodesRegistry();
+
             Element defaultNode = document.createElement("unknown");
-            NodesRegistry.getInstance().setDefaultNode(defaultNode);
+            nodesRegistry.setDefaultNode(defaultNode);
 
             Element emptyNode = document.createElement("empty");
-            NodesRegistry.getInstance().setEmptyNode(emptyNode);
+            nodesRegistry.setEmptyNode(emptyNode);
 
 
             Attr taskTitle = document.createAttribute("title");
-            NodesRegistry.getInstance().registerNode(Statement.class, "title", taskTitle);
+            nodesRegistry.registerNode(Statement.class, "title", taskTitle);
 
             Element taskDescription = document.createElement("description");
-            NodesRegistry.getInstance().registerNode(Statement.class, "statement", taskDescription);
+            nodesRegistry.registerNode(Statement.class, "statement", taskDescription);
 
             //Verifiers
             Element countVerifier = document.createElement("verifier");
             countVerifier.setAttribute("type", "CountVerifier");
-            NodesRegistry.getInstance().registerNode(CountExaminer.class, countVerifier);
+            nodesRegistry.registerNode(CountExaminer.class, countVerifier);
 
             Element indexVerifier = document.createElement("verifier");
             indexVerifier.setAttribute("type", "IndexVerifier");
-            NodesRegistry.getInstance().registerNode(IndexExaminer.class, indexVerifier);
+            nodesRegistry.registerNode(IndexExaminer.class, indexVerifier);
 
             Element listVerifier = document.createElement("verifier");
             listVerifier.setAttribute("type", "ListVerifier");
-            NodesRegistry.getInstance().registerNode(ListExaminer.class, listVerifier);
+            nodesRegistry.registerNode(ListExaminer.class, listVerifier);
 
             Element answerVerifier = document.createElement("verifier");
             answerVerifier.setAttribute("type", "AnswerVerifier");
-            NodesRegistry.getInstance().registerNode(AnswerExaminer.class, answerVerifier);
+            nodesRegistry.registerNode(AnswerExaminer.class, answerVerifier);
 
             //Sets
             Element numericSet = document.createElement("set");
             numericSet.setAttribute("type", "NumericSet");
-            NodesRegistry.getInstance().registerNode(IntSegment.class, numericSet);
+            nodesRegistry.registerNode(IntSegment.class, numericSet);
             Attr numericSetFirst = document.createAttribute("first");
-            NodesRegistry.getInstance().registerNode(IntSegment.class, "from", numericSetFirst);
+            nodesRegistry.registerNode(IntSegment.class, "from", numericSetFirst);
             Attr numericSetLast = document.createAttribute("last");
-            NodesRegistry.getInstance().registerNode(IntSegment.class, "to", numericSetLast);
+            nodesRegistry.registerNode(IntSegment.class, "to", numericSetLast);
 
             Element decartSet = document.createElement("set");
             decartSet.setAttribute("type", "DecartSet");
-            NodesRegistry.getInstance().registerNode(DescartesPower.class, decartSet);
+            nodesRegistry.registerNode(DescartesPower.class, decartSet);
             Attr decartSetPower = document.createAttribute("power");
-            NodesRegistry.getInstance().registerNode(DescartesPower.class, "pow", decartSetPower);
+            nodesRegistry.registerNode(DescartesPower.class, "pow", decartSetPower);
 
             Element combinationSet = document.createElement("set");
             combinationSet.setAttribute("type", "CombinationSet");
-            NodesRegistry.getInstance().registerNode(CombKit.class, combinationSet);
+            nodesRegistry.registerNode(CombKit.class, combinationSet);
             Attr combinationSetLength = document.createAttribute("length");
-            NodesRegistry.getInstance().registerNode(CombKit.class, "k", combinationSetLength);
+            nodesRegistry.registerNode(CombKit.class, "k", combinationSetLength);
 
             Element layoutSet = document.createElement("set");
             layoutSet.setAttribute("type", "LayoutSet");
-            NodesRegistry.getInstance().registerNode(LayoutKit.class, layoutSet);
+            nodesRegistry.registerNode(LayoutKit.class, layoutSet);
             Attr layoutSetLength = document.createAttribute("length");
-            NodesRegistry.getInstance().registerNode(LayoutKit.class, "k", layoutSetLength);
+            nodesRegistry.registerNode(LayoutKit.class, "k", layoutSetLength);
 
             Element enumerationSet = document.createElement("set");
             enumerationSet.setAttribute("type", "EnumerationSet");
-            NodesRegistry.getInstance().registerNode(EnumKit.class, enumerationSet);
+            nodesRegistry.registerNode(EnumKit.class, enumerationSet);
 
             Element constElement = document.createElement("constElement");
-            NodesRegistry.getInstance().registerNode(InnerConstantElement.class, constElement);
-            NodesRegistry.getInstance().registerNode(IntConstantElement.class, constElement);
+            nodesRegistry.registerNode(InnerConstantElement.class, constElement);
+            nodesRegistry.registerNode(IntConstantElement.class, constElement);
 
 
             //Functions
             Element evenFnc = document.createElement("function");
             evenFnc.setAttribute("type", "Even");
-            NodesRegistry.getInstance().registerNode(EvExpr.class, evenFnc);
+            nodesRegistry.registerNode(EvExpr.class, evenFnc);
 
             Element oddFnc = document.createElement("function");
             oddFnc.setAttribute("type", "Odd");
-            NodesRegistry.getInstance().registerNode(NotEvExpr.class, oddFnc);
+            nodesRegistry.registerNode(NotEvExpr.class, oddFnc);
 
             Element notFnc = document.createElement("function");
             notFnc.setAttribute("type", "Not");
-            NodesRegistry.getInstance().registerNode(LogNotExpr.class, notFnc);
+            nodesRegistry.registerNode(LogNotExpr.class, notFnc);
 
             Element toDigitFnc = document.createElement("function");
             toDigitFnc.setAttribute("type", "ToDigit");
-            NodesRegistry.getInstance().registerNode(ToNumExpr.class, toDigitFnc);
+            nodesRegistry.registerNode(ToNumExpr.class, toDigitFnc);
 
             Element equalsFnc = document.createElement("function");
             equalsFnc.setAttribute("type", "Equals");
-            NodesRegistry.getInstance().registerNode(EqExpr.class, equalsFnc);
+            nodesRegistry.registerNode(EqExpr.class, equalsFnc);
 
             Element greaterFnc = document.createElement("function");
             greaterFnc.setAttribute("type", "Greater");
-            NodesRegistry.getInstance().registerNode(GtExpr.class, greaterFnc);
+            nodesRegistry.registerNode(GtExpr.class, greaterFnc);
 
             Element divFnc = document.createElement("function");
             divFnc.setAttribute("type", "Div");
-            NodesRegistry.getInstance().registerNode(IntDivExpr.class, divFnc);
+            nodesRegistry.registerNode(IntDivExpr.class, divFnc);
 
             Element likeFnc = document.createElement("function");
             likeFnc.setAttribute("type", "Like");
-            NodesRegistry.getInstance().registerNode(LkExpr.class, likeFnc);
+            nodesRegistry.registerNode(LkExpr.class, likeFnc);
 
             Element modFnc = document.createElement("function");
             modFnc.setAttribute("type", "Mod");
-            NodesRegistry.getInstance().registerNode(RemExpr.class, modFnc);
+            nodesRegistry.registerNode(RemExpr.class, modFnc);
 
             Element smallerFnc = document.createElement("function");
             smallerFnc.setAttribute("type", "Smaller");
-            NodesRegistry.getInstance().registerNode(SlExpr.class, smallerFnc);
+            nodesRegistry.registerNode(SlExpr.class, smallerFnc);
 
             Element parserFnc = document.createElement("function");
             parserFnc.setAttribute("type", "Parser");
-            NodesRegistry.getInstance().registerNode(ModCalculableExpr.class, parserFnc);
-            NodesRegistry.getInstance().registerNode(CalcExpr.class, parserFnc);
+            nodesRegistry.registerNode(ModCalculableExpr.class, parserFnc);
+            nodesRegistry.registerNode(CalcExpr.class, parserFnc);
             Attr parserExp = document.createAttribute("exp");
-            NodesRegistry.getInstance().registerNode(ModCalculableExpr.class, "ce", parserExp);
-            NodesRegistry.getInstance().registerNode(CalcExpr.class, "ce", parserExp);
+            nodesRegistry.registerNode(ModCalculableExpr.class, "ce", parserExp);
+            nodesRegistry.registerNode(CalcExpr.class, "ce", parserExp);
             Attr parserFncMod = document.createAttribute("mod");
-            NodesRegistry.getInstance().registerNode(ModCalculableExpr.class, "mod", parserFncMod);
+            nodesRegistry.registerNode(ModCalculableExpr.class, "mod", parserFncMod);
 
             Element projectionFnc = document.createElement("function");
             projectionFnc.setAttribute("type", "Projection");
-            NodesRegistry.getInstance().registerNode(PrjExpr.class, projectionFnc);
+            nodesRegistry.registerNode(PrjExpr.class, projectionFnc);
             Attr projectionFncAxis = document.createAttribute("axis");
-            NodesRegistry.getInstance().registerNode(PrjExpr.class, "ind", projectionFncAxis);
+            nodesRegistry.registerNode(PrjExpr.class, "ind", projectionFncAxis);
 
             Element sumFnc = document.createElement("function");
             sumFnc.setAttribute("type", "Sum");
-            NodesRegistry.getInstance().registerNode(AddExpr.class, sumFnc);
+            nodesRegistry.registerNode(AddExpr.class, sumFnc);
 
             Element subFnc = document.createElement("function");
             subFnc.setAttribute("type", "Sub");
-            NodesRegistry.getInstance().registerNode(DiffExpr.class, subFnc);
+            nodesRegistry.registerNode(DiffExpr.class, subFnc);
 
             Element orFnc = document.createElement("function");
             orFnc.setAttribute("type", "Or");
-            NodesRegistry.getInstance().registerNode(LogOrExpr.class, orFnc);
+            nodesRegistry.registerNode(LogOrExpr.class, orFnc);
 
             Element andFnc = document.createElement("function");
             andFnc.setAttribute("type", "And");
-            NodesRegistry.getInstance().registerNode(LogAndExpr.class, andFnc);
+            nodesRegistry.registerNode(LogAndExpr.class, andFnc);
 
             Element currentSetElement = document.createElement("current-set-element");
-            NodesRegistry.getInstance().registerNode(CurElementExpr.class, currentSetElement);
+            nodesRegistry.registerNode(CurElementExpr.class, currentSetElement);
+            return nodesRegistry;
 
         } catch (Exception e) {
             throw new Error("Failed to register nodes: ", e);
@@ -421,10 +383,47 @@ public class TestEditor3 {
         root.add(new ContainerElement(model, _4thLine));*/
 
         //Bean1 bean1 = new Bean1();
-        model = new StructuredEditorModel(st);
-        /*final ModificationVector modificationVector = new ModificationVector();
-        model.setModificationVector(modificationVector);*/
+        DSLBeansRegistry reg=new DSLBeansRegistry();
+        reg.registerBean(ArrayExpr.class);
+        reg.registerBean(BinExpr.class);
+        reg.registerBean(CountExaminer.class);
+        reg.registerBean(IndexExaminer.class);
+        reg.registerBean(ListExaminer.class);
+        reg.registerBean(AnswerExaminer.class);
+        reg.registerBean(CurElementExpr.class);
+        reg.registerBean(DescartesPower.class);
+        reg.registerBean(EqExpr.class);
+        reg.registerBean(Expr.class);
+        reg.registerBean(IntSegment.class);
+        reg.registerBean(PrjExpr.class);
+        reg.registerBean(Kit.class);
+        reg.registerBean(Statement.class);
+        reg.registerBean(Examiner.class);
+        reg.registerBean(CombKit.class);
+        reg.registerBean(LayoutKit.class);
+        reg.registerBean(EnumKit.class);
+        reg.registerBean(ConstantElement.class);
+        reg.registerBean(InnerConstantElement.class);
+        reg.registerBean(IntConstantElement.class);
+        reg.registerBean(AddExpr.class);
+        reg.registerBean(DiffExpr.class);
+        reg.registerBean(RemExpr.class);
+        reg.registerBean(IntDivExpr.class);
+        reg.registerBean(EvExpr.class);
+        reg.registerBean(NotEvExpr.class);
+        reg.registerBean(LogAndExpr.class);
+        reg.registerBean(LogNotExpr.class);
+        reg.registerBean(LkExpr.class);
+        reg.registerBean(LogOrExpr.class);
+        reg.registerBean(GtExpr.class);
+        reg.registerBean(SlExpr.class);
+        reg.registerBean(ToNumExpr.class);
+        reg.registerBean(CalcExpr.class);
+        reg.registerBean(CalculableExpr.class);
+        reg.registerBean(ModCalculableExpr.class);
+        return new StructuredEditorModel(st,reg);
 
-        return model;
+
+
     }
 }

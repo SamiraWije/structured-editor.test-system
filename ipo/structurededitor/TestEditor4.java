@@ -39,12 +39,6 @@ public class TestEditor4 {
         editorsRegistry.registerEditor(boolean.class, BooleanEditor.class);
         //editorsRegistry.registerEditor(Count.class, EnumEditor.class);*/
 
-        DSLBeansRegistry.getInstance().registerBean(Bean1.class);
-        DSLBeansRegistry.getInstance().registerBean(Bean2.class);
-        DSLBeansRegistry.getInstance().registerBean(BeanA.class);
-        DSLBeansRegistry.getInstance().registerBean(BeanA1.class);
-        DSLBeansRegistry.getInstance().registerBean(BeanA2.class);
-        DSLBeansRegistry.getInstance().registerBean(BeanA3.class);
 
         Bean2 bean2 = new Bean2();
         final StructuredEditorModel model = createModel(bean2);
@@ -105,9 +99,16 @@ public class TestEditor4 {
         root.add(_2ndLine);
         root.add(_3rdLine);
         root.add(new ContainerElement(model, _4thLine));*/
+        DSLBeansRegistry reg = new DSLBeansRegistry();
+
+        reg.registerBean(Bean1.class);
+        reg.registerBean(Bean2.class);
+        reg.registerBean(BeanA.class);
+        reg.registerBean(BeanA1.class);
+        reg.registerBean(BeanA2.class);
+        reg.registerBean(BeanA3.class);
 
 
-
-        return new StructuredEditorModel(bean2);
+        return new StructuredEditorModel(bean2, reg);
     }
 }

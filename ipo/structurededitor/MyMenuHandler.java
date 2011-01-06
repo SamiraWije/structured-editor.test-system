@@ -1,6 +1,8 @@
 package ru.ipo.structurededitor;
 
 import ru.ipo.structurededitor.controller.ModificationVector;
+import ru.ipo.structurededitor.model.DSLBeansRegistry;
+import ru.ipo.structurededitor.structureSerializer.NodesRegistry;
 import ru.ipo.structurededitor.structureSerializer.StructureSerializer;
 import ru.ipo.structurededitor.testLang.comb.Statement;
 import ru.ipo.structurededitor.view.EditorRenderer;
@@ -25,16 +27,18 @@ public class MyMenuHandler implements ActionListener, ItemListener {
     JFrame f;
     //XMLViewer xmlV;
     StructuredEditor structuredEditor;
+    NodesRegistry nodesRegistry;
     //public MyMenuHandler(JFrame f, XMLViewer xmlV, StructuredEditor structuredEditor){
 
-    public MyMenuHandler(JFrame f, StructuredEditor structuredEditor) {
+    public MyMenuHandler(JFrame f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry) {
         this.f = f;
         //this.xmlV=xmlV;
         this.structuredEditor = structuredEditor;
+        this.nodesRegistry=nodesRegistry;
     }
 
-    private void refreshEditor(Statement st, ModificationVector modificationVector){
-        StructuredEditorModel model = new StructuredEditorModel(st, modificationVector);
+    private void refreshEditor(Statement st, ModificationVector modificationVector, DSLBeansRegistry reg){
+        StructuredEditorModel model = new StructuredEditorModel(st, reg, modificationVector);
         structuredEditor.getModel().setFocusedElement(null);
         structuredEditor.setModel(model);
         structuredEditor.getUI().redrawEditor();
@@ -57,7 +61,8 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 StructureBuilder structureBuilder = new StructureBuilder(fn);
 
                 Statement st = structureBuilder.getStructure();
-                refreshEditor(st,structuredEditor.getModel().getModificationVector());
+                refreshEditor(st,structuredEditor.getModel().getModificationVector(),
+                        structuredEditor.getModel().getBeansRegistry());
                 structuredEditor.getModel().getModificationVector().clearVector();
                 //EmptyFieldsRegistry.getInstance().clear();
             }
@@ -72,7 +77,7 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 String fn = fc.getSelectedFile().getAbsolutePath();
                 System.out.println("You've saved the file: " + fn);
 
-                StructureSerializer structureSerializer = new StructureSerializer(fn);
+                StructureSerializer structureSerializer = new StructureSerializer(fn, nodesRegistry);
 
                 structureSerializer.saveStructure(structuredEditor.getModel().getObject());
             }
@@ -81,10 +86,12 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             System.exit(0);
         } else if (arg.equals("Отменить")) {
            structuredEditor.getModel().getModificationVector().undo();
-           refreshEditor((Statement) structuredEditor.getModel().getObject(),structuredEditor.getModel().getModificationVector());
+           refreshEditor((Statement) structuredEditor.getModel().getObject(),
+                   structuredEditor.getModel().getModificationVector(), structuredEditor.getModel().getBeansRegistry());
         } else if (arg.equals("Повторить")) {
            structuredEditor.getModel().getModificationVector().redo();
-           refreshEditor((Statement) structuredEditor.getModel().getObject(),structuredEditor.getModel().getModificationVector());
+           refreshEditor((Statement) structuredEditor.getModel().getObject(),
+                   structuredEditor.getModel().getModificationVector(),structuredEditor.getModel().getBeansRegistry());
         }
     }
 

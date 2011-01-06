@@ -15,11 +15,11 @@ import java.util.HashMap;
  */
 public class NodesRegistry {
 
-    private static NodesRegistry instance = new NodesRegistry();
+    /*private static NodesRegistry instance = new NodesRegistry();
 
     public static NodesRegistry getInstance() {
         return instance;
-    }
+    } */
 
     /**
      * Узел по умолчанию для всех тех полей, для которых не нашлось ничего получше
@@ -110,10 +110,7 @@ public class NodesRegistry {
         }
     }
 
-    private NodesRegistry() {
-        /*//TODO fill in more default values
-     registerEditor(String.class, StringEditor.class);
+    public NodesRegistry() {
 
-     defaultEditor =  DefaultDSLEditor.class;*/
     }
 }

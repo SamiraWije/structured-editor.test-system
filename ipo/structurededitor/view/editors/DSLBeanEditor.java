@@ -117,10 +117,10 @@ public class DSLBeanEditor extends FieldEditor {
         List<Class<? extends DSLBean>> classes;
         FieldMask mask = getMask();
         if (mask != null)
-            classes = DSLBeansRegistry.getInstance().
+            classes = model.getBeansRegistry().
                     getAllSubclasses((Class<? extends DSLBean>) mask.getValueClass(getFieldType()), true);
         else
-            classes = DSLBeansRegistry.getInstance().getAllSubclasses((Class<? extends DSLBean>) getFieldType(), true);
+            classes = model.getBeansRegistry().getAllSubclasses((Class<? extends DSLBean>) getFieldType(), true);
         for (Class<? extends DSLBean> clazz : classes) {
             DSLBeanParams beanParams;
             beanParams = clazz.getAnnotation(DSLBeanParams.class);

@@ -16,13 +16,13 @@ import java.util.List;
 public class DSLBeansRegistry {
 
     private ArrayList<Class<? extends DSLBean>> beans = new ArrayList<Class<? extends DSLBean>>();
-    private static DSLBeansRegistry instance = new DSLBeansRegistry();
+    //private static DSLBeansRegistry instance = new DSLBeansRegistry();
 
-    public static DSLBeansRegistry getInstance() {
+    /*public static DSLBeansRegistry getInstance() {
         return instance;
-    }
+    } */
 
-    private DSLBeansRegistry() {
+    public DSLBeansRegistry() {
     }
 
     public void registerBean(Class<? extends DSLBean> bean) {

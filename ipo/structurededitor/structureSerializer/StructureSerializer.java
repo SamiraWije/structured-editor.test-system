@@ -28,8 +28,10 @@ import java.lang.reflect.Method;
 public class StructureSerializer {
     private String fileName;
     private Document document;
+    private NodesRegistry nodesRegistry;
 
-    public StructureSerializer(String fileName) {
+    public StructureSerializer(String fileName, NodesRegistry nodesRegistry) {
+        this.nodesRegistry=nodesRegistry;
         this.fileName = fileName;
     }
 
@@ -110,9 +112,9 @@ public class StructureSerializer {
             PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
             for (PropertyDescriptor d : descriptors) {
                 if (!d.getName().equals("class") && !d.getName().equals("layout")) {
-                    Node newNode = NodesRegistry.getInstance().getNode(bean.getClass(), d.getName());
+                    Node newNode = nodesRegistry.getNode(bean.getClass(), d.getName());
                     newNode = document.adoptNode(newNode);
-                    if (!newNode.isEqualNode(NodesRegistry.getInstance().getDefaultNode())) {
+                    if (!newNode.isEqualNode(nodesRegistry.getDefaultNode())) {
                         switch (newNode.getNodeType()) {
                             case Node.ATTRIBUTE_NODE:
                                 val = getValue(bean, d.getName());
@@ -171,9 +173,9 @@ public class StructureSerializer {
                                 for (int i = 0; i < Array.getLength(val); i++) {
                                     Object item = Array.get(val, i);
                                     if (item != null) {
-                                        newNode = NodesRegistry.getInstance().getNode(item.getClass());
+                                        newNode = nodesRegistry.getNode(item.getClass());
                                         newNode = document.adoptNode(newNode);
-                                        if (!newNode.isEqualNode(NodesRegistry.getInstance().getDefaultNode())) {
+                                        if (!newNode.isEqualNode(nodesRegistry.getDefaultNode())) {
                                             if (newNode.getNodeName().equals("set") && bean instanceof Statement) {
                                                 Element tmpNode = node;
                                                 node = document.createElement("sourceSet");
@@ -187,15 +189,15 @@ public class StructureSerializer {
                                         } else
                                             node.appendChild(newNode);
                                     } else {
-                                        newNode = NodesRegistry.getInstance().getEmptyNode();
+                                        newNode = nodesRegistry.getEmptyNode();
                                         newNode = document.adoptNode(newNode);
                                         node.appendChild(newNode);
                                     }
                                 }
                             } else {
-                                newNode = NodesRegistry.getInstance().getNode(val.getClass());
+                                newNode = nodesRegistry.getNode(val.getClass());
                                 newNode = document.adoptNode(newNode);
-                                if (!newNode.isEqualNode(NodesRegistry.getInstance().getDefaultNode())) {
+                                if (!newNode.isEqualNode(nodesRegistry.getDefaultNode())) {
                                     if (newNode.getNodeName().equals("set") && bean instanceof Statement) {
                                         Element tmpNode = node;
                                         node = document.createElement("sourceSet");
@@ -210,7 +212,7 @@ public class StructureSerializer {
                                     node.appendChild(newNode);
                             }
                         } else {
-                            newNode = NodesRegistry.getInstance().getEmptyNode();
+                            newNode = nodesRegistry.getEmptyNode();
                             newNode = document.adoptNode(newNode);
                             node.appendChild(newNode);
                         }

@@ -2,6 +2,7 @@ package ru.ipo.structurededitor.view.elements;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public abstract class VisibleElement {
         this.model = model;
     }
 
+
     //key listeners
 
     public void addKeyListener(KeyListener listener) {
@@ -56,8 +58,8 @@ public abstract class VisibleElement {
      * @param e
      */
     public void fireKeyEvent(KeyEvent e) {
-        //TODO key listeners should be iterated in the reversed addition order because some of them may will to remove themselves         
-        for (KeyListener l : keyListeners) {
+        for (int i = keyListeners.size()-1;i>=0;i--) {
+            KeyListener l=keyListeners.get(i);
             switch (e.getID()) {
                 case KeyEvent.KEY_PRESSED:
                     l.keyPressed(e);
@@ -79,6 +81,9 @@ public abstract class VisibleElement {
             processKeyEvent(e);
     }
 
+    public void fireMouseEvent(MouseEvent e) {
+       processMouseEvent(e);
+    }
     public TextPosition getAbsolutePosition() {
         int line = 0;
         int column = 0;
@@ -184,6 +189,8 @@ public abstract class VisibleElement {
     //------------------- PropertyChangedSupport --------
 
     protected void processKeyEvent(KeyEvent e) {
+    }
+    protected void processMouseEvent(MouseEvent e) {
     }
 
     public void removeKeyListener(KeyListener listener) {

@@ -1,8 +1,8 @@
 package ru.ipo.structurededitor;
 
-import java.awt.Dimension;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
@@ -40,6 +40,7 @@ public class StructuredEditor extends JComponent implements Scrollable {
         setFocusable(true);
 
         registerCaretMovementKeyStrokes();
+        enableEvents(AWTEvent.MOUSE_EVENT_MASK);
     }
 
 
@@ -102,7 +103,6 @@ public class StructuredEditor extends JComponent implements Scrollable {
 
     @Override
     protected void processComponentKeyEvent(KeyEvent e) {
-
         VisibleElement el = model.getFocusedElement();
         while (el != null) {
             el.fireKeyEvent(e);
@@ -112,6 +112,14 @@ public class StructuredEditor extends JComponent implements Scrollable {
         }
     }
 
+    @Override
+    protected void processMouseEvent(MouseEvent e) {
+       VisibleElement el = model.getRootElement();
+        e = new MouseEvent((Component)e.getSource(),e.getID(),e.getWhen(),e.getModifiers(),getUI().pixelsToX((e.getX())),
+                getUI().pixelsToY((e.getY())),e.getClickCount(),e.isPopupTrigger(),e.getButton());
+        el.fireMouseEvent(e);
+
+    }
     private void registerCaretMovementKeyStrokes() {
         getInputMap().put(KeyStroke.getKeyStroke("pressed UP"), "move caret up");
         getInputMap()

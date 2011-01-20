@@ -110,6 +110,7 @@ public class ComboBoxTextEditorElement<T> extends TextEditorElement {
     }
     public ComboBoxTextEditorElement(StructuredEditorModel model) {
         super(model);
+
         /*addPropertyChangeListener("text",new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                   updateList((String)evt.getNewValue(),getXCaretPosition());

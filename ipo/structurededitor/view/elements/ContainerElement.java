@@ -5,6 +5,7 @@ import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.TextPosition;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -43,11 +44,17 @@ public class ContainerElement extends VisibleElement {
         return subElement;
     }
 
-    /*@Override
-      public void Refresh(RefreshProperties rp) {
-            subElement.Refresh(rp);
 
-     }*/
+    @Override
+    public void processMouseEvent(MouseEvent evt) {
+        /*TextPosition position = subElement.getAbsolutePosition();
+        int x = position.getColumn();
+        int y = position.getLine() + 1;
+        if (evt.getX() >= x && evt.getX() < x + subElement.getWidth()
+                && evt.getY() >= y && evt.getY() < y + subElement.getHeight())*/
+            subElement.processMouseEvent(evt);
+
+    }
 
     public boolean isEmpty() {
         return subElement == null || subElement.isEmpty();

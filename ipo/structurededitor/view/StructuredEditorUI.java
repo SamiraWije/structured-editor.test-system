@@ -83,6 +83,17 @@ public class StructuredEditorUI extends ComponentUI {
             }
 
         });
+
+        editor.getModel().addCaretListener(new CaretListener() {
+          public void showCaret(CaretEvent evt) {
+              //setColor(Color.BLUE);
+              evt.getD().getGraphics().drawLine(
+                    xToPixels(evt.getX()),
+                    yToPixels(evt.getY()),
+                    xToPixels(evt.getX()),
+                    yToPixels(evt.getY()) + getCharHeight());
+          }
+        });
         editor.getModel().addRepaintListener(new RepaintListener() {
             public void repaint() {
                 redrawEditor();
@@ -149,4 +160,11 @@ public class StructuredEditorUI extends ComponentUI {
         return StructuredEditorUI.VERTICAL_MARGIN + y * getCharHeight();
     }
 
+    public int pixelsToX(int x) {
+        return  (x-StructuredEditorUI.HORIZONTAL_MARGIN)  / getCharWidth();
+    }
+
+    public int pixelsToY(int y) {
+        return (y-StructuredEditorUI.VERTICAL_MARGIN)/ getCharHeight();
+    }
 }

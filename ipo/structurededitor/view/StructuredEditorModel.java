@@ -20,6 +20,9 @@ import javax.swing.event.EventListenerList;
  */
 public class StructuredEditorModel {
 
+    private int absoluteCaretX;
+    private int absoluteCaretY;
+
     private VisibleElement rootElement;
     //private StructuredEditor editor;
     private VisibleElement focusedElement;
@@ -106,6 +109,14 @@ public class StructuredEditorModel {
         return editor;
     } */
 
+    public void addCaretListener(CaretListener l) {
+        listenerList.add(CaretListener.class, l);
+    }
+
+    public void removeCaretListener(CaretListener l) {
+        listenerList.remove(CaretListener.class, l);
+    }
+
     public void addPopupListener(PopupListener l) {
         listenerList.add(PopupListener.class, l);
     }
@@ -123,6 +134,11 @@ public class StructuredEditorModel {
     public ListDialog showPopup(Vector<String> filteredPopupList, String longStr, int x, int y) {
         return firePopupShow(new PopupEvent(this, filteredPopupList, longStr, x, y));
 
+    }
+    public void showCaret(int x,int y, Display d){
+        absoluteCaretX=x;
+        absoluteCaretY=y;
+        fireCaretShow(new CaretEvent(this,x,y,d));
     }
     public void repaint() {
         fireRepaint();
@@ -155,7 +171,20 @@ public class StructuredEditorModel {
         return null;
 
     }
+    protected void fireCaretShow(CaretEvent ce) {
+        Object[] listeners = listenerList.getListenerList();
+        for (int i = listeners.length-2; i>=0; i-=2) {
+                 if (listeners[i]==CaretListener.class) {
+                     // Lazily create the event:
+                     /*if (Event == null)
+                         fooEvent = new FooEvent(this);*/
+                     ((CaretListener)listeners[i+1]).showCaret(ce);
+                     //return;
+                 }
+        }
 
+
+    }
 
     public VisibleElement getFocusedElement() {
         return focusedElement;

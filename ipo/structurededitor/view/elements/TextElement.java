@@ -1,11 +1,9 @@
 package ru.ipo.structurededitor.view.elements;
 
-import ru.ipo.structurededitor.view.Display;
-import ru.ipo.structurededitor.view.StructuredEditorModel;
-import ru.ipo.structurededitor.view.StructuredEditorUI;
-import ru.ipo.structurededitor.view.TextProperties;
+import ru.ipo.structurededitor.view.*;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Arrays;
@@ -122,6 +120,18 @@ public class TextElement extends VisibleElement {
         setWidth(countWidth());
     }
 
+    @Override
+    public void processMouseEvent(MouseEvent evt){
+        /*TextPosition position = getAbsolutePosition();
+        int x = position.getColumn();
+        int y = position.getLine() + 1;*/
+
+        if (evt.getClickCount()>=1)
+        {
+            getModel().setFocusedElement(this);
+        }
+
+    }
     public void drawElement(int x0, int y0, Display d) {
         //drawText("\u0421\u0430\u043c\u044b\u0435.",nullTextProperties,x0,y0,d);
         if (isEmptyText())
@@ -131,7 +141,7 @@ public class TextElement extends VisibleElement {
     }
 
     public boolean isEmpty() {
-        return (text.equals("") || text == null);
+        return (text == null || text.equals(""));
     }
 
     private void drawText(TextProperties textProperties, int x0, int y0, Display d) {

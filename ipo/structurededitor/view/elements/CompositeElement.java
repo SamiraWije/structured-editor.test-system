@@ -7,6 +7,7 @@ import ru.ipo.structurededitor.view.TextProperties;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.Array;
@@ -68,13 +69,17 @@ public class CompositeElement extends VisibleElement {
         return true;
     }
 
-    /*@Override
-    public void Refresh(RefreshProperties rp) {
+    @Override
+    public void processMouseEvent(MouseEvent evt) {
         for (PositionedElement el : elements) {
-            el.element.Refresh(rp);
+            TextPosition position = el.element.getAbsolutePosition();
+            int x = position.getColumn();
+            int y = position.getLine();
+            if (evt.getX() >= x && evt.getX() < x + el.element.getWidth()
+                    && evt.getY() >= y && evt.getY() < y + el.element.getHeight())
+                el.element.processMouseEvent(evt);
         }
-        super.Refresh(rp);
-    } */
+    }
 
     public void add(VisibleElement element) {
         add(element, elements.size());

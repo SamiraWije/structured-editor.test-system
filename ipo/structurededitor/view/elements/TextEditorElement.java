@@ -2,11 +2,14 @@ package ru.ipo.structurededitor.view.elements;
 
 import ru.ipo.structurededitor.view.Display;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
+import ru.ipo.structurededitor.view.TextPosition;
 import ru.ipo.structurededitor.view.TextProperties;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.Vector;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Ilya
@@ -62,7 +65,7 @@ public class TextEditorElement extends TextElement {
             if (yMarkPosition == yCaretPosition) {
                 int begin = Math.min(xCaretPosition, xMarkPosition);
                 int end = Math.max(xCaretPosition, xMarkPosition);
-                int x1 = d.xToPixels(x0 + begin), y1 = d.yToPixels(y0 + yCaretPosition-1);
+                int x1 = d.xToPixels(x0 + begin), y1 = d.yToPixels(y0 + yCaretPosition - 1);
                 int x2 = d.xToPixels(x0 + end), y2 = d.yToPixels(y0 + yCaretPosition);
                 d.getGraphics().fillRect(x1, y2, x2 - x1, y2 - y1);
             } else {
@@ -78,7 +81,7 @@ public class TextEditorElement extends TextElement {
                     xEnd = xMarkPosition;
                     yEnd = yMarkPosition;
                 }
-                int x1 = d.xToPixels(x0 + xBegin), y1 = d.yToPixels(y0 + yBegin-1);
+                int x1 = d.xToPixels(x0 + xBegin), y1 = d.yToPixels(y0 + yBegin - 1);
                 int x2 = d.xToPixels(x0 + ((String) getLines().get(yBegin)).length()),
                         y2 = d.yToPixels(y0 + yBegin);
                 d.getGraphics().fillRect(x1, y2, x2 - x1, y2 - y1);
@@ -86,14 +89,14 @@ public class TextEditorElement extends TextElement {
                 if (delta > 1) {
                     for (int i = yBegin + 1; i < yEnd; i++) {
                         x1 = d.xToPixels(x0);
-                        y1 = d.yToPixels(y0 + i-1);
+                        y1 = d.yToPixels(y0 + i - 1);
                         x2 = d.xToPixels(x0 + ((String) getLines().get(i)).length());
                         y2 = d.yToPixels(y0 + i);
                         d.getGraphics().fillRect(x1, y2, x2 - x1, y2 - y1);
                     }
                 }
                 x1 = d.xToPixels(x0);
-                y1 = d.yToPixels(y0 + yEnd-1);
+                y1 = d.yToPixels(y0 + yEnd - 1);
                 x2 = d.xToPixels(x0 + xEnd);
                 y2 = d.yToPixels(y0 + yEnd);
                 d.getGraphics().fillRect(x1, y2, x2 - x1, y2 - y1);
@@ -105,12 +108,21 @@ public class TextEditorElement extends TextElement {
 
         //draw caret
         if (isFocused())
-            d.getGraphics().drawLine(
-                    d.xToPixels(x0 + xCaretPosition),
-                    d.yToPixels(y0 + yCaretPosition),
-                    d.xToPixels(x0 + xCaretPosition),
-                    d.yToPixels(y0 + yCaretPosition) + d.getUi().getCharHeight()
-            );
+            getModel().showCaret(x0 + xCaretPosition, y0 + yCaretPosition, d);
+
+    }
+
+    @Override
+    public void processMouseEvent(MouseEvent e) {
+        super.processMouseEvent(e);
+        if (e.getClickCount() >= 1 && !isEmpty()) {
+            TextPosition position = getAbsolutePosition();
+            int x0 = position.getColumn();
+            int y0 = position.getLine();
+            xCaretPosition = e.getX() - x0;
+            yCaretPosition = e.getY() - y0;
+            getModel().repaint();
+        }
     }
 
     @Override
@@ -368,7 +380,7 @@ public class TextEditorElement extends TextElement {
 
         if (!shift)
             xMarkPosition = -1;
-        else if (xMarkPosition == -1){
+        else if (xMarkPosition == -1) {
             yMarkPosition = yCaretPosition;
             xMarkPosition = xCaretPosition;
         }
@@ -394,7 +406,7 @@ public class TextEditorElement extends TextElement {
 
         if (!shift)
             xMarkPosition = -1;
-        else if (xMarkPosition == -1){
+        else if (xMarkPosition == -1) {
             yMarkPosition = yCaretPosition;
             xMarkPosition = xCaretPosition;
         }
@@ -406,8 +418,8 @@ public class TextEditorElement extends TextElement {
     }
 
     public void setCaretPosition(int xCaretPosition, int yCaretPosition) {
-        pcs.firePropertyChange("xCaretPosition",this.xCaretPosition,xCaretPosition);
-        pcs.firePropertyChange("yCaretPosition",this.yCaretPosition,yCaretPosition);
+        pcs.firePropertyChange("xCaretPosition", this.xCaretPosition, xCaretPosition);
+        pcs.firePropertyChange("yCaretPosition", this.yCaretPosition, yCaretPosition);
 
         this.xCaretPosition = xCaretPosition;
         this.yCaretPosition = yCaretPosition;

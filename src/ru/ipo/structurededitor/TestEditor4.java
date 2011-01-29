@@ -108,7 +108,8 @@ public class TestEditor4 {
         reg.registerBean(BeanA2.class);
         reg.registerBean(BeanA3.class);
 
-
-        return new StructuredEditorModel(bean2, reg);
+        StructuredEditorModel model = new StructuredEditorModel(bean2);
+        model.setBeansRegistry(reg);
+        return model;
     }
 }

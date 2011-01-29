@@ -24,7 +24,7 @@ public class StructuredEditor extends JComponent implements Scrollable {
 
     public StructuredEditor() {
 
-        this(new StructuredEditorModel(new DefaultDSLBean(),new DSLBeansRegistry()));
+        this(new StructuredEditorModel(new DefaultDSLBean()));
     }
 
     private StructuredEditorModel model;

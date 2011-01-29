@@ -37,8 +37,8 @@ public class MyMenuHandler implements ActionListener, ItemListener {
         this.nodesRegistry=nodesRegistry;
     }
 
-    private void refreshEditor(Statement st, ModificationVector modificationVector, DSLBeansRegistry reg){
-        StructuredEditorModel model = new StructuredEditorModel(st, reg, modificationVector);
+    private void refreshEditor(Statement st, ModificationVector modificationVector){
+        StructuredEditorModel model = new StructuredEditorModel(st, modificationVector);
         structuredEditor.getModel().setFocusedElement(null);
         structuredEditor.setModel(model);
         structuredEditor.getUI().redrawEditor();
@@ -61,8 +61,7 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 StructureBuilder structureBuilder = new StructureBuilder(fn);
 
                 Statement st = structureBuilder.getStructure();
-                refreshEditor(st,structuredEditor.getModel().getModificationVector(),
-                        structuredEditor.getModel().getBeansRegistry());
+                refreshEditor(st,structuredEditor.getModel().getModificationVector());
                 structuredEditor.getModel().getModificationVector().clearVector();
                 //EmptyFieldsRegistry.getInstance().clear();
             }
@@ -87,11 +86,11 @@ public class MyMenuHandler implements ActionListener, ItemListener {
         } else if (arg.equals("Отменить")) {
            structuredEditor.getModel().getModificationVector().undo();
            refreshEditor((Statement) structuredEditor.getModel().getObject(),
-                   structuredEditor.getModel().getModificationVector(), structuredEditor.getModel().getBeansRegistry());
+                   structuredEditor.getModel().getModificationVector());
         } else if (arg.equals("Повторить")) {
            structuredEditor.getModel().getModificationVector().redo();
            refreshEditor((Statement) structuredEditor.getModel().getObject(),
-                   structuredEditor.getModel().getModificationVector(),structuredEditor.getModel().getBeansRegistry());
+                   structuredEditor.getModel().getModificationVector());
         }
     }
 

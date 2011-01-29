@@ -34,6 +34,10 @@ public class CaretMovementAction extends AbstractAction {
 
         VisibleElement neighbour = graph.getNeighbour(editorModel
                 .getFocusedElement(), dir);
+       /* switch(dir){
+            case Down: editorModel.setAbsoluteCaretY(editorModel.getAbsoluteCaretY()+1);
+
+        }*/
         editorModel.setFocusedElement(neighbour);
     }
 }

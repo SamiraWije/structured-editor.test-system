@@ -18,8 +18,24 @@ import javax.swing.event.EventListenerList;
  */
 public class StructuredEditorModel {
 
-    private int absoluteCaretX;
-    private int absoluteCaretY;
+    public int getAbsoluteCaretX() {
+        return absoluteCaretX;
+    }
+
+    public void setAbsoluteCaretX(int absoluteCaretX) {
+        this.absoluteCaretX = absoluteCaretX;
+    }
+
+    public int getAbsoluteCaretY() {
+        return absoluteCaretY;
+    }
+
+    public void setAbsoluteCaretY(int absoluteCaretY) {
+        this.absoluteCaretY = absoluteCaretY;
+    }
+
+    private int absoluteCaretX=0;
+    private int absoluteCaretY=0;
 
     private VisibleElement rootElement;
     //private StructuredEditor editor;
@@ -49,15 +65,16 @@ public class StructuredEditorModel {
 
     private DSLBean o;
 
-    public StructuredEditorModel(DSLBean o, DSLBeansRegistry beansRegistry) {
-        this(o, beansRegistry, new ModificationVector());
+    public StructuredEditorModel(DSLBean o) {
+        this(o, new ModificationVector());
     }
 
-    public StructuredEditorModel(DSLBean o, DSLBeansRegistry beansRegistry, ModificationVector modificationVector) {
+    public StructuredEditorModel(DSLBean o, ModificationVector modificationVector) {
        this.o = o;
        setModificationVector(modificationVector);
        editorsRegistry = new EditorsRegistry();
-       this.beansRegistry = beansRegistry;
+       beansRegistry = new DSLBeansRegistry();
+
        setRootElement(new EditorRenderer(this, o).getRenderResult());
 
     }
@@ -231,6 +248,7 @@ public class StructuredEditorModel {
      *
      * @param focusedElement element to set focus to
      */
+
     public void setFocusedElement(VisibleElement focusedElement) {
         if (focusedElement == this.focusedElement)
             return;

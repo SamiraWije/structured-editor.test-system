@@ -1,5 +1,6 @@
 package ru.ipo.structurededitor.model;
 
+import ru.ipo.structurededitor.Defaults;
 import ru.ipo.structurededitor.controller.EditorsRegistry;
 import ru.ipo.structurededitor.view.editors.DSLBeanEditor;
 
@@ -23,6 +24,7 @@ public class DSLBeansRegistry {
     } */
 
     public DSLBeansRegistry() {
+        Defaults.registerDefaultBeans(this);
     }
 
     public void registerBean(Class<? extends DSLBean> bean) {

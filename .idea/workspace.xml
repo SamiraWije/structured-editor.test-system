@@ -4,13 +4,12 @@
     <list default="true" id="ce1a0526-eb40-4886-8639-db1c8219c6bc" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/ipo/structurededitor/CaretMovementAction.java" afterPath="$PROJECT_DIR$/src/ru/ipo/structurededitor/CaretMovementAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/ipo/structurededitor/Defaults.java" afterPath="$PROJECT_DIR$/src/ru/ipo/structurededitor/Defaults.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/ipo/structurededitor/MyMenuHandler.java" afterPath="$PROJECT_DIR$/src/ru/ipo/structurededitor/MyMenuHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/ipo/structurededitor/StructuredEditor.java" afterPath="$PROJECT_DIR$/src/ru/ipo/structurededitor/StructuredEditor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/ipo/structurededitor/TestEditor3.java" afterPath="$PROJECT_DIR$/src/ru/ipo/structurededitor/TestEditor3.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/ipo/structurededitor/TestEditor4.java" afterPath="$PROJECT_DIR$/src/ru/ipo/structurededitor/TestEditor4.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/ipo/structurededitor/model/DSLBeansRegistry.java" afterPath="$PROJECT_DIR$/src/ru/ipo/structurededitor/model/DSLBeansRegistry.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/ipo/structurededitor/view/StructuredEditorModel.java" afterPath="$PROJECT_DIR$/src/ru/ipo/structurededitor/view/StructuredEditorModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/ipo/structurededitor/view/StructuredEditorUI.java" afterPath="$PROJECT_DIR$/src/ru/ipo/structurededitor/view/StructuredEditorUI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/ipo/structurededitor/view/VisibleElementsGraph.java" afterPath="$PROJECT_DIR$/src/ru/ipo/structurededitor/view/VisibleElementsGraph.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/ipo/structurededitor/view/elements/TextEditorElement.java" afterPath="$PROJECT_DIR$/src/ru/ipo/structurededitor/view/elements/TextEditorElement.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/ipo/structurededitor/view/events/CaretEvent.java" afterPath="$PROJECT_DIR$/src/ru/ipo/structurededitor/view/events/CaretEvent.java" />
     </list>
     <ignored path="Structured-editor.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,6 +28,47 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
+    <line_breakpoints>
+      <breakpoint url="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/view/elements/TextEditorElement.java" line="414" class="ru.ipo.structurededitor.view.elements.TextEditorElement" package="ru.ipo.structurededitor.view.elements">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/CaretMovementAction.java" line="31" class="ru.ipo.structurededitor.CaretMovementAction" package="ru.ipo.structurededitor">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/view/StructuredEditorModel.java" line="266" class="ru.ipo.structurededitor.view.StructuredEditorModel" package="ru.ipo.structurededitor.view">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </line_breakpoints>
     <breakpoint_any>
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -69,19 +109,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="StructuredEditor.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/StructuredEditor.java">
+      <file leaf-file-name="StructuredEditorUI.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/view/StructuredEditorUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="42" selection-start="935" selection-end="935" vertical-scroll-proportion="0.0">
+            <state line="144" column="21" selection-start="4983" selection-end="4983" vertical-scroll-proportion="-1.44">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MyMenuHandler.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/MyMenuHandler.java">
+      <file leaf-file-name="StructuredEditor.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/StructuredEditor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="93" column="16" selection-start="4210" selection-end="4210" vertical-scroll-proportion="0.0">
+            <state line="121" column="31" selection-start="3687" selection-end="3687" vertical-scroll-proportion="-6.92">
               <folding />
             </state>
           </provider>
@@ -90,8 +130,46 @@
       <file leaf-file-name="StructuredEditorModel.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/view/StructuredEditorModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="60" column="32" selection-start="1630" selection-end="1646" vertical-scroll-proportion="0.0">
+            <state line="266" column="0" selection-start="8027" selection-end="8027" vertical-scroll-proportion="-12.08">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CaretMovementAction.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/CaretMovementAction.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="60" column="72" selection-start="1554" selection-end="1851" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TextPosition.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/view/TextPosition.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="12" column="11" selection-start="214" selection-end="214" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="VisibleElementsGraph.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/view/VisibleElementsGraph.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="68" column="36" selection-start="2123" selection-end="2123" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TextEditorElement.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/view/elements/TextEditorElement.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="119" column="22" selection-start="4251" selection-end="4251" vertical-scroll-proportion="-3.4">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -99,52 +177,16 @@
       <file leaf-file-name="Main.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="23" selection-start="124" selection-end="124" vertical-scroll-proportion="0.32692307">
+            <state line="5" column="25" selection-start="81" selection-end="81" vertical-scroll-proportion="0.25757575">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DSLBeansRegistry.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/model/DSLBeansRegistry.java">
+      <file leaf-file-name="VisibleElement.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/view/elements/VisibleElement.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="13" selection-start="715" selection-end="715" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Defaults.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/Defaults.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="31" selection-start="748" selection-end="748" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TestEditor4.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/TestEditor4.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="112" column="21" selection-start="4440" selection-end="4440" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TestEditor3.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/TestEditor3.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="387" column="43" selection-start="16819" selection-end="16819" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EditorsRegistry.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/controller/EditorsRegistry.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="128" column="53" selection-start="4888" selection-end="4926" vertical-scroll-proportion="0.0">
+            <state line="192" column="19" selection-start="5010" selection-end="5010" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -171,15 +213,18 @@
       <list>
         <option value="$PROJECT_DIR$/src/ru/ipo/structurededitor/CaretEvent.java" />
         <option value="$PROJECT_DIR$/src/ru/ipo/structurededitor/view/events/CaretListener.java" />
-        <option value="$PROJECT_DIR$/src/ru/ipo/structurededitor/view/events/CaretEvent.java" />
-        <option value="$PROJECT_DIR$/src/ru/ipo/structurededitor/CaretMovementAction.java" />
-        <option value="$PROJECT_DIR$/src/ru/ipo/structurededitor/view/StructuredEditorModel.java" />
         <option value="$PROJECT_DIR$/src/ru/ipo/structurededitor/model/DSLBeansRegistry.java" />
         <option value="$PROJECT_DIR$/src/ru/ipo/structurededitor/TestEditor3.java" />
         <option value="$PROJECT_DIR$/src/ru/ipo/structurededitor/Defaults.java" />
         <option value="$PROJECT_DIR$/src/ru/ipo/structurededitor/TestEditor4.java" />
-        <option value="$PROJECT_DIR$/src/ru/ipo/structurededitor/StructuredEditor.java" />
         <option value="$PROJECT_DIR$/src/ru/ipo/structurededitor/MyMenuHandler.java" />
+        <option value="$PROJECT_DIR$/src/ru/ipo/structurededitor/view/StructuredEditorUI.java" />
+        <option value="$PROJECT_DIR$/src/ru/ipo/structurededitor/view/StructuredEditorModel.java" />
+        <option value="$PROJECT_DIR$/src/ru/ipo/structurededitor/view/events/CaretEvent.java" />
+        <option value="$PROJECT_DIR$/src/ru/ipo/structurededitor/CaretMovementAction.java" />
+        <option value="$PROJECT_DIR$/src/ru/ipo/structurededitor/view/VisibleElementsGraph.java" />
+        <option value="$PROJECT_DIR$/src/ru/ipo/structurededitor/StructuredEditor.java" />
+        <option value="$PROJECT_DIR$/src/ru/ipo/structurededitor/view/elements/TextEditorElement.java" />
         <option value="$PROJECT_DIR$/src/ru/ipo/structurededitor/Main.java" />
       </list>
     </option>
@@ -214,6 +259,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -232,43 +278,10 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Structured-editor" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="idea_HG" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Structured-editor" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="idea_HG" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="structurededitor" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
       <pane id="Favorites" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -298,7 +311,13 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="Structured-editor" />
       <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="1884" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
@@ -442,13 +461,13 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="11" y="12" width="1004" height="728" extended-state="1" />
-    <editor active="true" />
+    <frame x="11" y="12" width="1004" height="728" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3225256" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935154" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -457,7 +476,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24973656" sideWeight="0.67064846" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32935154" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935154" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32935154" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -501,21 +520,34 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/model/DSLBeansRegistry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="13" selection-start="715" selection-end="715" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/Defaults.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="31" selection-start="748" selection-end="748" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/TestEditor4.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="112" column="21" selection-start="4440" selection-end="4440" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/view/events/CaretEvent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="10" column="15" selection-start="209" selection-end="209" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/view/VisibleElementsGraph.java">
+    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/TestEditor3.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="17" selection-start="256" selection-end="256" vertical-scroll-proportion="0.0" />
+        <state line="387" column="43" selection-start="16819" selection-end="16819" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/CaretMovementAction.java">
+    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/controller/EditorsRegistry.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="8" selection-start="1225" selection-end="1225" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="115" column="0" selection-start="4221" selection-end="4221" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/view/events/CaretListener.java">
@@ -523,65 +555,67 @@
         <state line="5" column="18" selection-start="101" selection-end="101" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/model/DSLBeansRegistry.java">
+    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/CaretMovementAction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="13" selection-start="715" selection-end="715" vertical-scroll-proportion="0.0">
+        <state line="60" column="72" selection-start="1554" selection-end="1851" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/TestEditor3.java">
+    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/view/elements/VisibleElement.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="387" column="43" selection-start="16819" selection-end="16819" vertical-scroll-proportion="0.0">
+        <state line="192" column="19" selection-start="5010" selection-end="5010" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/controller/EditorsRegistry.java">
+    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/view/TextPosition.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="128" column="53" selection-start="4888" selection-end="4926" vertical-scroll-proportion="0.0">
+        <state line="12" column="11" selection-start="214" selection-end="214" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/Defaults.java">
+    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/view/VisibleElementsGraph.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="31" selection-start="748" selection-end="748" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/TestEditor4.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="112" column="21" selection-start="4440" selection-end="4440" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/StructuredEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="42" selection-start="935" selection-end="935" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/MyMenuHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="93" column="16" selection-start="4210" selection-end="4210" vertical-scroll-proportion="0.0">
+        <state line="68" column="36" selection-start="2123" selection-end="2123" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/view/StructuredEditorModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="32" selection-start="1630" selection-end="1646" vertical-scroll-proportion="0.0">
+        <state line="266" column="0" selection-start="8027" selection-end="8027" vertical-scroll-proportion="-12.08">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/view/StructuredEditorUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="144" column="21" selection-start="4983" selection-end="4983" vertical-scroll-proportion="-1.44">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/StructuredEditor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="121" column="31" selection-start="3687" selection-end="3687" vertical-scroll-proportion="-6.92">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/view/elements/TextEditorElement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="119" column="22" selection-start="4251" selection-end="4251" vertical-scroll-proportion="-3.4">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ru/ipo/structurededitor/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="23" selection-start="124" selection-end="124" vertical-scroll-proportion="0.32692307">
+        <state line="5" column="25" selection-start="81" selection-end="81" vertical-scroll-proportion="0.25757575">
           <folding />
         </state>
       </provider>

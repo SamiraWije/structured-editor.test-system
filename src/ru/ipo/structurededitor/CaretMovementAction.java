@@ -1,10 +1,12 @@
 package ru.ipo.structurededitor;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
 import ru.ipo.structurededitor.view.StructuredEditorModel;
+import ru.ipo.structurededitor.view.TextPosition;
 import ru.ipo.structurededitor.view.VisibleElementsGraph;
 import ru.ipo.structurededitor.view.elements.VisibleElement;
 
@@ -32,12 +34,29 @@ public class CaretMovementAction extends AbstractAction {
         VisibleElementsGraph graph = new VisibleElementsGraph(editorModel
                 .getRootElement());
 
-        VisibleElement neighbour = graph.getNeighbour(editorModel
-                .getFocusedElement(), dir);
-       /* switch(dir){
-            case Down: editorModel.setAbsoluteCaretY(editorModel.getAbsoluteCaretY()+1);
-
-        }*/
-        editorModel.setFocusedElement(neighbour);
+        //VisibleElement neighbour = graph.getNeighbour(editorModel
+        //        .getFocusedElement(), dir);
+        int x=editorModel.getAbsoluteCaretX(),y=editorModel.getAbsoluteCaretY();
+        switch (dir) {
+            case Down:
+                y++;
+                break;
+            case Up:
+                y--;
+                break;
+            case Left:
+                x--;
+                break;
+            case Right:
+                x++;
+                break;
+        }
+        TextPosition p = graph.normalize(new TextPosition(y,x),dir);
+        x=p.getColumn();
+        y=p.getLine();
+        editorModel.setAbsoluteCaretY(y);
+        editorModel.setAbsoluteCaretX(x);
+        editorModel.repaint();
+        editorModel.setFocusedElement(graph.findElementByPos(x,y));
     }
 }

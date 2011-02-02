@@ -14,6 +14,7 @@ import ru.ipo.structurededitor.model.DSLBeansRegistry;
 import ru.ipo.structurededitor.model.DefaultDSLBean;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.StructuredEditorUI;
+import ru.ipo.structurededitor.view.TextPosition;
 import ru.ipo.structurededitor.view.VisibleElementsGraph;
 import ru.ipo.structurededitor.view.elements.VisibleElement;
 
@@ -114,9 +115,26 @@ public class StructuredEditor extends JComponent implements Scrollable {
 
     @Override
     protected void processMouseEvent(MouseEvent e) {
+        VisibleElementsGraph graph = new VisibleElementsGraph(model
+                .getRootElement());
+        int x=getUI().pixelsToX((e.getX()));
+        int y=getUI().pixelsToY((e.getY()));
+        /*TextPosition p = graph.normalize(new TextPosition(y,x),dir);
+        x=p.getColumn();
+        y=p.getLine();*/
+        if (e.getClickCount()>=1){
+            model.setAbsoluteCaretY(y);
+            model.setAbsoluteCaretX(x);
+            VisibleElement newFocused=graph.findElementByPos(x,y);
+            if (newFocused==model.getFocusedElement())
+                model.repaint();
+            else
+                model.setFocusedElement(newFocused);
+        }
+
        VisibleElement el = model.getRootElement();
-        e = new MouseEvent((Component)e.getSource(),e.getID(),e.getWhen(),e.getModifiers(),getUI().pixelsToX((e.getX())),
-                getUI().pixelsToY((e.getY())),e.getClickCount(),e.isPopupTrigger(),e.getButton());
+        e = new MouseEvent((Component)e.getSource(),e.getID(),e.getWhen(),e.getModifiers(),x,
+                y,e.getClickCount(),e.isPopupTrigger(),e.getButton());
         el.fireMouseEvent(e);
 
     }

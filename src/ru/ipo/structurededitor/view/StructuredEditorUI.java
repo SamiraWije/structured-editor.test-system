@@ -88,10 +88,10 @@ public class StructuredEditorUI extends ComponentUI {
           public void showCaret(CaretEvent evt) {
               //setColor(Color.BLUE);
               evt.getD().getGraphics().drawLine(
-                    xToPixels(evt.getX()),
-                    yToPixels(evt.getY()),
-                    xToPixels(evt.getX()),
-                    yToPixels(evt.getY()) + getCharHeight());
+                    xToPixels(editor.getModel().getAbsoluteCaretX()),
+                    yToPixels(editor.getModel().getAbsoluteCaretY()),
+                    xToPixels(editor.getModel().getAbsoluteCaretX()),
+                    yToPixels(editor.getModel().getAbsoluteCaretY()) + getCharHeight());
           }
         });
         editor.getModel().addRepaintListener(new RepaintListener() {
@@ -138,6 +138,7 @@ public class StructuredEditorUI extends ComponentUI {
         //draw element
         element.drawElement(0, 0, d);
 
+        se.getModel().showCaret(d);
         /*if (focusedRectangle != null) {
             g.setColor(Color.blue);
             g.drawRect(focusedRectangle.x, focusedRectangle.y, focusedRectangle.width, focusedRectangle.height);

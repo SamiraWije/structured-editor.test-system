@@ -150,10 +150,9 @@ public class StructuredEditorModel {
         return firePopupShow(new PopupEvent(this, filteredPopupList, longStr, x, y));
 
     }
-    public void showCaret(int x,int y, Display d){
-        absoluteCaretX=x;
-        absoluteCaretY=y;
-        fireCaretShow(new CaretEvent(this,x,y,d));
+    public void showCaret(Display d){
+
+        fireCaretShow(new CaretEvent(this,d));
     }
     public void repaint() {
         fireRepaint();

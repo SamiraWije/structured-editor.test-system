@@ -2,6 +2,7 @@ package ru.ipo.structurededitor.view;
 
 import ru.ipo.structurededitor.view.elements.VisibleElement;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,6 +63,39 @@ public class VisibleElementsGraph {
         }
     }
 
+    public TextPosition normalize(TextPosition p, Direction dir) {
+        int x0 = p.getColumn(), y0 = p.getLine();
+        if (x0 < 0 && y0 == 0) {
+            return new TextPosition(0, 0);
+        }
+        if (x0 > lastColumn[lastLine] && y0 == lastLine) {
+            return new TextPosition(y0, x0 - 1);
+        }
+        if (y0 < 0)
+            y0 = 0;
+        else if (y0 > lastLine) y0 = lastLine;
+
+        if (x0 < 0) y0--;
+        else if (x0 > lastColumn[y0]) {
+            if (dir == VisibleElementsGraph.Direction.Down || dir == VisibleElementsGraph.Direction.Up)
+                x0 = lastColumn[y0];
+            else {
+
+                y0++;
+                x0 = 0;
+            }
+        }
+
+        if (y0 < 0) y0 = 0;
+        else if (y0 > lastLine) y0 = lastLine;
+
+        if (x0 < 0) x0 = lastColumn[y0];
+        else if (x0 > lastColumn[y0])
+            x0 = 0;
+
+        return new TextPosition(y0, x0);
+    }
+
     public VisibleElement getNeighbour(VisibleElement element, Direction dir) {
         int dx, x0, y0;
         final Position p = e2pos.get(element);
@@ -112,7 +146,7 @@ public class VisibleElementsGraph {
         }
     }
 
-    private VisibleElement findElementByPos(int x0, int y0) {
+    public VisibleElement findElementByPos(int x0, int y0) {
         for (Map.Entry<VisibleElement, Position> e : e2pos.entrySet()) {
             final Position p = e.getValue();
             if (p.left <= x0 && p.right >= x0 && p.top <= y0 && p.bottom >= y0)

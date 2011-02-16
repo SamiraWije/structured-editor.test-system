@@ -55,7 +55,7 @@ public class ArrayEditor extends FieldEditor {
 
                         if (oldIndex == countItems - 1) {
                             int newIndex = oldIndex - 1;
-                            model.setFocusedElement(arrayElement.getChild(newIndex));
+                            model.setFocusedElementAndCaret(arrayElement.getChild(newIndex));
                         }
 
 
@@ -78,8 +78,10 @@ public class ArrayEditor extends FieldEditor {
                         }
                         arr = resizeArray(arr, countItems - 1);
                         wm.invoke(getObject(), arr);
-                        if (oldIndex < countItems - 1)
-                            model.setFocusedElement(arrayElement.get(oldIndex));
+                        if (oldIndex < countItems - 1){
+                            model.setFocusedElementAndCaret(arrayElement.get(oldIndex));
+
+                        }
                         if (modificationVector != null)
                             modificationVector.add(new Modification((DSLBean) getObject(), getFieldName(), oldArr, arr, null));
 
@@ -126,7 +128,7 @@ public class ArrayEditor extends FieldEditor {
                     arr = delItem(arr, oldIndex);
                     wm.invoke(getObject(), arr);
                     editors.get(oldIndex).updateElement();
-                    model.setFocusedElement(newItem);
+                    model.setFocusedElementAndCaret(newItem);
                     if (modificationVector != null)
                         modificationVector.add(new Modification((DSLBean) getObject(), getFieldName(), oldArr, arr,
                                 null));
@@ -177,7 +179,7 @@ public class ArrayEditor extends FieldEditor {
                     if (modificationVector != null)
                         modificationVector.add(new Modification((DSLBean) getObject(), getFieldName(), oldArr, arr,
                                 null));
-                    model.setFocusedElement(nextItem);
+                    model.setFocusedElementAndCaret(nextItem);
                 } catch (Exception e) {
                     throw new Error("Failed to insert an array item: ", e);
                 }

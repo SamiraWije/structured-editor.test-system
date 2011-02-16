@@ -79,7 +79,7 @@ public class ContainerElement extends VisibleElement {
         subElement.addPropertyChangeListener("width", sizeListener);
         subElement.addPropertyChangeListener("height", sizeListener);
 
-        getModel().setFocusedElement(subElement);
+        getModel().setFocusedElementAndCaret(subElement);
     }
 
     @Override

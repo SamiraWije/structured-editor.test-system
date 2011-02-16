@@ -86,7 +86,7 @@ public class StructuredEditorUI extends ComponentUI {
 
         editor.getModel().addCaretListener(new CaretListener() {
           public void showCaret(CaretEvent evt) {
-              //setColor(Color.BLUE);
+              evt.getD().getGraphics().setColor(Color.BLUE);
               evt.getD().getGraphics().drawLine(
                     xToPixels(editor.getModel().getAbsoluteCaretX()),
                     yToPixels(editor.getModel().getAbsoluteCaretY()),

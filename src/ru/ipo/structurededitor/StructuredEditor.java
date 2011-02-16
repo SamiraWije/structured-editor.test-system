@@ -122,7 +122,10 @@ public class StructuredEditor extends JComponent implements Scrollable {
         /*TextPosition p = graph.normalize(new TextPosition(y,x),dir);
         x=p.getColumn();
         y=p.getLine();*/
-        if (e.getClickCount()>=1){
+        TextPosition tp=model.getRootElement().getAbsolutePosition();
+        int w = model.getRootElement().getWidth();
+        int h = model.getRootElement().getHeight();
+        if (e.getClickCount()>=1 && x<=tp.getColumn()+w && y<=tp.getLine()+h){
             model.setAbsoluteCaretY(y);
             model.setAbsoluteCaretX(x);
             VisibleElement newFocused=graph.findElementByPos(x,y);

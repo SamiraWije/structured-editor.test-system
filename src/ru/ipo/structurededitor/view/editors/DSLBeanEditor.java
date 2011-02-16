@@ -194,7 +194,7 @@ public class DSLBeanEditor extends FieldEditor {
         }
 
         Object value = getValue();
-        if (value == null /*||  EmptyFieldsRegistry.getInstance().isEmpty((DSLBean)getObject(), getFieldName())*/) {
+        if (value == null) {
             if (isAbstract)
                 beanClassSelectionElement.setText("");
             container.setSubElement(innerElement);
@@ -202,6 +202,7 @@ public class DSLBeanEditor extends FieldEditor {
             EditorRenderer renderer = new EditorRenderer(model, (DSLBean) value);
             container.setSubElement(renderer.getRenderResult());
         }
+       // model.setFocusedElementAndCaret(container);
     }
 
 }

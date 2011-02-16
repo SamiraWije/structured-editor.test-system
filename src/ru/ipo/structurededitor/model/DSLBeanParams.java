@@ -8,6 +8,8 @@ package ru.ipo.structurededitor.model;
  * To change this template use File | Settings | File Templates.
  */
 import java.lang.annotation.*;
+import java.lang.reflect.Array;
+
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DSLBeanParams {
     String shortcut();

@@ -115,8 +115,8 @@ public class CompositeElement extends VisibleElement {
                     break;
                 case Vertical:
                     elements.get(i).x = elements.get(i - 1).x;
-                    if (spaceChar != 0)
-                        elements.get(i).x += 2;
+                    /*if (spaceChar != 0)
+                        elements.get(i).x += 2;*/
                     elements.get(i).y = elements.get(i - 1).y + elements.get(i - 1).element.getHeight();
                     break;
             }

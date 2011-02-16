@@ -27,6 +27,9 @@ public class DSLBeansRegistry {
         Defaults.registerDefaultBeans(this);
     }
 
+    public void clearRegistry(){
+        beans.clear();
+    }
     public void registerBean(Class<? extends DSLBean> bean) {
         beans.add(bean);
 

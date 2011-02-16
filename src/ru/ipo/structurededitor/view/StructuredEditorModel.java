@@ -274,4 +274,12 @@ public class StructuredEditorModel {
         this.rootElement = rootElement;
         setFocusedElement(rootElement);
     }
+
+    public void setFocusedElementAndCaret(VisibleElement visibleElement) {
+        TextPosition tp = visibleElement.getAbsolutePosition();
+        setAbsoluteCaretX(tp.getColumn());
+        setAbsoluteCaretY(tp.getLine());
+        setFocusedElement(visibleElement);
+        repaint();
+    }
 }

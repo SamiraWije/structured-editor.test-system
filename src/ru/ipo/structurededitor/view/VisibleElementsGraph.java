@@ -69,7 +69,7 @@ public class VisibleElementsGraph {
             return new TextPosition(0, 0);
         }
         if (x0 > lastColumn[lastLine] && y0 == lastLine) {
-            return new TextPosition(y0, x0 - 1);
+            return new TextPosition(y0, lastColumn[lastLine]);
         }
         if (y0 < 0)
             y0 = 0;

@@ -34,7 +34,7 @@ public class EditorRenderer {
         Cell layout = editableBean.getLayout();
 
         renderResult = render(layout, editableBean);
-        model.setFocusedElement(renderResult);
+        //model.setFocusedElement(renderResult);
     }
 
     public VisibleElement getRenderResult() {
@@ -71,12 +71,12 @@ public class EditorRenderer {
             if (layout instanceof VertArray) {
                 VertArray vertArray = (VertArray) layout;
                 ArrayEditor ed = new ArrayEditor(editableBean, vertArray.getFieldName(),
-                        CompositeElement.Orientation.Vertical, vertArray.getSpaceChar(),model);
+                        CompositeElement.Orientation.Vertical, vertArray.getSpaceChar(), model);
                 return ed.getElement();
             } else {
                 HorizArray horizArray = (HorizArray) layout;
                 ArrayEditor ed = new ArrayEditor(editableBean, horizArray.getFieldName(),
-                        CompositeElement.Orientation.Horizontal, horizArray.getSpaceChar(),model);
+                        CompositeElement.Orientation.Horizontal, horizArray.getSpaceChar(), model);
                 return ed.getElement();
             }
 

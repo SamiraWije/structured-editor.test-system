@@ -36,7 +36,7 @@ public class CaretMovementAction extends AbstractAction {
 
         //VisibleElement neighbour = graph.getNeighbour(editorModel
         //        .getFocusedElement(), dir);
-        int x=editorModel.getAbsoluteCaretX(),y=editorModel.getAbsoluteCaretY();
+        int x = editorModel.getAbsoluteCaretX(), y = editorModel.getAbsoluteCaretY();
         switch (dir) {
             case Down:
                 y++;
@@ -51,12 +51,12 @@ public class CaretMovementAction extends AbstractAction {
                 x++;
                 break;
         }
-        TextPosition p = graph.normalize(new TextPosition(y,x),dir);
-        x=p.getColumn();
-        y=p.getLine();
+        TextPosition p = graph.normalize(new TextPosition(y, x), dir);
+        x = p.getColumn();
+        y = p.getLine();
         editorModel.setAbsoluteCaretY(y);
         editorModel.setAbsoluteCaretX(x);
         editorModel.repaint();
-        editorModel.setFocusedElement(graph.findElementByPos(x,y));
+        editorModel.setFocusedElement(graph.findElementByPos(x, y));
     }
 }

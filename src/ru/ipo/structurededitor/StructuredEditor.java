@@ -31,7 +31,6 @@ public class StructuredEditor extends JComponent implements Scrollable {
     private StructuredEditorModel model;
 
 
-
     public StructuredEditor(StructuredEditorModel model) {
         setModel(model);
 
@@ -43,7 +42,6 @@ public class StructuredEditor extends JComponent implements Scrollable {
         registerCaretMovementKeyStrokes();
         enableEvents(AWTEvent.MOUSE_EVENT_MASK);
     }
-
 
 
     public StructuredEditorModel getModel() {
@@ -117,30 +115,33 @@ public class StructuredEditor extends JComponent implements Scrollable {
     protected void processMouseEvent(MouseEvent e) {
         VisibleElementsGraph graph = new VisibleElementsGraph(model
                 .getRootElement());
-        int x=getUI().pixelsToX((e.getX()));
-        int y=getUI().pixelsToY((e.getY()));
-        /*TextPosition p = graph.normalize(new TextPosition(y,x),dir);
-        x=p.getColumn();
-        y=p.getLine();*/
-        TextPosition tp=model.getRootElement().getAbsolutePosition();
+        int x = getUI().pixelsToX((e.getX()));
+        int y = getUI().pixelsToY((e.getY()));
+
+        TextPosition tp = model.getRootElement().getAbsolutePosition();
         int w = model.getRootElement().getWidth();
         int h = model.getRootElement().getHeight();
-        if (e.getClickCount()>=1 && x<=tp.getColumn()+w && y<=tp.getLine()+h){
+        if (e.getID() == MouseEvent.MOUSE_CLICKED && x <= tp.getColumn() + w && y <= tp.getLine() + h) {
+            TextPosition p = graph.normalize(new TextPosition(y, x), VisibleElementsGraph.Direction.Down);
+            x = p.getColumn();
+            y = p.getLine();
             model.setAbsoluteCaretY(y);
             model.setAbsoluteCaretX(x);
-            VisibleElement newFocused=graph.findElementByPos(x,y);
-            if (newFocused==model.getFocusedElement())
+            VisibleElement newFocused = graph.findElementByPos(x, y);
+            if (newFocused == model.getFocusedElement())
                 model.repaint();
             else
                 model.setFocusedElement(newFocused);
+            //VisibleElement el = model.getRootElement();
+            e = new MouseEvent((Component) e.getSource(), e.getID(), e.getWhen(), e.getModifiers(), x,
+                    y, e.getClickCount(), e.isPopupTrigger(), e.getButton());
+            newFocused.fireMouseEvent(e);
+
         }
 
-       VisibleElement el = model.getRootElement();
-        e = new MouseEvent((Component)e.getSource(),e.getID(),e.getWhen(),e.getModifiers(),x,
-                y,e.getClickCount(),e.isPopupTrigger(),e.getButton());
-        el.fireMouseEvent(e);
 
     }
+
     private void registerCaretMovementKeyStrokes() {
         getInputMap().put(KeyStroke.getKeyStroke("pressed UP"), "move caret up");
         getInputMap()

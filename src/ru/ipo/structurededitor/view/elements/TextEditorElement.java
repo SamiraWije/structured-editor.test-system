@@ -115,7 +115,13 @@ public class TextEditorElement extends TextElement {
     @Override
     public void processMouseEvent(MouseEvent e) {
         super.processMouseEvent(e);
-        if (e.getClickCount() >= 1) {
+        int w = getWidth();
+        int h = getHeight();
+        int x0 = getAbsolutePosition().getColumn();
+        int y0 = getAbsolutePosition().getLine();
+        int x = e.getX();
+        int y = e.getY();
+        if (e.getID() == MouseEvent.MOUSE_CLICKED && x >= x0 && x <= x0 + w && y >= y0 && y <= y0 + h) {
             normPos();
             repaint();
         }
@@ -125,10 +131,10 @@ public class TextEditorElement extends TextElement {
     public void processKeyEvent(KeyEvent e) {
         //boolean isPrintable = Character.isLetterOrDigit(e.getKeyChar()) ||
         //        Character.isSpaceChar(e.getKeyChar());
-        int x0=getAbsolutePosition().getColumn();
-        int y0=getAbsolutePosition().getLine();
-        xCaretPosition=getModel().getAbsoluteCaretX()-x0;
-        yCaretPosition=getModel().getAbsoluteCaretY()-y0;
+        int x0 = getAbsolutePosition().getColumn();
+        int y0 = getAbsolutePosition().getLine();
+        xCaretPosition = getModel().getAbsoluteCaretX() - x0;
+        yCaretPosition = getModel().getAbsoluteCaretY() - y0;
 
         boolean isPrintable = Character.isDefined(e.getKeyChar()) && !Character.isISOControl(e.getKeyChar());
         boolean shift = (e.getModifiersEx() & KeyEvent.SHIFT_DOWN_MASK) != 0;
@@ -207,10 +213,10 @@ public class TextEditorElement extends TextElement {
     */
 
     private void buttonChar(char c) {
-        int x0=getAbsolutePosition().getColumn();
-        int y0=getAbsolutePosition().getLine();
-        xCaretPosition=getModel().getAbsoluteCaretX()-x0;
-        yCaretPosition=getModel().getAbsoluteCaretY()-y0;
+        int x0 = getAbsolutePosition().getColumn();
+        int y0 = getAbsolutePosition().getLine();
+        xCaretPosition = getModel().getAbsoluteCaretX() - x0;
+        yCaretPosition = getModel().getAbsoluteCaretY() - y0;
 
         if (xMarkPosition != -1)
             removeSelection();
@@ -245,16 +251,16 @@ public class TextEditorElement extends TextElement {
         newXCaretPosition = ((String) v.get(i - 1)).length() - iPos + newPos + 1;
         setCaretPosition(newXCaretPosition, newYCaretPosition);
 
-        getModel().setAbsoluteCaretY(yCaretPosition+y0);
-        getModel().setAbsoluteCaretX(xCaretPosition+x0);
+        getModel().setAbsoluteCaretY(yCaretPosition + y0);
+        getModel().setAbsoluteCaretX(xCaretPosition + x0);
         repaint();
     }
 
     private void buttonEnter() {
-        int x0=getAbsolutePosition().getColumn();
-        int y0=getAbsolutePosition().getLine();
-        xCaretPosition=getModel().getAbsoluteCaretX()-x0;
-        yCaretPosition=getModel().getAbsoluteCaretY()-y0;
+        int x0 = getAbsolutePosition().getColumn();
+        int y0 = getAbsolutePosition().getLine();
+        xCaretPosition = getModel().getAbsoluteCaretX() - x0;
+        yCaretPosition = getModel().getAbsoluteCaretY() - y0;
 
         if (xMarkPosition != -1)
             removeSelection();
@@ -277,8 +283,8 @@ public class TextEditorElement extends TextElement {
         setText(sb.toString());
         setStringCaretPosition(pos + 1);
 
-        getModel().setAbsoluteCaretY(yCaretPosition+y0);
-        getModel().setAbsoluteCaretX(xCaretPosition+x0);
+        getModel().setAbsoluteCaretY(yCaretPosition + y0);
+        getModel().setAbsoluteCaretX(xCaretPosition + x0);
         repaint();
     }
 
@@ -297,10 +303,10 @@ public class TextEditorElement extends TextElement {
     }
 
     private void buttonBackSpace() {
-        int x0=getAbsolutePosition().getColumn();
-        int y0=getAbsolutePosition().getLine();
-        xCaretPosition=getModel().getAbsoluteCaretX()-x0;
-        yCaretPosition=getModel().getAbsoluteCaretY()-y0;
+        int x0 = getAbsolutePosition().getColumn();
+        int y0 = getAbsolutePosition().getLine();
+        xCaretPosition = getModel().getAbsoluteCaretX() - x0;
+        yCaretPosition = getModel().getAbsoluteCaretY() - y0;
         if (xMarkPosition != -1) {
             removeSelection();
             return;
@@ -324,16 +330,16 @@ public class TextEditorElement extends TextElement {
         setText(sb.toString());
         setStringCaretPosition(pos - 1);
 
-        getModel().setAbsoluteCaretY(yCaretPosition+y0);
-        getModel().setAbsoluteCaretX(xCaretPosition+x0);
+        getModel().setAbsoluteCaretY(yCaretPosition + y0);
+        getModel().setAbsoluteCaretX(xCaretPosition + x0);
         repaint();
     }
 
     private void buttonDelete() {
-        int x0=getAbsolutePosition().getColumn();
-        int y0=getAbsolutePosition().getLine();
-        xCaretPosition=getModel().getAbsoluteCaretX()-x0;
-        yCaretPosition=getModel().getAbsoluteCaretY()-y0;
+        int x0 = getAbsolutePosition().getColumn();
+        int y0 = getAbsolutePosition().getLine();
+        xCaretPosition = getModel().getAbsoluteCaretX() - x0;
+        yCaretPosition = getModel().getAbsoluteCaretY() - y0;
 
         if (xMarkPosition != -1) {
             removeSelection();
@@ -357,8 +363,8 @@ public class TextEditorElement extends TextElement {
         setText(sb.toString());
         setStringCaretPosition(pos);
 
-        getModel().setAbsoluteCaretY(yCaretPosition+y0);
-        getModel().setAbsoluteCaretX(xCaretPosition+x0);
+        getModel().setAbsoluteCaretY(yCaretPosition + y0);
+        getModel().setAbsoluteCaretX(xCaretPosition + x0);
         repaint();
     }
 
@@ -393,10 +399,10 @@ public class TextEditorElement extends TextElement {
     }
 
     private boolean xMoveCaret(int newXPosition, boolean shift) {
-        int x0=getAbsolutePosition().getColumn();
-        int y0=getAbsolutePosition().getLine();
-        xCaretPosition=getModel().getAbsoluteCaretX()-x0;
-        yCaretPosition=getModel().getAbsoluteCaretY()-y0;
+        int x0 = getAbsolutePosition().getColumn();
+        int y0 = getAbsolutePosition().getLine();
+        xCaretPosition = getModel().getAbsoluteCaretX() - x0;
+        yCaretPosition = getModel().getAbsoluteCaretY() - y0;
 
         int newYPosition = yCaretPosition;
         int len = getText() == null ? 0 : ((String) getLines().get(yCaretPosition)).length();
@@ -412,7 +418,7 @@ public class TextEditorElement extends TextElement {
                 newYPosition++;
             } else {
                 if (!shift)
-                  getModel().setAbsoluteCaretX(x0+getWidth()+1);
+                    getModel().setAbsoluteCaretX(x0 + getWidth() + 1);
                 return shift;
             }
         }
@@ -427,8 +433,8 @@ public class TextEditorElement extends TextElement {
 
         setCaretPosition(newXPosition, newYPosition);
 
-        getModel().setAbsoluteCaretY(yCaretPosition+y0);
-        getModel().setAbsoluteCaretX(xCaretPosition+x0);
+        getModel().setAbsoluteCaretY(yCaretPosition + y0);
+        getModel().setAbsoluteCaretX(xCaretPosition + x0);
 
         repaint();
 
@@ -436,10 +442,10 @@ public class TextEditorElement extends TextElement {
     }
 
     private boolean yMoveCaret(int newYPosition, boolean shift) {
-        int x0=getAbsolutePosition().getColumn();
-        int y0=getAbsolutePosition().getLine();
-        xCaretPosition=getModel().getAbsoluteCaretX()-x0;
-        yCaretPosition=getModel().getAbsoluteCaretY()-y0;
+        int x0 = getAbsolutePosition().getColumn();
+        int y0 = getAbsolutePosition().getLine();
+        xCaretPosition = getModel().getAbsoluteCaretX() - x0;
+        yCaretPosition = getModel().getAbsoluteCaretY() - y0;
 
         int newXPosition = xCaretPosition;
         int len = getText() == null ? 0 : getLines().size();
@@ -459,33 +465,35 @@ public class TextEditorElement extends TextElement {
         }
         setCaretPosition(newXPosition, newYPosition);
 
-        getModel().setAbsoluteCaretY(yCaretPosition+y0);
-        getModel().setAbsoluteCaretX(xCaretPosition+x0);
+        getModel().setAbsoluteCaretY(yCaretPosition + y0);
+        getModel().setAbsoluteCaretX(xCaretPosition + x0);
         repaint();
 
         return true;
     }
 
-    private void normPos(){
-            int x0=getAbsolutePosition().getColumn();
-            int y0=getAbsolutePosition().getLine();
-            xCaretPosition=getModel().getAbsoluteCaretX()-x0;
-            yCaretPosition=getModel().getAbsoluteCaretY()-y0;
-            int len = getText() == null ? 0 : ((String) getLines().get(yCaretPosition)).length();
-            if (xCaretPosition>=len)
-            xCaretPosition=len;
+    private void normPos() {
+        int x0 = getAbsolutePosition().getColumn();
+        int y0 = getAbsolutePosition().getLine();
+        xCaretPosition = getModel().getAbsoluteCaretX() - x0;
+        yCaretPosition = getModel().getAbsoluteCaretY() - y0;
+        int len = getText() == null ? 0 : ((String) getLines().get(yCaretPosition)).length();
+        if (xCaretPosition >= len)
+            xCaretPosition = len;
 
-            getModel().setAbsoluteCaretY(yCaretPosition+y0);
-            getModel().setAbsoluteCaretX(xCaretPosition+x0);
+        getModel().setAbsoluteCaretY(yCaretPosition + y0);
+        getModel().setAbsoluteCaretX(xCaretPosition + x0);
     }
+
     @Override
     public void fireFocusChanged(boolean oldFocused) {
-        if (!oldFocused){
+        if (!oldFocused) {
             normPos();
             repaint();
         }
         super.fireFocusChanged(oldFocused);
     }
+
     public void setCaretPosition(int xCaretPosition, int yCaretPosition) {
         pcs.firePropertyChange("xCaretPosition", this.xCaretPosition, xCaretPosition);
         pcs.firePropertyChange("yCaretPosition", this.yCaretPosition, yCaretPosition);

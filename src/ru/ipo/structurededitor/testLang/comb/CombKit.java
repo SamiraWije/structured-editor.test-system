@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.*;
  * Time: 16:07:49
  */
 @DSLBeanParams(shortcut = "C", description = "Множество сочетаний")
-public class  CombKit extends Kit {
+public class CombKit extends Kit {
 
     private Kit kit;
     private int k;

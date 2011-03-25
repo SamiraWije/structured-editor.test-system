@@ -1,6 +1,8 @@
 package ru.ipo.structurededitor.view;
 
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Vector;
@@ -84,6 +86,15 @@ public class StructuredEditorUI extends ComponentUI {
 
         });
 
+        editor.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+                redrawEditor();
+            }
+
+            public void focusLost(FocusEvent e) {
+                redrawEditor();
+            }
+        });
         editor.getModel().addCaretListener(new CaretListener() {
           public void showCaret(CaretEvent evt) {
               evt.getD().getGraphics().setColor(Color.BLUE);
@@ -138,7 +149,8 @@ public class StructuredEditorUI extends ComponentUI {
         //draw element
         element.drawElement(0, 0, d);
 
-        se.getModel().showCaret(d);
+        if (se.isFocusOwner())
+             se.getModel().showCaret(d);
         /*if (focusedRectangle != null) {
             g.setColor(Color.blue);
             g.drawRect(focusedRectangle.x, focusedRectangle.y, focusedRectangle.width, focusedRectangle.height);

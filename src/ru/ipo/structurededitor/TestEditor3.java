@@ -73,6 +73,7 @@ public class TestEditor3 {
         final StructuredEditor structuredEditor = new StructuredEditor(model);
         JScrollPane structuredEditorScrPane = new JScrollPane(structuredEditor);
         f.add(structuredEditorScrPane, BorderLayout.CENTER);
+
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(640, 480);
         //structuredEditorScrPane.setSize(320,480);
@@ -178,7 +179,7 @@ public class TestEditor3 {
         //model.getRootElement().gainFocus(new TextPosition(0,0), false, false);
     }
 
-    private NodesRegistry nodesRegistryPrep() {
+    public static NodesRegistry nodesRegistryPrep() {
         Document document;
         // obtain the default parser
         try {

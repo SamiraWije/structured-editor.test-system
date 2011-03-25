@@ -24,11 +24,13 @@ import java.util.Vector;
  * To change this template use File | Settings | File Templates.
  */
 public class ArrayEditor extends FieldEditor {
+    private boolean singleLined=false;
     public ArrayEditor(Object o, String fieldName, CompositeElement.Orientation orientation, char spaceChar,
-                       final StructuredEditorModel model) {
+                       boolean singleLined, final StructuredEditorModel model) {
         super(o, fieldName, null, model);
         this.orientation = orientation;
         this.spaceChar = spaceChar;
+        this.singleLined=singleLined;
         final ArrayElement arrayElement = new ArrayElement(model, orientation, spaceChar);
         setModificationVector(model.getModificationVector());
 
@@ -234,7 +236,7 @@ public class ArrayEditor extends FieldEditor {
         final EditorsRegistry reg;
         reg = model.getEditorsRegistry();
         return reg.getEditor((Class<? extends DSLBean>) getObject().getClass(), getFieldName(), getObject(),
-                new ArrayFieldMask(index), model);
+                new ArrayFieldMask(index), singleLined, model);
 
     }
 

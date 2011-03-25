@@ -19,6 +19,7 @@ public abstract class FieldEditor {
 
     private Object o;
     private String fieldName;
+    private boolean singleLined=false;
 
     public VisibleElement getElement() {
         return editorElement;
@@ -56,7 +57,13 @@ public abstract class FieldEditor {
     public void removeModificationListener(ModificationListener l) {
         mes.removeModificationListener(l);
     } */
-
+    public FieldEditor(Object o, String fieldName, FieldMask mask,  boolean singleLined, StructuredEditorModel model) {
+        this.o = o;
+        this.fieldName = fieldName;
+        this.mask = mask;
+        this.singleLined=singleLined;
+        //empty = forcedGetValue() == null;
+    }
     public FieldEditor(Object o, String fieldName, FieldMask mask, StructuredEditorModel model) {
         this.o = o;
         this.fieldName = fieldName;

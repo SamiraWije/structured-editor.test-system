@@ -4,3 +4,7 @@
 
 #hg specific files
 .orig$
+
+#svn specific files
+glob:*.svn
+.svn

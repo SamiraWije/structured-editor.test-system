@@ -27,7 +27,13 @@ public class TextEditorElement extends TextElement {
     //Color constants
     public static final Color USER_TEXT_COLOR = Color.BLUE;
     public static final Color USER_EDIT_TEXT_COLOR = Color.RED;
+    private boolean singleLined=false;
 
+    public TextEditorElement(StructuredEditorModel model, String text, boolean singleLined) {
+        super(model, text);
+        this.singleLined=singleLined;
+        //System.out.println("Text was created with value: ");
+    }
     public TextEditorElement(StructuredEditorModel model, String text) {
         super(model, text);
         //System.out.println("Text was created with value: ");
@@ -190,7 +196,7 @@ public class TextEditorElement extends TextElement {
                     e.consume();
                 return;
             case KeyEvent.VK_ENTER:
-                if (!isEmpty()) {
+                if (!isEmpty() && !singleLined) {
                     buttonEnter();
                     e.consume();
                 }

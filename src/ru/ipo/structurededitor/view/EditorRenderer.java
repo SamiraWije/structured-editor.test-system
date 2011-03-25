@@ -49,7 +49,7 @@ public class EditorRenderer {
         } else if (layout instanceof FieldCell) {
             FieldCell fieldCell = (FieldCell) layout;
             FieldEditor ed = reg.getEditor(editableBean.getClass(), fieldCell
-                    .getFieldName(), editableBean, null, model);
+                    .getFieldName(), editableBean, null, fieldCell.getSingleLined(),model);
             return ed.getElement();
         } else if (layout instanceof Vert || layout instanceof Horiz) {
             final Cell[] cells;
@@ -71,12 +71,14 @@ public class EditorRenderer {
             if (layout instanceof VertArray) {
                 VertArray vertArray = (VertArray) layout;
                 ArrayEditor ed = new ArrayEditor(editableBean, vertArray.getFieldName(),
-                        CompositeElement.Orientation.Vertical, vertArray.getSpaceChar(), model);
+                        CompositeElement.Orientation.Vertical, vertArray.getSpaceChar(), vertArray.getSingleLined(),
+                        model);
                 return ed.getElement();
             } else {
                 HorizArray horizArray = (HorizArray) layout;
                 ArrayEditor ed = new ArrayEditor(editableBean, horizArray.getFieldName(),
-                        CompositeElement.Orientation.Horizontal, horizArray.getSpaceChar(), model);
+                        CompositeElement.Orientation.Horizontal, horizArray.getSpaceChar(), horizArray.getSingleLined(),
+                        model);
                 return ed.getElement();
             }
 

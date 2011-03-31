@@ -11,6 +11,7 @@ import ru.ipo.structurededitor.StructuredEditor;
 import ru.ipo.structurededitor.view.Display;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.TextPosition;
+import ru.ipo.structurededitor.view.events.GeoSelectionChangedEvent;
 
 /**
  * View часть ячейки (Cell)
@@ -57,6 +58,7 @@ public abstract class VisibleElement {
      *
      * @param e
      */
+
     public void fireKeyEvent(KeyEvent e) {
         for (int i = keyListeners.size()-1;i>=0;i--) {
             KeyListener l=keyListeners.get(i);
@@ -83,6 +85,12 @@ public abstract class VisibleElement {
 
     public void fireMouseEvent(MouseEvent e) {
        processMouseEvent(e);
+    }
+    public void fireGeoSelectionChangedEvent(GeoSelectionChangedEvent e){
+       processGeoSelectionChangedEvent(e);
+    }
+    public void processGeoSelectionChangedEvent(GeoSelectionChangedEvent e){
+
     }
     public TextPosition getAbsolutePosition() {
         int line = 0;

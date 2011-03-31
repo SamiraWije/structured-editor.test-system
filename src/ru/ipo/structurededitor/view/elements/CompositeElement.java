@@ -4,6 +4,7 @@ import ru.ipo.structurededitor.view.Display;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.TextPosition;
 import ru.ipo.structurededitor.view.TextProperties;
+import ru.ipo.structurededitor.view.events.GeoSelectionChangedEvent;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -80,7 +81,12 @@ public class CompositeElement extends VisibleElement {
                 el.element.processMouseEvent(evt);
         }
     }
-
+    @Override
+    public void processGeoSelectionChangedEvent(GeoSelectionChangedEvent evt) {
+        for (PositionedElement el : elements) {
+                el.element.processGeoSelectionChangedEvent(evt);
+        }
+    }
     public void add(VisibleElement element) {
         add(element, elements.size());
     }

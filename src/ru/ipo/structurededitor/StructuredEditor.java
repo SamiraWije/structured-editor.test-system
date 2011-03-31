@@ -3,12 +3,14 @@ package ru.ipo.structurededitor;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 
+import geogebra.main.DefaultApplication;
 import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.model.DSLBeansRegistry;
 import ru.ipo.structurededitor.model.DefaultDSLBean;
@@ -17,6 +19,8 @@ import ru.ipo.structurededitor.view.StructuredEditorUI;
 import ru.ipo.structurededitor.view.TextPosition;
 import ru.ipo.structurededitor.view.VisibleElementsGraph;
 import ru.ipo.structurededitor.view.elements.VisibleElement;
+import ru.ipo.structurededitor.view.events.GeoSelectionChangedEvent;
+import ru.ipo.structurededitor.view.events.GeoSelectionChangedListener;
 
 /**
  * Created by IntelliJ IDEA. User: Ilya Date: 02.01.2010 Time: 14:52:43
@@ -30,6 +34,23 @@ public class StructuredEditor extends JComponent implements Scrollable {
 
     private StructuredEditorModel model;
 
+    public DefaultApplication getApp() {
+        return app;
+    }
+
+    public void setApp(DefaultApplication app) {
+        this.app = app;
+        app.getEuclidianView().getEuclidianController().addGeoSelectionChangedListener(new GeoSelectionChangedListener() {
+            public void geoSelectionChanged(GeoSelectionChangedEvent e) {
+                //Object selection = e.getSelectedGeo();
+                    model.getRootElement().fireGeoSelectionChangedEvent(e);
+
+
+            }
+        });
+    }
+
+    private DefaultApplication app;
 
     public StructuredEditor(StructuredEditorModel model) {
         setModel(model);

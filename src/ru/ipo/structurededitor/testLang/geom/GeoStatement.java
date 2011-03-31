@@ -17,6 +17,7 @@ public class GeoStatement implements DSLBean {
     private Pred[] preds;
     private Instrum[] instrums;
 
+    /*
     public Element[] getElements() {
         return elements;
     }
@@ -25,7 +26,7 @@ public class GeoStatement implements DSLBean {
         this.elements = elements;
     }
 
-    private Element[] elements;
+    private Element[] elements;*/
 
     public Pred[] getPreds() {
         return preds;
@@ -60,7 +61,6 @@ public class GeoStatement implements DSLBean {
         return new Vert(
                 new Horiz(new ConstantCell("Заголовок:"), new FieldCell("title")),
                 new Horiz(new ConstantCell("Условие:"), new FieldCell("statement")),
-                new Horiz(new ConstantCell("Построить:"), new HorizArray("elements",',')),
                 new Horiz(new ConstantCell("Инструменты:"), new HorizArray("instrums",',')),
                 new Horiz(new ConstantCell("Предикаты:"), new VertArray("preds"))
         );

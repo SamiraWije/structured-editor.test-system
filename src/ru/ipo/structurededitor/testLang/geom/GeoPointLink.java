@@ -2,6 +2,9 @@ package ru.ipo.structurededitor.testLang.geom;
 
 import geogebra.kernel.GeoLine;
 import geogebra.kernel.GeoPoint;
+import ru.ipo.structurededitor.model.Cell;
+import ru.ipo.structurededitor.model.DSLBeanParams;
+import ru.ipo.structurededitor.model.FieldCell;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,14 +13,19 @@ import geogebra.kernel.GeoPoint;
  * Time: 14:18
  * To change this template use File | Settings | File Templates.
  */
-public class GeoPointLink extends GeoElementLink{
-    public GeoPoint getGeoPoint() {
-        return geoPoint;
+@DSLBeanParams(shortcut = "Ссылка", description = "Точка с чертежа")
+public class GeoPointLink extends AbstractGeoPoint{
+    public GeoPoint getGeo() {
+        return geo;
     }
 
-    public void setGeoPoint(GeoPoint geoPoint) {
-        this.geoPoint = geoPoint;
+    public void setGeo(GeoPoint geo) {
+        this.geo = geo;
     }
 
-    GeoPoint geoPoint;
+    GeoPoint geo;
+    public Cell getLayout(){
+      return new FieldCell("geo");
+    }
 }
+

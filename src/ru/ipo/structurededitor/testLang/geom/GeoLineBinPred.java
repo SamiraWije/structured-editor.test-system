@@ -1,5 +1,7 @@
 package ru.ipo.structurededitor.testLang.geom;
 
+import geogebra.kernel.GeoLine;
+
 /**
  * Created by IntelliJ IDEA.
  * User: oleg
@@ -8,22 +10,22 @@ package ru.ipo.structurededitor.testLang.geom;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class GeoLineBinPred extends BinPred{
-    public GeoLineLink getE1() {
+    public AbstractGeoLine getE1() {
         return e1;
     }
 
-    public void setE1(GeoLineLink e1) {
+    public void setE1(AbstractGeoLine e1) {
         this.e1 = e1;
     }
 
-    public GeoLineLink getE2() {
+    public AbstractGeoLine getE2() {
         return e2;
     }
 
-    public void setE2(GeoLineLink e2) {
+    public void setE2(AbstractGeoLine e2) {
         this.e2 = e2;
     }
 
-    private GeoLineLink e1;
-    private GeoLineLink e2;
+    private AbstractGeoLine e1;
+    private AbstractGeoLine e2;
 }

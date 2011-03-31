@@ -1,5 +1,7 @@
 package ru.ipo.structurededitor;
 
+import geogebra.kernel.GeoLine;
+import geogebra.kernel.GeoPoint;
 import ru.ipo.structurededitor.controller.EditorsRegistry;
 import ru.ipo.structurededitor.controller.EditorsRegistryHook;
 import ru.ipo.structurededitor.controller.FieldMask;
@@ -97,6 +99,8 @@ public class Defaults {
 
         editorsRegistry.registerEditor(boolean.class, BooleanEditor.class);
         editorsRegistry.registerEditor(Boolean.class, BooleanEditor.class);
+        editorsRegistry.registerEditor(GeoLine.class, GeoLineEditor.class);
+        editorsRegistry.registerEditor(GeoPoint.class, GeoPointEditor.class);
     }
 
 }

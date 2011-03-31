@@ -3,6 +3,7 @@ package ru.ipo.structurededitor.view.elements;
 import ru.ipo.structurededitor.view.Display;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.TextPosition;
+import ru.ipo.structurededitor.view.events.GeoSelectionChangedEvent;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -55,7 +56,14 @@ public class ContainerElement extends VisibleElement {
             subElement.processMouseEvent(evt);
 
     }
-
+     public void processGeoSelectionChangedEvent(GeoSelectionChangedEvent evt) {
+        /*TextPosition position = subElement.getAbsolutePosition();
+        int x = position.getColumn();
+        int y = position.getLine() + 1;
+        if (evt.getX() >= x && evt.getX() < x + subElement.getWidth()
+                && evt.getY() >= y && evt.getY() < y + subElement.getHeight())*/
+            subElement.processGeoSelectionChangedEvent(evt);
+    }
     public boolean isEmpty() {
         return subElement == null || subElement.isEmpty();
     }

@@ -89,6 +89,7 @@ public class GeoGebraFrameWithStructEd extends GeoGebraFrame {
         JScrollPane structuredEditorScrPane = new JScrollPane(structuredEditor);
         wnd.getContentPane().add(structuredEditorScrPane, BorderLayout.CENTER);
         structuredEditor.requestFocusInWindow();
+        structuredEditor.setApp(app);
         //---StructuredEditor
         wnd.setDropTarget(new DropTarget(wnd,
                 new geogebra.gui.FileDropTargetListener(app)));

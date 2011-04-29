@@ -75,7 +75,7 @@ public class NodesRegistry {
         propTypeToNode.put(cls, node);
     }
 
-    private String getKey(Class<? extends DSLBean> beanClass, String propertyName) {
+    private String getKey(Class<?> beanClass, String propertyName) {
         return beanClass.getName() + "." + propertyName;
     }
 
@@ -87,7 +87,7 @@ public class NodesRegistry {
      * @param propertyName имя свойства
      * @return узел для свойства
      */
-    public Node getNode(Class<? extends DSLBean> beanClass, String propertyName) {
+    public Node getNode(Class<?> beanClass, String propertyName) {
         try {
             Node pec = propToNode.get(getKey(beanClass, propertyName));
             if (pec != null)

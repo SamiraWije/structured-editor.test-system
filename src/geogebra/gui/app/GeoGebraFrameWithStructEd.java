@@ -90,6 +90,7 @@ public class GeoGebraFrameWithStructEd extends GeoGebraFrame {
         wnd.getContentPane().add(structuredEditorScrPane, BorderLayout.CENTER);
         structuredEditor.requestFocusInWindow();
         structuredEditor.setApp(app);
+        TestEditorGeom.createBars(wnd, structuredEditor, nodesRegistry);
         //---StructuredEditor
         wnd.setDropTarget(new DropTarget(wnd,
                 new geogebra.gui.FileDropTargetListener(app)));
@@ -119,7 +120,9 @@ public class GeoGebraFrameWithStructEd extends GeoGebraFrame {
             };
             runner.start();
         }
-
+        //structuredEditor.getApp().getEuclidianView().setSelectionRectangle(new Rectangle(
+        //                structuredEditor.getApp().getEuclidianView().getSize()));
+        structuredEditor.getApp().selectAll(0);
         return wnd;
     }
 

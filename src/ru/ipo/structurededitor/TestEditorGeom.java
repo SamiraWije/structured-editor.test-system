@@ -76,7 +76,42 @@ public class TestEditorGeom {
         f.add(new JScrollPane(xmlV));*/
 
 
-        // Menu
+        // Menu, Toolbar
+        createBars(f, structuredEditor, nodesRegistry);
+        //Status Bar
+        StatusBar statusBar = new StatusBar("Нажмите Ctrl+Пробел для выбора вариантов ввода");
+        f.add(statusBar, BorderLayout.SOUTH);
+
+
+        structuredEditorScrPane.requestFocusInWindow();
+        f.setVisible(true);
+
+        //model.setModificationVector(modificationVector);
+
+
+        /*f.addKeyListener(new KeyListener() {
+            public void keyTyped(KeyEvent e) {
+            }
+
+            public void keyPressed(KeyEvent e) {
+                ((CompositeElement)model.getRootElement()).add(new TextElement(TestEditor.this.model, "!!!"),0);
+
+                System.out.println("e.getKeyCode() = " + e.getKeyCode());
+                System.out.println("e.getKeyChar() = '" + e.getKeyChar() + "' (" + (int)e.getKeyChar() + ")");
+                System.out.println("e.getModifiers() = " + e.getModifiers());
+                System.out.println("e.getModifiersEx() = " + e.getModifiersEx());
+
+                System.out.println();
+            }
+
+            public void keyReleased(KeyEvent e) {
+            }
+        });*/
+
+        //model.getRootElement().gainFocus(new TextPosition(0,0), false, false);
+    }
+
+    public static void createBars(JFrame f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry){
         MenuBar menuBar = new MenuBar();
         f.setMenuBar(menuBar);
         Menu file = new Menu("Файл");
@@ -105,11 +140,6 @@ public class TestEditorGeom {
         item5.addActionListener(handler);
         undoItem.addActionListener(handler);
         redoItem.addActionListener(handler);
-
-        //Status Bar
-        StatusBar statusBar = new StatusBar("Нажмите Ctrl+Пробел для выбора вариантов ввода");
-        f.add(statusBar, BorderLayout.SOUTH);
-
         //ToolBar
         JToolBar toolBar = new JToolBar();
         addButtonToToolBar(toolBar, "menu-open.png", "Открыть . . .", true, handler);
@@ -118,15 +148,7 @@ public class TestEditorGeom {
         final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
         addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);
         addButtonToToolBar(toolBar, "help.png", "Помощь", true, handler);
-
-        undoButton.setEnabled(false);
-        redoButton.setEnabled(false);
-
-        f.add(toolBar, BorderLayout.NORTH);
-
-        structuredEditorScrPane.requestFocusInWindow();
-        f.setVisible(true);
-        final ModificationVector modificationVector=model.getModificationVector();
+        final ModificationVector modificationVector=  structuredEditor.getModel().getModificationVector();
         modificationVector.addModificationListener(new ModificationListener() {
             public void modificationPerformed() {
                 if (modificationVector.canRedo()) {
@@ -145,29 +167,11 @@ public class TestEditorGeom {
                 }
             }
         });
-        //model.setModificationVector(modificationVector);
+        undoButton.setEnabled(false);
+        redoButton.setEnabled(false);
 
+        f.add(toolBar, BorderLayout.NORTH);
 
-        /*f.addKeyListener(new KeyListener() {
-            public void keyTyped(KeyEvent e) {
-            }
-
-            public void keyPressed(KeyEvent e) {
-                ((CompositeElement)model.getRootElement()).add(new TextElement(TestEditor.this.model, "!!!"),0);
-
-                System.out.println("e.getKeyCode() = " + e.getKeyCode());
-                System.out.println("e.getKeyChar() = '" + e.getKeyChar() + "' (" + (int)e.getKeyChar() + ")");
-                System.out.println("e.getModifiers() = " + e.getModifiers());
-                System.out.println("e.getModifiersEx() = " + e.getModifiersEx());
-
-                System.out.println();
-            }
-
-            public void keyReleased(KeyEvent e) {
-            }
-        });*/
-
-        //model.getRootElement().gainFocus(new TextPosition(0,0), false, false);
     }
 
     public static NodesRegistry nodesRegistryPrep() {
@@ -194,139 +198,68 @@ public class TestEditorGeom {
 
 
             Attr taskTitle = document.createAttribute("title");
-            nodesRegistry.registerNode(Statement.class, "title", taskTitle);
+            nodesRegistry.registerNode(GeoStatement.class, "title", taskTitle);
 
             Element taskDescription = document.createElement("description");
-            nodesRegistry.registerNode(Statement.class, "statement", taskDescription);
+            nodesRegistry.registerNode(GeoStatement.class, "statement", taskDescription);
 
-            //Verifiers
-            Element countVerifier = document.createElement("verifier");
-            countVerifier.setAttribute("type", "CountVerifier");
-            nodesRegistry.registerNode(CountExaminer.class, countVerifier);
+            //Predicates
+            Element predicates = document.createElement("predicates");
+            nodesRegistry.registerNode(GeoStatement.class, "preds",predicates);
 
-            Element indexVerifier = document.createElement("verifier");
-            indexVerifier.setAttribute("type", "IndexVerifier");
-            nodesRegistry.registerNode(IndexExaminer.class, indexVerifier);
+            Element parallPredicate = document.createElement("predicate");
+            parallPredicate.setAttribute("name", "Parall");
+            nodesRegistry.registerNode(ParallPred.class, parallPredicate);
 
-            Element listVerifier = document.createElement("verifier");
-            listVerifier.setAttribute("type", "ListVerifier");
-            nodesRegistry.registerNode(ListExaminer.class, listVerifier);
+            Element perpendPredicate = document.createElement("predicate");
+            perpendPredicate.setAttribute("name", "Perpend");
+            nodesRegistry.registerNode(PerpendPred.class, perpendPredicate);
 
-            Element answerVerifier = document.createElement("verifier");
-            answerVerifier.setAttribute("type", "AnswerVerifier");
-            nodesRegistry.registerNode(AnswerExaminer.class, answerVerifier);
+            Element laysOnPredicate = document.createElement("predicate");
+            laysOnPredicate.setAttribute("name", "LaysOn");
+            nodesRegistry.registerNode(LaysOnPred.class, laysOnPredicate);
 
-            //Sets
-            Element numericSet = document.createElement("set");
-            numericSet.setAttribute("type", "NumericSet");
-            nodesRegistry.registerNode(IntSegment.class, numericSet);
-            Attr numericSetFirst = document.createAttribute("first");
-            nodesRegistry.registerNode(IntSegment.class, "from", numericSetFirst);
-            Attr numericSetLast = document.createAttribute("last");
-            nodesRegistry.registerNode(IntSegment.class, "to", numericSetLast);
+            //GeoElements
+            Element newLine = document.createElement("geoElem");
+            newLine.setAttribute("type", "Line");
+            newLine.setAttribute("locType", "new");
+            nodesRegistry.registerNode(LineElement.class, newLine);
 
-            Element decartSet = document.createElement("set");
-            decartSet.setAttribute("type", "DecartSet");
-            nodesRegistry.registerNode(DescartesPower.class, decartSet);
-            Attr decartSetPower = document.createAttribute("power");
-            nodesRegistry.registerNode(DescartesPower.class, "pow", decartSetPower);
+            Attr newLineName  = document.createAttribute("name");
+            nodesRegistry.registerNode(LineElement.class, "name", newLineName);
 
-            Element combinationSet = document.createElement("set");
-            combinationSet.setAttribute("type", "CombinationSet");
-            nodesRegistry.registerNode(CombKit.class, combinationSet);
-            Attr combinationSetLength = document.createAttribute("length");
-            nodesRegistry.registerNode(CombKit.class, "k", combinationSetLength);
+            Element newPoint = document.createElement("geoElem");
+            newPoint.setAttribute("type", "Point");
+            newPoint.setAttribute("locType", "new");
+            nodesRegistry.registerNode(PointElement.class, newPoint);
 
-            Element layoutSet = document.createElement("set");
-            layoutSet.setAttribute("type", "LayoutSet");
-            nodesRegistry.registerNode(LayoutKit.class, layoutSet);
-            Attr layoutSetLength = document.createAttribute("length");
-            nodesRegistry.registerNode(LayoutKit.class, "k", layoutSetLength);
+            Attr newPointName  = document.createAttribute("name");
+            nodesRegistry.registerNode(PointElement.class, "name", newPointName);
 
-            Element enumerationSet = document.createElement("set");
-            enumerationSet.setAttribute("type", "EnumerationSet");
-            nodesRegistry.registerNode(EnumKit.class, enumerationSet);
+            Element givenLine = document.createElement("geoElem");
+            givenLine.setAttribute("type", "Line");
+            givenLine.setAttribute("locType", "given");
+            nodesRegistry.registerNode(GeoLineLink.class, givenLine);
 
-            Element constElement = document.createElement("constElement");
-            nodesRegistry.registerNode(InnerConstantElement.class, constElement);
-            nodesRegistry.registerNode(IntConstantElement.class, constElement);
+            Attr givenLineName  = document.createAttribute("name");
+            nodesRegistry.registerNode(GeoLineLink.class, "name", givenLineName);
 
+            Element givenPoint = document.createElement("geoElem");
+            givenPoint.setAttribute("type", "Point");
+            givenPoint.setAttribute("locType", "given");
+            nodesRegistry.registerNode(GeoPointLink.class, givenPoint);
 
-            //Functions
-            Element evenFnc = document.createElement("function");
-            evenFnc.setAttribute("type", "Even");
-            nodesRegistry.registerNode(EvExpr.class, evenFnc);
+            Attr givenPointName  = document.createAttribute("name");
+            nodesRegistry.registerNode(GeoPointLink.class, "name", givenPointName);
 
-            Element oddFnc = document.createElement("function");
-            oddFnc.setAttribute("type", "Odd");
-            nodesRegistry.registerNode(NotEvExpr.class, oddFnc);
+            // Instruments  - Enum!
+            Element tools = document.createElement("tools");
+            nodesRegistry.registerNode(GeoStatement.class, "instrums", tools);
+            Element tool = document.createElement("tool");
+            nodesRegistry.registerNode(Instrum.class, tool);
+            //Attr toolName  = document.createAttribute("name");
+            //nodesRegistry.registerNode(Instrum.class, "name", toolName);
 
-            Element notFnc = document.createElement("function");
-            notFnc.setAttribute("type", "Not");
-            nodesRegistry.registerNode(LogNotExpr.class, notFnc);
-
-            Element toDigitFnc = document.createElement("function");
-            toDigitFnc.setAttribute("type", "ToDigit");
-            nodesRegistry.registerNode(ToNumExpr.class, toDigitFnc);
-
-            Element equalsFnc = document.createElement("function");
-            equalsFnc.setAttribute("type", "Equals");
-            nodesRegistry.registerNode(EqExpr.class, equalsFnc);
-
-            Element greaterFnc = document.createElement("function");
-            greaterFnc.setAttribute("type", "Greater");
-            nodesRegistry.registerNode(GtExpr.class, greaterFnc);
-
-            Element divFnc = document.createElement("function");
-            divFnc.setAttribute("type", "Div");
-            nodesRegistry.registerNode(IntDivExpr.class, divFnc);
-
-            Element likeFnc = document.createElement("function");
-            likeFnc.setAttribute("type", "Like");
-            nodesRegistry.registerNode(LkExpr.class, likeFnc);
-
-            Element modFnc = document.createElement("function");
-            modFnc.setAttribute("type", "Mod");
-            nodesRegistry.registerNode(RemExpr.class, modFnc);
-
-            Element smallerFnc = document.createElement("function");
-            smallerFnc.setAttribute("type", "Smaller");
-            nodesRegistry.registerNode(SlExpr.class, smallerFnc);
-
-            Element parserFnc = document.createElement("function");
-            parserFnc.setAttribute("type", "Parser");
-            nodesRegistry.registerNode(ModCalculableExpr.class, parserFnc);
-            nodesRegistry.registerNode(CalcExpr.class, parserFnc);
-            Attr parserExp = document.createAttribute("exp");
-            nodesRegistry.registerNode(ModCalculableExpr.class, "ce", parserExp);
-            nodesRegistry.registerNode(CalcExpr.class, "ce", parserExp);
-            Attr parserFncMod = document.createAttribute("mod");
-            nodesRegistry.registerNode(ModCalculableExpr.class, "mod", parserFncMod);
-
-            Element projectionFnc = document.createElement("function");
-            projectionFnc.setAttribute("type", "Projection");
-            nodesRegistry.registerNode(PrjExpr.class, projectionFnc);
-            Attr projectionFncAxis = document.createAttribute("axis");
-            nodesRegistry.registerNode(PrjExpr.class, "ind", projectionFncAxis);
-
-            Element sumFnc = document.createElement("function");
-            sumFnc.setAttribute("type", "Sum");
-            nodesRegistry.registerNode(AddExpr.class, sumFnc);
-
-            Element subFnc = document.createElement("function");
-            subFnc.setAttribute("type", "Sub");
-            nodesRegistry.registerNode(DiffExpr.class, subFnc);
-
-            Element orFnc = document.createElement("function");
-            orFnc.setAttribute("type", "Or");
-            nodesRegistry.registerNode(LogOrExpr.class, orFnc);
-
-            Element andFnc = document.createElement("function");
-            andFnc.setAttribute("type", "And");
-            nodesRegistry.registerNode(LogAndExpr.class, andFnc);
-
-            Element currentSetElement = document.createElement("current-set-element");
-            nodesRegistry.registerNode(CurElementExpr.class, currentSetElement);
             return nodesRegistry;
 
         } catch (Exception e) {
@@ -334,7 +267,7 @@ public class TestEditorGeom {
         }
     }
 
-    private JButton addButtonToToolBar(JToolBar toolBar, String text, String cmd, Boolean pict, ActionListener handler) {
+    private static JButton addButtonToToolBar(JToolBar toolBar, String text, String cmd, Boolean pict, ActionListener handler) {
         JButton but;
         if (pict)
             but = new JButton(new ImageIcon(ImageGetter.class.getResource(text)));
@@ -389,6 +322,7 @@ public class TestEditorGeom {
         reg.registerBean(LineElement.class);
         reg.registerBean(Link.class);
         reg.registerBean(ParallPred.class);
+        reg.registerBean(PerpendPred.class);
         reg.registerBean(PointElement.class);
         reg.registerBean(Pred.class);
 

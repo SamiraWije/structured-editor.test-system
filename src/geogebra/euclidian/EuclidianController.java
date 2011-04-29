@@ -2397,7 +2397,8 @@ public class EuclidianController
         if (geos == null)
             app.clearSelectedGeos();
         else {
-            fireGeoSelectionChange(new GeoSelectionChangedEvent(this, geos.get(0)));
+            if (geos.size()>0)
+                fireGeoSelectionChange(new GeoSelectionChangedEvent(this, geos.get(0)));
             if (ctrlDown) {
                 chooseGeo(geos, true);
                 // boolean selected = geo.is

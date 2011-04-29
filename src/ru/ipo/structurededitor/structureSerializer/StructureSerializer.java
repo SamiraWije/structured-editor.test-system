@@ -1,5 +1,6 @@
 package ru.ipo.structurededitor.structureSerializer;
 
+import geogebra.kernel.GeoElement;
 import org.w3c.dom.*;
 import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.structureBuilder.MyErrorHandler;
@@ -31,7 +32,7 @@ public class StructureSerializer {
     private NodesRegistry nodesRegistry;
 
     public StructureSerializer(String fileName, NodesRegistry nodesRegistry) {
-        this.nodesRegistry=nodesRegistry;
+        this.nodesRegistry = nodesRegistry;
         this.fileName = fileName;
     }
 
@@ -73,8 +74,7 @@ public class StructureSerializer {
             Transformer transformer;
             try {
                 transformer = transformerFactory.newTransformer();
-            }
-            catch (TransformerConfigurationException e) {
+            } catch (TransformerConfigurationException e) {
                 System.out.println("Transformer configuration error: " + e.getMessage());
                 return;
             }
@@ -83,28 +83,28 @@ public class StructureSerializer {
             // transform source into result will do save
             try {
                 transformer.transform(source, result);
-            }
-            catch (TransformerException e) {
+            } catch (TransformerException e) {
                 System.out.println("Error transform: " + e.getMessage());
             }
             //Закрытие файлового потока
             oXML.close();
 
 
-        }
-
-        catch (FileNotFoundException fne) {
+        } catch (FileNotFoundException fne) {
             System.err.println("File \'"
                     + fileName + "\' not found. ");
             System.exit(1);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    private Node makeElement(Element node, DSLBean bean) {
+    private Node makeElement(Element node, Object bean) {
+        if (bean.getClass().isEnum()){
+            node.setAttribute("name",bean.toString());
+            return node;
+        }
 
         try {
             Object val;
@@ -138,97 +138,139 @@ public class StructureSerializer {
                                     tmpNode.appendChild(node);
                                 }
                                 val = getValue(bean, d.getName());
+
                                 if (val != null) {
                                     if (val instanceof String) {
                                         node.appendChild(newNode);
                                         CDATASection cdata = document.createCDATASection((String) val);
                                         newNode.appendChild(cdata);
                                     } else if (val.getClass().isArray()) {
+                                        node.appendChild(newNode);
+                                        node1 = (Element) node;
+                                        node= (Element) newNode;
                                         for (int i = 0; i < Array.getLength(val); i++) {
                                             Object item = Array.get(val, i);
-                                            if (item != null)
-                                                node.appendChild(makeElement((Element) newNode, (DSLBean) item));
-                                            else
+                                            if (item != null) {
+                                                newNode = nodesRegistry.getNode(item.getClass());
+                                                newNode = document.adoptNode(newNode);
+                                                if (!newNode.isEqualNode(nodesRegistry.getDefaultNode())) {
+                                                    if (newNode.getNodeName().equals("set") && bean instanceof Statement) {
+                                                        Element tmpNode = node;
+                                                        node = document.createElement("sourceSet");
+                                                        tmpNode.appendChild(node);
+                                                    }
+                                                    node.appendChild(makeElement((Element) newNode, item));
+                                                    node1 = (Element) node.getParentNode();
+                                                    if (newNode.getNodeName().equals("set") && bean instanceof Statement && node1 != null) {
+                                                        node = node1;
+                                                    }
+                                                } else
+                                                    node.appendChild(newNode);
+                                            } else {
+                                                newNode = nodesRegistry.getEmptyNode();
+                                                newNode = document.adoptNode(newNode);
                                                 node.appendChild(newNode);
+                                            }
                                         }
-                                    } else
-                                        node.appendChild(makeElement((Element) newNode, (DSLBean) val));
-
-
-                                } else
-                                    node.appendChild(newNode);
-                                node1 = (Element) node.getParentNode();
-                                if (newNode.getNodeName().equals("set") && bean instanceof Statement && node1 != null) {
-                                    node = node1;
-                                }
-                        }
-                    } else { //No node is associated with property
-
-                        val = getValue(bean, d.getName());
-                        if (val != null) {
-                            if (val instanceof Integer) {
-                                Text txt = document.createTextNode(String.valueOf(val));
-                                node.appendChild(txt);
-                            } else if (val.getClass().isArray()) {
-                                for (int i = 0; i < Array.getLength(val); i++) {
-                                    Object item = Array.get(val, i);
-                                    if (item != null) {
-                                        newNode = nodesRegistry.getNode(item.getClass());
-                                        newNode = document.adoptNode(newNode);
-                                        if (!newNode.isEqualNode(nodesRegistry.getDefaultNode())) {
-                                            if (newNode.getNodeName().equals("set") && bean instanceof Statement) {
-                                                Element tmpNode = node;
-                                                node = document.createElement("sourceSet");
-                                                tmpNode.appendChild(node);
-                                            }
-                                            node.appendChild(makeElement((Element) newNode, (DSLBean) item));
-                                            Element node1 = (Element) node.getParentNode();
-                                            if (newNode.getNodeName().equals("set") && bean instanceof Statement && node1 != null) {
-                                                node = node1;
-                                            }
-                                        } else
-                                            node.appendChild(newNode);
-                                    } else {
-                                        newNode = nodesRegistry.getEmptyNode();
-                                        newNode = document.adoptNode(newNode);
+                                        node=node1;
+                                        /*   if (item != null)
+                                        node.appendChild(makeElement((Element) newNode, (DSLBean) item));
+                                    else
                                         node.appendChild(newNode);
-                                    }
-                                }
-                            } else {
-                                newNode = nodesRegistry.getNode(val.getClass());
-                                newNode = document.adoptNode(newNode);
-                                if (!newNode.isEqualNode(nodesRegistry.getDefaultNode())) {
-                                    if (newNode.getNodeName().equals("set") && bean instanceof Statement) {
-                                        Element tmpNode = node;
-                                        node = document.createElement("sourceSet");
-                                        tmpNode.appendChild(node);
-                                    }
-
-                                    node.appendChild(makeElement((Element) newNode, (DSLBean) val));
-                                    if (newNode.getNodeName().equals("set") && bean instanceof Statement) {
-                                        node = (Element) node.getParentNode();
-                                    }
+                                    }                             */
                                 } else
-                                    node.appendChild(newNode);
-                            }
-                        } else {
-                            newNode = nodesRegistry.getEmptyNode();
-                            newNode = document.adoptNode(newNode);
-                            node.appendChild(newNode);
+                                    node.appendChild(makeElement((Element) newNode,  val));
+
+
+                        }else
+                        node.appendChild(newNode);
+                        node1 = (Element) node.getParentNode();
+                        if (newNode.getNodeName().equals("set") && bean instanceof Statement && node1 != null) {
+                            node = node1;
                         }
                     }
+                } else { //No node is associated with property
+                    val = getValue(bean, d.getName());
+                    if (val != null) {
+                        if (val instanceof GeoElement){
+                            node.setAttribute("name",((GeoElement)val).getCaption());
+                        } else if (val instanceof Integer) {
+                            Text txt = document.createTextNode(String.valueOf(val));
+                            node.appendChild(txt);
+                        } else if (val.getClass().isArray()) {
+                            if (newNode.getNodeName().equals("predicate")) {
+                                Element tmpNode = node;
+                                node = document.createElement("predicates");
+                                tmpNode.appendChild(node);
+                            }
+                            for (int i = 0; i < Array.getLength(val); i++) {
+                                Object item = Array.get(val, i);
+                                if (item != null) {
+                                    newNode = nodesRegistry.getNode(item.getClass());
+                                    newNode = document.adoptNode(newNode);
+                                    if (!newNode.isEqualNode(nodesRegistry.getDefaultNode())) {
+                                        if (newNode.getNodeName().equals("set") && bean instanceof Statement) {
+                                            Element tmpNode = node;
+                                            node = document.createElement("sourceSet");
+                                            tmpNode.appendChild(node);
+                                        }
+                                        node.appendChild(makeElement((Element) newNode,  item));
+                                        Element node1 = (Element) node.getParentNode();
+                                        if (newNode.getNodeName().equals("set") && bean instanceof Statement && node1 != null) {
+                                            node = node1;
+                                        }
+                                    } else
+                                        node.appendChild(newNode);
+                                } else {
+                                    newNode = nodesRegistry.getEmptyNode();
+                                    newNode = document.adoptNode(newNode);
+                                    node.appendChild(newNode);
+                                }
+                            }
+                            Element node1 = (Element) node.getParentNode();
+                            if (newNode.getNodeName().equals("predicate") && node1 != null) {
+                                node = node1;
+                            }
 
-                } // d is property
-            } //for (d)
+                        } else {
+                            newNode = nodesRegistry.getNode(val.getClass());
+                            newNode = document.adoptNode(newNode);
+                            if (!newNode.isEqualNode(nodesRegistry.getDefaultNode())) {
+                                if (newNode.getNodeName().equals("set") && bean instanceof Statement) {
+                                    Element tmpNode = node;
+                                    node = document.createElement("sourceSet");
+                                    tmpNode.appendChild(node);
+                                }
 
-        }
+                                node.appendChild(makeElement((Element) newNode,  val));
+                                if (newNode.getNodeName().equals("set") && bean instanceof Statement) {
+                                    node = (Element) node.getParentNode();
+                                }
+                            } else
+                                node.appendChild(newNode);
+                        }
+                    } else {
+                        newNode = nodesRegistry.getEmptyNode();
+                        newNode = document.adoptNode(newNode);
+                        node.appendChild(newNode);
+                    }
+                }
 
-        catch (Exception e1) {
-            throw new Error("Fail in StructureSerializer.makeElement()");
-        }
+            } // d is property
+        } //for (d)
 
-        return node;
     }
+
+    catch(
+    Exception e1
+    )
+
+    {
+        throw new Error("Fail in StructureSerializer.makeElement()");
+    }
+
+    return node;
+}
 
     private void setValue(DSLBean bean, String fieldName, Object value) {
         try {
@@ -246,7 +288,7 @@ public class StructureSerializer {
         }
     }
 
-    private Object getValue(DSLBean bean, String fieldName) {
+    private Object getValue(Object bean, String fieldName) {
         try {
             /*if (EmptyFieldsRegistry.getInstance().isEmpty(bean, fieldName)) {
                 return null;

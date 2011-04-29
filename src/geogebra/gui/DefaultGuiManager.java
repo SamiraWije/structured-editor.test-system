@@ -2101,9 +2101,10 @@ public class DefaultGuiManager implements GuiManager {
       // Michael Borcherds 2007-04-27 END
 
       // update GUI: size of euclidian view was set
-      app.updateContentPaneAndSize();
+        //OlegPerchenok
+      //app.updateContentPaneAndSize();
     } else
-      app.updateContentPane();
+     app.updateContentPane();
   }
 
   /**

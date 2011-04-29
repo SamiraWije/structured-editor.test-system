@@ -1,7 +1,6 @@
 package ru.ipo.structurededitor.view.elements;
 
 import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoLine;
 import geogebra.kernel.GeoPoint;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.events.GeoSelectionChangedEvent;
@@ -14,7 +13,7 @@ import ru.ipo.structurededitor.view.events.GeoSelectionChangedEvent;
  * To change this template use File | Settings | File Templates.
  */
 public class GeoPointLinkElement extends GeoLinkElement {
-    public GeoPointLinkElement(StructuredEditorModel model, GeoLine value) {
+    public GeoPointLinkElement(StructuredEditorModel model, GeoPoint value) {
         super(model, value);
         typeStr="Точка";
         emptyString="[Выберите точку на чертеже]";

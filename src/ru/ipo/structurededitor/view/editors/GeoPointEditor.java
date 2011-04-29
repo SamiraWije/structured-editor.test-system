@@ -20,7 +20,7 @@ public class GeoPointEditor extends FieldEditor {
     public GeoPointEditor(Object o, String fieldName, FieldMask mask, StructuredEditorModel model) {
         super(o, fieldName, mask, model);
         setModificationVector(model.getModificationVector());
-        GeoLine val=(GeoLine) getValue();
+        GeoPoint val=(GeoPoint) getValue();
         final GeoPointLinkElement editorElement;
         editorElement = new GeoPointLinkElement(model,val);
         editorElement.addPropertyChangeListener("text", new PropertyChangeListener() {

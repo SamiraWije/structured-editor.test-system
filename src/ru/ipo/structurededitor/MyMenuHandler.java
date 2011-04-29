@@ -1,6 +1,8 @@
 package ru.ipo.structurededitor;
 
+import geogebra.main.Application;
 import ru.ipo.structurededitor.controller.ModificationVector;
+import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.model.DSLBeansRegistry;
 import ru.ipo.structurededitor.structureSerializer.NodesRegistry;
 import ru.ipo.structurededitor.structureSerializer.StructureSerializer;
@@ -15,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
 
 /**
  * Created by IntelliJ IDEA.
@@ -37,8 +40,9 @@ public class MyMenuHandler implements ActionListener, ItemListener {
         this.nodesRegistry=nodesRegistry;
     }
 
-    private void refreshEditor(Statement st, ModificationVector modificationVector){
+    private void refreshEditor(DSLBean st, ModificationVector modificationVector){
         StructuredEditorModel model = new StructuredEditorModel(st, modificationVector);
+        model.setBeansRegistry(structuredEditor.getModel().getBeansRegistry());
         structuredEditor.getModel().setFocusedElement(null);
         structuredEditor.setModel(model);
         structuredEditor.getUI().redrawEditor();
@@ -55,14 +59,21 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             int returnVal = fc.showOpenDialog(f);
             if (returnVal == JFileChooser.APPROVE_OPTION /*&& dir != null && fl != null*/) {
                 String fn = fc.getSelectedFile().getAbsolutePath();
-
+                File file = new File(fn.substring(0,fn.lastIndexOf('.'))+".ggb");
+                Application app =  structuredEditor.getApp();
+                if (app!=null){
+                    app.getGuiManager().loadFile(file,false);
+                }
                 System.out.println("You've opened the file: " + fn);
                 //xmlV.setFileName(fn);
-                StructureBuilder structureBuilder = new StructureBuilder(fn);
+                StructureBuilder structureBuilder = new StructureBuilder(fn,
+                        structuredEditor.getApp()==null?"comb":"geom",structuredEditor.getApp());
 
-                Statement st = structureBuilder.getStructure();
-                refreshEditor(st,structuredEditor.getModel().getModificationVector());
+                DSLBean bean = structureBuilder.getStructure();
+                refreshEditor(bean,structuredEditor.getModel().getModificationVector());
                 structuredEditor.getModel().getModificationVector().clearVector();
+
+
                 //EmptyFieldsRegistry.getInstance().clear();
             }
 
@@ -79,17 +90,25 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 StructureSerializer structureSerializer = new StructureSerializer(fn, nodesRegistry);
 
                 structureSerializer.saveStructure(structuredEditor.getModel().getObject());
+                File file = new File(fn.substring(0,fn.lastIndexOf('.'))+".ggb");
+                Application app =  structuredEditor.getApp();
+                if (app!=null)
+                {
+                    boolean success = structuredEditor.getApp().saveGeoGebraFile(file);
+                    if (success)
+                        structuredEditor.getApp().setCurrentFile(file);
+                }
             }
         } else if (arg.equals("Выход")) {
             f.setVisible(false);
             System.exit(0);
         } else if (arg.equals("Отменить")) {
            structuredEditor.getModel().getModificationVector().undo();
-           refreshEditor((Statement) structuredEditor.getModel().getObject(),
+           refreshEditor(structuredEditor.getModel().getObject(),
                    structuredEditor.getModel().getModificationVector());
         } else if (arg.equals("Повторить")) {
            structuredEditor.getModel().getModificationVector().redo();
-           refreshEditor((Statement) structuredEditor.getModel().getObject(),
+           refreshEditor(structuredEditor.getModel().getObject(),
                    structuredEditor.getModel().getModificationVector());
         }
     }

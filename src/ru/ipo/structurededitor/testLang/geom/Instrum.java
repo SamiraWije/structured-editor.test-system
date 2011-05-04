@@ -8,5 +8,5 @@ package ru.ipo.structurededitor.testLang.geom;
  * To change this template use File | Settings | File Templates.
  */
 public enum Instrum {
-     LINE_TWO_POINTS, LINE_PARALL, POINT
+    LINE_TWO_POINTS, LINE_PARALL, POINT, LINE_PERPEND
 }

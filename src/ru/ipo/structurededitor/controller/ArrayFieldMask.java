@@ -20,10 +20,10 @@ public class ArrayFieldMask implements FieldMask {
     }
 
     public Object get(Object field) {
-         if (index < Array.getLength(field))
-                    return Array.get(field, index);
-                else
-                    return null;
+        if (index < Array.getLength(field))
+            return Array.get(field, index);
+        else
+            return null;
     }
 
     public Object set(Object field, Object value) {
@@ -32,13 +32,12 @@ public class ArrayFieldMask implements FieldMask {
 
                 }*/
         if (Array.getLength(field) <= index)
-                            field = ArrayEditor.resizeArray(field, index + 1);
+            field = ArrayEditor.resizeArray(field, index + 1);
 
-        if (value==null){
-            return ArrayEditor.delItem(field,index);
-        }
-        else{
-            Array.set(field,index,value);
+        if (value == null) {
+            return ArrayEditor.delItem(field, index);
+        } else {
+            Array.set(field, index, value);
             return field;
         }
     }

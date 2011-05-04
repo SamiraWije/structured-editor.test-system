@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Time: 16:28:44
  */
 @DSLBeanParams(shortcut = "~", description = "Равны без учета порядка")
-public class  LkExpr extends BinExpr {
+public class LkExpr extends BinExpr {
 
     public LkExpr() {
         op = "~";

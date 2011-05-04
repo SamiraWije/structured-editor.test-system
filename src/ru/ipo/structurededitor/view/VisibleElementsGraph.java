@@ -2,7 +2,6 @@ package ru.ipo.structurededitor.view;
 
 import ru.ipo.structurededitor.view.elements.VisibleElement;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 

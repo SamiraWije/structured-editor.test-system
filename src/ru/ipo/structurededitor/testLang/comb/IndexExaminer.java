@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.*;
  * Time: 16:15:32
  */
 @DSLBeanParams(shortcut = "Индексирующий", description = "верификатор")
-public class  IndexExaminer extends Examiner {
+public class IndexExaminer extends Examiner {
 
     private Expr expr;
     private Kit indexingElem;

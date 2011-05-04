@@ -8,7 +8,7 @@ import ru.ipo.structurededitor.model.*;
  * Date: 05.08.2010
  * Time: 16:25:07
  */
-public abstract class  BinExpr extends Expr {
+public abstract class BinExpr extends Expr {
 
     private Expr e1;
     private Expr e2;

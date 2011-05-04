@@ -2,8 +2,6 @@ package ru.ipo.structurededitor.view.elements;
 
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 
-import java.awt.event.KeyEvent;
-
 /**
  * Created by IntelliJ IDEA.
  * User: oleg

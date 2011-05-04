@@ -1,13 +1,8 @@
 package ru.ipo.structurededitor.structureSerializer;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Node;
 import ru.ipo.structurededitor.model.DSLBean;
 
-import java.beans.BeanInfo;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 /**

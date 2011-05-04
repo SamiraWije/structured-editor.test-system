@@ -7,7 +7,7 @@ package ru.ipo.structurededitor.model;
  * Time: 15:01
  * To change this template use File | Settings | File Templates.
  */
-public class DefaultDSLBean implements DSLBean{
+public class DefaultDSLBean implements DSLBean {
     public Cell getLayout() {
         return new ConstantCell("Пусто");
     }

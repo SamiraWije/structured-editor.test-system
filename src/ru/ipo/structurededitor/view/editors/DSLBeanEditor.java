@@ -3,10 +3,11 @@ package ru.ipo.structurededitor.view.editors;
 import ru.ipo.structurededitor.controller.FieldMask;
 import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.model.DSLBeanParams;
-import ru.ipo.structurededitor.model.DSLBeansRegistry;
 import ru.ipo.structurededitor.view.EditorRenderer;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
-import ru.ipo.structurededitor.view.elements.*;
+import ru.ipo.structurededitor.view.elements.ComboBoxTextEditorElement;
+import ru.ipo.structurededitor.view.elements.ContainerElement;
+import ru.ipo.structurededitor.view.elements.TextElement;
 import ru.ipo.structurededitor.view.events.ComboBoxSelectListener;
 
 import java.awt.event.KeyEvent;
@@ -26,7 +27,6 @@ public class DSLBeanEditor extends FieldEditor {
     //private ContainerElement container;
     private StructuredEditorModel model;
     boolean isAbstract;
-
 
 
     private void setNonAbstractInnerElement() {
@@ -63,7 +63,7 @@ public class DSLBeanEditor extends FieldEditor {
         super(o, fieldName, mask, model);
         this.model = model;
         setModificationVector(model.getModificationVector());
-        if (mask==null){
+        if (mask == null) {
             isAbstract = Modifier.isAbstract(getFieldType().getModifiers());
         } else {
             isAbstract = Modifier.isAbstract(mask.getValueClass(getFieldType()).getModifiers());
@@ -188,9 +188,8 @@ public class DSLBeanEditor extends FieldEditor {
         if (isAbstract) {
             beanClassSelectionElement =
                     (ComboBoxTextEditorElement<Class<? extends DSLBean>>) innerElement;
-        }
-        else{
-           beanClassSelectionElement =null;
+        } else {
+            beanClassSelectionElement = null;
         }
 
         Object value = getValue();
@@ -202,7 +201,7 @@ public class DSLBeanEditor extends FieldEditor {
             EditorRenderer renderer = new EditorRenderer(model, (DSLBean) value);
             container.setSubElement(renderer.getRenderResult());
         }
-       // model.setFocusedElementAndCaret(container);
+        // model.setFocusedElementAndCaret(container);
     }
 
 }

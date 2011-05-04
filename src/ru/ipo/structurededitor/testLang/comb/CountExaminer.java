@@ -8,8 +8,8 @@ import ru.ipo.structurededitor.model.*;
  * Date: 05.08.2010
  * Time: 16:15:32
  */
-@DSLBeanParams(shortcut = "Считающий",description="верификатор")
-public class  CountExaminer extends Examiner {
+@DSLBeanParams(shortcut = "Считающий", description = "верификатор")
+public class CountExaminer extends Examiner {
 
     private Expr expr;
 

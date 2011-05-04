@@ -11,7 +11,7 @@ import ru.ipo.structurededitor.testLang.comb.Expr;
  * Time: 12:37
  * To change this template use File | Settings | File Templates.
  */
-abstract public class LogicCondition implements DSLBean{
+abstract public class LogicCondition implements DSLBean {
     protected String word;
     int num;
     Expr[] items;
@@ -31,9 +31,10 @@ abstract public class LogicCondition implements DSLBean{
     public void setItems(Expr[] items) {
         this.items = items;
     }
+
     public Cell getLayout() {
-      return new Vert(new Horiz(new ConstantCell("Одновременно "+word), new FieldCell("num"),
-                                new ConstantCell("утверждений из: ")),
-                      new VertArray("items",' '));
+        return new Vert(new Horiz(new ConstantCell("Одновременно " + word), new FieldCell("num"),
+                new ConstantCell("утверждений из: ")),
+                new VertArray("items", ' '));
     }
 }

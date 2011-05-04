@@ -9,9 +9,9 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Time: 12:59
  * To change this template use File | Settings | File Templates.
  */
-@DSLBeanParams(shortcut = "Ложь",description="Одновременно ложны")
+@DSLBeanParams(shortcut = "Ложь", description = "Одновременно ложны")
 public class FalseLogicCondition extends LogicCondition {
-    public FalseLogicCondition(){
+    public FalseLogicCondition() {
         word = "ложны";
     }
 }

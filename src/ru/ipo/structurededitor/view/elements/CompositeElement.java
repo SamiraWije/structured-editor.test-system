@@ -7,11 +7,9 @@ import ru.ipo.structurededitor.view.TextProperties;
 import ru.ipo.structurededitor.view.events.GeoSelectionChangedEvent;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -81,12 +79,14 @@ public class CompositeElement extends VisibleElement {
                 el.element.processMouseEvent(evt);
         }
     }
+
     @Override
     public void processGeoSelectionChangedEvent(GeoSelectionChangedEvent evt) {
         for (PositionedElement el : elements) {
-                el.element.processGeoSelectionChangedEvent(evt);
+            el.element.processGeoSelectionChangedEvent(evt);
         }
     }
+
     public void add(VisibleElement element) {
         add(element, elements.size());
     }

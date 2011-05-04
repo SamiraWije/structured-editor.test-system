@@ -1,7 +1,6 @@
 package ru.ipo.structurededitor.view;
 
-import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * Обёртка для Graphics которая выводит текст в своей системе координат

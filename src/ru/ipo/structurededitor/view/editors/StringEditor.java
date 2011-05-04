@@ -3,7 +3,6 @@ package ru.ipo.structurededitor.view.editors;
 import ru.ipo.structurededitor.controller.FieldMask;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.elements.TextEditorElement;
-import ru.ipo.structurededitor.view.elements.VisibleElement;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -19,14 +18,14 @@ public class StringEditor extends FieldEditor {
         super(o, fieldName, mask, singleLined, model);
         setModificationVector(model.getModificationVector());
         String str;
-        str=(String) getValue();
+        str = (String) getValue();
         final TextEditorElement editorElement;
-        editorElement = new TextEditorElement(model,str,singleLined);
+        editorElement = new TextEditorElement(model, str, singleLined);
         editorElement.addPropertyChangeListener("text", new PropertyChangeListener() {
-                public void propertyChange(PropertyChangeEvent evt) {
-                    setValue(editorElement.getText());
-                }
-            });
+            public void propertyChange(PropertyChangeEvent evt) {
+                setValue(editorElement.getText());
+            }
+        });
         setElement(editorElement);
     }
 

@@ -1,18 +1,13 @@
 package ru.ipo.structurededitor.view.elements;
 
-import ru.ipo.structurededitor.StructuredEditor;
 import ru.ipo.structurededitor.view.ListDialog;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.TextPosition;
 import ru.ipo.structurededitor.view.events.ComboBoxSelectListener;
-import ru.ipo.structurededitor.view.events.PopupListener;
-import ru.ipo.structurededitor.view.events.RepaintListener;
 
 import javax.swing.*;
 import javax.swing.event.EventListenerList;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
@@ -31,7 +26,7 @@ public class ComboBoxTextEditorElement<T> extends TextEditorElement {
     private EventListenerList listenerList = new EventListenerList();
     private HashMap<String, T> values = new HashMap<String, T>();
 
-//    private DefaultListModel listModel = new DefaultListModel();
+    //    private DefaultListModel listModel = new DefaultListModel();
 //    private JList list;
     private ListDialog dialog;
     private Vector<String> popupList = new Vector<String>();
@@ -97,17 +92,18 @@ public class ComboBoxTextEditorElement<T> extends TextEditorElement {
 
     public void fireSelect() {
         Object[] listeners = listenerList.getListenerList();
-        for (int i = listeners.length-2; i>=0; i-=2) {
-                 if (listeners[i]==ComboBoxSelectListener.class) {
-                     // Lazily create the event:
-                     /*if (Event == null)
-                         fooEvent = new FooEvent(this);*/
-                     ((ComboBoxSelectListener)listeners[i+1]).itemSelected();
-                 }
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == ComboBoxSelectListener.class) {
+                // Lazily create the event:
+                /*if (Event == null)
+             fooEvent = new FooEvent(this);*/
+                ((ComboBoxSelectListener) listeners[i + 1]).itemSelected();
+            }
         }
 
 
     }
+
     public ComboBoxTextEditorElement(StructuredEditorModel model) {
         super(model);
 
@@ -126,7 +122,7 @@ public class ComboBoxTextEditorElement<T> extends TextEditorElement {
 
     private void updateList(String text, int xCaretPos) {
         filteredPopupList = new Vector<String>();
-        filteredShortcutList= new Vector<String>();
+        filteredShortcutList = new Vector<String>();
         text = text.substring(0, xCaretPos);
         for (int i = 0; i < popupList.size(); i++) {
             String item = popupList.get(i);
@@ -283,7 +279,7 @@ public class ComboBoxTextEditorElement<T> extends TextEditorElement {
 
 
     public void addValue(final String shortcut, String description, final T value) {
-        String text=shortcut+" "+description;
+        String text = shortcut + " " + description;
         popupList.add(text);
         shortcutList.add(shortcut);
         values.put(shortcut, value);

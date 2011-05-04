@@ -1,6 +1,5 @@
 package ru.ipo.structurededitor.testLang.geom;
 
-import geogebra.kernel.GeoLine;
 import geogebra.kernel.GeoPoint;
 import ru.ipo.structurededitor.model.Cell;
 import ru.ipo.structurededitor.model.DSLBeanParams;
@@ -14,7 +13,7 @@ import ru.ipo.structurededitor.model.FieldCell;
  * To change this template use File | Settings | File Templates.
  */
 @DSLBeanParams(shortcut = "Ссылка", description = "Точка с чертежа")
-public class GeoPointLink extends AbstractGeoPoint{
+public class GeoPointLink extends AbstractGeoPoint {
     public GeoPoint getGeo() {
         return geo;
     }
@@ -24,8 +23,9 @@ public class GeoPointLink extends AbstractGeoPoint{
     }
 
     GeoPoint geo;
-    public Cell getLayout(){
-      return new FieldCell("geo");
+
+    public Cell getLayout() {
+        return new FieldCell("geo");
     }
 }
 

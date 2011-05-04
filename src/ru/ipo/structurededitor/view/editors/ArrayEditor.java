@@ -1,19 +1,21 @@
 package ru.ipo.structurededitor.view.editors;
 
-import ru.ipo.structurededitor.controller.*;
+import ru.ipo.structurededitor.controller.ArrayFieldMask;
+import ru.ipo.structurededitor.controller.EditorsRegistry;
+import ru.ipo.structurededitor.controller.Modification;
+import ru.ipo.structurededitor.controller.ModificationVector;
 import ru.ipo.structurededitor.model.DSLBean;
-
 import ru.ipo.structurededitor.view.StructuredEditorModel;
-import ru.ipo.structurededitor.view.elements.*;
+import ru.ipo.structurededitor.view.elements.ArrayElement;
+import ru.ipo.structurededitor.view.elements.CompositeElement;
+import ru.ipo.structurededitor.view.elements.VisibleElement;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Vector;
 
 /**
@@ -24,13 +26,14 @@ import java.util.Vector;
  * To change this template use File | Settings | File Templates.
  */
 public class ArrayEditor extends FieldEditor {
-    private boolean singleLined=false;
+    private boolean singleLined = false;
+
     public ArrayEditor(Object o, String fieldName, CompositeElement.Orientation orientation, char spaceChar,
                        boolean singleLined, final StructuredEditorModel model) {
         super(o, fieldName, null, model);
         this.orientation = orientation;
         this.spaceChar = spaceChar;
-        this.singleLined=singleLined;
+        this.singleLined = singleLined;
         final ArrayElement arrayElement = new ArrayElement(model, orientation, spaceChar);
         setModificationVector(model.getModificationVector());
 
@@ -80,7 +83,7 @@ public class ArrayEditor extends FieldEditor {
                         }
                         arr = resizeArray(arr, countItems - 1);
                         wm.invoke(getObject(), arr);
-                        if (oldIndex < countItems - 1){
+                        if (oldIndex < countItems - 1) {
                             model.setFocusedElementAndCaret(arrayElement.get(oldIndex));
 
                         }

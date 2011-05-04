@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.*;
  * Time: 16:07:49
  */
 @DSLBeanParams(shortcut = "{}", description = "Перечисление")
-public class   EnumKit extends Kit {
+public class EnumKit extends Kit {
 
     private ConstantElement items[];
 

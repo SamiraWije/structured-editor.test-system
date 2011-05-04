@@ -1,17 +1,16 @@
 package ru.ipo.structurededitor.xmlViewer;
 
-import ru.ipo.structurededitor.view.Display;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 import ru.ipo.structurededitor.view.StructuredEditorUI;
 
 import javax.swing.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-
-import org.w3c.dom.*;
-import org.xml.sax.*;
-
-import javax.xml.parsers.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -126,22 +125,19 @@ public class XMLViewer extends JComponent implements Scrollable {
             x = X_MIN;
             y = Y_MIN;
             x_max = X_MIN;
+
             processNode(document);
-        }
-        catch (SAXParseException spe) {
+        } catch (SAXParseException spe) {
             System.err.println(
                     "Parse error: " + spe.getMessage());
             System.exit(1);
-        }
-        catch (SAXException se) {
+        } catch (SAXException se) {
             se.printStackTrace();
-        }
-        catch (FileNotFoundException fne) {
+        } catch (FileNotFoundException fne) {
             System.err.println("File \'"
                     + fileName + "\' not found. ");
             System.exit(1);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

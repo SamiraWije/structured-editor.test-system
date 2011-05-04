@@ -53,17 +53,19 @@ public class ContainerElement extends VisibleElement {
         int y = position.getLine() + 1;
         if (evt.getX() >= x && evt.getX() < x + subElement.getWidth()
                 && evt.getY() >= y && evt.getY() < y + subElement.getHeight())*/
-            subElement.processMouseEvent(evt);
+        subElement.processMouseEvent(evt);
 
     }
-     public void processGeoSelectionChangedEvent(GeoSelectionChangedEvent evt) {
+
+    public void processGeoSelectionChangedEvent(GeoSelectionChangedEvent evt) {
         /*TextPosition position = subElement.getAbsolutePosition();
         int x = position.getColumn();
         int y = position.getLine() + 1;
         if (evt.getX() >= x && evt.getX() < x + subElement.getWidth()
                 && evt.getY() >= y && evt.getY() < y + subElement.getHeight())*/
-            subElement.processGeoSelectionChangedEvent(evt);
+        subElement.processGeoSelectionChangedEvent(evt);
     }
+
     public boolean isEmpty() {
         return subElement == null || subElement.isEmpty();
     }

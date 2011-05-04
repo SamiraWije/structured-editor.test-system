@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Time: 16:28:44
  */
 @DSLBeanParams(shortcut = "<", description = "Меньше")
-public class  SlExpr extends BinExpr {
+public class SlExpr extends BinExpr {
 
     public SlExpr() {
         op = "<";

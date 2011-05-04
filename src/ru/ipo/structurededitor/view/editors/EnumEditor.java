@@ -1,16 +1,13 @@
 package ru.ipo.structurededitor.view.editors;
 
 import ru.ipo.structurededitor.controller.FieldMask;
-import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.elements.ComboBoxTextEditorElement;
-import ru.ipo.structurededitor.view.elements.VisibleElement;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.lang.reflect.Field;
 import java.beans.PropertyDescriptor;
-import java.util.List;
+import java.lang.reflect.Field;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,7 +29,6 @@ public class EnumEditor extends FieldEditor {
         PropertyDescriptor pd;
         Class<? extends Enum> eclass;
         try {
-
 
 
             if (mask != null) {
@@ -58,11 +54,10 @@ public class EnumEditor extends FieldEditor {
     }
 
 
-
     @Override
     protected void updateElement() {
         @SuppressWarnings("unchecked")
-        ComboBoxTextEditorElement<Enum<?>> EnumSelectionElement = (ComboBoxTextEditorElement<Enum<?>>)getElement();
+        ComboBoxTextEditorElement<Enum<?>> EnumSelectionElement = (ComboBoxTextEditorElement<Enum<?>>) getElement();
         EnumSelectionElement.forcedSetValue((Enum<?>) getValue());
     }
 

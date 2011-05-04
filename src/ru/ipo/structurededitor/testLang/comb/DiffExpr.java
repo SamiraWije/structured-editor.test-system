@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Time: 16:29:20
  */
 @DSLBeanParams(shortcut = "-", description = "Вычитание")
-public class  DiffExpr extends ArrayExpr {
+public class DiffExpr extends ArrayExpr {
     public DiffExpr() {
         op = '-';
     }

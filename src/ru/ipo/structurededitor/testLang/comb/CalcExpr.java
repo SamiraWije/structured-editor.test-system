@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.*;
  * Time: 16:29:20
  */
 @DSLBeanParams(shortcut = "Вычислить")
-public class  CalcExpr extends CalculableExpr {
+public class CalcExpr extends CalculableExpr {
 
     public Cell getLayout() {
         return new Horiz(new ConstantCell("Вычислить ("), new FieldCell("ce"), new ConstantCell(")"));

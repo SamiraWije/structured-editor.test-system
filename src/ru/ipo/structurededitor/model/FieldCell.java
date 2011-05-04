@@ -14,7 +14,7 @@ public class FieldCell implements Cell {
         this.fieldName = fieldName;
     }
 
-    private boolean singleLined=false;
+    private boolean singleLined = false;
 
     public boolean getSingleLined() {
         return singleLined;

@@ -1,7 +1,6 @@
 package ru.ipo.structurededitor.view.events;
 
 import java.util.EventObject;
-import java.util.Vector;
 
 /**
  * Event: editor repaint

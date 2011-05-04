@@ -12,6 +12,7 @@ import ru.ipo.structurededitor.model.*;
 
 public abstract class Element implements DSLBean {
     protected String elType;
+
     public String getName() {
         return name;
     }
@@ -21,7 +22,8 @@ public abstract class Element implements DSLBean {
     }
 
     private String name;
-     public Cell getLayout() {
-        return new Horiz(new ConstantCell(elType), new FieldCell("name",true));
-     }
+
+    public Cell getLayout() {
+        return new Horiz(new ConstantCell(elType), new FieldCell("name", true));
+    }
 }

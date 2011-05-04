@@ -52,10 +52,6 @@ public class TestEditorLog {
         editorsRegistry.registerEditor(Count.class, EnumEditor.class);     */
 
 
-
-
-
-
         //-------Nodes registry preparation
         NodesRegistry nodesRegistry = nodesRegistryPrep();
 
@@ -101,7 +97,7 @@ public class TestEditorLog {
         Menu help = new Menu("Помощь");
         menuBar.add(help);
         //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
-        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry);
+        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "log");
         item1.addActionListener(handler);
         item2.addActionListener(handler);
         item3.addActionListener(handler);
@@ -130,7 +126,7 @@ public class TestEditorLog {
 
         structuredEditorScrPane.requestFocusInWindow();
         f.setVisible(true);
-        final ModificationVector modificationVector=model.getModificationVector();
+        final ModificationVector modificationVector = model.getModificationVector();
         modificationVector.addModificationListener(new ModificationListener() {
             public void modificationPerformed() {
                 if (modificationVector.canRedo()) {
@@ -198,128 +194,28 @@ public class TestEditorLog {
 
 
             Attr taskTitle = document.createAttribute("title");
-            nodesRegistry.registerNode(Statement.class, "title", taskTitle);
+            nodesRegistry.registerNode(LogicStatement.class, "title", taskTitle);
 
             Element taskDescription = document.createElement("description");
-            nodesRegistry.registerNode(Statement.class, "statement", taskDescription);
+            nodesRegistry.registerNode(LogicStatement.class, "statement", taskDescription);
 
-            //Verifiers
-            Element countVerifier = document.createElement("verifier");
-            countVerifier.setAttribute("type", "CountVerifier");
-            nodesRegistry.registerNode(CountExaminer.class, countVerifier);
+            //Logic conditions
+            Element trueCondition = document.createElement("condition");
+            trueCondition.setAttribute("type", "True");
+            nodesRegistry.registerNode(TrueLogicCondition.class, trueCondition);
+            Attr trueConditionNum = document.createAttribute("num");
+            nodesRegistry.registerNode(TrueLogicCondition.class, "num", trueConditionNum);
 
-            Element indexVerifier = document.createElement("verifier");
-            indexVerifier.setAttribute("type", "IndexVerifier");
-            nodesRegistry.registerNode(IndexExaminer.class, indexVerifier);
-
-            Element listVerifier = document.createElement("verifier");
-            listVerifier.setAttribute("type", "ListVerifier");
-            nodesRegistry.registerNode(ListExaminer.class, listVerifier);
-
-            Element answerVerifier = document.createElement("verifier");
-            answerVerifier.setAttribute("type", "AnswerVerifier");
-            nodesRegistry.registerNode(AnswerExaminer.class, answerVerifier);
-
-            //Sets
-            Element numericSet = document.createElement("set");
-            numericSet.setAttribute("type", "NumericSet");
-            nodesRegistry.registerNode(IntSegment.class, numericSet);
-            Attr numericSetFirst = document.createAttribute("first");
-            nodesRegistry.registerNode(IntSegment.class, "from", numericSetFirst);
-            Attr numericSetLast = document.createAttribute("last");
-            nodesRegistry.registerNode(IntSegment.class, "to", numericSetLast);
-
-            Element decartSet = document.createElement("set");
-            decartSet.setAttribute("type", "DecartSet");
-            nodesRegistry.registerNode(DescartesPower.class, decartSet);
-            Attr decartSetPower = document.createAttribute("power");
-            nodesRegistry.registerNode(DescartesPower.class, "pow", decartSetPower);
-
-            Element combinationSet = document.createElement("set");
-            combinationSet.setAttribute("type", "CombinationSet");
-            nodesRegistry.registerNode(CombKit.class, combinationSet);
-            Attr combinationSetLength = document.createAttribute("length");
-            nodesRegistry.registerNode(CombKit.class, "k", combinationSetLength);
-
-            Element layoutSet = document.createElement("set");
-            layoutSet.setAttribute("type", "LayoutSet");
-            nodesRegistry.registerNode(LayoutKit.class, layoutSet);
-            Attr layoutSetLength = document.createAttribute("length");
-            nodesRegistry.registerNode(LayoutKit.class, "k", layoutSetLength);
-
-            Element enumerationSet = document.createElement("set");
-            enumerationSet.setAttribute("type", "EnumerationSet");
-            nodesRegistry.registerNode(EnumKit.class, enumerationSet);
-
-            Element constElement = document.createElement("constElement");
-            nodesRegistry.registerNode(InnerConstantElement.class, constElement);
-            nodesRegistry.registerNode(IntConstantElement.class, constElement);
-
+            Element falseCondition = document.createElement("condition");
+            falseCondition.setAttribute("type", "False");
+            nodesRegistry.registerNode(FalseLogicCondition.class, falseCondition);
+            Attr falseConditionNum = document.createAttribute("num");
+            nodesRegistry.registerNode(FalseLogicCondition.class, "num", falseConditionNum);
 
             //Functions
-            Element evenFnc = document.createElement("function");
-            evenFnc.setAttribute("type", "Even");
-            nodesRegistry.registerNode(EvExpr.class, evenFnc);
-
-            Element oddFnc = document.createElement("function");
-            oddFnc.setAttribute("type", "Odd");
-            nodesRegistry.registerNode(NotEvExpr.class, oddFnc);
-
             Element notFnc = document.createElement("function");
             notFnc.setAttribute("type", "Not");
             nodesRegistry.registerNode(LogNotExpr.class, notFnc);
-
-            Element toDigitFnc = document.createElement("function");
-            toDigitFnc.setAttribute("type", "ToDigit");
-            nodesRegistry.registerNode(ToNumExpr.class, toDigitFnc);
-
-            Element equalsFnc = document.createElement("function");
-            equalsFnc.setAttribute("type", "Equals");
-            nodesRegistry.registerNode(EqExpr.class, equalsFnc);
-
-            Element greaterFnc = document.createElement("function");
-            greaterFnc.setAttribute("type", "Greater");
-            nodesRegistry.registerNode(GtExpr.class, greaterFnc);
-
-            Element divFnc = document.createElement("function");
-            divFnc.setAttribute("type", "Div");
-            nodesRegistry.registerNode(IntDivExpr.class, divFnc);
-
-            Element likeFnc = document.createElement("function");
-            likeFnc.setAttribute("type", "Like");
-            nodesRegistry.registerNode(LkExpr.class, likeFnc);
-
-            Element modFnc = document.createElement("function");
-            modFnc.setAttribute("type", "Mod");
-            nodesRegistry.registerNode(RemExpr.class, modFnc);
-
-            Element smallerFnc = document.createElement("function");
-            smallerFnc.setAttribute("type", "Smaller");
-            nodesRegistry.registerNode(SlExpr.class, smallerFnc);
-
-            Element parserFnc = document.createElement("function");
-            parserFnc.setAttribute("type", "Parser");
-            nodesRegistry.registerNode(ModCalculableExpr.class, parserFnc);
-            nodesRegistry.registerNode(CalcExpr.class, parserFnc);
-            Attr parserExp = document.createAttribute("exp");
-            nodesRegistry.registerNode(ModCalculableExpr.class, "ce", parserExp);
-            nodesRegistry.registerNode(CalcExpr.class, "ce", parserExp);
-            Attr parserFncMod = document.createAttribute("mod");
-            nodesRegistry.registerNode(ModCalculableExpr.class, "mod", parserFncMod);
-
-            Element projectionFnc = document.createElement("function");
-            projectionFnc.setAttribute("type", "Projection");
-            nodesRegistry.registerNode(PrjExpr.class, projectionFnc);
-            Attr projectionFncAxis = document.createAttribute("axis");
-            nodesRegistry.registerNode(PrjExpr.class, "ind", projectionFncAxis);
-
-            Element sumFnc = document.createElement("function");
-            sumFnc.setAttribute("type", "Sum");
-            nodesRegistry.registerNode(AddExpr.class, sumFnc);
-
-            Element subFnc = document.createElement("function");
-            subFnc.setAttribute("type", "Sub");
-            nodesRegistry.registerNode(DiffExpr.class, subFnc);
 
             Element orFnc = document.createElement("function");
             orFnc.setAttribute("type", "Or");
@@ -329,8 +225,12 @@ public class TestEditorLog {
             andFnc.setAttribute("type", "And");
             nodesRegistry.registerNode(LogAndExpr.class, andFnc);
 
-            Element currentSetElement = document.createElement("current-set-element");
-            nodesRegistry.registerNode(CurElementExpr.class, currentSetElement);
+            //Atom
+            Element atom = document.createElement("atom");
+            nodesRegistry.registerNode(LogicAtom.class, atom);
+            Attr atomName = document.createAttribute("name");
+            nodesRegistry.registerNode(LogicAtom.class, "val", atomName);
+
             return nodesRegistry;
 
         } catch (Exception e) {
@@ -379,7 +279,7 @@ public class TestEditorLog {
         root.add(new ContainerElement(model, _4thLine));*/
 
         //Bean1 bean1 = new Bean1();
-        DSLBeansRegistry reg=new DSLBeansRegistry();
+        DSLBeansRegistry reg = new DSLBeansRegistry();
         reg.clearRegistry();
         reg.registerBean(LogicStatement.class);
         reg.registerBean(LogicAtom.class);

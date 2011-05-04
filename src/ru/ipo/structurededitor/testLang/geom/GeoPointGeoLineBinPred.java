@@ -1,8 +1,5 @@
 package ru.ipo.structurededitor.testLang.geom;
 
-import geogebra.kernel.GeoLine;
-import geogebra.kernel.GeoPoint;
-
 /**
  * Created by IntelliJ IDEA.
  * User: oleg
@@ -10,7 +7,7 @@ import geogebra.kernel.GeoPoint;
  * Time: 14:26
  * To change this template use File | Settings | File Templates.
  */
-public abstract class GeoPointGeoLineBinPred extends BinPred{
+public abstract class GeoPointGeoLineBinPred extends BinPred {
 
     public AbstractGeoPoint getE1() {
         return e1;

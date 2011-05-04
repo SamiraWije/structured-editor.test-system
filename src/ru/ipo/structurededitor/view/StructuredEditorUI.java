@@ -1,18 +1,17 @@
 package ru.ipo.structurededitor.view;
 
+import ru.ipo.structurededitor.StructuredEditor;
+import ru.ipo.structurededitor.view.elements.VisibleElement;
+import ru.ipo.structurededitor.view.events.*;
+
+import javax.swing.*;
+import javax.swing.plaf.ComponentUI;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Vector;
-
-import javax.swing.JComponent;
-import javax.swing.plaf.ComponentUI;
-
-import ru.ipo.structurededitor.StructuredEditor;
-import ru.ipo.structurededitor.view.elements.VisibleElement;
-import ru.ipo.structurededitor.view.events.*;
 
 /**
  * Created by IntelliJ IDEA. User: Ilya Date: 02.01.2010 Time: 16:59:16
@@ -72,14 +71,14 @@ public class StructuredEditorUI extends ComponentUI {
 
         editor.getModel().addPopupListener(new PopupListener() {
             public ListDialog showPopup(PopupEvent evt) {
-                int x= evt.getX();
+                int x = evt.getX();
                 int y = evt.getY();
                 Vector<String> filteredPopupList = evt.getFilteredPopupList();
 
                 x = xToPixels(x) + editor.getLocationOnScreen().x;
-                y = yToPixels(y)+ editor.getLocationOnScreen().y;
+                y = yToPixels(y) + editor.getLocationOnScreen().y;
                 ListDialog dialog = new ListDialog(editor, filteredPopupList.toArray(),
-                        filteredPopupList.get(0), evt.getLongStr(), x,y);
+                        filteredPopupList.get(0), evt.getLongStr(), x, y);
                 redrawEditor();
                 return dialog;
             }
@@ -96,14 +95,14 @@ public class StructuredEditorUI extends ComponentUI {
             }
         });
         editor.getModel().addCaretListener(new CaretListener() {
-          public void showCaret(CaretEvent evt) {
-              evt.getD().getGraphics().setColor(Color.BLUE);
-              evt.getD().getGraphics().drawLine(
-                    xToPixels(editor.getModel().getAbsoluteCaretX()),
-                    yToPixels(editor.getModel().getAbsoluteCaretY()),
-                    xToPixels(editor.getModel().getAbsoluteCaretX()),
-                    yToPixels(editor.getModel().getAbsoluteCaretY()) + getCharHeight());
-          }
+            public void showCaret(CaretEvent evt) {
+                evt.getD().getGraphics().setColor(Color.BLUE);
+                evt.getD().getGraphics().drawLine(
+                        xToPixels(editor.getModel().getAbsoluteCaretX()),
+                        yToPixels(editor.getModel().getAbsoluteCaretY()),
+                        xToPixels(editor.getModel().getAbsoluteCaretX()),
+                        yToPixels(editor.getModel().getAbsoluteCaretY()) + getCharHeight());
+            }
         });
         editor.getModel().addRepaintListener(new RepaintListener() {
             public void repaint() {
@@ -150,7 +149,7 @@ public class StructuredEditorUI extends ComponentUI {
         element.drawElement(0, 0, d);
 
         if (se.isFocusOwner())
-             se.getModel().showCaret(d);
+            se.getModel().showCaret(d);
         /*if (focusedRectangle != null) {
             g.setColor(Color.blue);
             g.drawRect(focusedRectangle.x, focusedRectangle.y, focusedRectangle.width, focusedRectangle.height);
@@ -174,10 +173,10 @@ public class StructuredEditorUI extends ComponentUI {
     }
 
     public int pixelsToX(int x) {
-        return  (x-StructuredEditorUI.HORIZONTAL_MARGIN)  / getCharWidth();
+        return (x - StructuredEditorUI.HORIZONTAL_MARGIN) / getCharWidth();
     }
 
     public int pixelsToY(int y) {
-        return (y-StructuredEditorUI.VERTICAL_MARGIN)/ getCharHeight();
+        return (y - StructuredEditorUI.VERTICAL_MARGIN) / getCharHeight();
     }
 }

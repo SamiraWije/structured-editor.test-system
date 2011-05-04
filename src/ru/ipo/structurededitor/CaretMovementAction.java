@@ -1,14 +1,11 @@
 package ru.ipo.structurededitor;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-
-import javax.swing.AbstractAction;
-
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.TextPosition;
 import ru.ipo.structurededitor.view.VisibleElementsGraph;
-import ru.ipo.structurededitor.view.elements.VisibleElement;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 /**
  * Created by IntelliJ IDEA. User: Ilya Date: 14.01.2010 Time: 22:20:40

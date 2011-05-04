@@ -8,11 +8,18 @@ import ru.ipo.structurededitor.testLang.comb.Statement;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.beans.*;
-import java.io.*;
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 
@@ -101,8 +108,8 @@ public class StructureSerializer {
     }
 
     private Node makeElement(Element node, Object bean) {
-        if (bean.getClass().isEnum()){
-            node.setAttribute("name",bean.toString());
+        if (bean.getClass().isEnum()) {
+            node.setAttribute("name", bean.toString());
             return node;
         }
 
@@ -147,7 +154,7 @@ public class StructureSerializer {
                                     } else if (val.getClass().isArray()) {
                                         node.appendChild(newNode);
                                         node1 = (Element) node;
-                                        node= (Element) newNode;
+                                        node = (Element) newNode;
                                         for (int i = 0; i < Array.getLength(val); i++) {
                                             Object item = Array.get(val, i);
                                             if (item != null) {
@@ -172,105 +179,103 @@ public class StructureSerializer {
                                                 node.appendChild(newNode);
                                             }
                                         }
-                                        node=node1;
+                                        node = node1;
                                         /*   if (item != null)
                                         node.appendChild(makeElement((Element) newNode, (DSLBean) item));
                                     else
                                         node.appendChild(newNode);
                                     }                             */
-                                } else
-                                    node.appendChild(makeElement((Element) newNode,  val));
-
-
-                        }else
-                        node.appendChild(newNode);
-                        node1 = (Element) node.getParentNode();
-                        if (newNode.getNodeName().equals("set") && bean instanceof Statement && node1 != null) {
-                            node = node1;
-                        }
-                    }
-                } else { //No node is associated with property
-                    val = getValue(bean, d.getName());
-                    if (val != null) {
-                        if (val instanceof GeoElement){
-                            node.setAttribute("name",((GeoElement)val).getCaption());
-                        } else if (val instanceof Integer) {
-                            Text txt = document.createTextNode(String.valueOf(val));
-                            node.appendChild(txt);
-                        } else if (val.getClass().isArray()) {
-                            if (newNode.getNodeName().equals("predicate")) {
-                                Element tmpNode = node;
-                                node = document.createElement("predicates");
-                                tmpNode.appendChild(node);
-                            }
-                            for (int i = 0; i < Array.getLength(val); i++) {
-                                Object item = Array.get(val, i);
-                                if (item != null) {
-                                    newNode = nodesRegistry.getNode(item.getClass());
-                                    newNode = document.adoptNode(newNode);
-                                    if (!newNode.isEqualNode(nodesRegistry.getDefaultNode())) {
-                                        if (newNode.getNodeName().equals("set") && bean instanceof Statement) {
-                                            Element tmpNode = node;
-                                            node = document.createElement("sourceSet");
-                                            tmpNode.appendChild(node);
-                                        }
-                                        node.appendChild(makeElement((Element) newNode,  item));
-                                        Element node1 = (Element) node.getParentNode();
-                                        if (newNode.getNodeName().equals("set") && bean instanceof Statement && node1 != null) {
-                                            node = node1;
-                                        }
                                     } else
-                                        node.appendChild(newNode);
-                                } else {
-                                    newNode = nodesRegistry.getEmptyNode();
-                                    newNode = document.adoptNode(newNode);
-                                    node.appendChild(newNode);
-                                }
-                            }
-                            Element node1 = (Element) node.getParentNode();
-                            if (newNode.getNodeName().equals("predicate") && node1 != null) {
-                                node = node1;
-                            }
+                                        node.appendChild(makeElement((Element) newNode, val));
 
-                        } else {
-                            newNode = nodesRegistry.getNode(val.getClass());
-                            newNode = document.adoptNode(newNode);
-                            if (!newNode.isEqualNode(nodesRegistry.getDefaultNode())) {
-                                if (newNode.getNodeName().equals("set") && bean instanceof Statement) {
+
+                                } else
+                                    node.appendChild(newNode);
+                                node1 = (Element) node.getParentNode();
+                                if (newNode.getNodeName().equals("set") && bean instanceof Statement && node1 != null) {
+                                    node = node1;
+                                }
+                        }
+                    } else { //No node is associated with property
+                        val = getValue(bean, d.getName());
+                        if (val != null) {
+                            if (val instanceof GeoElement) {
+                                node.setAttribute("name", ((GeoElement) val).getCaption());
+                            } else if (val instanceof Integer) {
+                                Text txt = document.createTextNode(String.valueOf(val));
+                                node.appendChild(txt);
+                            } else if (val.getClass().isArray()) {
+                                if (newNode.getNodeName().equals("predicate")) {
                                     Element tmpNode = node;
-                                    node = document.createElement("sourceSet");
+                                    node = document.createElement("predicates");
                                     tmpNode.appendChild(node);
                                 }
-
-                                node.appendChild(makeElement((Element) newNode,  val));
-                                if (newNode.getNodeName().equals("set") && bean instanceof Statement) {
-                                    node = (Element) node.getParentNode();
+                                for (int i = 0; i < Array.getLength(val); i++) {
+                                    Object item = Array.get(val, i);
+                                    if (item != null) {
+                                        newNode = nodesRegistry.getNode(item.getClass());
+                                        newNode = document.adoptNode(newNode);
+                                        if (!newNode.isEqualNode(nodesRegistry.getDefaultNode())) {
+                                            if (newNode.getNodeName().equals("set") && bean instanceof Statement) {
+                                                Element tmpNode = node;
+                                                node = document.createElement("sourceSet");
+                                                tmpNode.appendChild(node);
+                                            }
+                                            node.appendChild(makeElement((Element) newNode, item));
+                                            Element node1 = (Element) node.getParentNode();
+                                            if (newNode.getNodeName().equals("set") && bean instanceof Statement && node1 != null) {
+                                                node = node1;
+                                            }
+                                        } else
+                                            node.appendChild(newNode);
+                                    } else {
+                                        newNode = nodesRegistry.getEmptyNode();
+                                        newNode = document.adoptNode(newNode);
+                                        node.appendChild(newNode);
+                                    }
                                 }
-                            } else
-                                node.appendChild(newNode);
+                                Element node1 = (Element) node.getParentNode();
+                                if (newNode.getNodeName().equals("predicate") && node1 != null) {
+                                    node = node1;
+                                }
+
+                            } else {
+                                newNode = nodesRegistry.getNode(val.getClass());
+                                newNode = document.adoptNode(newNode);
+                                if (!newNode.isEqualNode(nodesRegistry.getDefaultNode())) {
+                                    if (newNode.getNodeName().equals("set") && bean instanceof Statement) {
+                                        Element tmpNode = node;
+                                        node = document.createElement("sourceSet");
+                                        tmpNode.appendChild(node);
+                                    }
+
+                                    node.appendChild(makeElement((Element) newNode, val));
+                                    if (newNode.getNodeName().equals("set") && bean instanceof Statement) {
+                                        node = (Element) node.getParentNode();
+                                    }
+                                } else
+                                    node.appendChild(newNode);
+                            }
+                        } else {
+                            newNode = nodesRegistry.getEmptyNode();
+                            newNode = document.adoptNode(newNode);
+                            node.appendChild(newNode);
                         }
-                    } else {
-                        newNode = nodesRegistry.getEmptyNode();
-                        newNode = document.adoptNode(newNode);
-                        node.appendChild(newNode);
                     }
-                }
 
-            } // d is property
-        } //for (d)
+                } // d is property
+            } //for (d)
 
+        } catch (
+                Exception e1
+                )
+
+        {
+            throw new Error("Fail in StructureSerializer.makeElement()");
+        }
+
+        return node;
     }
-
-    catch(
-    Exception e1
-    )
-
-    {
-        throw new Error("Fail in StructureSerializer.makeElement()");
-    }
-
-    return node;
-}
 
     private void setValue(DSLBean bean, String fieldName, Object value) {
         try {

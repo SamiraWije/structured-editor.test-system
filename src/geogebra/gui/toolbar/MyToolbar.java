@@ -266,7 +266,7 @@ public class MyToolbar extends JPanel implements ComponentListener {
    * numbers, "," adds a separator within a menu, "|" starts a new menu and "||"
    * adds a separator before starting a new menu.
    * 
-   * @param modes
+   *
    * @param tb
    * @param bg
    */

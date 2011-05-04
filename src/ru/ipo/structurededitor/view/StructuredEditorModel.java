@@ -1,9 +1,5 @@
 package ru.ipo.structurededitor.view;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-import java.util.Vector;
-
 import ru.ipo.structurededitor.controller.EditorsRegistry;
 import ru.ipo.structurededitor.controller.ModificationVector;
 import ru.ipo.structurededitor.model.DSLBean;
@@ -12,6 +8,9 @@ import ru.ipo.structurededitor.view.elements.VisibleElement;
 import ru.ipo.structurededitor.view.events.*;
 
 import javax.swing.event.EventListenerList;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.Vector;
 
 /**
  * Корень дерева ячеек
@@ -34,8 +33,8 @@ public class StructuredEditorModel {
         this.absoluteCaretY = absoluteCaretY;
     }
 
-    private int absoluteCaretX=0;
-    private int absoluteCaretY=0;
+    private int absoluteCaretX = 0;
+    private int absoluteCaretY = 0;
 
     private VisibleElement rootElement;
     //private StructuredEditor editor;
@@ -70,17 +69,19 @@ public class StructuredEditorModel {
     }
 
     public StructuredEditorModel(DSLBean o, ModificationVector modificationVector) {
-       this.o = o;
-       setModificationVector(modificationVector);
-       editorsRegistry = new EditorsRegistry();
-       beansRegistry = new DSLBeansRegistry();
+        this.o = o;
+        setModificationVector(modificationVector);
+        editorsRegistry = new EditorsRegistry();
+        beansRegistry = new DSLBeansRegistry();
 
-       setRootElement(new EditorRenderer(this, o).getRenderResult());
+        setRootElement(new EditorRenderer(this, o).getRenderResult());
 
     }
+
     public void setObject(DSLBean o) {
         this.o = o;
     }
+
     public DSLBean getObject() {
         return o;
     }
@@ -139,6 +140,7 @@ public class StructuredEditorModel {
     public void removePopupListener(PopupListener l) {
         listenerList.remove(PopupListener.class, l);
     }
+
     public void addRepaintListener(RepaintListener l) {
         listenerList.add(RepaintListener.class, l);
     }
@@ -146,14 +148,17 @@ public class StructuredEditorModel {
     public void removeRepaintListener(RepaintListener l) {
         listenerList.remove(RepaintListener.class, l);
     }
+
     public ListDialog showPopup(Vector<String> filteredPopupList, String longStr, int x, int y) {
         return firePopupShow(new PopupEvent(this, filteredPopupList, longStr, x, y));
 
     }
-    public void showCaret(Display d){
 
-        fireCaretShow(new CaretEvent(this,d));
+    public void showCaret(Display d) {
+
+        fireCaretShow(new CaretEvent(this, d));
     }
+
     public void repaint() {
         fireRepaint();
 
@@ -161,40 +166,42 @@ public class StructuredEditorModel {
 
     protected void fireRepaint() {
         Object[] listeners = listenerList.getListenerList();
-        for (int i = listeners.length-2; i>=0; i-=2) {
-                 if (listeners[i]==RepaintListener.class) {
-                     // Lazily create the event:
-                     /*if (Event == null)
-                         fooEvent = new FooEvent(this);*/
-                     ((RepaintListener)listeners[i+1]).repaint();
-                 }
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == RepaintListener.class) {
+                // Lazily create the event:
+                /*if (Event == null)
+             fooEvent = new FooEvent(this);*/
+                ((RepaintListener) listeners[i + 1]).repaint();
+            }
         }
 
 
     }
+
     protected ListDialog firePopupShow(PopupEvent pe) {
         Object[] listeners = listenerList.getListenerList();
-        for (int i = listeners.length-2; i>=0; i-=2) {
-                 if (listeners[i]==PopupListener.class) {
-                     // Lazily create the event:
-                     /*if (Event == null)
-                         fooEvent = new FooEvent(this);*/
-                     return ((PopupListener)listeners[i+1]).showPopup(pe);
-                 }
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == PopupListener.class) {
+                // Lazily create the event:
+                /*if (Event == null)
+             fooEvent = new FooEvent(this);*/
+                return ((PopupListener) listeners[i + 1]).showPopup(pe);
+            }
         }
         return null;
 
     }
+
     protected void fireCaretShow(CaretEvent ce) {
         Object[] listeners = listenerList.getListenerList();
-        for (int i = listeners.length-2; i>=0; i-=2) {
-                 if (listeners[i]==CaretListener.class) {
-                     // Lazily create the event:
-                     /*if (Event == null)
-                         fooEvent = new FooEvent(this);*/
-                     ((CaretListener)listeners[i+1]).showCaret(ce);
-                     //return;
-                 }
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == CaretListener.class) {
+                // Lazily create the event:
+                /*if (Event == null)
+             fooEvent = new FooEvent(this);*/
+                ((CaretListener) listeners[i + 1]).showCaret(ce);
+                //return;
+            }
         }
 
 

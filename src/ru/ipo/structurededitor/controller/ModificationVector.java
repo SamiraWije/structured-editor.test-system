@@ -2,18 +2,10 @@ package ru.ipo.structurededitor.controller;
 
 
 import ru.ipo.structurededitor.model.DSLBean;
-import ru.ipo.structurededitor.view.events.PopupListener;
-import ru.ipo.structurededitor.view.events.RepaintListener;
 
-import javax.swing.*;
-import javax.swing.event.EventListenerList;
-import java.awt.*;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.Vector;
-
-import static ru.ipo.structurededitor.view.editors.ArrayEditor.resizeArray;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,7 +17,8 @@ import static ru.ipo.structurededitor.view.editors.ArrayEditor.resizeArray;
 public class ModificationVector {
     private Vector<Modification> vector;
     private int position = -1;
-    ModificationEventSupport mes=new ModificationEventSupport();
+    ModificationEventSupport mes = new ModificationEventSupport();
+
     public void addModificationListener(ModificationListener l) {
         mes.addModificationListener(l);
     }
@@ -34,7 +27,7 @@ public class ModificationVector {
         mes.removeModificationListener(l);
     }
 
-    public void add(Modification mod){
+    public void add(Modification mod) {
         if (vector == null) {
             vector = new Vector<Modification>();
             position = -1;
@@ -77,12 +70,12 @@ public class ModificationVector {
             Method rm = pd.getReadMethod();
             Method wm = pd.getWriteMethod();
 
-            if (mask==null) {
+            if (mask == null) {
 
                 wm.invoke(bean, value);
             } else {
                 Object val = rm.invoke(bean);
-                val=mask.set(val, value);
+                val = mask.set(val, value);
                 wm.invoke(bean, val);
             }
             //empty = false;
@@ -93,12 +86,14 @@ public class ModificationVector {
         }
     }
 
-    public boolean canUndo(){
+    public boolean canUndo() {
         return position > -1;
     }
-    public  boolean canRedo(){
-        return vector!=null && position < vector.size() - 1;
+
+    public boolean canRedo() {
+        return vector != null && position < vector.size() - 1;
     }
+
     public void undo() {
         if (canUndo()) {
             Modification mod = vector.get(position);

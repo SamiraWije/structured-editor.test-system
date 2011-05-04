@@ -1,8 +1,6 @@
 package ru.ipo.structurededitor.testLang.logic;
 
 import ru.ipo.structurededitor.model.*;
-import ru.ipo.structurededitor.testLang.comb.Examiner;
-import ru.ipo.structurededitor.testLang.comb.Kit;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,13 +15,12 @@ public class LogicStatement implements DSLBean {
     private LogicCondition condition;
 
     public LogicCondition getCondition() {
-            return condition;
-        }
+        return condition;
+    }
 
     public void setCondition(LogicCondition condition) {
-            this.condition = condition;
-        }
-
+        this.condition = condition;
+    }
 
 
     public String getStatement() {

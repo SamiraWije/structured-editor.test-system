@@ -9,23 +9,24 @@ public class HorizArray implements Cell {
      * имя поля в JavaBean для редактирования
      */
     private String fieldName;
-    private char spaceChar=0;
+    private char spaceChar = 0;
     boolean singleLined;
 
     public boolean getSingleLined() {
-            return singleLined;
+        return singleLined;
     }
 
     public HorizArray(String fieldName, char spaceChar, boolean singleLined) {
         this.fieldName = fieldName;
         this.spaceChar = spaceChar;
-        this.singleLined=singleLined;
+        this.singleLined = singleLined;
     }
 
     public HorizArray(String fieldName, char spaceChar) {
         this.fieldName = fieldName;
         this.spaceChar = spaceChar;
     }
+
     public HorizArray(String fieldName) {
         this.fieldName = fieldName;
     }
@@ -33,6 +34,7 @@ public class HorizArray implements Cell {
     public String getFieldName() {
         return fieldName;
     }
+
     public char getSpaceChar() {
         return spaceChar;
     }

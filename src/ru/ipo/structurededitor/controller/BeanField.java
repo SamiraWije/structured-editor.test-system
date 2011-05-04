@@ -13,10 +13,11 @@ public class BeanField {
     private DSLBean bean;
     private String fieldName;
 
-    public BeanField(DSLBean bean,String fieldName){
-        this.bean=bean;
-        this.fieldName=fieldName;
+    public BeanField(DSLBean bean, String fieldName) {
+        this.bean = bean;
+        this.fieldName = fieldName;
     }
+
     public DSLBean getBean() {
         return bean;
     }
@@ -26,9 +27,9 @@ public class BeanField {
     }
 
     @Override
-    public boolean equals(Object obj){
+    public boolean equals(Object obj) {
         return obj instanceof BeanField &&
-                ((BeanField) obj).getBean()== bean &&
+                ((BeanField) obj).getBean() == bean &&
                 ((BeanField) obj).getFieldName().equals(fieldName);
 
     }

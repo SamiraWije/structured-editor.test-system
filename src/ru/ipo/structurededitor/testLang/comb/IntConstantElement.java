@@ -1,6 +1,9 @@
 package ru.ipo.structurededitor.testLang.comb;
 
-import ru.ipo.structurededitor.model.*;
+import ru.ipo.structurededitor.model.Cell;
+import ru.ipo.structurededitor.model.DSLBeanParams;
+import ru.ipo.structurededitor.model.FieldCell;
+import ru.ipo.structurededitor.model.Horiz;
 
 /**
  * Created by IntelliJ IDEA.
@@ -9,7 +12,7 @@ import ru.ipo.structurededitor.model.*;
  * Time: 16:07:49
  */
 @DSLBeanParams(shortcut = "Целочисленный", description = "постоянный элемент")
-public class  IntConstantElement extends ConstantElement {
+public class IntConstantElement extends ConstantElement {
 
     private int val;
 

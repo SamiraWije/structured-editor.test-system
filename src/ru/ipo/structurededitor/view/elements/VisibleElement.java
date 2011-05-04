@@ -1,17 +1,16 @@
 package ru.ipo.structurededitor.view.elements;
 
+import ru.ipo.structurededitor.view.Display;
+import ru.ipo.structurededitor.view.StructuredEditorModel;
+import ru.ipo.structurededitor.view.TextPosition;
+import ru.ipo.structurededitor.view.events.GeoSelectionChangedEvent;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
-
-import ru.ipo.structurededitor.StructuredEditor;
-import ru.ipo.structurededitor.view.Display;
-import ru.ipo.structurededitor.view.StructuredEditorModel;
-import ru.ipo.structurededitor.view.TextPosition;
-import ru.ipo.structurededitor.view.events.GeoSelectionChangedEvent;
 
 /**
  * View часть ячейки (Cell)
@@ -26,7 +25,6 @@ public abstract class VisibleElement {
 
     private int width;
     private int height;
-
 
 
     protected VisibleElement(StructuredEditorModel model) {
@@ -60,8 +58,8 @@ public abstract class VisibleElement {
      */
 
     public void fireKeyEvent(KeyEvent e) {
-        for (int i = keyListeners.size()-1;i>=0;i--) {
-            KeyListener l=keyListeners.get(i);
+        for (int i = keyListeners.size() - 1; i >= 0; i--) {
+            KeyListener l = keyListeners.get(i);
             switch (e.getID()) {
                 case KeyEvent.KEY_PRESSED:
                     l.keyPressed(e);
@@ -84,14 +82,17 @@ public abstract class VisibleElement {
     }
 
     public void fireMouseEvent(MouseEvent e) {
-       processMouseEvent(e);
+        processMouseEvent(e);
     }
-    public void fireGeoSelectionChangedEvent(GeoSelectionChangedEvent e){
-       processGeoSelectionChangedEvent(e);
+
+    public void fireGeoSelectionChangedEvent(GeoSelectionChangedEvent e) {
+        processGeoSelectionChangedEvent(e);
     }
-    public void processGeoSelectionChangedEvent(GeoSelectionChangedEvent e){
+
+    public void processGeoSelectionChangedEvent(GeoSelectionChangedEvent e) {
 
     }
+
     public TextPosition getAbsolutePosition() {
         int line = 0;
         int column = 0;
@@ -119,7 +120,6 @@ public abstract class VisibleElement {
         return null;
     }
 
-    
 
     public int getChildIndex(VisibleElement child) {
         for (int i = 0; i < getChildrenCount(); i++)
@@ -198,6 +198,7 @@ public abstract class VisibleElement {
 
     protected void processKeyEvent(KeyEvent e) {
     }
+
     protected void processMouseEvent(MouseEvent e) {
     }
 

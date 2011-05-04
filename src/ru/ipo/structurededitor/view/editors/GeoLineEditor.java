@@ -1,11 +1,9 @@
 package ru.ipo.structurededitor.view.editors;
 
-import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoLine;
 import ru.ipo.structurededitor.controller.FieldMask;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.elements.GeoLineLinkElement;
-import ru.ipo.structurededitor.view.elements.TextEditorElement;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -17,24 +15,24 @@ import java.beans.PropertyChangeListener;
  * Time: 22:36:47
  */
 public class GeoLineEditor extends FieldEditor {
-    public GeoLineEditor(Object o, String fieldName, FieldMask mask,StructuredEditorModel model) {
+    public GeoLineEditor(Object o, String fieldName, FieldMask mask, StructuredEditorModel model) {
         super(o, fieldName, mask, model);
         setModificationVector(model.getModificationVector());
-        GeoLine val=(GeoLine) getValue();
+        GeoLine val = (GeoLine) getValue();
         final GeoLineLinkElement editorElement;
-        editorElement = new GeoLineLinkElement(model,val);
+        editorElement = new GeoLineLinkElement(model, val);
         editorElement.addPropertyChangeListener("text", new PropertyChangeListener() {
-                public void propertyChange(PropertyChangeEvent evt) {
-                    setValue(editorElement.getValue());
-                }
-            });
+            public void propertyChange(PropertyChangeEvent evt) {
+                setValue(editorElement.getValue());
+            }
+        });
         setElement(editorElement);
     }
 
     @Override
     protected void updateElement() {
         GeoLineLinkElement editorElement = (GeoLineLinkElement) getElement();
-        GeoLine val=(GeoLine) getValue();
+        GeoLine val = (GeoLine) getValue();
         editorElement.setValue(val);
     }
 }

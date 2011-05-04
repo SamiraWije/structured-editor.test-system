@@ -11,7 +11,7 @@ import ru.ipo.structurededitor.model.*;
  */
 @DSLBeanParams(shortcut = "Новая", description = "Точка для построения")
 public class PointElement extends AbstractGeoPoint {
-   public String getName() {
+    public String getName() {
         return name;
     }
 
@@ -20,7 +20,8 @@ public class PointElement extends AbstractGeoPoint {
     }
 
     private String name;
-     public Cell getLayout() {
-        return new Horiz(new ConstantCell("Точка"), new FieldCell("name",true));
-     }
+
+    public Cell getLayout() {
+        return new Horiz(new ConstantCell("Точка"), new FieldCell("name", true));
+    }
 }

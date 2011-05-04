@@ -1,6 +1,8 @@
 package ru.ipo.structurededitor.view.elements;
 
-import ru.ipo.structurededitor.view.*;
+import ru.ipo.structurededitor.view.Display;
+import ru.ipo.structurededitor.view.StructuredEditorModel;
+import ru.ipo.structurededitor.view.TextProperties;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -66,7 +68,7 @@ public class TextElement extends VisibleElement {
                         if (posSpace > -1) {
                             str1 = str1.substring(0, posSpace);
                         } else
-                            posSpace = LINE_LENGTH-1;
+                            posSpace = LINE_LENGTH - 1;
                         String str2 = str.substring(posSpace + 1);
                         lines.set(i, str1);
                         lines.insertElementAt(str2, i + 1);
@@ -114,24 +116,23 @@ public class TextElement extends VisibleElement {
     }
 
 
-
     public void setEmptyString(String emptyString) {
         this.emptyString = emptyString;
         setWidth(countWidth());
     }
 
     @Override
-    public void processMouseEvent(MouseEvent evt){
+    public void processMouseEvent(MouseEvent evt) {
         /*TextPosition position = getAbsolutePosition();
         int x = position.getColumn();
         int y = position.getLine() + 1;*/
 
-        if (evt.getClickCount()>=1)
-        {
+        if (evt.getClickCount() >= 1) {
             getModel().setFocusedElement(this);
         }
 
     }
+
     public void drawElement(int x0, int y0, Display d) {
         //drawText("\u0421\u0430\u043c\u044b\u0435.",nullTextProperties,x0,y0,d);
         if (isEmptyText())
@@ -172,7 +173,7 @@ public class TextElement extends VisibleElement {
         if (ui != null)
             ui.redrawEditor();
         else*/
-            repaint();
+        repaint();
     }
 
     public void forcedSetText(String text) {
@@ -185,7 +186,7 @@ public class TextElement extends VisibleElement {
         if (ui != null)
             ui.redrawEditor();
         else*/
-            repaint();
+        repaint();
     }
 
     public boolean isEmptyText() {

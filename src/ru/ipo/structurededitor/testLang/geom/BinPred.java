@@ -1,7 +1,6 @@
 package ru.ipo.structurededitor.testLang.geom;
 
 import ru.ipo.structurededitor.model.*;
-import ru.ipo.structurededitor.testLang.comb.Expr;
 
 /**
  * Created by IntelliJ IDEA.

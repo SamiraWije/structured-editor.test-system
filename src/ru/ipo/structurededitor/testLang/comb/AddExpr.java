@@ -1,6 +1,6 @@
 package ru.ipo.structurededitor.testLang.comb;
 
-import ru.ipo.structurededitor.model.*;
+import ru.ipo.structurededitor.model.DSLBeanParams;
 
 /**
  * Created by IntelliJ IDEA.
@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.*;
  * Time: 16:29:20
  */
 @DSLBeanParams(shortcut = "+", description = "Сложение")
-public class  AddExpr extends ArrayExpr {
+public class AddExpr extends ArrayExpr {
     public AddExpr() {
         op = '+';
     }

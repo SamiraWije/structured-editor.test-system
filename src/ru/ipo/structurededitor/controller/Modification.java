@@ -2,16 +2,6 @@ package ru.ipo.structurededitor.controller;
 
 
 import ru.ipo.structurededitor.model.DSLBean;
-import ru.ipo.structurededitor.view.events.PopupListener;
-
-import javax.swing.*;
-import java.awt.*;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Array;
-import java.lang.reflect.Method;
-import java.util.Vector;
-
-import static ru.ipo.structurededitor.view.editors.ArrayEditor.resizeArray;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,7 +16,6 @@ public class Modification {
     private Object oldValue;
     private Object newValue;
     private FieldMask mask;
-
 
 
     public Modification(DSLBean bean, String fieldName, Object oldValue, Object newValue, FieldMask mask) {

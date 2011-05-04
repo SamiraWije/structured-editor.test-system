@@ -1,6 +1,5 @@
 package ru.ipo.structurededitor.view.elements;
 
-import ru.ipo.structurededitor.view.Display;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.TextProperties;
 
@@ -32,13 +31,14 @@ public class IntEditorElement extends TextEditorElement {
     public void setUnfocusedElementProps() {
         settextProperties(new TextProperties(Font.PLAIN, INT_USER_TEXT_COLOR));
     }
+
     @Override
 
     public void processKeyEvent(KeyEvent e) {
-          switch (e.getKeyCode()) {
+        switch (e.getKeyCode()) {
             case KeyEvent.VK_ENTER:
                 return;
-          }
+        }
         super.processKeyEvent(e);
     }
 }

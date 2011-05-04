@@ -1,8 +1,6 @@
 package ru.ipo.structurededitor.testLang.comb;
 
 import ru.ipo.structurededitor.model.*;
-import ru.ipo.structurededitor.testLang.BeanA;
-import ru.ipo.structurededitor.testLang.BeanA2;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,7 +8,7 @@ import ru.ipo.structurededitor.testLang.BeanA2;
  * Date: 05.08.2010
  * Time: 15:47:18
  */
-public class  Statement implements DSLBean {
+public class Statement implements DSLBean {
 
     private String title;
     private String statement;

@@ -2,7 +2,6 @@ package ru.ipo.structurededitor.view.elements;
 
 import ru.ipo.structurededitor.view.Display;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
-import ru.ipo.structurededitor.view.TextPosition;
 import ru.ipo.structurededitor.view.TextProperties;
 
 import java.awt.*;
@@ -27,13 +26,14 @@ public class TextEditorElement extends TextElement {
     //Color constants
     public static final Color USER_TEXT_COLOR = Color.BLUE;
     public static final Color USER_EDIT_TEXT_COLOR = Color.RED;
-    private boolean singleLined=false;
+    private boolean singleLined = false;
 
     public TextEditorElement(StructuredEditorModel model, String text, boolean singleLined) {
         super(model, text);
-        this.singleLined=singleLined;
+        this.singleLined = singleLined;
         //System.out.println("Text was created with value: ");
     }
+
     public TextEditorElement(StructuredEditorModel model, String text) {
         super(model, text);
         //System.out.println("Text was created with value: ");

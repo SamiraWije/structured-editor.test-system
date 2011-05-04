@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Time: 16:29:20
  */
 @DSLBeanParams(shortcut = "Чет", description = "Четное")
-public class  EvExpr extends UnExpr {
+public class EvExpr extends UnExpr {
     public EvExpr() {
         fn = "Четное";
     }

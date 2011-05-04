@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Time: 16:29:20
  */
 @DSLBeanParams(shortcut = "ВЧисло", description = "Кортеж в число")
-public class  ToNumExpr extends UnExpr {
+public class ToNumExpr extends UnExpr {
     public ToNumExpr() {
         fn = "В число";
     }

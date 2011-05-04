@@ -1,16 +1,9 @@
 package ru.ipo.structurededitor.view.elements;
 
-import ru.ipo.structurededitor.StructuredEditor;
 import ru.ipo.structurededitor.model.DSLBean;
-import ru.ipo.structurededitor.testLang.Bean1;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
-import ru.ipo.structurededitor.view.TextPosition;
 
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.HashMap;
 
 /**
  * Created by IntelliJ IDEA.

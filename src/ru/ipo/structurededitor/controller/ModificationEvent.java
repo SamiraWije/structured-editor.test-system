@@ -1,7 +1,6 @@
 package ru.ipo.structurededitor.controller;
 
 import java.util.EventObject;
-import java.util.Vector;
 
 /**
  * Modification in editor
@@ -13,9 +12,9 @@ public class ModificationEvent extends EventObject {
         return mod;
     }
 
-    public ModificationEvent(Object source,Modification mod) {
+    public ModificationEvent(Object source, Modification mod) {
         super(source);
-        this.mod=mod;
+        this.mod = mod;
 
     }
 

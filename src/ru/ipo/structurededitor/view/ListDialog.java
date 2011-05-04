@@ -94,22 +94,21 @@ public class ListDialog extends JDialog
         dialog.setVisible(true);
         return dialog.getList();
     } */
-
     public JList getList() {
         return list;
     }
 
-   /* private void setValue(String newValue) {
-        value = newValue;
-        list.setSelectedValue(value, true);
-    }  */
+    /* private void setValue(String newValue) {
+      value = newValue;
+      list.setSelectedValue(value, true);
+  }  */
 
 
     public ListDialog(JComponent frameComp,
-                       Object[] data,
-                       String initialValue,
-                       String longValue,
-                       int x, int y) {
+                      Object[] data,
+                      String initialValue,
+                      String longValue,
+                      int x, int y) {
         super(JOptionPane.getFrameForComponent(frameComp), true);
 
         setUndecorated(true);
@@ -237,12 +236,12 @@ public class ListDialog extends JDialog
         if ("Set".equals(e.getActionCommand())) {
             //ListDialog.value = (String) ();
             String text = (String) list.getSelectedValue();
-                    if (text != null) {
-                        text=(String) cmb.getFilteredShortcutList().get(cmb.getFilteredPopupList().indexOf(text));
-                        cmb.setText(text);
-                        cmb.setCaretPosition(text.length(), 0);
-                        cmb.fireSelect();
-                    }
+            if (text != null) {
+                text = (String) cmb.getFilteredShortcutList().get(cmb.getFilteredPopupList().indexOf(text));
+                cmb.setText(text);
+                cmb.setCaretPosition(text.length(), 0);
+                cmb.fireSelect();
+            }
         }
         setVisible(false);
     }

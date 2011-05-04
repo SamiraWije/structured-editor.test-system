@@ -11,7 +11,7 @@ import ru.ipo.structurededitor.model.*;
  */
 @DSLBeanParams(shortcut = "Новая", description = "Прямая для построения")
 public class LineElement extends AbstractGeoLine {
-   public String getName() {
+    public String getName() {
         return name;
     }
 
@@ -20,7 +20,8 @@ public class LineElement extends AbstractGeoLine {
     }
 
     private String name;
-     public Cell getLayout() {
-        return new Horiz(new ConstantCell("Прямая"), new FieldCell("name",true));
-     }
+
+    public Cell getLayout() {
+        return new Horiz(new ConstantCell("Прямая"), new FieldCell("name", true));
+    }
 }

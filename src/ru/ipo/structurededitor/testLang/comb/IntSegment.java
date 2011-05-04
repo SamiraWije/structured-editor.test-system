@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.*;
  * Time: 16:09:17
  */
 @DSLBeanParams(shortcut = "[]", description = "Отрезок")
-public class  IntSegment extends Kit {
+public class IntSegment extends Kit {
 
     private int from;
     private int to;

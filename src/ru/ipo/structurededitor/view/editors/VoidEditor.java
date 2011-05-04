@@ -2,7 +2,6 @@ package ru.ipo.structurededitor.view.editors;
 
 import ru.ipo.structurededitor.controller.FieldMask;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
-import ru.ipo.structurededitor.view.elements.VisibleElement;
 import ru.ipo.structurededitor.view.elements.TextElement;
 
 /**
@@ -14,7 +13,7 @@ import ru.ipo.structurededitor.view.elements.TextElement;
 public class VoidEditor extends FieldEditor {
 
     public VoidEditor(Object o, String fieldName, FieldMask mask, StructuredEditorModel model) {
-        super(o, fieldName,mask,model);
+        super(o, fieldName, mask, model);
         setElement(new TextElement(model, "VOID"));
     }
 

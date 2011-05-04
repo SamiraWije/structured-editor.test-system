@@ -8,7 +8,7 @@ import ru.ipo.structurededitor.model.*;
  * Date: 04.01.2010
  * Time: 2:09:56
  */
-public class  Bean2 implements DSLBean {
+public class Bean2 implements DSLBean {
 
     private String field1;
     private int field2;

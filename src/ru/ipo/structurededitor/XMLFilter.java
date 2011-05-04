@@ -9,14 +9,14 @@ package ru.ipo.structurededitor;
  */
 
 import javax.swing.filechooser.FileFilter;
-import java.io.FilenameFilter;
 import java.io.File;
 
 public class XMLFilter extends FileFilter {
     public boolean accept(File f) {
         return f.isDirectory() || (f.getName().endsWith(".xml"));
     }
-    public String getDescription(){
+
+    public String getDescription() {
         return "XML-file";
     }
 }

@@ -2,8 +2,6 @@ package ru.ipo.structurededitor.view.elements;
 
 import ru.ipo.structurededitor.view.Display;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
-import ru.ipo.structurededitor.view.StructuredEditorUI;
-import ru.ipo.structurededitor.view.elements.VisibleElement;
 
 import javax.swing.*;
 

@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Time: 16:29:20
  */
 @DSLBeanParams(shortcut = "\\", description = "Целочисленное деление")
-public class  IntDivExpr extends BinExpr {
+public class IntDivExpr extends BinExpr {
     public IntDivExpr() {
         op = "div";
     }

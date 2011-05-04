@@ -74,14 +74,14 @@ public class Defaults {
         editorsRegistry.registerHook(new EditorsRegistryHook() {
             public Class<? extends FieldEditor> substituteEditor(Class<? extends DSLBean> beanClass,
                                                                  String propertyName, FieldMask mask, Class valueType) {
-                Class superClass=valueType.getSuperclass();
-                while (superClass!=null && superClass!=Object.class){
-                    valueType=superClass;
-                    superClass=superClass.getSuperclass();
+                Class superClass = valueType.getSuperclass();
+                while (superClass != null && superClass != Object.class) {
+                    valueType = superClass;
+                    superClass = superClass.getSuperclass();
                 }
 
                 Class[] interf = valueType.getInterfaces();
-                if (interf!=null && interf.length>0 && valueType.getInterfaces()[0]==DSLBean.class) {
+                if (interf != null && interf.length > 0 && valueType.getInterfaces()[0] == DSLBean.class) {
                     return DSLBeanEditor.class;
                 }
                 return null;

@@ -1,6 +1,6 @@
 package ru.ipo.structurededitor.testLang.comb;
 
-import ru.ipo.structurededitor.model.*;
+import ru.ipo.structurededitor.model.DSLBean;
 
 /**
  * Created by IntelliJ IDEA.

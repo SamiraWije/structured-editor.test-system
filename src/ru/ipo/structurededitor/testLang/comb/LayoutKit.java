@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.*;
  * Time: 16:07:49
  */
 @DSLBeanParams(shortcut = "A", description = "Множество размещений")
-public class  LayoutKit extends Kit {
+public class LayoutKit extends Kit {
 
     private Kit kit;
     private int k;

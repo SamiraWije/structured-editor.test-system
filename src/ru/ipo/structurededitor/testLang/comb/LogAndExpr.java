@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Time: 16:29:20
  */
 @DSLBeanParams(shortcut = "&", description = "Логическое И")
-public class  LogAndExpr extends ArrayExpr {
+public class LogAndExpr extends ArrayExpr {
     public LogAndExpr() {
         op = '&';
     }

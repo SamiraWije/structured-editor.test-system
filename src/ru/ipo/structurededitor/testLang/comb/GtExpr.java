@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Time: 16:28:44
  */
 @DSLBeanParams(shortcut = ">", description = "Больше")
-public class  GtExpr extends BinExpr {
+public class GtExpr extends BinExpr {
 
     public GtExpr() {
         op = ">";

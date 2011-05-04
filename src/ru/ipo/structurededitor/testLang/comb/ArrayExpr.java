@@ -8,7 +8,7 @@ import ru.ipo.structurededitor.model.*;
  * Date: 05.08.2010
  * Time: 16:29:20
  */
-public abstract class  ArrayExpr extends Expr {
+public abstract class ArrayExpr extends Expr {
     private Expr items[];
     protected char op;
     protected boolean vert = false;

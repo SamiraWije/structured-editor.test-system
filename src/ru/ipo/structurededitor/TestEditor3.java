@@ -1,29 +1,23 @@
 package ru.ipo.structurededitor;
 
-import org.w3c.dom.*;
-import ru.ipo.structurededitor.controller.*;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import ru.ipo.structurededitor.controller.ModificationListener;
+import ru.ipo.structurededitor.controller.ModificationVector;
 import ru.ipo.structurededitor.model.DSLBean;
-import ru.ipo.structurededitor.model.DSLBeansRegistry;
 import ru.ipo.structurededitor.structureBuilder.MyErrorHandler;
 import ru.ipo.structurededitor.structureSerializer.NodesRegistry;
-import ru.ipo.structurededitor.testLang.*;
 import ru.ipo.structurededitor.testLang.comb.*;
-import ru.ipo.structurededitor.view.EditorRenderer;
 import ru.ipo.structurededitor.view.StatusBar;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
-import ru.ipo.structurededitor.view.editors.*;
-import ru.ipo.structurededitor.structureBuilder.StructureBuilder;
 import ru.ipo.structurededitor.view.images.ImageGetter;
-import ru.ipo.structurededitor.xmlViewer.XMLViewer;
 
 import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.EventListener;
 
 /**
  * Created by IntelliJ IDEA.
@@ -54,10 +48,6 @@ public class TestEditor3 {
         editorsRegistry.registerEditor(double.class, DoubleEditor.class);
         editorsRegistry.registerEditor(Boolean.class, BooleanEditor.class);
         editorsRegistry.registerEditor(Count.class, EnumEditor.class);     */
-
-
-
-
 
 
         //-------Nodes registry preparation
@@ -106,7 +96,7 @@ public class TestEditor3 {
         Menu help = new Menu("Помощь");
         menuBar.add(help);
         //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
-        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry);
+        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry,"comb");
         item1.addActionListener(handler);
         item2.addActionListener(handler);
         item3.addActionListener(handler);
@@ -135,7 +125,7 @@ public class TestEditor3 {
 
         structuredEditorScrPane.requestFocusInWindow();
         f.setVisible(true);
-        final ModificationVector modificationVector=model.getModificationVector();
+        final ModificationVector modificationVector = model.getModificationVector();
         modificationVector.addModificationListener(new ModificationListener() {
             public void modificationPerformed() {
                 if (modificationVector.canRedo()) {
@@ -387,7 +377,6 @@ public class TestEditor3 {
         //DSLBeansRegistry reg=new DSLBeansRegistry();
 
         return new StructuredEditorModel(st);
-
 
 
     }

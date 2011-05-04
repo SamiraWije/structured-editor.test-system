@@ -4,7 +4,6 @@ import ru.ipo.structurededitor.model.Cell;
 import ru.ipo.structurededitor.model.DSLBeanParams;
 import ru.ipo.structurededitor.model.FieldCell;
 import ru.ipo.structurededitor.model.Horiz;
-import ru.ipo.structurededitor.testLang.comb.ConstantElement;
 import ru.ipo.structurededitor.testLang.comb.Expr;
 
 /**
@@ -27,6 +26,6 @@ public class LogicAtom extends Expr {
     }
 
     public Cell getLayout() {
-        return new Horiz(new FieldCell("val"));
+        return new Horiz(new FieldCell("val", true));
     }
 }

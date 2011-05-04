@@ -1,6 +1,6 @@
 package ru.ipo.structurededitor.view;
 
-import java.awt.Color;
+import java.awt.*;
 
 /**
  * Свойства текста для вывода

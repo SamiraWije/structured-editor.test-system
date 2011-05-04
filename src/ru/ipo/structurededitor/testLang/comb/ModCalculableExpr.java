@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.*;
  * Time: 16:29:20
  */
 @DSLBeanParams(shortcut = "ВычМод", description = "Вычислить по модулю")
-public class  ModCalculableExpr extends CalculableExpr {
+public class ModCalculableExpr extends CalculableExpr {
     int mod;
 
     public Cell getLayout() {

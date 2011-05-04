@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.*;
  * Time: 16:15:32
  */
 @DSLBeanParams(shortcut = "Списочный", description = "верификатор")
-public class  ListExaminer extends Examiner {
+public class ListExaminer extends Examiner {
 
     private Expr expr;
 

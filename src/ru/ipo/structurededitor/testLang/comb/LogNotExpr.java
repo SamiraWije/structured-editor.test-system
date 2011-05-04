@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Time: 16:29:20
  */
 @DSLBeanParams(shortcut = "!", description = "Логическое НЕ")
-public class  LogNotExpr extends UnExpr {
+public class LogNotExpr extends UnExpr {
     public LogNotExpr() {
         fn = "Не";
     }

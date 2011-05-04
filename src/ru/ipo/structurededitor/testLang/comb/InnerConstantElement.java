@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.*;
  * Time: 16:07:49
  */
 @DSLBeanParams(shortcut = "Вложенный", description = "постоянный элемент")
-public class  InnerConstantElement extends ConstantElement {
+public class InnerConstantElement extends ConstantElement {
 
     private ConstantElement items[];
 

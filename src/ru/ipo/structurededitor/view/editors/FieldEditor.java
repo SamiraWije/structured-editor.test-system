@@ -1,15 +1,14 @@
 package ru.ipo.structurededitor.view.editors;
 
-import ru.ipo.structurededitor.controller.*;
+import ru.ipo.structurededitor.controller.FieldMask;
+import ru.ipo.structurededitor.controller.Modification;
+import ru.ipo.structurededitor.controller.ModificationVector;
 import ru.ipo.structurededitor.model.DSLBean;
-
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.elements.VisibleElement;
 
 import java.beans.PropertyDescriptor;
-
 import java.lang.reflect.Method;
-
 
 
 /**
@@ -19,7 +18,7 @@ public abstract class FieldEditor {
 
     private Object o;
     private String fieldName;
-    private boolean singleLined=false;
+    private boolean singleLined = false;
 
     public VisibleElement getElement() {
         return editorElement;
@@ -49,21 +48,23 @@ public abstract class FieldEditor {
     }
 
     private ModificationVector modificationVector;
-    /*ModificationEventSupport mes=new ModificationEventSupport();
-    public void addModificationListener(ModificationListener l) {
-        mes.addModificationListener(l);
-    }
 
-    public void removeModificationListener(ModificationListener l) {
-        mes.removeModificationListener(l);
-    } */
-    public FieldEditor(Object o, String fieldName, FieldMask mask,  boolean singleLined, StructuredEditorModel model) {
+    /*ModificationEventSupport mes=new ModificationEventSupport();
+   public void addModificationListener(ModificationListener l) {
+       mes.addModificationListener(l);
+   }
+
+   public void removeModificationListener(ModificationListener l) {
+       mes.removeModificationListener(l);
+   } */
+    public FieldEditor(Object o, String fieldName, FieldMask mask, boolean singleLined, StructuredEditorModel model) {
         this.o = o;
         this.fieldName = fieldName;
         this.mask = mask;
-        this.singleLined=singleLined;
+        this.singleLined = singleLined;
         //empty = forcedGetValue() == null;
     }
+
     public FieldEditor(Object o, String fieldName, FieldMask mask, StructuredEditorModel model) {
         this.o = o;
         this.fieldName = fieldName;
@@ -123,19 +124,19 @@ public abstract class FieldEditor {
                 wm.invoke(getObject(), value);
                 return;
             }
-            if (mask!=null) {
+            if (mask != null) {
 
                 Object oldItem = mask.get(val);
-                Object oldVal=val;
-                val=mask.set(val, value);
-                if (oldVal==val) {
+                Object oldVal = val;
+                val = mask.set(val, value);
+                if (oldVal == val) {
                     if (modificationVector != null)
-                    modificationVector.add(new Modification((DSLBean) getObject(), getFieldName(),
-                            oldItem, value, mask));
+                        modificationVector.add(new Modification((DSLBean) getObject(), getFieldName(),
+                                oldItem, value, mask));
                 } else {
-                   wm.invoke(getObject(), val);
-                   if (modificationVector != null)
-                    modificationVector.add(new Modification((DSLBean) getObject(), getFieldName(), oldVal, val, null));
+                    wm.invoke(getObject(), val);
+                    if (modificationVector != null)
+                        modificationVector.add(new Modification((DSLBean) getObject(), getFieldName(), oldVal, val, null));
                 }
             } else {
                 wm.invoke(getObject(), value);
@@ -156,7 +157,7 @@ public abstract class FieldEditor {
             PropertyDescriptor pd = new PropertyDescriptor(getFieldName(), getObject().getClass());
             Method wm = pd.getReadMethod();
             Object value = wm.invoke(getObject());
-            if (mask!=null && value != null) {
+            if (mask != null && value != null) {
                 return mask.get(value);
             } else
                 return value;

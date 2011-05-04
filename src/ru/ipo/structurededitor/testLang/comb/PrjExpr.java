@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.*;
  * Time: 16:42:04
  */
 @DSLBeanParams(shortcut = "Проекция", description = "на ось")
-public class  PrjExpr extends Expr {
+public class PrjExpr extends Expr {
 
     private Expr expr;
     private int ind;

@@ -5,7 +5,7 @@ import ru.ipo.structurededitor.model.*;
 /**
  * Пример сложного поля из нескольких ячеек
  */
-public class  BeanA3 extends BeanA {
+public class BeanA3 extends BeanA {
 
     private int x, y;
 

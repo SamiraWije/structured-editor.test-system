@@ -9,10 +9,10 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Time: 12:59
  * To change this template use File | Settings | File Templates.
  */
-@DSLBeanParams(shortcut = "Истина",description="Одновременно истинны")
+@DSLBeanParams(shortcut = "Истина", description = "Одновременно истинны")
 
 public class TrueLogicCondition extends LogicCondition {
-    public TrueLogicCondition(){
+    public TrueLogicCondition() {
         word = "истинны";
     }
 }

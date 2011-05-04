@@ -11,7 +11,7 @@ import ru.ipo.structurededitor.model.FieldCell;
  * Time: 14:06
  * To change this template use File | Settings | File Templates.
  */
-public abstract class Link implements DSLBean{
+public abstract class Link implements DSLBean {
     public String getLinkName() {
         return linkName;
     }
@@ -21,7 +21,8 @@ public abstract class Link implements DSLBean{
     }
 
     String linkName;
-       public Cell getLayout() {
+
+    public Cell getLayout() {
         return new FieldCell("linkName");
-       }
+    }
 }

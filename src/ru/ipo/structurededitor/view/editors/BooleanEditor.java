@@ -1,10 +1,8 @@
 package ru.ipo.structurededitor.view.editors;
 
 import ru.ipo.structurededitor.controller.FieldMask;
-import ru.ipo.structurededitor.view.editors.FieldEditor;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.elements.BooleanEditorElement;
-import ru.ipo.structurededitor.view.elements.VisibleElement;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -44,7 +42,7 @@ public class BooleanEditor extends FieldEditor {
 
     @Override
     protected void updateElement() {
-        BooleanEditorElement editorElement = (BooleanEditorElement)getElement();
+        BooleanEditorElement editorElement = (BooleanEditorElement) getElement();
         editorElement.setText((Boolean) getValue() ? BooleanEditorElement.RUS_TRUE : BooleanEditorElement.RUS_FALSE);
     }
 

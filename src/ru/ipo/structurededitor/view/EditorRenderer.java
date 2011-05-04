@@ -4,7 +4,6 @@ import ru.ipo.structurededitor.controller.EditorsRegistry;
 import ru.ipo.structurededitor.model.*;
 import ru.ipo.structurededitor.view.editors.ArrayEditor;
 import ru.ipo.structurededitor.view.editors.FieldEditor;
-import ru.ipo.structurededitor.view.elements.ArrayElement;
 import ru.ipo.structurededitor.view.elements.CompositeElement;
 import ru.ipo.structurededitor.view.elements.TextElement;
 import ru.ipo.structurededitor.view.elements.VisibleElement;
@@ -49,7 +48,7 @@ public class EditorRenderer {
         } else if (layout instanceof FieldCell) {
             FieldCell fieldCell = (FieldCell) layout;
             FieldEditor ed = reg.getEditor(editableBean.getClass(), fieldCell
-                    .getFieldName(), editableBean, null, fieldCell.getSingleLined(),model);
+                    .getFieldName(), editableBean, null, fieldCell.getSingleLined(), model);
             return ed.getElement();
         } else if (layout instanceof Vert || layout instanceof Horiz) {
             final Cell[] cells;

@@ -9,9 +9,7 @@ import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.model.DSLBeansRegistry;
 import ru.ipo.structurededitor.structureBuilder.MyErrorHandler;
 import ru.ipo.structurededitor.structureSerializer.NodesRegistry;
-import ru.ipo.structurededitor.testLang.comb.*;
 import ru.ipo.structurededitor.testLang.geom.*;
-import ru.ipo.structurededitor.testLang.logic.*;
 import ru.ipo.structurededitor.view.StatusBar;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.images.ImageGetter;
@@ -111,10 +109,10 @@ public class TestEditorGeom {
         //model.getRootElement().gainFocus(new TextPosition(0,0), false, false);
     }
 
-    public static void createBars(JFrame f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry){
+    public static void createBars(JFrame f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry) {
         MenuBar menuBar = new MenuBar();
         f.setMenuBar(menuBar);
-        Menu file = new Menu("Файл");
+        Menu file = new Menu("Задача");
         MenuItem item1, item2, item3, item4, item5;
         file.add(item1 = new MenuItem("Создать"));
         file.add(item2 = new MenuItem("Открыть . . ."));
@@ -132,7 +130,7 @@ public class TestEditorGeom {
         Menu help = new Menu("Помощь");
         menuBar.add(help);
         //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
-        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry);
+        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "geom");
         item1.addActionListener(handler);
         item2.addActionListener(handler);
         item3.addActionListener(handler);
@@ -148,7 +146,7 @@ public class TestEditorGeom {
         final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
         addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);
         addButtonToToolBar(toolBar, "help.png", "Помощь", true, handler);
-        final ModificationVector modificationVector=  structuredEditor.getModel().getModificationVector();
+        final ModificationVector modificationVector = structuredEditor.getModel().getModificationVector();
         modificationVector.addModificationListener(new ModificationListener() {
             public void modificationPerformed() {
                 if (modificationVector.canRedo()) {
@@ -205,7 +203,7 @@ public class TestEditorGeom {
 
             //Predicates
             Element predicates = document.createElement("predicates");
-            nodesRegistry.registerNode(GeoStatement.class, "preds",predicates);
+            nodesRegistry.registerNode(GeoStatement.class, "preds", predicates);
 
             Element parallPredicate = document.createElement("predicate");
             parallPredicate.setAttribute("name", "Parall");
@@ -225,7 +223,7 @@ public class TestEditorGeom {
             newLine.setAttribute("locType", "new");
             nodesRegistry.registerNode(LineElement.class, newLine);
 
-            Attr newLineName  = document.createAttribute("name");
+            Attr newLineName = document.createAttribute("name");
             nodesRegistry.registerNode(LineElement.class, "name", newLineName);
 
             Element newPoint = document.createElement("geoElem");
@@ -233,7 +231,7 @@ public class TestEditorGeom {
             newPoint.setAttribute("locType", "new");
             nodesRegistry.registerNode(PointElement.class, newPoint);
 
-            Attr newPointName  = document.createAttribute("name");
+            Attr newPointName = document.createAttribute("name");
             nodesRegistry.registerNode(PointElement.class, "name", newPointName);
 
             Element givenLine = document.createElement("geoElem");
@@ -241,7 +239,7 @@ public class TestEditorGeom {
             givenLine.setAttribute("locType", "given");
             nodesRegistry.registerNode(GeoLineLink.class, givenLine);
 
-            Attr givenLineName  = document.createAttribute("name");
+            Attr givenLineName = document.createAttribute("name");
             nodesRegistry.registerNode(GeoLineLink.class, "name", givenLineName);
 
             Element givenPoint = document.createElement("geoElem");
@@ -249,7 +247,7 @@ public class TestEditorGeom {
             givenPoint.setAttribute("locType", "given");
             nodesRegistry.registerNode(GeoPointLink.class, givenPoint);
 
-            Attr givenPointName  = document.createAttribute("name");
+            Attr givenPointName = document.createAttribute("name");
             nodesRegistry.registerNode(GeoPointLink.class, "name", givenPointName);
 
             // Instruments  - Enum!
@@ -308,7 +306,7 @@ public class TestEditorGeom {
         root.add(new ContainerElement(model, _4thLine));*/
 
         //Bean1 bean1 = new Bean1();
-        DSLBeansRegistry reg=new DSLBeansRegistry();
+        DSLBeansRegistry reg = new DSLBeansRegistry();
         reg.clearRegistry();
         reg.registerBean(BinPred.class);
         reg.registerBean(ru.ipo.structurededitor.testLang.geom.Element.class);

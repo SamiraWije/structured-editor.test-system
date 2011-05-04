@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.*;
  * Time: 16:07:49
  */
 @DSLBeanParams(shortcut = "^", description = "Декартова степень")
-public class  DescartesPower extends Kit {
+public class DescartesPower extends Kit {
 
     private Kit kit;
     private int pow;

@@ -1,10 +1,6 @@
 package ru.ipo.structurededitor.testLang;
 
-import ru.ipo.structurededitor.model.Cell;
-import ru.ipo.structurededitor.model.ConstantCell;
-import ru.ipo.structurededitor.model.FieldCell;
-import ru.ipo.structurededitor.model.Horiz;
-import ru.ipo.structurededitor.model.Vert;
+import ru.ipo.structurededitor.model.*;
 
 /**
  * Пример сложного поля из нескольких ячеек

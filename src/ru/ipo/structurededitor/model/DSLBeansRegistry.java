@@ -1,8 +1,6 @@
 package ru.ipo.structurededitor.model;
 
 import ru.ipo.structurededitor.Defaults;
-import ru.ipo.structurededitor.controller.EditorsRegistry;
-import ru.ipo.structurededitor.view.editors.DSLBeanEditor;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -27,9 +25,10 @@ public class DSLBeansRegistry {
         Defaults.registerDefaultBeans(this);
     }
 
-    public void clearRegistry(){
+    public void clearRegistry() {
         beans.clear();
     }
+
     public void registerBean(Class<? extends DSLBean> bean) {
         beans.add(bean);
 

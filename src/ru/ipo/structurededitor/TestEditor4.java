@@ -1,13 +1,9 @@
 package ru.ipo.structurededitor;
 
-import ru.ipo.structurededitor.StructuredEditor;
-import ru.ipo.structurededitor.controller.EditorsRegistry;
 import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.model.DSLBeansRegistry;
 import ru.ipo.structurededitor.testLang.*;
-import ru.ipo.structurededitor.view.EditorRenderer;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
-import ru.ipo.structurededitor.view.editors.*;
 
 import javax.swing.*;
 

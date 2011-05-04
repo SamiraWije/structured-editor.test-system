@@ -11,7 +11,7 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Time: 16:46:50
  */
 @DSLBeanParams(shortcut = "Текущий", description = "элемент")
-public class  CurElementExpr extends Expr {
+public class CurElementExpr extends Expr {
     public Cell getLayout() {
         return new ConstantCell("Текущий элемент");
     }

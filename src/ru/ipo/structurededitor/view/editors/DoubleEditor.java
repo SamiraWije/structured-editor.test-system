@@ -3,7 +3,6 @@ package ru.ipo.structurededitor.view.editors;
 import ru.ipo.structurededitor.controller.FieldMask;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.elements.DoubleEditorElement;
-import ru.ipo.structurededitor.view.elements.VisibleElement;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -44,10 +43,9 @@ public class DoubleEditor extends FieldEditor {
     }
 
 
-
     @Override
     protected void updateElement() {
-        DoubleEditorElement editorElement = (DoubleEditorElement)getElement();
+        DoubleEditorElement editorElement = (DoubleEditorElement) getElement();
         Object val = getValue();
         editorElement.setText(val == null ? "" : val.toString());
     }

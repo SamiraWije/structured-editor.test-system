@@ -15,19 +15,20 @@ import ru.ipo.structurededitor.view.events.GeoSelectionChangedEvent;
 public class GeoPointLinkElement extends GeoLinkElement {
     public GeoPointLinkElement(StructuredEditorModel model, GeoPoint value) {
         super(model, value);
-        typeStr="Точка";
-        emptyString="[Выберите точку на чертеже]";
+        typeStr = "Точка";
+        emptyString = "[Выберите точку на чертеже]";
         setValue(value);
     }
 
     public GeoPointLinkElement(StructuredEditorModel model) {
         super(model);
     }
+
     @Override
-    public void processGeoSelectionChangedEvent(GeoSelectionChangedEvent e){
-        GeoElement elem = (GeoElement)e.getSelectedGeo();
-        if (isFocused() && elem instanceof GeoPoint){
-           setValue(elem);
+    public void processGeoSelectionChangedEvent(GeoSelectionChangedEvent e) {
+        GeoElement elem = (GeoElement) e.getSelectedGeo();
+        if (isFocused() && elem instanceof GeoPoint) {
+            setValue(elem);
         }
     }
 }

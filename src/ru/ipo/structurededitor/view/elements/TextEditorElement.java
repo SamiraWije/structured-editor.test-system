@@ -57,8 +57,7 @@ public class TextEditorElement extends TextElement {
 
     @Override
     public void drawElement(int x0, int y0, Display d) {
-        if (!isFocused()) {
-
+        if (!isFocused() || isView()) {
             setUnfocusedElementProps();
             super.drawElement(x0, y0, d);
             return;

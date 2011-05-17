@@ -32,9 +32,11 @@ public class GlobalKeyDispatcher implements KeyEventDispatcher {
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		// ignore key events coming from text components (i.e. text fields and text areas) and
         // StructuredEditor
+        System.out.println(event.getSource());
 		if (event.isConsumed() || event.getSource() instanceof JTextComponent ||
                 event.getSource() instanceof StructuredEditor) {
-			return false;
+
+            return false;
 		} 	
 		 				 
 		boolean consumed = false;				

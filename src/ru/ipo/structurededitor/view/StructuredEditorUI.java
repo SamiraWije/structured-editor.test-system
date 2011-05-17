@@ -1,6 +1,8 @@
 package ru.ipo.structurededitor.view;
 
 import ru.ipo.structurededitor.StructuredEditor;
+import ru.ipo.structurededitor.testLang.geom.GeoStatement;
+import ru.ipo.structurededitor.view.elements.TextElement;
 import ru.ipo.structurededitor.view.elements.VisibleElement;
 import ru.ipo.structurededitor.view.events.*;
 
@@ -126,10 +128,11 @@ public class StructuredEditorUI extends ComponentUI {
 
         Display d = new Display(g, this);
 
+
         //get focused rectangle
         VisibleElement focusedElement = se.getModel().getFocusedElement();
         Rectangle focusedRectangle = null;
-        if (focusedElement != null /* && editor.isFocusOwner()*/) {
+        if (focusedElement != null && !se.isView() /*&& editor.isFocusOwner()*/) {
             TextPosition fpos = focusedElement.getAbsolutePosition();
 
             focusedRectangle = new Rectangle(d.xToPixels(fpos.getColumn()), d
@@ -148,7 +151,7 @@ public class StructuredEditorUI extends ComponentUI {
         //draw element
         element.drawElement(0, 0, d);
 
-        if (se.isFocusOwner())
+        if (se.isFocusOwner() && !se.isView())
             se.getModel().showCaret(d);
         /*if (focusedRectangle != null) {
             g.setColor(Color.blue);

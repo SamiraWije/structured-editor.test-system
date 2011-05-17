@@ -20,6 +20,11 @@ import java.awt.event.MouseEvent;
  */
 public class StructuredEditor extends JComponent implements Scrollable {
 
+    public boolean isView() {
+        return view;
+    }
+
+    private boolean view=false;
     public StructuredEditor() {
 
         this(new StructuredEditorModel(new DefaultDSLBean()));
@@ -57,7 +62,11 @@ public class StructuredEditor extends JComponent implements Scrollable {
         enableEvents(AWTEvent.MOUSE_EVENT_MASK);
     }
 
-
+     public StructuredEditor(StructuredEditorModel model, boolean view) {
+       this(model);
+       this.view=view;
+       model.setView(view);
+     }
     public StructuredEditorModel getModel() {
         return model;
     }
@@ -116,18 +125,20 @@ public class StructuredEditor extends JComponent implements Scrollable {
 
     @Override
     protected void processComponentKeyEvent(KeyEvent e) {
-        VisibleElement el = model.getFocusedElement();
-        while (el != null) {
-            el.fireKeyEvent(e);
-            if (e.isConsumed())
-                return;
-            el = el.getParent();
+        if (!view){
+            VisibleElement el = model.getFocusedElement();
+            while (el != null) {
+                el.fireKeyEvent(e);
+                if (e.isConsumed())
+                    return;
+                el = el.getParent();
+            }
         }
     }
 
     @Override
     protected void processMouseEvent(MouseEvent e) {
-
+       if (!view){
         VisibleElementsGraph graph = new VisibleElementsGraph(model
                 .getRootElement());
         int x = getUI().pixelsToX((e.getX()));
@@ -138,6 +149,7 @@ public class StructuredEditor extends JComponent implements Scrollable {
         int h = model.getRootElement().getHeight();
         if (e.getID() == MouseEvent.MOUSE_CLICKED && x <= tp.getColumn() + w && y <= tp.getLine() + h) {
             this.requestFocusInWindow();
+            app.clearSelectedGeos();
             TextPosition p = graph.normalize(new TextPosition(y, x), VisibleElementsGraph.Direction.Down);
             x = p.getColumn();
             y = p.getLine();
@@ -154,7 +166,7 @@ public class StructuredEditor extends JComponent implements Scrollable {
             newFocused.fireMouseEvent(e);
 
         }
-
+       }
 
     }
 

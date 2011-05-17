@@ -16,6 +16,16 @@ import java.util.Vector;
  * Корень дерева ячеек
  */
 public class StructuredEditorModel {
+    public boolean isView() {
+        return view;
+    }
+
+    public void setView(boolean view) {
+        this.view = view;
+        setRootElement(new EditorRenderer(this, o).getRenderResult());
+    }
+
+    private boolean view=false;
 
     public int getAbsoluteCaretX() {
         return absoluteCaretX;

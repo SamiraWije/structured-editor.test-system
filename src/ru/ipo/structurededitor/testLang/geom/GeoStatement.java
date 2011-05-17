@@ -1,5 +1,6 @@
 package ru.ipo.structurededitor.testLang.geom;
 
+import geogebra.kernel.GeoElement;
 import ru.ipo.structurededitor.model.*;
 
 /**
@@ -8,7 +9,7 @@ import ru.ipo.structurededitor.model.*;
  * Date: 05.08.2010
  * Time: 15:47:18
  */
-public class GeoStatement implements DSLBean {
+public class GeoStatement implements DSLBean, DSLBeanView {
 
     private String title;
     private String statement;
@@ -67,5 +68,12 @@ public class GeoStatement implements DSLBean {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Cell getViewLayout() {
+        return  new Vert(
+                new Horiz(new ConstantCell("Заголовок:"), new FieldCell("title")),
+                new Horiz(new ConstantCell("Условие:"), new FieldCell("statement"))
+        );
     }
 }

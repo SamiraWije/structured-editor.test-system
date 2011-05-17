@@ -1,5 +1,6 @@
 package ru.ipo.structurededitor;
 
+import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoLine;
 import geogebra.kernel.GeoPoint;
 import ru.ipo.structurededitor.controller.EditorsRegistry;
@@ -55,6 +56,7 @@ public class Defaults {
         reg.registerBean(CalcExpr.class);
         reg.registerBean(CalculableExpr.class);
         reg.registerBean(ModCalculableExpr.class);
+
     }
 
     public static void registerDefaultEditors(EditorsRegistry editorsRegistry) {
@@ -101,6 +103,7 @@ public class Defaults {
         editorsRegistry.registerEditor(Boolean.class, BooleanEditor.class);
         editorsRegistry.registerEditor(GeoLine.class, GeoLineEditor.class);
         editorsRegistry.registerEditor(GeoPoint.class, GeoPointEditor.class);
+        editorsRegistry.registerEditor(GeoElement.class, GeoElementEditor.class);
     }
 
 }

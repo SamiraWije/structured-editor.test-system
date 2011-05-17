@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra;
 
 import geogebra.gui.app.GeoGebraFrame;
+import geogebra.gui.app.GeoGebraFrameStudent;
 import geogebra.gui.app.GeoGebraFrameWithStructEd;
 
 import java.awt.Frame;
@@ -105,7 +106,8 @@ public class GeoGebra extends Object {
 
       // create and open first GeoGebra window
       System.out.println("create and open first GeoGebra window");
-      GeoGebraFrameWithStructEd.main(args);
+      //GeoGebraFrameWithStructEd.main(args);
+      GeoGebraFrameStudent.main(args);
     } catch (Throwable e) {
       e.printStackTrace();
       System.err.flush();

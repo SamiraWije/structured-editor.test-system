@@ -4,6 +4,7 @@ import ru.ipo.structurededitor.controller.EditorsRegistry;
 import ru.ipo.structurededitor.model.*;
 import ru.ipo.structurededitor.view.editors.ArrayEditor;
 import ru.ipo.structurededitor.view.editors.FieldEditor;
+import ru.ipo.structurededitor.view.editors.StringEditor;
 import ru.ipo.structurededitor.view.elements.CompositeElement;
 import ru.ipo.structurededitor.view.elements.TextElement;
 import ru.ipo.structurededitor.view.elements.VisibleElement;
@@ -30,8 +31,11 @@ public class EditorRenderer {
         reg = model.getEditorsRegistry();
 
 
-        Cell layout = editableBean.getLayout();
-
+        Cell layout;
+        if (model.isView() && editableBean instanceof DSLBeanView)
+            layout = ((DSLBeanView)editableBean).getViewLayout();
+        else
+            layout = editableBean.getLayout();
         renderResult = render(layout, editableBean);
         //model.setFocusedElement(renderResult);
     }
@@ -50,7 +54,9 @@ public class EditorRenderer {
             FieldEditor ed = reg.getEditor(editableBean.getClass(), fieldCell
                     .getFieldName(), editableBean, null, fieldCell.getSingleLined(), model);
             return ed.getElement();
-        } else if (layout instanceof Vert || layout instanceof Horiz) {
+        }
+            if (layout instanceof Vert || layout instanceof Horiz)
+         {
             final Cell[] cells;
             if (layout instanceof Vert)
                 cells = ((Vert) layout).getCells();

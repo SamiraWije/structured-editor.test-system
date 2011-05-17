@@ -146,7 +146,7 @@ public class StructureBuilder {
             throw new Error("Fail in indexed StructureBuilder.setValue()");
         }
     } */
-    private GeoElement getGeoByCaption(String caption) {
+    public static GeoElement getGeoByCaption(String caption, Application app ) {
         /*if (geoType.equals("Line") && geoLocType.equals("new")) {
             newBean = new LineElement();
             setValue(newBean, "name", (Element) currentNode, "name", "");
@@ -162,6 +162,7 @@ public class StructureBuilder {
                 break;
             }
         }
+        app.clearSelectedGeos();
         return geoElement;
     }
 
@@ -384,13 +385,13 @@ public class StructureBuilder {
                             setValue(newBean, "name", (Element) currentNode, "name", "");
                         } else if (geoType.equals("Line") && geoLocType.equals("given")) {
                             newBean = new GeoLineLink();
-                            immedSetValue(newBean, "geo", getGeoByCaption(geoName));
+                            immedSetValue(newBean, "geo", getGeoByCaption(geoName,app));
                         } else if (geoType.equals("Point") && geoLocType.equals("new")) {
                             newBean = new PointElement();
                             setValue(newBean, "name", (Element) currentNode, "name", "");
                         } else if (geoType.equals("Point") && geoLocType.equals("given")) {
                             newBean = new GeoPointLink();
-                            immedSetValue(newBean, "geo", getGeoByCaption(geoName));
+                            immedSetValue(newBean, "geo", getGeoByCaption(geoName,app));
                         } else
                             newBean = null;
                         if (bean instanceof BinPred) {

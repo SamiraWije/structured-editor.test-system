@@ -1,6 +1,8 @@
 package ru.ipo.structurededitor.view.elements;
 
 import geogebra.kernel.GeoElement;
+import geogebra.kernel.GeoLine;
+import geogebra.kernel.GeoPoint;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 
 /**
@@ -11,7 +13,6 @@ import ru.ipo.structurededitor.view.StructuredEditorModel;
  * To change this template use File | Settings | File Templates.
  */
 public class GeoLinkElement extends TextElement {
-
     protected String typeStr;
 
     public GeoElement getValue() {
@@ -30,10 +31,12 @@ public class GeoLinkElement extends TextElement {
 
     public GeoLinkElement(StructuredEditorModel model, GeoElement value) {
         super(model);
+        emptyString = "[Выберите элемент на чертеже]";
         setValue(value);
     }
 
     public GeoLinkElement(StructuredEditorModel model) {
+
         super(model);
     }
 

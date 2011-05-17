@@ -191,7 +191,13 @@ public class DefaultGuiManager implements GuiManager {
   private GeoGebraFileChooser fileChooser;
 
   private GeoGebraMenuBar menuBar;
-  private MyToolbar appToolbarPanel;
+   // Oleg Perchenok 7/05/2011
+  public void setAppToolbarPanel(MyToolbar appToolbarPanel) {
+        this.appToolbarPanel = appToolbarPanel;
+
+  }
+   //Oleg Perchenok
+    private MyToolbar appToolbarPanel;
 
   private String strCustomToolbarDefinition;
 

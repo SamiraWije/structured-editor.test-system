@@ -117,7 +117,9 @@ public class TestEditorGeom {
         file.add(item1 = new MenuItem("Создать"));
         file.add(item2 = new MenuItem("Открыть . . ."));
         file.add(item3 = new MenuItem("Сохранить . . ."));
-        file.add(item4 = new MenuItem("-"));
+        file.add(new MenuItem("-"));
+        file.add(item4 = new MenuItem("Проверить . . ."));
+        file.add(new MenuItem("-"));
         file.add(item5 = new MenuItem("Выход"));
         menuBar.add(file);
         Menu edit = new Menu("Редактирование");

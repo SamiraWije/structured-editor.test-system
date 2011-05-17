@@ -51,6 +51,9 @@ public abstract class VisibleElement {
 
     public abstract boolean isEmpty();
 
+    public boolean isView(){
+        return getModel().isView();
+    }
     /**
      * Обработка нажатия клавиш
      *

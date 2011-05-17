@@ -118,7 +118,7 @@ public class StructureSerializer {
             BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass());
             PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
             for (PropertyDescriptor d : descriptors) {
-                if (!d.getName().equals("class") && !d.getName().equals("layout")) {
+                if (!d.getName().equals("class") && !d.getName().equals("layout") && !d.getName().equals("viewLayout")) {
                     Node newNode = nodesRegistry.getNode(bean.getClass(), d.getName());
                     newNode = document.adoptNode(newNode);
                     if (!newNode.isEqualNode(nodesRegistry.getDefaultNode())) {

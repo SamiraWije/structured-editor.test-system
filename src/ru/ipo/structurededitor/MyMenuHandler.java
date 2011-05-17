@@ -1,11 +1,14 @@
 package ru.ipo.structurededitor;
 
+import geogebra.euclidian.EuclidianView;
 import geogebra.main.Application;
 import ru.ipo.structurededitor.controller.ModificationVector;
 import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.structureBuilder.StructureBuilder;
 import ru.ipo.structurededitor.structureSerializer.NodesRegistry;
 import ru.ipo.structurededitor.structureSerializer.StructureSerializer;
+import ru.ipo.structurededitor.testLang.geom.GeoStatement;
+import ru.ipo.structurededitor.testLang.geom.Instrum;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 
 import javax.swing.*;
@@ -14,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.util.HashMap;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,6 +32,8 @@ public class MyMenuHandler implements ActionListener, ItemListener {
     StructuredEditor structuredEditor;
     NodesRegistry nodesRegistry;
     String subSystem;
+    HashMap<Instrum,Integer> instrumsModes;
+
     //public MyMenuHandler(JFrame f, XMLViewer xmlV, StructuredEditor structuredEditor){
 
     public MyMenuHandler(JFrame f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry, String subSystem) {
@@ -36,11 +42,17 @@ public class MyMenuHandler implements ActionListener, ItemListener {
         this.structuredEditor = structuredEditor;
         this.nodesRegistry = nodesRegistry;
         this.subSystem = subSystem;
+        instrumsModes = new HashMap<Instrum,Integer>();
+        instrumsModes.put(Instrum.POINT, EuclidianView.MODE_POINT);
+        instrumsModes.put(Instrum.LINE_PERPEND, EuclidianView.MODE_ORTHOGONAL);
+        instrumsModes.put(Instrum.LINE_PARALL, EuclidianView.MODE_PARALLEL);
+        instrumsModes.put(Instrum.LINE_TWO_POINTS, EuclidianView.MODE_JOIN);
     }
 
     private void refreshEditor(DSLBean st, ModificationVector modificationVector) {
         StructuredEditorModel model = new StructuredEditorModel(st, modificationVector);
         model.setBeansRegistry(structuredEditor.getModel().getBeansRegistry());
+        model.setView(structuredEditor.getModel().isView());
         structuredEditor.getModel().setFocusedElement(null);
         structuredEditor.setModel(model);
         structuredEditor.getUI().redrawEditor();
@@ -62,13 +74,25 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 if (app != null) {
                     app.getGuiManager().loadFile(file, false);
                 }
-                System.out.println("You've opened the file: " + fn);
-                //xmlV.setFileName(fn);
                 StructureBuilder structureBuilder = new StructureBuilder(fn, subSystem, structuredEditor.getApp());
 
                 DSLBean bean = structureBuilder.getStructure();
                 refreshEditor(bean, structuredEditor.getModel().getModificationVector());
                 structuredEditor.getModel().getModificationVector().clearVector();
+                if (app != null) {
+                   if (structuredEditor.isView()){
+                        Instrum instrums[] = ((GeoStatement)bean).getInstrums();
+                        String toolStr;
+                        toolStr= "0";
+                        for (int i=0;i<instrums.length;i++){
+                            toolStr+=" | "+String.valueOf(instrumsModes.get(instrums[i]));
+                        }
+                        app.getGuiManager().setToolBarDefinition(toolStr);
+                        app.updateToolBar();
+                    }
+                }
+                System.out.println("You've opened the file: " + fn);
+                //xmlV.setFileName(fn);
 
 
                 //EmptyFieldsRegistry.getInstance().clear();
@@ -106,6 +130,15 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             structuredEditor.getModel().getModificationVector().redo();
             refreshEditor(structuredEditor.getModel().getObject(),
                     structuredEditor.getModel().getModificationVector());
+        } else if (arg.equals("Проверить . . .")){
+            TaskVerifier verifier = new TaskVerifier(structuredEditor.getModel().getObject(),subSystem,
+                    structuredEditor.getApp());
+            String mes;
+            if (verifier.verify())
+                mes = "Ответ правильный!";
+            else
+                mes = "Ответ неправильный!";
+            JOptionPane.showMessageDialog(null, mes,"Проверка",0);
         }
     }
 

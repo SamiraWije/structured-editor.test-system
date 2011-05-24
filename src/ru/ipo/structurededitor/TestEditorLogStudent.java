@@ -9,7 +9,10 @@ import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.model.DSLBeansRegistry;
 import ru.ipo.structurededitor.structureBuilder.MyErrorHandler;
 import ru.ipo.structurededitor.structureSerializer.NodesRegistry;
-import ru.ipo.structurededitor.testLang.comb.*;
+import ru.ipo.structurededitor.testLang.comb.Expr;
+import ru.ipo.structurededitor.testLang.comb.LogAndExpr;
+import ru.ipo.structurededitor.testLang.comb.LogNotExpr;
+import ru.ipo.structurededitor.testLang.comb.LogOrExpr;
 import ru.ipo.structurededitor.testLang.logic.*;
 import ru.ipo.structurededitor.view.StatusBar;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
@@ -27,7 +30,7 @@ import java.awt.event.ActionListener;
  * Date: 02.01.2010
  * Time: 17:05:46
  */
-public class TestEditorLog {
+public class TestEditorLogStudent {
 
     /*static {
         UIManager.installLookAndFeel("UI for structured editor", ComponentUI.class.getName());
@@ -35,8 +38,8 @@ public class TestEditorLog {
 
     //private StructuredEditorModel model;
 
-    public TestEditorLog() {
-        JFrame f = new JFrame("Модуль учителя");
+    public TestEditorLogStudent() {
+        JFrame f = new JFrame("Модуль ученика");
         //f.setLayout(new GridLayout(2,1));
         BorderLayout br = new BorderLayout();
         f.setLayout(br);
@@ -62,12 +65,13 @@ public class TestEditorLog {
         final StructuredEditorModel model = createModel(st);
 
 //        f.add(new JScrollPane(new JTextArea("asdf")));
-        final StructuredEditor structuredEditor = new StructuredEditor(model,false);
+        final StructuredEditor structuredEditor = new StructuredEditor(model,true);
         JScrollPane structuredEditorScrPane = new JScrollPane(structuredEditor);
-
-
+        LogicAnswer ans=new LogicAnswer();
+        final StructuredEditor answerEditor = new StructuredEditor(new StructuredEditorModel(ans),false);
+        JScrollPane answerEditorScrPane = new JScrollPane(answerEditor);
         f.add(structuredEditorScrPane, BorderLayout.CENTER);
-
+        f.add(answerEditorScrPane, BorderLayout.EAST);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(640, 480);
         //structuredEditorScrPane.setSize(320,480);
@@ -84,12 +88,14 @@ public class TestEditorLog {
         f.setMenuBar(menuBar);
         Menu file = new Menu("Файл");
         MenuItem item1, item2, item3, item4, item5;
-        file.add(item1 = new MenuItem("Создать"));
+        //file.add(item1 = new MenuItem("Создать"));
         file.add(item2 = new MenuItem("Открыть . . ."));
-        file.add(item3 = new MenuItem("Сохранить . . ."));
-        file.add(item4 = new MenuItem("-"));
+        //file.add(item3 = new MenuItem("Сохранить . . ."));
+        file.add(new MenuItem("-"));
+        file.add(item4 = new MenuItem("Проверить . . ."));
+        file.add(new MenuItem("-"));
         file.add(item5 = new MenuItem("Выход"));
-        menuBar.add(file);
+       menuBar.add(file);
         Menu edit = new Menu("Редактирование");
         final MenuItem undoItem, redoItem;
         edit.add(undoItem = new MenuItem("Отменить"));
@@ -100,10 +106,10 @@ public class TestEditorLog {
         Menu help = new Menu("Помощь");
         menuBar.add(help);
         //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
-        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "log",null);
-        item1.addActionListener(handler);
+        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "log",answerEditor);
+        //item1.addActionListener(handler);
         item2.addActionListener(handler);
-        item3.addActionListener(handler);
+        //item3.addActionListener(handler);
         item4.addActionListener(handler);
         item5.addActionListener(handler);
         undoItem.addActionListener(handler);
@@ -116,7 +122,8 @@ public class TestEditorLog {
         //ToolBar
         JToolBar toolBar = new JToolBar();
         addButtonToToolBar(toolBar, "menu-open.png", "Открыть . . .", true, handler);
-        addButtonToToolBar(toolBar, "save.png", "Сохранить . . .", true, handler);
+        //addButtonToToolBar(toolBar, "save.png", "Сохранить . . .", true, handler);
+        addButtonToToolBar(toolBar, "verify.png", "Проверить . . .", true, handler);
         final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
         final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
         addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);

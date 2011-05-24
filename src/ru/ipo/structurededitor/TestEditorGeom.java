@@ -110,15 +110,27 @@ public class TestEditorGeom {
     }
 
     public static void createBars(JFrame f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry) {
+        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "geom",null);
         MenuBar menuBar = new MenuBar();
         f.setMenuBar(menuBar);
         Menu file = new Menu("Задача");
         MenuItem item1, item2, item3, item4, item5;
-        file.add(item1 = new MenuItem("Создать"));
-        file.add(item2 = new MenuItem("Открыть . . ."));
-        file.add(item3 = new MenuItem("Сохранить . . ."));
-        file.add(new MenuItem("-"));
-        file.add(item4 = new MenuItem("Проверить . . ."));
+
+        item2 = new MenuItem("Открыть . . .");
+
+        if (structuredEditor.isView()){
+            file.add(item2);
+            file.add(new MenuItem("-"));
+            file.add(item4 = new MenuItem("Проверить . . ."));
+            file.add(new MenuItem("-"));
+            item4.addActionListener(handler);
+        } else{
+            file.add(item1 = new MenuItem("Создать"));
+            file.add(item2);
+            file.add(item3 = new MenuItem("Сохранить . . ."));
+            item1.addActionListener(handler);
+            item3.addActionListener(handler);
+        }
         file.add(new MenuItem("-"));
         file.add(item5 = new MenuItem("Выход"));
         menuBar.add(file);
@@ -132,18 +144,19 @@ public class TestEditorGeom {
         Menu help = new Menu("Помощь");
         menuBar.add(help);
         //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
-        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "geom");
-        item1.addActionListener(handler);
+
         item2.addActionListener(handler);
-        item3.addActionListener(handler);
-        item4.addActionListener(handler);
         item5.addActionListener(handler);
         undoItem.addActionListener(handler);
         redoItem.addActionListener(handler);
         //ToolBar
         JToolBar toolBar = new JToolBar();
         addButtonToToolBar(toolBar, "menu-open.png", "Открыть . . .", true, handler);
-        addButtonToToolBar(toolBar, "save.png", "Сохранить . . .", true, handler);
+        if (structuredEditor.isView()){
+            addButtonToToolBar(toolBar, "verify.png", "Проверить . . .", true, handler);
+        } else {
+            addButtonToToolBar(toolBar, "save.png", "Сохранить . . .", true, handler);
+        }
         final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
         final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
         addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);

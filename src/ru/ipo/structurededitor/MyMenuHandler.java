@@ -9,6 +9,8 @@ import ru.ipo.structurededitor.structureSerializer.NodesRegistry;
 import ru.ipo.structurededitor.structureSerializer.StructureSerializer;
 import ru.ipo.structurededitor.testLang.geom.GeoStatement;
 import ru.ipo.structurededitor.testLang.geom.Instrum;
+import ru.ipo.structurededitor.testLang.logic.LogicAnswer;
+import ru.ipo.structurededitor.testLang.logic.LogicAtomValue;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 
 import javax.swing.*;
@@ -29,24 +31,29 @@ import java.util.HashMap;
 public class MyMenuHandler implements ActionListener, ItemListener {
     JFrame f;
     //XMLViewer xmlV;
-    StructuredEditor structuredEditor;
+    StructuredEditor structuredEditor, answerEditor;
     NodesRegistry nodesRegistry;
     String subSystem;
     HashMap<Instrum,Integer> instrumsModes;
-
+    DSLBean ans;
     //public MyMenuHandler(JFrame f, XMLViewer xmlV, StructuredEditor structuredEditor){
 
-    public MyMenuHandler(JFrame f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry, String subSystem) {
+    public MyMenuHandler(JFrame f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry, String subSystem,
+                         StructuredEditor answerEditor) {
         this.f = f;
         //this.xmlV=xmlV;
         this.structuredEditor = structuredEditor;
         this.nodesRegistry = nodesRegistry;
         this.subSystem = subSystem;
+        this.answerEditor=answerEditor;
+        if (answerEditor!= null)
+            this.ans = answerEditor.getModel().getObject();
         instrumsModes = new HashMap<Instrum,Integer>();
         instrumsModes.put(Instrum.POINT, EuclidianView.MODE_POINT);
         instrumsModes.put(Instrum.LINE_PERPEND, EuclidianView.MODE_ORTHOGONAL);
         instrumsModes.put(Instrum.LINE_PARALL, EuclidianView.MODE_PARALLEL);
         instrumsModes.put(Instrum.LINE_TWO_POINTS, EuclidianView.MODE_JOIN);
+
     }
 
     private void refreshEditor(DSLBean st, ModificationVector modificationVector) {
@@ -79,6 +86,17 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 DSLBean bean = structureBuilder.getStructure();
                 refreshEditor(bean, structuredEditor.getModel().getModificationVector());
                 structuredEditor.getModel().getModificationVector().clearVector();
+                if (subSystem.equals("log") && answerEditor!=null){
+
+                   TaskVerifier verifier = new TaskVerifier(structuredEditor.getModel().getObject(),subSystem,
+                    structuredEditor.getApp(),ans);
+                   verifier.makeLogAnswer();
+                   StructuredEditorModel model = new StructuredEditorModel(ans);
+                   answerEditor.getModel().setFocusedElement(null);
+                   answerEditor.setModel(model);
+                   answerEditor.getUI().redrawEditor();
+                }
+
                 if (app != null) {
                    if (structuredEditor.isView()){
                         Instrum instrums[] = ((GeoStatement)bean).getInstrums();
@@ -132,7 +150,7 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                     structuredEditor.getModel().getModificationVector());
         } else if (arg.equals("Проверить . . .")){
             TaskVerifier verifier = new TaskVerifier(structuredEditor.getModel().getObject(),subSystem,
-                    structuredEditor.getApp());
+                    structuredEditor.getApp(),ans);
             String mes;
             if (verifier.verify())
                 mes = "Ответ правильный!";

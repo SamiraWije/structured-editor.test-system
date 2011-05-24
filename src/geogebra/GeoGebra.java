@@ -106,8 +106,8 @@ public class GeoGebra extends Object {
 
       // create and open first GeoGebra window
       System.out.println("create and open first GeoGebra window");
-      //GeoGebraFrameWithStructEd.main(args);
-      GeoGebraFrameStudent.main(args);
+      GeoGebraFrameWithStructEd.main(args);
+      //GeoGebraFrameStudent.main(args);
     } catch (Throwable e) {
       e.printStackTrace();
       System.err.flush();

@@ -8,7 +8,7 @@ import ru.ipo.structurededitor.model.*;
  * Date: 05.08.2010
  * Time: 15:47:18
  */
-public class LogicStatement implements DSLBean {
+public class LogicStatement implements DSLBean, DSLBeanView {
 
     private String title;
     private String statement;
@@ -30,7 +30,13 @@ public class LogicStatement implements DSLBean {
     public void setStatement(String statement) {
         this.statement = statement;
     }
+     public Cell getViewLayout() {
+        return new Vert(
+                new Horiz(new ConstantCell("Заголовок:"), new FieldCell("title")),
+                new Horiz(new ConstantCell("Условие:"), new FieldCell("statement"))
 
+        );
+    }
     public Cell getLayout() {
         return new Vert(
                 new Horiz(new ConstantCell("Заголовок:"), new FieldCell("title")),

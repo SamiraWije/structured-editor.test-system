@@ -96,7 +96,7 @@ public class TestEditor3 {
         Menu help = new Menu("Помощь");
         menuBar.add(help);
         //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
-        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry,"comb");
+        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry,"comb",null);
         item1.addActionListener(handler);
         item2.addActionListener(handler);
         item3.addActionListener(handler);

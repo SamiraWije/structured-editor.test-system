@@ -149,7 +149,8 @@ public class StructuredEditor extends JComponent implements Scrollable {
         int h = model.getRootElement().getHeight();
         if (e.getID() == MouseEvent.MOUSE_CLICKED && x <= tp.getColumn() + w && y <= tp.getLine() + h) {
             this.requestFocusInWindow();
-            app.clearSelectedGeos();
+            if (app!=null)
+                app.clearSelectedGeos();
             TextPosition p = graph.normalize(new TextPosition(y, x), VisibleElementsGraph.Direction.Down);
             x = p.getColumn();
             y = p.getLine();

@@ -16,6 +16,17 @@ import java.util.Vector;
  * Корень дерева ячеек
  */
 public class StructuredEditorModel {
+    public Object getApp() {
+        return app;
+    }
+
+    public void setApp(Object app) {
+        this.app = app;
+        setRootElement(new EditorRenderer(this, o).getRenderResult());
+    }
+
+    Object app;
+
     public boolean isView() {
         return view;
     }

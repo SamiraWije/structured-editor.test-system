@@ -1,14 +1,11 @@
 package ru.ipo.structurededitor;
 
-import geogebra.main.DefaultApplication;
 import ru.ipo.structurededitor.model.DefaultDSLBean;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.StructuredEditorUI;
 import ru.ipo.structurededitor.view.TextPosition;
 import ru.ipo.structurededitor.view.VisibleElementsGraph;
 import ru.ipo.structurededitor.view.elements.VisibleElement;
-import ru.ipo.structurededitor.view.events.GeoSelectionChangedEvent;
-import ru.ipo.structurededitor.view.events.GeoSelectionChangedListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,23 +29,18 @@ public class StructuredEditor extends JComponent implements Scrollable {
 
     private StructuredEditorModel model;
 
-    public DefaultApplication getApp() {
+    public Object getApp() {
+
         return app;
     }
 
-    public void setApp(DefaultApplication app) {
+    public void setApp(Object app) {
         this.app = app;
-        app.getEuclidianView().getEuclidianController().addGeoSelectionChangedListener(new GeoSelectionChangedListener() {
-            public void geoSelectionChanged(GeoSelectionChangedEvent e) {
-                //Object selection = e.getSelectedGeo();
-                model.getRootElement().fireGeoSelectionChangedEvent(e);
+        model.setApp(app);
 
-
-            }
-        });
     }
 
-    private DefaultApplication app;
+    private Object app;
 
     public StructuredEditor(StructuredEditorModel model) {
         setModel(model);
@@ -149,8 +141,13 @@ public class StructuredEditor extends JComponent implements Scrollable {
         int h = model.getRootElement().getHeight();
         if (e.getID() == MouseEvent.MOUSE_CLICKED && x <= tp.getColumn() + w && y <= tp.getLine() + h) {
             this.requestFocusInWindow();
-            if (app!=null)
-                app.clearSelectedGeos();
+            if (app!=null){
+                try {
+                   app.getClass().getSuperclass().getDeclaredMethod("clearSelectedGeos").invoke(app);
+                } catch (Exception ex) {
+                    throw new Error(ex);
+                }
+            }
             TextPosition p = graph.normalize(new TextPosition(y, x), VisibleElementsGraph.Direction.Down);
             x = p.getColumn();
             y = p.getLine();

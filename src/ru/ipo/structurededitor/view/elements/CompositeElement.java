@@ -80,12 +80,12 @@ public class CompositeElement extends VisibleElement {
         }
     }
 
-    @Override
+   /* @Override
     public void processGeoSelectionChangedEvent(GeoSelectionChangedEvent evt) {
         for (PositionedElement el : elements) {
             el.element.processGeoSelectionChangedEvent(evt);
         }
-    }
+    }*/
 
     public void add(VisibleElement element) {
         add(element, elements.size());

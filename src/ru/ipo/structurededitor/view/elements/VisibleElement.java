@@ -3,7 +3,6 @@ package ru.ipo.structurededitor.view.elements;
 import ru.ipo.structurededitor.view.Display;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.TextPosition;
-import ru.ipo.structurededitor.view.events.GeoSelectionChangedEvent;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -88,13 +87,7 @@ public abstract class VisibleElement {
         processMouseEvent(e);
     }
 
-    public void fireGeoSelectionChangedEvent(GeoSelectionChangedEvent e) {
-        processGeoSelectionChangedEvent(e);
-    }
 
-    public void processGeoSelectionChangedEvent(GeoSelectionChangedEvent e) {
-
-    }
 
     public TextPosition getAbsolutePosition() {
         int line = 0;

@@ -3,7 +3,10 @@ package ru.ipo.structurededitor.view.elements;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoLine;
 import geogebra.kernel.GeoPoint;
+import geogebra.main.Application;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
+import ru.ipo.structurededitor.view.events.GeoSelectionChangedEvent;
+import ru.ipo.structurededitor.view.events.GeoSelectionChangedListener;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,9 +35,22 @@ public class GeoLinkElement extends TextElement {
     public GeoLinkElement(StructuredEditorModel model, GeoElement value) {
         super(model);
         emptyString = "[Выберите элемент на чертеже]";
+        Application app = (Application)getModel().getApp();
+        if (app!=null){
+            app.getEuclidianView().getEuclidianController().addGeoSelectionChangedListener(new GeoSelectionChangedListener() {
+                public void geoSelectionChanged(GeoSelectionChangedEvent e) {
+                //Object selection = e.getSelectedGeo();
+                    processGeoSelectionChangedEvent(e);
+                }
+            });
+        }
         setValue(value);
     }
 
+
+    public void processGeoSelectionChangedEvent(GeoSelectionChangedEvent e) {
+
+    }
     public GeoLinkElement(StructuredEditorModel model) {
 
         super(model);

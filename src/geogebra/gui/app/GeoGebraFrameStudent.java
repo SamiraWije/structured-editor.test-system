@@ -118,7 +118,7 @@ public class GeoGebraFrameStudent extends GeoGebraFrame {
         }
         //structuredEditor.getApp().getEuclidianView().setSelectionRectangle(new Rectangle(
         //                structuredEditor.getApp().getEuclidianView().getSize()));
-        structuredEditor.getApp().selectAll(0);
+        //structuredEditor.getApp().selectAll(0);
         return wnd;
     }
 

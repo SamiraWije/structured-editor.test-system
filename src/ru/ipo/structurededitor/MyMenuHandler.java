@@ -60,6 +60,7 @@ public class MyMenuHandler implements ActionListener, ItemListener {
         StructuredEditorModel model = new StructuredEditorModel(st, modificationVector);
         model.setBeansRegistry(structuredEditor.getModel().getBeansRegistry());
         model.setView(structuredEditor.getModel().isView());
+        model.setApp(structuredEditor.getModel().getApp());
         structuredEditor.getModel().setFocusedElement(null);
         structuredEditor.setModel(model);
         structuredEditor.getUI().redrawEditor();
@@ -77,11 +78,11 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             if (returnVal == JFileChooser.APPROVE_OPTION /*&& dir != null && fl != null*/) {
                 String fn = fc.getSelectedFile().getAbsolutePath();
                 File file = new File(fn.substring(0, fn.lastIndexOf('.')) + ".ggb");
-                Application app = structuredEditor.getApp();
+                Application app = (Application) structuredEditor.getApp();
                 if (app != null) {
                     app.getGuiManager().loadFile(file, false);
                 }
-                StructureBuilder structureBuilder = new StructureBuilder(fn, subSystem, structuredEditor.getApp());
+                StructureBuilder structureBuilder = new StructureBuilder(fn, subSystem, (Application) structuredEditor.getApp());
 
                 DSLBean bean = structureBuilder.getStructure();
                 refreshEditor(bean, structuredEditor.getModel().getModificationVector());
@@ -89,7 +90,7 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 if (subSystem.equals("log") && answerEditor!=null){
 
                    TaskVerifier verifier = new TaskVerifier(structuredEditor.getModel().getObject(),subSystem,
-                    structuredEditor.getApp(),ans);
+                           (Application) structuredEditor.getApp(),ans);
                    verifier.makeLogAnswer();
                    StructuredEditorModel model = new StructuredEditorModel(ans);
                    answerEditor.getModel().setFocusedElement(null);
@@ -130,11 +131,11 @@ public class MyMenuHandler implements ActionListener, ItemListener {
 
                 structureSerializer.saveStructure(structuredEditor.getModel().getObject());
                 File file = new File(fn.substring(0, fn.lastIndexOf('.')) + ".ggb");
-                Application app = structuredEditor.getApp();
+                Application app = (Application) structuredEditor.getApp();
                 if (app != null) {
-                    boolean success = structuredEditor.getApp().saveGeoGebraFile(file);
+                    boolean success = ((Application)structuredEditor.getApp()).saveGeoGebraFile(file);
                     if (success)
-                        structuredEditor.getApp().setCurrentFile(file);
+                        ((Application)structuredEditor.getApp()).setCurrentFile(file);
                 }
             }
         } else if (arg.equals("Выход")) {
@@ -150,7 +151,7 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                     structuredEditor.getModel().getModificationVector());
         } else if (arg.equals("Проверить . . .")){
             TaskVerifier verifier = new TaskVerifier(structuredEditor.getModel().getObject(),subSystem,
-                    structuredEditor.getApp(),ans);
+                    (Application) structuredEditor.getApp(),ans);
             String mes;
             if (verifier.verify())
                 mes = "Ответ правильный!";

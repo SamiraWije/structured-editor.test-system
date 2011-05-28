@@ -1,5 +1,6 @@
 package ru.ipo.structurededitor;
 
+import geogebra.gui.layout.Layout;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.Relation;
 import geogebra.main.Application;
@@ -130,17 +131,27 @@ public class TaskVerifier {
             }
             return res;
         } else if (expr instanceof LogNotExpr) {
-            return !parse(expr);
+            return !parse(((LogNotExpr)expr).getExpr());
         } else if (expr instanceof LogicAtom) {
             if (formAnswer) {
                Object arr = ((LogicAnswer) ans).getAnswer();
-               int size = java.lang.reflect.Array.getLength(arr);
-               arr= ArrayEditor.resizeArray(arr,size+1);
-               LogicAtomValue item = new LogicAtomValue();
-               item.setName(((LogicAtom) expr).getVal());
-               item.setVal(false);
-               java.lang.reflect.Array.set(arr,size,item);
-               ((LogicAnswer) ans).setAnswer((LogicAtomValue[])arr);
+               String name = ((LogicAtom) expr).getVal();
+               boolean flag = true;
+               for (LogicAtomValue atomValue: (LogicAtomValue[]) arr){
+                  if (atomValue.getName().equals(name)){
+                      flag=false;
+                      break;
+                  }
+               }
+               if (flag){
+                    int size = java.lang.reflect.Array.getLength(arr);
+                    arr= ArrayEditor.resizeArray(arr,size+1);
+                    LogicAtomValue item = new LogicAtomValue();
+                    item.setName(name);
+                    item.setVal(false);
+                    java.lang.reflect.Array.set(arr,size,item);
+                    ((LogicAnswer) ans).setAnswer((LogicAtomValue[])arr);
+               }
             } else {
                 Boolean val = varValues.get(((LogicAtom) expr).getVal());
                 if (val != null)

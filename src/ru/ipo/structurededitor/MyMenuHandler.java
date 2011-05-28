@@ -1,6 +1,7 @@
 package ru.ipo.structurededitor;
 
 import geogebra.euclidian.EuclidianView;
+import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.main.Application;
 import ru.ipo.structurededitor.controller.ModificationVector;
 import ru.ipo.structurededitor.model.DSLBean;
@@ -9,8 +10,6 @@ import ru.ipo.structurededitor.structureSerializer.NodesRegistry;
 import ru.ipo.structurededitor.structureSerializer.StructureSerializer;
 import ru.ipo.structurededitor.testLang.geom.GeoStatement;
 import ru.ipo.structurededitor.testLang.geom.Instrum;
-import ru.ipo.structurededitor.testLang.logic.LogicAnswer;
-import ru.ipo.structurededitor.testLang.logic.LogicAtomValue;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 
 import javax.swing.*;
@@ -34,7 +33,7 @@ public class MyMenuHandler implements ActionListener, ItemListener {
     StructuredEditor structuredEditor, answerEditor;
     NodesRegistry nodesRegistry;
     String subSystem;
-    HashMap<Instrum,Integer> instrumsModes;
+    HashMap<Instrum, Integer> instrumsModes;
     DSLBean ans;
     //public MyMenuHandler(JFrame f, XMLViewer xmlV, StructuredEditor structuredEditor){
 
@@ -45,10 +44,10 @@ public class MyMenuHandler implements ActionListener, ItemListener {
         this.structuredEditor = structuredEditor;
         this.nodesRegistry = nodesRegistry;
         this.subSystem = subSystem;
-        this.answerEditor=answerEditor;
-        if (answerEditor!= null)
+        this.answerEditor = answerEditor;
+        if (answerEditor != null)
             this.ans = answerEditor.getModel().getObject();
-        instrumsModes = new HashMap<Instrum,Integer>();
+        instrumsModes = new HashMap<Instrum, Integer>();
         instrumsModes.put(Instrum.POINT, EuclidianView.MODE_POINT);
         instrumsModes.put(Instrum.LINE_PERPEND, EuclidianView.MODE_ORTHOGONAL);
         instrumsModes.put(Instrum.LINE_PARALL, EuclidianView.MODE_PARALLEL);
@@ -69,7 +68,26 @@ public class MyMenuHandler implements ActionListener, ItemListener {
     public void actionPerformed(ActionEvent ae) {
         String arg = ae.getActionCommand();
         //System.out.println("You selected "+arg);
-        if (arg.equals("Открыть . . .")) {
+        if (arg.equals("Создать")) {
+            DSLBean bean;
+            if (subSystem.equals("geom")) {
+                bean = new GeoStatement();
+                refreshEditor(bean, structuredEditor.getModel().getModificationVector());
+                structuredEditor.getModel().getModificationVector().clearVector();
+                Application app = (Application) structuredEditor.getApp();
+                //app.clearConstruction();
+                app.clearConstruction();
+
+                // clear input bar
+                if (app.hasGuiManager()) {
+                    AlgebraInput ai = (AlgebraInput) app.getGuiManager()
+                            .getAlgebraInput();
+                    ai.replaceString(null);
+                }
+                //app.updateContentPane();
+            }
+
+        } else if (arg.equals("Открыть . . .")) {
             JFileChooser fc = new JFileChooser();
             fc.setDialogTitle("Загрузка задачи");
             XMLFilter filter = new XMLFilter();
@@ -87,24 +105,24 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 DSLBean bean = structureBuilder.getStructure();
                 refreshEditor(bean, structuredEditor.getModel().getModificationVector());
                 structuredEditor.getModel().getModificationVector().clearVector();
-                if (subSystem.equals("log") && answerEditor!=null){
+                if (subSystem.equals("log") && answerEditor != null) {
 
-                   TaskVerifier verifier = new TaskVerifier(structuredEditor.getModel().getObject(),subSystem,
-                           (Application) structuredEditor.getApp(),ans);
-                   verifier.makeLogAnswer();
-                   StructuredEditorModel model = new StructuredEditorModel(ans);
-                   answerEditor.getModel().setFocusedElement(null);
-                   answerEditor.setModel(model);
-                   answerEditor.getUI().redrawEditor();
+                    TaskVerifier verifier = new TaskVerifier(structuredEditor.getModel().getObject(), subSystem,
+                            (Application) structuredEditor.getApp(), ans);
+                    verifier.makeLogAnswer();
+                    StructuredEditorModel model = new StructuredEditorModel(ans);
+                    answerEditor.getModel().setFocusedElement(null);
+                    answerEditor.setModel(model);
+                    answerEditor.getUI().redrawEditor();
                 }
 
                 if (app != null) {
-                   if (structuredEditor.isView()){
-                        Instrum instrums[] = ((GeoStatement)bean).getInstrums();
+                    if (structuredEditor.isView()) {
+                        Instrum instrums[] = ((GeoStatement) bean).getInstrums();
                         String toolStr;
-                        toolStr= "0";
-                        for (int i=0;i<instrums.length;i++){
-                            toolStr+=" | "+String.valueOf(instrumsModes.get(instrums[i]));
+                        toolStr = "0";
+                        for (int i = 0; i < instrums.length; i++) {
+                            toolStr += " | " + String.valueOf(instrumsModes.get(instrums[i]));
                         }
                         app.getGuiManager().setToolBarDefinition(toolStr);
                         app.updateToolBar();
@@ -133,9 +151,9 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 File file = new File(fn.substring(0, fn.lastIndexOf('.')) + ".ggb");
                 Application app = (Application) structuredEditor.getApp();
                 if (app != null) {
-                    boolean success = ((Application)structuredEditor.getApp()).saveGeoGebraFile(file);
+                    boolean success = ((Application) structuredEditor.getApp()).saveGeoGebraFile(file);
                     if (success)
-                        ((Application)structuredEditor.getApp()).setCurrentFile(file);
+                        ((Application) structuredEditor.getApp()).setCurrentFile(file);
                 }
             }
         } else if (arg.equals("Выход")) {
@@ -149,15 +167,26 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             structuredEditor.getModel().getModificationVector().redo();
             refreshEditor(structuredEditor.getModel().getObject(),
                     structuredEditor.getModel().getModificationVector());
-        } else if (arg.equals("Проверить . . .")){
-            TaskVerifier verifier = new TaskVerifier(structuredEditor.getModel().getObject(),subSystem,
-                    (Application) structuredEditor.getApp(),ans);
+        } else if (arg.equals("Проверить . . .")) {
+            TaskVerifier verifier = new TaskVerifier(structuredEditor.getModel().getObject(), subSystem,
+                    (Application) structuredEditor.getApp(), ans);
             String mes;
             if (verifier.verify())
                 mes = "Ответ правильный!";
             else
                 mes = "Ответ неправильный!";
-            JOptionPane.showMessageDialog(null, mes,"Проверка",0);
+            JOptionPane.showMessageDialog(null, mes, "Проверка", JOptionPane.PLAIN_MESSAGE);
+        } else if (arg.equals("Помощь")) {
+            String mes = "Система контроля знаний";
+            if (subSystem.equals("geom")) {
+                if (structuredEditor.isView()) {
+                    mes = "Откройте нужную задачу (пункт меню \"Задача/Открыть\"). Выполните на полотне нужные построения " +
+                            "и выберите пункт меню \"Задача/Проверить\"";
+                } else {
+                    mes = "Введите условия задачи в текстовой и математической форме, постройте исходный чертеж на полотне.";
+                }
+            }
+            JOptionPane.showMessageDialog(null, mes, "Помощь", JOptionPane.PLAIN_MESSAGE);
         }
     }
 

@@ -12,18 +12,15 @@ the Free Software Foundation.
 
 package geogebra;
 
-import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.app.GeoGebraFrameStudent;
-import geogebra.gui.app.GeoGebraFrameWithStructEd;
 
-import java.awt.Frame;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.net.URL;
 
 /**
  * �������� ����� - ����� ����� � ���������
  */
-public class GeoGebra extends Object {
+public class GeoGebraStudent extends Object {
 
   /**
    * GeoGebra version
@@ -82,7 +79,7 @@ public class GeoGebra extends Object {
   private static Frame showSplashScreen() {
     System.out.println("Show splash screen");
     Frame splashFrame = null;
-    URL imageURL = GeoGebra.class.getResource("/geogebra/splash.gif");
+    URL imageURL = GeoGebraStudent.class.getResource("/geogebra/splash.gif");
     if (imageURL != null)
       splashFrame = SplashWindow.splash(Toolkit.getDefaultToolkit()
           .createImage(imageURL));
@@ -107,8 +104,8 @@ public class GeoGebra extends Object {
       // create and open first GeoGebra window
       System.out.println("create and open first GeoGebra window");
       //Changed by Oleg Perchenok
-      GeoGebraFrameWithStructEd.main(args);
-      //GeoGebraFrameStudent.main(args);
+      //GeoGebraFrameWithStructEd.main(args);
+      GeoGebraFrameStudent.main(args);
     } catch (Throwable e) {
       e.printStackTrace();
       System.err.flush();

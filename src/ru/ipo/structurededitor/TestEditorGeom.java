@@ -159,7 +159,7 @@ public class TestEditorGeom {
         }
         final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
         final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
-        addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);
+        //addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);
         addButtonToToolBar(toolBar, "help.png", "Помощь", true, handler);
         final ModificationVector modificationVector = structuredEditor.getModel().getModificationVector();
         modificationVector.addModificationListener(new ModificationListener() {

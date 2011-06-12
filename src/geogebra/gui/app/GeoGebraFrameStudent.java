@@ -1,16 +1,18 @@
 package geogebra.gui.app;
 
+import testSystem.TestEditorGeom;
 import geogebra.main.Application;
 import geogebra.main.DefaultApplication;
 import geogebra.main.GeoGebraPreferences;
 import geogebra.util.Util;
 import ru.ipo.structurededitor.StructuredEditor;
-import ru.ipo.structurededitor.TestEditorGeom;
-import ru.ipo.structurededitor.structureSerializer.NodesRegistry;
-import ru.ipo.structurededitor.testLang.geom.GeoStatement;
+import testSystem.structureSerializer.NodesRegistry;
+import testSystem.lang.geom.GeoStatement;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.dnd.DropTarget;
 
@@ -82,7 +84,37 @@ public class GeoGebraFrameStudent extends GeoGebraFrame {
 
 //        f.add(new JScrollPane(new JTextArea("asdf")));
         structuredEditor = new StructuredEditor(model,true);
+
+
+        JPanel taskPanel= new JPanel(new BorderLayout());
+
+        StyleContext sc = new StyleContext();
+            final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
+            JTextPane textPane = new JTextPane(doc);
+        textPane.setEditable(false);
+        final Style heading2Style = sc.addStyle("Heading2", null);
+        heading2Style.addAttribute(StyleConstants.Foreground, Color.red);
+        heading2Style.addAttribute(StyleConstants.FontSize, 16);
+        heading2Style.addAttribute(StyleConstants.FontFamily, "serif");
+        heading2Style.addAttribute(StyleConstants.Bold, true);
+
+
+        StyledDocument styledDocument =  textPane.getStyledDocument();
+
+
+        try {
+            //((GeoStatement)model.getObject()).getTitle()
+            styledDocument.insertString(0,"Химия и физика\n биология\n",null);
+            doc.setParagraphAttributes(0, 1, heading2Style, false);
+        }catch (Exception e) {
+            throw new Error("Text HTML error"+e);
+        }
+        Border border = BorderFactory.createLineBorder(Color.BLACK);
+
+        textPane.setBorder(border);
+        taskPanel.add(textPane, BorderLayout.CENTER);
         JScrollPane structuredEditorScrPane = new JScrollPane(structuredEditor);
+        //wnd.getContentPane().add(taskPanel, BorderLayout.CENTER);
         wnd.getContentPane().add(structuredEditorScrPane, BorderLayout.CENTER);
         structuredEditor.requestFocusInWindow();
         structuredEditor.setApp(app);
@@ -91,7 +123,6 @@ public class GeoGebraFrameStudent extends GeoGebraFrame {
         wnd.setDropTarget(new DropTarget(wnd,
                 new geogebra.gui.FileDropTargetListener(app)));
         wnd.addWindowFocusListener(wnd);
-
         updateAllTitles();
         wnd.setVisible(true);
 

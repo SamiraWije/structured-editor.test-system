@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Idea_HG1.iml" filepath="$PROJECT_DIR$/Idea_HG1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dyngeom2.iml" filepath="$PROJECT_DIR$/dyngeom2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/structured-editor/structured-editor.iml" filepath="$PROJECT_DIR$/structured-editor/structured-editor.iml" />
     </modules>
   </component>
 </project>

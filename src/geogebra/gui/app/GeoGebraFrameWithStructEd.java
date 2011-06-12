@@ -1,17 +1,13 @@
 package geogebra.gui.app;
 
-import geogebra.euclidian.EuclidianView;
-import geogebra.gui.view.spreadsheet.SpreadsheetView;
+import testSystem.TestEditorGeom;
 import geogebra.main.Application;
 import geogebra.main.DefaultApplication;
 import geogebra.main.GeoGebraPreferences;
 import geogebra.util.Util;
 import ru.ipo.structurededitor.StructuredEditor;
-import ru.ipo.structurededitor.TestEditor3;
-import ru.ipo.structurededitor.TestEditorGeom;
-import ru.ipo.structurededitor.structureSerializer.NodesRegistry;
-import ru.ipo.structurededitor.testLang.comb.Statement;
-import ru.ipo.structurededitor.testLang.geom.GeoStatement;
+import testSystem.structureSerializer.NodesRegistry;
+import testSystem.lang.geom.GeoStatement;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 
 import javax.swing.*;

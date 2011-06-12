@@ -22,12 +22,6 @@ import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.main.Application;
 import geogebra.main.DefaultApplication;
 import geogebra.main.GeoGebraPreferences;
-import geogebra.util.Util;
-import ru.ipo.structurededitor.StructuredEditor;
-import ru.ipo.structurededitor.TestEditor3;
-import ru.ipo.structurededitor.structureSerializer.NodesRegistry;
-import ru.ipo.structurededitor.testLang.comb.Statement;
-import ru.ipo.structurededitor.view.StructuredEditorModel;
 
 import java.awt.*;
 import java.awt.dnd.DropTarget;

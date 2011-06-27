@@ -1,8 +1,10 @@
 package testSystem;
 
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.Relation;
+import geogebra.euclidian.DrawAngle;
+import geogebra.kernel.*;
 import geogebra.main.Application;
+import geogebra3D.kernel3D.Geo3DVec;
+import org.freehep.graphicsio.emf.gdi.AngleArc;
 import ru.ipo.structurededitor.model.DSLBean;
 import testSystem.structureBuilder.StructureBuilder;
 import ru.ipo.structurededitor.testLang.comb.*;
@@ -80,6 +82,7 @@ public class TaskVerifier {
                 Relation rel = new Relation(app.getKernel());
                 if (geo1 == null || geo2 == null)
                     return false;
+                //GeoAngle s = new GeoAngle(app.getKernel().getConstruction());
 
                 String relStr = rel.relation(geo1, geo2);
                 System.out.println(relStr);
@@ -101,10 +104,63 @@ public class TaskVerifier {
                     return false;
                 Relation rel = new Relation(app.getKernel());
                 String relStr = rel.relation(geo1, geo2);
+                //rel.relation(new GeoSegment(app.getKernel().getConstruction()))
                 System.out.println(relStr);
                 if (pred instanceof ParallPred && !relStr.contains("параллельны") ||
                         pred instanceof PerpendPred && !relStr.contains("перпендикулярны"))
                     return false;
+            } else  if (pred instanceof GeoPointGeoSegmentBinPred) {
+                GeoElement geo1, geo2, geo3, geo4;
+                AbstractGeoPoint point = ((GeoPointGeoSegmentBinPred) pred).getE1();
+                AbstractGeoSegment seg = ((GeoPointGeoSegmentBinPred) pred).getE2();
+                if (point instanceof GeoPointLink)
+                    geo1 = ((GeoPointLink) point).getGeo();
+                else
+                    geo1 = StructureBuilder.getGeoByCaption(((PointElement) point).getName(), app);
+                if (seg instanceof GeoSegmentLink)
+                    geo2 = ((GeoSegmentLink) seg).getGeo();
+                else
+                    geo2 = StructureBuilder.getGeoByCaption(((SegmentElement) seg).getName(), app);
+                Relation rel = new Relation(app.getKernel());
+                if (geo1 == null || geo2 == null)
+                    return false;
+                //GeoAngle s = new GeoAngle(app.getKernel().getConstruction());
+
+                String relStr = rel.relation(geo1, geo2);
+                GeoPoint p1 = (GeoPoint) ((GeoSegment) geo2).getStartPointAsGeoElement();
+                GeoPoint p2 = (GeoPoint) ((GeoSegment) geo2).getEndPointAsGeoElement();
+                GeoSegment s1 = new GeoSegment(app.getKernel().getConstruction(),p1,(GeoPoint)geo1);
+                GeoSegment s2 = new GeoSegment(app.getKernel().getConstruction(),p2,(GeoPoint)geo1);
+                s1.calcLength();
+                s2.calcLength();
+                System.out.println(relStr);
+                if (pred instanceof MidpointPred && (Math.round(s1.getLength()*100)!=Math.round(s2.getLength()*100)
+                        || relStr.contains("не лежит на")))
+                   return false;
+            } else if (pred instanceof GeoSegmentBinPred) {
+                GeoElement geo1, geo2;
+                AbstractGeoSegment seg1 = ((GeoSegmentBinPred) pred).getE1();
+                AbstractGeoSegment seg2 = ((GeoSegmentBinPred) pred).getE2();
+                if (seg1 instanceof GeoSegmentLink)
+                    geo1 = ((GeoSegmentLink)seg1).getGeo();
+                else
+                    geo1 = StructureBuilder.getGeoByCaption(((SegmentElement) seg1).getName(), app);
+                if (seg2 instanceof GeoSegmentLink)
+                    geo2 = ((GeoSegmentLink) seg2).getGeo();
+                else
+                    geo2 = StructureBuilder.getGeoByCaption(((SegmentElement) seg2).getName(), app);
+                Relation rel = new Relation(app.getKernel());
+                if (geo1 == null || geo2 == null)
+                    return false;
+                //GeoAngle s = new GeoAngle(app.getKernel().getConstruction());
+
+                String relStr = rel.relation(geo1, geo2);
+
+
+                System.out.println(relStr);
+                if (pred instanceof SegEqualPred && (Math.round(((GeoSegment)geo1).getLength()*100)!=
+                        Math.round(((GeoSegment)geo2).getLength()*100)))
+                   return false;
             }
         }
         return true;

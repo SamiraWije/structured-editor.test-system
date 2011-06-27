@@ -15,7 +15,7 @@ import ru.ipo.structurededitor.view.events.GeoSelectionChangedListener;
  * To change this template use File | Settings | File Templates.
  */
 public class GeoLinkElement extends TextElement {
-    protected String typeStr;
+    protected String typeStr,typeStr1="";
 
     public GeoElement getValue() {
         return value;
@@ -24,7 +24,7 @@ public class GeoLinkElement extends TextElement {
     public void setValue(GeoElement value) {
         this.value = value;
         if (value != null)
-            setText(typeStr + " " + value.getCaption());
+            setText(typeStr + value.getCaption()+typeStr1);
         else
             setText(emptyString);
     }

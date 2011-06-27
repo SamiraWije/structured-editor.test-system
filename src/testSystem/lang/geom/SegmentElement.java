@@ -9,8 +9,8 @@ import ru.ipo.structurededitor.model.*;
  * Time: 14:35
  * To change this template use File | Settings | File Templates.
  */
-@DSLBeanParams(shortcut = "Новая", description = "Точка для построения")
-public class PointElement extends AbstractGeoPoint {
+@DSLBeanParams(shortcut = "Новый", description = "Отрезок для построения")
+public class SegmentElement extends AbstractGeoSegment {
     public String getName() {
         return name;
     }
@@ -22,6 +22,6 @@ public class PointElement extends AbstractGeoPoint {
     private String name;
 
     public Cell getLayout() {
-        return new Horiz(/*new ConstantCell("Точка"),*/ new FieldCell("name", true));
+        return new Horiz(new ConstantCell("["), new FieldCell("name", true),new ConstantCell("]"));
     }
 }

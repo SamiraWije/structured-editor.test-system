@@ -8,5 +8,6 @@ package testSystem.lang.geom;
  * To change this template use File | Settings | File Templates.
  */
 public enum Instrum {
-    LINE_TWO_POINTS, LINE_PARALL, POINT, LINE_PERPEND
+    LINE_TWO_POINTS, LINE_PARALL, POINT, LINE_PERPEND, CIRCLE_CENTER_RAD, MIDPOINT,
+    SEGMENT_TWO_POINTS
 }

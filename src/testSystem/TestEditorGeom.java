@@ -1,5 +1,6 @@
 package testSystem;
 
+import geogebra.kernel.GeoSegment;
 import testSystem.view.editors.*;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoLine;
@@ -21,6 +22,7 @@ import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.images.ImageGetter;
 
 import javax.swing.*;
+import javax.swing.text.Segment;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.*;
@@ -238,6 +240,14 @@ public class TestEditorGeom {
             laysOnPredicate.setAttribute("name", "LaysOn");
             nodesRegistry.registerNode(LaysOnPred.class, laysOnPredicate);
 
+            Element midpointPredicate = document.createElement("predicate");
+            midpointPredicate.setAttribute("name", "Midpoint");
+            nodesRegistry.registerNode(MidpointPred.class, midpointPredicate);
+
+            Element segEqualPredicate = document.createElement("predicate");
+            segEqualPredicate.setAttribute("name", "SegEqual");
+            nodesRegistry.registerNode(SegEqualPred.class, segEqualPredicate);
+
             //GeoElements
             Element newLine = document.createElement("geoElem");
             newLine.setAttribute("type", "Line");
@@ -271,11 +281,27 @@ public class TestEditorGeom {
             Attr givenPointName = document.createAttribute("name");
             nodesRegistry.registerNode(GeoPointLink.class, "name", givenPointName);
 
+            Element newSegment = document.createElement("geoElem");
+            newSegment.setAttribute("type", "Segment");
+            newSegment.setAttribute("locType", "new");
+            nodesRegistry.registerNode(SegmentElement.class, newSegment);
+
+            Attr newSegmentName = document.createAttribute("name");
+            nodesRegistry.registerNode(SegmentElement.class, "name", newSegmentName);
             // Instruments  - Enum!
             Element tools = document.createElement("tools");
             nodesRegistry.registerNode(GeoStatement.class, "instrums", tools);
             Element tool = document.createElement("tool");
             nodesRegistry.registerNode(Instrum.class, tool);
+
+            Element givenSegment = document.createElement("geoElem");
+            givenSegment.setAttribute("type", "Segment");
+            givenSegment.setAttribute("locType", "given");
+            nodesRegistry.registerNode(GeoSegmentLink.class, givenSegment);
+
+            Attr givenSegmentName = document.createAttribute("name");
+            nodesRegistry.registerNode(GeoLineLink.class, "name", givenSegmentName);
+
             //Attr toolName  = document.createAttribute("name");
             //nodesRegistry.registerNode(Instrum.class, "name", toolName);
 
@@ -343,7 +369,11 @@ public class TestEditorGeom {
         reg.registerBean(ParallPred.class);
         reg.registerBean(PerpendPred.class);
         reg.registerBean(PointElement.class);
+        reg.registerBean(SegmentElement.class);
+        reg.registerBean(GeoSegmentLink.class);
         reg.registerBean(Pred.class);
+        reg.registerBean(MidpointPred.class);
+         reg.registerBean(SegEqualPred.class);
 
         StructuredEditorModel model = new StructuredEditorModel(st);
         model.setBeansRegistry(reg);
@@ -351,6 +381,7 @@ public class TestEditorGeom {
         editorsRegistry.registerEditor(GeoLine.class, GeoLineEditor.class);
         editorsRegistry.registerEditor(GeoPoint.class, GeoPointEditor.class);
         editorsRegistry.registerEditor(GeoElement.class, GeoElementEditor.class);
+        editorsRegistry.registerEditor(GeoSegment.class, GeoSegmentEditor.class);
         model.setEditorsRegistry(editorsRegistry);
         return model;
     }

@@ -15,7 +15,8 @@ import ru.ipo.structurededitor.view.events.GeoSelectionChangedEvent;
 public class GeoLineLinkElement extends GeoLinkElement {
     public GeoLineLinkElement(StructuredEditorModel model, GeoLine value) {
         super(model, value);
-        typeStr = "Прямая";
+        //typeStr = "Прямая";
+        typeStr = "";
         emptyString = "[Выберите прямую на чертеже]";
         setValue(value);
     }

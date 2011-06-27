@@ -365,7 +365,11 @@ public class StructureBuilder {
                             newBean = new PerpendPred();
                         } else if (predName.equals("LaysOn")) {
                             newBean = new LaysOnPred();
-                        } else
+                        } else if (predName.equals("Midpoint")) {
+                            newBean = new MidpointPred();
+                        }else if (predName.equals("SegEqual")) {
+                            newBean = new SegEqualPred();
+                        }else
                             newBean = null;
                         int index = Array.getLength(arr);
                         arr = ArrayEditor.resizeArray(arr, index + 1);
@@ -392,7 +396,14 @@ public class StructureBuilder {
                         } else if (geoType.equals("Point") && geoLocType.equals("given")) {
                             newBean = new GeoPointLink();
                             immedSetValue(newBean, "geo", getGeoByCaption(geoName,app));
-                        } else
+                        } else if (geoType.equals("Segment") && geoLocType.equals("new")) {
+                            newBean = new SegmentElement();
+                            setValue(newBean, "name", (Element) currentNode, "name", "");
+                        } else if (geoType.equals("Segment") && geoLocType.equals("given")) {
+                            newBean = new GeoSegmentLink();
+                            immedSetValue(newBean, "geo", getGeoByCaption(geoName,app));
+                        }
+                        else
                             newBean = null;
                         if (bean instanceof BinPred) {
                             immedSetValue(bean, (String) arr, newBean);

@@ -1,5 +1,6 @@
 package testSystem.lang.geom;
 
+import geogebra.kernel.GeoAngle;
 import ru.ipo.structurededitor.model.DSLBeanParams;
 
 /**
@@ -8,9 +9,9 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Date: 05.08.2010
  * Time: 16:25:07
  */
-@DSLBeanParams(shortcut = "[]=[]", description = "Отрезки равны")
-public class SegEqualPred extends GeoSegmentBinPred {
-    public SegEqualPred() {
+@DSLBeanParams(shortcut = "у=у", description = "Углы равны")
+public class AngleEqualPred extends GeoAngleBinPred {
+    public AngleEqualPred() {
         op = "=";
         vert = false;
     }

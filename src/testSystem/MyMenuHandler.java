@@ -148,9 +148,12 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             fc.setDialogTitle("Сохранение задачи");
             XMLFilter filter = new XMLFilter();
             fc.setFileFilter(filter);
+
             int returnVal = fc.showSaveDialog(f);
             if (returnVal == JFileChooser.APPROVE_OPTION /*&& dir != null && fl != null*/) {
                 String fn = fc.getSelectedFile().getAbsolutePath();
+                if (!fn.endsWith(".xml"))
+                    fn=fn+".xml";
                 System.out.println("You've saved the file: " + fn);
 
                 StructureSerializer structureSerializer = new StructureSerializer(fn, nodesRegistry);

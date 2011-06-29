@@ -159,8 +159,6 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener {
   /**
    * Main method to create inital GeoGebra window.
    * 
-   * @param args
-   *          : file name parameter
    */
 
 
@@ -326,6 +324,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener {
   public void windowGainedFocus(WindowEvent arg0) {
     activeInstance = this;
     app.updateMenuWindow();
+
+
   }
 
   public void windowLostFocus(WindowEvent arg0) {

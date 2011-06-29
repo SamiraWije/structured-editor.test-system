@@ -68,6 +68,7 @@ public class GeoGebraFrameWithStructEd extends GeoGebraFrame {
 
         // init GUI
         System.out.println("init GUI");
+        app.setShowMenuBar(false);
         wnd.app = app;
 
         wnd.getContentPane().add(app.buildApplicationPanel(), BorderLayout.EAST);

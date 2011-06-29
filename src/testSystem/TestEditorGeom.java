@@ -161,7 +161,7 @@ public class TestEditorGeom {
         JToolBar toolBar = new JToolBar();
         addButtonToToolBar(toolBar, "menu-open.png", "Открыть . . .", true, handler);
         if (structuredEditor.isView()){
-            addButtonToToolBar(toolBar, "verify.png", "Проверить . . .", true, handler);
+            addButtonToToolBar(toolBar, "Проверить ответ!", "Проверить . . .", false, handler);
         } else {
             addButtonToToolBar(toolBar, "save.png", "Сохранить . . .", true, handler);
         }
@@ -370,10 +370,13 @@ public class TestEditorGeom {
         reg.registerBean(PerpendPred.class);
         reg.registerBean(PointElement.class);
         reg.registerBean(SegmentElement.class);
+        reg.registerBean(GeoAngleLink.class);
+        reg.registerBean(AngleElement.class);
         reg.registerBean(GeoSegmentLink.class);
         reg.registerBean(Pred.class);
         reg.registerBean(MidpointPred.class);
-         reg.registerBean(SegEqualPred.class);
+        reg.registerBean(SegEqualPred.class);
+        reg.registerBean(AngleEqualPred.class);
 
         StructuredEditorModel model = new StructuredEditorModel(st);
         model.setBeansRegistry(reg);

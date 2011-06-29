@@ -227,7 +227,7 @@ public abstract class Application implements KeyEventDispatcher {
   public static final String FILE_EXT_GEOGEBRA_TOOL = "ggt";
 
   /**
-   * Расширение файлов в формате Intergeo
+   * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ Intergeo
    */
   public static final String FILE_EXT_INTERGEO = "i2g";
 
@@ -265,12 +265,12 @@ public abstract class Application implements KeyEventDispatcher {
   // IDs of the views - Florian Sonner 2008-10-21
 
   /**
-   * Основная панель - лист для рисования
+   * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
    */
   public static final int VIEW_EUCLIDIAN = 1;
 
   /**
-   * Панель объектов
+   * пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
    */
   public static final int VIEW_ALGEBRA = 2;
 
@@ -769,7 +769,7 @@ public abstract class Application implements KeyEventDispatcher {
     if (commandDict == null || kernel == null || !kernel.hasMacros())
       return;
 
-    System.out.println("Добавляем макро комманды");
+    System.out.println("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
     ArrayList<Macro> macros = kernel.getAllMacros();
     for (int i = 0; i < macros.size(); i++) {
       String cmdName = macros.get(i).getCommandName();
@@ -1084,11 +1084,12 @@ public abstract class Application implements KeyEventDispatcher {
     if (glassPaneListener != null)
       return;
 
-    if (isSaved() || appletImpl != null || saveCurrentFile())
+   //Changed by Perchenok
+   /* if (isSaved() || appletImpl != null || saveCurrentFile())
       if (appletImpl != null) {
         setApplet(appletImpl);
         appletImpl.showApplet();
-      } else
+      } else*/
         frame.setVisible(false);
   }
 
@@ -1310,7 +1311,7 @@ public abstract class Application implements KeyEventDispatcher {
   }
 
   /**
-   * Лист с Евклидовыми координатами
+   * пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
    * 
    * @return
    */
@@ -1741,7 +1742,7 @@ public abstract class Application implements KeyEventDispatcher {
   }
 
   /**
-   * Получить текст для интерфейса по ключу
+   * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
    * 
    * @param key
    * @return
@@ -3146,7 +3147,7 @@ public abstract class Application implements KeyEventDispatcher {
   /**
    * 
    * @param text
-   *          - Передавать текст!
+   *          - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ!
    */
   public void showHelp(String text) {
     JOptionPane.showConfirmDialog(mainComp, text, Plain.ApplicationName + " - "
@@ -3294,7 +3295,7 @@ public abstract class Application implements KeyEventDispatcher {
   }
 
   public void updateCommandDictionary() {
-    System.out.println("Загрузка словаря комманд из файла?");
+    System.out.println("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ?");
 
     // make sure all macro commands are in dictionary
     fillCommandDict();

@@ -66,10 +66,11 @@ public class GeoGebraFrameStudent extends GeoGebraFrame {
 
         System.out.println("Load GUI JAR");
         app.loadGUIJar();
-        app.getGuiManager().initMenubar();
+        //app.getGuiManager().initMenubar();
 
         // init GUI
         System.out.println("init GUI");
+        app.setShowMenuBar(false);
         wnd.app = app;
 
         wnd.getContentPane().add(app.buildApplicationPanel(), BorderLayout.EAST);

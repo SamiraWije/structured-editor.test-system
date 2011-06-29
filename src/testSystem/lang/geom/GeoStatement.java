@@ -56,7 +56,7 @@ public class GeoStatement implements DSLBean, DSLBeanView {
         return new Vert(
                 new Horiz(new ConstantCell("Заголовок:"), new FieldCell("title")),
                 new Horiz(new ConstantCell("Условие:"), new FieldCell("statement")),
-                new Horiz(new ConstantCell("Инструменты:"), new HorizArray("instrums", ',')),
+                new Horiz(new ConstantCell("Инструменты:"), new VertArray("instrums")),
                 new Horiz(new ConstantCell("Предикаты:"), new VertArray("preds"))
         );
     }

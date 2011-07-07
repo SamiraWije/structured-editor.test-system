@@ -365,11 +365,22 @@ public class StructureBuilder {
                             newBean = new PerpendPred();
                         } else if (predName.equals("LaysOn")) {
                             newBean = new LaysOnPred();
+                        } else if (predName.equals("LaysOnSegment")) {
+                            newBean = new LaysOnSegmentPred();
+                        } else if (predName.equals("LaysOnCircle")) {
+                            newBean = new LaysOnSegmentPred();
                         } else if (predName.equals("Midpoint")) {
                             newBean = new MidpointPred();
                         }else if (predName.equals("SegEqual")) {
                             newBean = new SegEqualPred();
-                        }else
+                        }else if (predName.equals("AngleEqual")) {
+                            newBean = new AngleEqualPred();
+                        } else if (predName.equals("CircleTangent")) {
+                            newBean = new CircleTangentPred();
+                        } else if (predName.equals("LineCircleTangent")) {
+                            newBean = new LineCircleTangentPred();
+                        }
+                        else
                             newBean = null;
                         int index = Array.getLength(arr);
                         arr = ArrayEditor.resizeArray(arr, index + 1);
@@ -401,6 +412,18 @@ public class StructureBuilder {
                             setValue(newBean, "name", (Element) currentNode, "name", "");
                         } else if (geoType.equals("Segment") && geoLocType.equals("given")) {
                             newBean = new GeoSegmentLink();
+                            immedSetValue(newBean, "geo", getGeoByCaption(geoName,app));
+                        } else if (geoType.equals("Angle") && geoLocType.equals("new")) {
+                            newBean = new AngleElement();
+                            setValue(newBean, "name", (Element) currentNode, "name", "");
+                        } else if (geoType.equals("Angle") && geoLocType.equals("given")) {
+                            newBean = new GeoAngleLink();
+                            immedSetValue(newBean, "geo", getGeoByCaption(geoName,app));
+                        } else if (geoType.equals("Circle") && geoLocType.equals("new")) {
+                            newBean = new CircleElement();
+                            setValue(newBean, "name", (Element) currentNode, "name", "");
+                        } else if (geoType.equals("Circle") && geoLocType.equals("given")) {
+                            newBean = new GeoCircleLink();
                             immedSetValue(newBean, "geo", getGeoByCaption(geoName,app));
                         }
                         else

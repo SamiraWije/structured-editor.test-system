@@ -1,10 +1,7 @@
 package testSystem;
 
-import geogebra.kernel.GeoSegment;
+import geogebra.kernel.*;
 import testSystem.view.editors.*;
-import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoLine;
-import geogebra.kernel.GeoPoint;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -22,7 +19,6 @@ import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.images.ImageGetter;
 
 import javax.swing.*;
-import javax.swing.text.Segment;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.*;
@@ -240,6 +236,14 @@ public class TestEditorGeom {
             laysOnPredicate.setAttribute("name", "LaysOn");
             nodesRegistry.registerNode(LaysOnPred.class, laysOnPredicate);
 
+            Element laysOnSegmentPredicate = document.createElement("predicate");
+            laysOnSegmentPredicate.setAttribute("name", "LaysOnSegment");
+            nodesRegistry.registerNode(LaysOnSegmentPred.class, laysOnSegmentPredicate);
+
+            Element laysOnCirclePredicate = document.createElement("predicate");
+            laysOnCirclePredicate.setAttribute("name", "LaysOnCircle");
+            nodesRegistry.registerNode(LaysOnCirclePred.class, laysOnCirclePredicate);
+
             Element midpointPredicate = document.createElement("predicate");
             midpointPredicate.setAttribute("name", "Midpoint");
             nodesRegistry.registerNode(MidpointPred.class, midpointPredicate);
@@ -247,6 +251,18 @@ public class TestEditorGeom {
             Element segEqualPredicate = document.createElement("predicate");
             segEqualPredicate.setAttribute("name", "SegEqual");
             nodesRegistry.registerNode(SegEqualPred.class, segEqualPredicate);
+
+            Element angleEqualPredicate = document.createElement("predicate");
+            angleEqualPredicate.setAttribute("name", "AngleEqual");
+            nodesRegistry.registerNode(AngleEqualPred.class, angleEqualPredicate);
+
+            Element circleTangentPredicate = document.createElement("predicate");
+            circleTangentPredicate.setAttribute("name", "CircleTangent");
+            nodesRegistry.registerNode(CircleTangentPred.class, circleTangentPredicate);
+
+            Element lineCircleTangentPredicate = document.createElement("predicate");
+            lineCircleTangentPredicate.setAttribute("name", "LineCircleTangent");
+            nodesRegistry.registerNode(LineCircleTangentPred.class, lineCircleTangentPredicate);
 
             //GeoElements
             Element newLine = document.createElement("geoElem");
@@ -288,11 +304,6 @@ public class TestEditorGeom {
 
             Attr newSegmentName = document.createAttribute("name");
             nodesRegistry.registerNode(SegmentElement.class, "name", newSegmentName);
-            // Instruments  - Enum!
-            Element tools = document.createElement("tools");
-            nodesRegistry.registerNode(GeoStatement.class, "instrums", tools);
-            Element tool = document.createElement("tool");
-            nodesRegistry.registerNode(Instrum.class, tool);
 
             Element givenSegment = document.createElement("geoElem");
             givenSegment.setAttribute("type", "Segment");
@@ -301,6 +312,45 @@ public class TestEditorGeom {
 
             Attr givenSegmentName = document.createAttribute("name");
             nodesRegistry.registerNode(GeoLineLink.class, "name", givenSegmentName);
+
+            Element newAngle = document.createElement("geoElem");
+            newAngle.setAttribute("type", "Angle");
+            newAngle.setAttribute("locType", "new");
+            nodesRegistry.registerNode(AngleElement.class, newAngle);
+
+            Attr newAngleName = document.createAttribute("name");
+            nodesRegistry.registerNode(AngleElement.class, "name", newAngleName);
+
+            Element givenAngle = document.createElement("geoElem");
+            givenAngle.setAttribute("type", "Angle");
+            givenAngle.setAttribute("locType", "given");
+            nodesRegistry.registerNode(GeoAngleLink.class, givenAngle);
+
+            Attr givenAngleName = document.createAttribute("name");
+            nodesRegistry.registerNode(GeoAngleLink.class, "name", givenAngleName);
+
+            Element newCircle = document.createElement("geoElem");
+            newCircle.setAttribute("type", "Circle");
+            newCircle.setAttribute("locType", "new");
+            nodesRegistry.registerNode(CircleElement.class, newCircle);
+
+            Attr newCircleName = document.createAttribute("name");
+            nodesRegistry.registerNode(CircleElement.class, "name", newCircleName);
+
+            Element givenCircle = document.createElement("geoElem");
+            givenCircle.setAttribute("type", "Circle");
+            givenCircle.setAttribute("locType", "given");
+            nodesRegistry.registerNode(GeoCircleLink.class, givenCircle);
+
+            Attr givenCircleName = document.createAttribute("name");
+            nodesRegistry.registerNode(GeoCircleLink.class, "name", givenCircleName);
+
+            // Instruments  - Enum!
+            Element tools = document.createElement("tools");
+            nodesRegistry.registerNode(GeoStatement.class, "instrums", tools);
+            Element tool = document.createElement("tool");
+            nodesRegistry.registerNode(Instrum.class, tool);
+
 
             //Attr toolName  = document.createAttribute("name");
             //nodesRegistry.registerNode(Instrum.class, "name", toolName);
@@ -372,11 +422,18 @@ public class TestEditorGeom {
         reg.registerBean(SegmentElement.class);
         reg.registerBean(GeoAngleLink.class);
         reg.registerBean(AngleElement.class);
+        reg.registerBean(GeoCircleLink.class);
+        reg.registerBean(CircleElement.class);
         reg.registerBean(GeoSegmentLink.class);
         reg.registerBean(Pred.class);
         reg.registerBean(MidpointPred.class);
         reg.registerBean(SegEqualPred.class);
         reg.registerBean(AngleEqualPred.class);
+        reg.registerBean(LaysOnSegmentPred.class);
+        reg.registerBean(LaysOnCirclePred.class);
+        //reg.registerBean(CircleTangentPred.class);
+        reg.registerBean(LineCircleTangentPred.class);
+
 
         StructuredEditorModel model = new StructuredEditorModel(st);
         model.setBeansRegistry(reg);
@@ -385,6 +442,8 @@ public class TestEditorGeom {
         editorsRegistry.registerEditor(GeoPoint.class, GeoPointEditor.class);
         editorsRegistry.registerEditor(GeoElement.class, GeoElementEditor.class);
         editorsRegistry.registerEditor(GeoSegment.class, GeoSegmentEditor.class);
+        editorsRegistry.registerEditor(GeoAngle.class, GeoAngleEditor.class);
+        editorsRegistry.registerEditor(GeoConic.class, GeoCircleEditor.class);
         model.setEditorsRegistry(editorsRegistry);
         return model;
     }

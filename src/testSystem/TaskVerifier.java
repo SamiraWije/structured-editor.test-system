@@ -1,10 +1,7 @@
 package testSystem;
 
-import geogebra.euclidian.DrawAngle;
 import geogebra.kernel.*;
 import geogebra.main.Application;
-import geogebra3D.kernel3D.Geo3DVec;
-import org.freehep.graphicsio.emf.gdi.AngleArc;
 import ru.ipo.structurededitor.model.DSLBean;
 import testSystem.structureBuilder.StructureBuilder;
 import ru.ipo.structurededitor.testLang.comb.*;
@@ -135,7 +132,8 @@ public class TaskVerifier {
                 s2.calcLength();
                 System.out.println(relStr);
                 if (pred instanceof MidpointPred && (Math.round(s1.getLength()*100)!=Math.round(s2.getLength()*100)
-                        || relStr.contains("не лежит на")))
+                        || relStr.contains("не лежит на")) ||
+                    pred instanceof LaysOnSegmentPred && relStr.contains("не лежит на"))
                    return false;
             } else if (pred instanceof GeoSegmentBinPred) {
                 GeoElement geo1, geo2;
@@ -160,6 +158,76 @@ public class TaskVerifier {
                 System.out.println(relStr);
                 if (pred instanceof SegEqualPred && (Math.round(((GeoSegment)geo1).getLength()*100)!=
                         Math.round(((GeoSegment)geo2).getLength()*100)))
+                   return false;
+            } else if (pred instanceof GeoAngleBinPred) {
+                GeoElement geo1, geo2;
+                AbstractGeoAngle seg1 = ((GeoAngleBinPred) pred).getE1();
+                AbstractGeoAngle seg2 = ((GeoAngleBinPred) pred).getE2();
+                if (seg1 instanceof GeoAngleLink)
+                    geo1 = ((GeoAngleLink)seg1).getGeo();
+                else
+                    geo1 = StructureBuilder.getGeoByCaption(((AngleElement) seg1).getName(), app);
+                if (seg2 instanceof GeoAngleLink)
+                    geo2 = ((GeoAngleLink) seg2).getGeo();
+                else
+                    geo2 = StructureBuilder.getGeoByCaption(((AngleElement) seg2).getName(), app);
+                Relation rel = new Relation(app.getKernel());
+                if (geo1 == null || geo2 == null)
+                    return false;
+                //GeoAngle s = new GeoAngle(app.getKernel().getConstruction());
+
+                String relStr = rel.relation(geo1, geo2);
+
+
+                System.out.println(relStr);
+                if (pred instanceof AngleEqualPred && (Math.round(((GeoAngle)geo1).getRawAngle()*100)!=
+                        Math.round(((GeoAngle)geo2).getRawAngle()*100)))
+                   return false;
+            } else if (pred instanceof GeoCircleBinPred) {
+                GeoElement geo1, geo2;
+                AbstractGeoCircle seg1 = ((GeoCircleBinPred) pred).getE1();
+                AbstractGeoCircle seg2 = ((GeoCircleBinPred) pred).getE2();
+                if (seg1 instanceof GeoCircleLink)
+                    geo1 = ((GeoCircleLink)seg1).getGeo();
+                else
+                    geo1 = StructureBuilder.getGeoByCaption(((CircleElement) seg1).getName(), app);
+                if (seg2 instanceof GeoCircleLink)
+                    geo2 = ((GeoCircleLink) seg2).getGeo();
+                else
+                    geo2 = StructureBuilder.getGeoByCaption(((CircleElement) seg2).getName(), app);
+                Relation rel = new Relation(app.getKernel());
+                if (geo1 == null || geo2 == null)
+                    return false;
+                //GeoAngle s = new GeoAngle(app.getKernel().getConstruction());
+
+                String relStr = rel.relation(geo1, geo2);
+
+
+                System.out.println(relStr);
+                if (pred instanceof CircleTangentPred && relStr.contains("пересекается")) //Не работает
+                   return false;
+            } else if (pred instanceof GeoLineGeoCircleBinPred) {
+                GeoElement geo1, geo2;
+                AbstractGeoLine seg1 = ((GeoLineGeoCircleBinPred) pred).getE1();
+                AbstractGeoCircle seg2 = ((GeoLineGeoCircleBinPred) pred).getE2();
+                if (seg1 instanceof GeoLineLink)
+                    geo1 = ((GeoLineLink)seg1).getGeo();
+                else
+                    geo1 = StructureBuilder.getGeoByCaption(((LineElement) seg1).getName(), app);
+                if (seg2 instanceof GeoCircleLink)
+                    geo2 = ((GeoCircleLink) seg2).getGeo();
+                else
+                    geo2 = StructureBuilder.getGeoByCaption(((CircleElement) seg2).getName(), app);
+                Relation rel = new Relation(app.getKernel());
+                if (geo1 == null || geo2 == null)
+                    return false;
+                //GeoAngle s = new GeoAngle(app.getKernel().getConstruction());
+
+                String relStr = rel.relation(geo1, geo2);
+
+
+                System.out.println(relStr);
+                if (pred instanceof LineCircleTangentPred && relStr.contains("пересекается"))
                    return false;
             }
         }

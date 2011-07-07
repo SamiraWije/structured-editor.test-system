@@ -9,8 +9,8 @@ import ru.ipo.structurededitor.model.*;
  * Time: 14:35
  * To change this template use File | Settings | File Templates.
  */
-@DSLBeanParams(shortcut = "Новый", description = "Угол для построения")
-public class AngleElement extends AbstractGeoAngle{
+@DSLBeanParams(shortcut = "Новая", description = "Окружность для построения")
+public class CircleElement extends AbstractGeoCircle{
     public String getName() {
         return name;
     }
@@ -22,6 +22,6 @@ public class AngleElement extends AbstractGeoAngle{
     private String name;
 
     public Cell getLayout() {
-        return new Horiz(new ConstantCell("/_"), new FieldCell("name", true));
+        return new Horiz(new ConstantCell("окр"), new FieldCell("name", true));
     }
 }

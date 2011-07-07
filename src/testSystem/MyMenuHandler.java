@@ -57,8 +57,12 @@ public class MyMenuHandler implements ActionListener, ItemListener {
         instrumsModes.put(Instrum.LINE_PARALL, EuclidianView.MODE_PARALLEL);
         instrumsModes.put(Instrum.LINE_TWO_POINTS, EuclidianView.MODE_JOIN);
         instrumsModes.put(Instrum.CIRCLE_CENTER_RAD, EuclidianView.MODE_CIRCLE_POINT_RADIUS);
+        instrumsModes.put(Instrum.CIRCLE_CENTER_POINT, EuclidianView.MODE_CIRCLE_TWO_POINTS);
         instrumsModes.put(Instrum.MIDPOINT, EuclidianView.MODE_MIDPOINT);
         instrumsModes.put(Instrum.SEGMENT_TWO_POINTS, EuclidianView.MODE_SEGMENT);
+        instrumsModes.put(Instrum.ANGLE_THREE_POINTS, EuclidianView.MODE_ANGLE);
+        instrumsModes.put(Instrum.ANGLE_FIXED, EuclidianView.MODE_ANGLE_FIXED);
+
     }
 
     private void refreshEditor(DSLBean st, ModificationVector modificationVector) {

@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Date: 05.08.2010
  * Time: 16:25:07
  */
-@DSLBeanParams(shortcut = "у=у", description = "Углы равны")
+@DSLBeanParams(shortcut = "/_=/_", description = "Углы равны")
 public class AngleEqualPred extends GeoAngleBinPred {
     public AngleEqualPred() {
         op = "=";

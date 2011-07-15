@@ -102,6 +102,8 @@ public class StructureBuilder {
                 }
                 if (mode.equals("int"))
                     value = Integer.parseInt((String) value);
+                else if (mode.equals("double"))
+                    value = Double.parseDouble((String) value);
             }
             PropertyDescriptor pd = new PropertyDescriptor(fieldName, bean.getClass());
             Method wm = pd.getWriteMethod();
@@ -368,7 +370,7 @@ public class StructureBuilder {
                         } else if (predName.equals("LaysOnSegment")) {
                             newBean = new LaysOnSegmentPred();
                         } else if (predName.equals("LaysOnCircle")) {
-                            newBean = new LaysOnSegmentPred();
+                            newBean = new LaysOnCirclePred();
                         } else if (predName.equals("Midpoint")) {
                             newBean = new MidpointPred();
                         }else if (predName.equals("SegEqual")) {
@@ -379,6 +381,12 @@ public class StructureBuilder {
                             newBean = new CircleTangentPred();
                         } else if (predName.equals("LineCircleTangent")) {
                             newBean = new LineCircleTangentPred();
+                        } else if (predName.equals("SegmentValue")) {
+                            newBean = new SegmentValuePred();
+                            setValue(newBean, "value", (Element) currentNode, "value", "double");
+                        } else if (predName.equals("AngleValue")) {
+                            newBean = new AngleValuePred();
+                            setValue(newBean, "value", (Element) currentNode, "value", "double");
                         }
                         else
                             newBean = null;
@@ -431,6 +439,9 @@ public class StructureBuilder {
                         if (bean instanceof BinPred) {
                             immedSetValue(bean, (String) arr, newBean);
                             arr = "e2";
+                        }
+                        else if (bean instanceof ValuePred) {
+                            immedSetValue(bean,"e",newBean);
                         }
                     } else if (nodeName.equals("predicates")) {
                         setChildNodesToArray(bean, "preds", currentNode.getChildNodes());

@@ -22,6 +22,6 @@ public class CircleElement extends AbstractGeoCircle{
     private String name;
 
     public Cell getLayout() {
-        return new Horiz(new ConstantCell("окр"), new FieldCell("name", true));
+        return new Horiz(new ConstantCell("окр."), new FieldCell("name", true));
     }
 }

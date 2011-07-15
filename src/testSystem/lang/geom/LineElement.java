@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.*;
  * Time: 14:35
  * To change this template use File | Settings | File Templates.
  */
-@DSLBeanParams(shortcut = "Новая", description = "Прямая для построения")
+@DSLBeanParams(shortcut = "Новая_пр", description = "Прямая для построения")
 public class LineElement extends AbstractGeoLine {
     public String getName() {
         return name;

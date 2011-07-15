@@ -9,6 +9,6 @@ import ru.ipo.structurededitor.model.DSLBean;
  * Time: 17:53
  * To change this template use File | Settings | File Templates.
  */
-public abstract class AbstractGeoSegment extends AbstractGeoSegLine {
+public abstract class AbstractGeoSegLine implements DSLBean {
 
 }

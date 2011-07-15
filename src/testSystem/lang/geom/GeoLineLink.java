@@ -12,7 +12,7 @@ import ru.ipo.structurededitor.model.FieldCell;
  * Time: 14:18
  * To change this template use File | Settings | File Templates.
  */
-@DSLBeanParams(shortcut = "Ссылка", description = "Прямая с чертежа")
+@DSLBeanParams(shortcut = "Ссылка_пр", description = "Прямая с чертежа")
 public class GeoLineLink extends AbstractGeoLine {
     public GeoLine getGeo() {
         return geo;

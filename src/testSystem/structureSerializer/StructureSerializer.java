@@ -125,7 +125,7 @@ public class StructureSerializer {
                         switch (newNode.getNodeType()) {
                             case Node.ATTRIBUTE_NODE:
                                 val = getValue(bean, d.getName());
-                                if (val instanceof Integer)
+                                if (val instanceof Integer || val instanceof Double)
                                     val = String.valueOf(val);
                                 node.setAttribute(newNode.getNodeName(), (String) val);
                                 break;

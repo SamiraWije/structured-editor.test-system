@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Time: 15:12
  * To change this template use File | Settings | File Templates.
  */
-@DSLBeanParams(shortcut = "лежит на окр", description = "Точка лежит на окружности")
+@DSLBeanParams(shortcut = "лежит_на_окр", description = "Точка лежит на окружности")
 public class LaysOnCirclePred extends GeoPointGeoCircleBinPred {
     public LaysOnCirclePred() {
         op = "лежит на";

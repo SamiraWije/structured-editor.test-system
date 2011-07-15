@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.*;
  * Time: 14:35
  * To change this template use File | Settings | File Templates.
  */
-@DSLBeanParams(shortcut = "Новый", description = "Отрезок для построения")
+@DSLBeanParams(shortcut = "Новый_[]", description = "Отрезок для построения")
 public class SegmentElement extends AbstractGeoSegment {
     public String getName() {
         return name;

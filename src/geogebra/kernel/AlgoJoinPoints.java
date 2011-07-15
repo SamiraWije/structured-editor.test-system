@@ -39,7 +39,8 @@ public class AlgoJoinPoints extends AlgoElement {
         super(cons);
         this.P = P;
         this.Q = Q;                
-        g = new GeoLine(cons); 
+        g = new GeoLine(cons);
+
         g.setStartPoint(P);
         g.setEndPoint(Q);
         setInputOutput(); // for AlgoElement

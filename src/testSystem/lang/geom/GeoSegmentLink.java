@@ -13,7 +13,7 @@ import ru.ipo.structurededitor.model.FieldCell;
  * Time: 14:18
  * To change this template use File | Settings | File Templates.
  */
-@DSLBeanParams(shortcut = "Ссылка", description = "Отрезок с чертежа")
+@DSLBeanParams(shortcut = "Ссылка_[]", description = "Отрезок с чертежа")
 public class GeoSegmentLink extends AbstractGeoSegment {
 
     public GeoSegment getGeo() {

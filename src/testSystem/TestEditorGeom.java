@@ -264,6 +264,18 @@ public class TestEditorGeom {
             lineCircleTangentPredicate.setAttribute("name", "LineCircleTangent");
             nodesRegistry.registerNode(LineCircleTangentPred.class, lineCircleTangentPredicate);
 
+            Element segmentValuePredicate = document.createElement("predicate");
+            segmentValuePredicate.setAttribute("name", "SegmentValue");
+            nodesRegistry.registerNode(SegmentValuePred.class, segmentValuePredicate);
+            Attr segmentValueValue = document.createAttribute("value");
+            nodesRegistry.registerNode(SegmentValuePred.class, "value", segmentValueValue);
+
+            Element angleValuePredicate = document.createElement("predicate");
+            angleValuePredicate.setAttribute("name", "AngleValue");
+            nodesRegistry.registerNode(AngleValuePred.class, angleValuePredicate);
+            Attr angleValueValue = document.createAttribute("value");
+            nodesRegistry.registerNode(AngleValuePred.class, "value", angleValueValue);
+
             //GeoElements
             Element newLine = document.createElement("geoElem");
             newLine.setAttribute("type", "Line");
@@ -345,6 +357,7 @@ public class TestEditorGeom {
             Attr givenCircleName = document.createAttribute("name");
             nodesRegistry.registerNode(GeoCircleLink.class, "name", givenCircleName);
 
+
             // Instruments  - Enum!
             Element tools = document.createElement("tools");
             nodesRegistry.registerNode(GeoStatement.class, "instrums", tools);
@@ -367,7 +380,7 @@ public class TestEditorGeom {
         if (pict)
             but = new JButton(new ImageIcon(ImageGetter.class.getResource(text)));
         else
-            but = new JButton(text);
+             but = new JButton(text);
         but.setActionCommand(cmd);
         but.addActionListener(handler);
         but.setFocusable(false);
@@ -433,7 +446,9 @@ public class TestEditorGeom {
         reg.registerBean(LaysOnCirclePred.class);
         //reg.registerBean(CircleTangentPred.class);
         reg.registerBean(LineCircleTangentPred.class);
-
+        reg.registerBean(AngleValuePred.class);
+        reg.registerBean(SegmentValuePred.class);
+        reg.registerBean(AbstractGeoSegLine.class);
 
         StructuredEditorModel model = new StructuredEditorModel(st);
         model.setBeansRegistry(reg);

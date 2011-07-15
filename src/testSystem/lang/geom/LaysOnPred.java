@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Time: 15:12
  * To change this template use File | Settings | File Templates.
  */
-@DSLBeanParams(shortcut = "лежит на пр", description = "Точка лежит на прямой")
+@DSLBeanParams(shortcut = "лежит_на_пр", description = "Точка лежит на прямой")
 public class LaysOnPred extends GeoPointGeoLineBinPred {
     public LaysOnPred() {
         op = "лежит на";

@@ -9,8 +9,8 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Time: 15:12
  * To change this template use File | Settings | File Templates.
  */
-@DSLBeanParams(shortcut = "||", description = "Прямые параллельны")
-public class ParallPred extends GeoLineBinPred {
+@DSLBeanParams(shortcut = "||", description = "Прямые или отрезки параллельны")
+public class ParallPred extends GeoSegLineBinPred {
     public ParallPred() {
         op = "||";
         vert = false;

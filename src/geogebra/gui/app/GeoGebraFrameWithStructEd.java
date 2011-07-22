@@ -87,7 +87,8 @@ public class GeoGebraFrameWithStructEd extends GeoGebraFrame {
         wnd.getContentPane().add(structuredEditorScrPane, BorderLayout.CENTER);
         structuredEditor.requestFocusInWindow();
         structuredEditor.setApp(app);
-        TestEditorGeom.createBars(wnd, structuredEditor, nodesRegistry);
+        app.getGuiManager().setShowAlgebraView(false);
+        wnd.add(TestEditorGeom.createBars(wnd, structuredEditor, nodesRegistry, null),BorderLayout.NORTH);
         //---StructuredEditor
         wnd.setDropTarget(new DropTarget(wnd,
                 new geogebra.gui.FileDropTargetListener(app)));

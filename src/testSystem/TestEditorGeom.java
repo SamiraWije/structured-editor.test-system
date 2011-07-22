@@ -19,6 +19,7 @@ import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.images.ImageGetter;
 
 import javax.swing.*;
+import javax.swing.text.StyledDocument;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.*;
@@ -79,7 +80,7 @@ public class TestEditorGeom {
 
 
         // Menu, Toolbar
-        createBars(f, structuredEditor, nodesRegistry);
+        createBars(f, structuredEditor, nodesRegistry, null);
         //Status Bar
         StatusBar statusBar = new StatusBar("Нажмите Ctrl+Пробел для выбора вариантов ввода");
         f.add(statusBar, BorderLayout.SOUTH);
@@ -113,42 +114,57 @@ public class TestEditorGeom {
         //model.getRootElement().gainFocus(new TextPosition(0,0), false, false);
     }
 
-    public static void createBars(JFrame f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry) {
-        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "geom",null,null);
-        MenuBar menuBar = new MenuBar();
-        f.setMenuBar(menuBar);
-        Menu file = new Menu("Задача");
-        MenuItem item1, item2, item3, item4, item5;
 
-        item2 = new MenuItem("Открыть . . .");
+    public static JToolBar createBars(JFrame f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry,
+                                  StyledDocument styledDocument) {
+
+        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "geom",null,null, styledDocument);
+        JMenuBar menuBar = new JMenuBar();
+        f.setJMenuBar(menuBar);
+        JCheckBoxMenuItem algView;
+        JMenu view = new JMenu("Вид");
+        view.add(algView = new JCheckBoxMenuItem("Панель объектов"));
+        algView.addActionListener(handler);
+        algView.setState(false);
+
+        JMenu file = new JMenu("Задача");
+        JMenuItem item1, item2, item3, item4, item5, helpItem;
+
+        item2 = new JMenuItem("Открыть . . .");
 
         if (structuredEditor.isView()){
             file.add(item2);
-            file.add(new MenuItem("-"));
-            file.add(item4 = new MenuItem("Проверить . . ."));
-            file.add(new MenuItem("-"));
+            file.addSeparator();
+            file.add(item4 = new JMenuItem("Проверить . . ."));
+            file.addSeparator();
             item4.addActionListener(handler);
         } else{
-            file.add(item1 = new MenuItem("Создать"));
+            file.add(item1 = new JMenuItem("Создать"));
             file.add(item2);
-            file.add(item3 = new MenuItem("Сохранить . . ."));
+            file.add(item3 = new JMenuItem("Сохранить . . ."));
             item1.addActionListener(handler);
             item3.addActionListener(handler);
         }
-        file.add(new MenuItem("-"));
-        file.add(item5 = new MenuItem("Выход"));
+        file.addSeparator();
+        file.add(item5 = new JMenuItem("Выход"));
         menuBar.add(file);
-        Menu edit = new Menu("Редактирование");
-        final MenuItem undoItem, redoItem;
-        edit.add(undoItem = new MenuItem("Отменить"));
-        edit.add(redoItem = new MenuItem("Повторить"));
+        menuBar.add(view);
+        JMenu edit = new JMenu("Редактирование");
+        final JMenuItem undoItem, redoItem;
+        edit.add(undoItem = new JMenuItem("Отменить"));
+        edit.add(redoItem = new JMenuItem("Повторить"));
         undoItem.setEnabled(false);
         redoItem.setEnabled(false);
-        menuBar.add(edit);
-        Menu help = new Menu("Помощь");
+        if (!structuredEditor.isView()){
+            menuBar.add(edit);
+        }
+        JMenu help = new JMenu("Помощь");
         menuBar.add(help);
-        //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
-
+        help.addActionListener(handler);
+        help.add(helpItem = new JMenuItem("Работа"));
+        helpItem.addActionListener(handler);
+        //MyJMenuHandler handler = new MyJMenuHandler(f,xmlV,structuredEditor);
+        helpItem.setActionCommand("Помощь");
         item2.addActionListener(handler);
         item5.addActionListener(handler);
         undoItem.addActionListener(handler);
@@ -163,6 +179,10 @@ public class TestEditorGeom {
         }
         final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
         final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
+        if (structuredEditor.isView()){
+            redoButton.setVisible(false);
+            undoButton.setVisible(false);
+        }
         //addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);
         addButtonToToolBar(toolBar, "help.png", "Помощь", true, handler);
         final ModificationVector modificationVector = structuredEditor.getModel().getModificationVector();
@@ -187,8 +207,7 @@ public class TestEditorGeom {
         undoButton.setEnabled(false);
         redoButton.setEnabled(false);
 
-        f.add(toolBar, BorderLayout.NORTH);
-
+        return toolBar;
     }
 
     public static NodesRegistry nodesRegistryPrep() {

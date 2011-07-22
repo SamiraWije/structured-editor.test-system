@@ -73,7 +73,7 @@ public class GeoGebraFrameStudent extends GeoGebraFrame {
         app.setShowMenuBar(false);
         wnd.app = app;
 
-        wnd.getContentPane().add(app.buildApplicationPanel(), BorderLayout.EAST);
+
         //StructuredEditor
         NodesRegistry nodesRegistry = TestEditorGeom.nodesRegistryPrep();
 
@@ -89,15 +89,24 @@ public class GeoGebraFrameStudent extends GeoGebraFrame {
 
         JPanel taskPanel= new JPanel(new BorderLayout());
 
+
         StyleContext sc = new StyleContext();
-            final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
-            JTextPane textPane = new JTextPane(doc);
+        final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
+
+
+        JTextPane textPane = new JTextPane(doc);
+        taskPanel.add(textPane, BorderLayout.CENTER);
+
         textPane.setEditable(false);
         final Style heading2Style = sc.addStyle("Heading2", null);
-        heading2Style.addAttribute(StyleConstants.Foreground, Color.red);
+        //heading2Style.addAttribute(StyleConstants.Foreground, Color.red);
         heading2Style.addAttribute(StyleConstants.FontSize, 16);
         heading2Style.addAttribute(StyleConstants.FontFamily, "serif");
         heading2Style.addAttribute(StyleConstants.Bold, true);
+        heading2Style.addAttribute(StyleConstants.ALIGN_CENTER, true);
+
+        final Style defaultStyle = sc.addStyle("Default", null);
+
 
 
         StyledDocument styledDocument =  textPane.getStyledDocument();
@@ -105,28 +114,34 @@ public class GeoGebraFrameStudent extends GeoGebraFrame {
 
         try {
             //((GeoStatement)model.getObject()).getTitle()
-            styledDocument.insertString(0,"Химия и физика\n биология\n",null);
-            doc.setParagraphAttributes(0, 1, heading2Style, false);
+
+            styledDocument.remove(0,styledDocument.getLength());
+            styledDocument.insertString(0,"Откройте задачу\n Здесь будет условие\n",null);
+            //doc.setParagraphAttributes(0, 1, heading2Style, false);
+
         }catch (Exception e) {
             throw new Error("Text HTML error"+e);
         }
         Border border = BorderFactory.createLineBorder(Color.BLACK);
 
+        JScrollPane structuredEditorScrPane = new JScrollPane(structuredEditor);
+        wnd.getContentPane().add(taskPanel, BorderLayout.BEFORE_FIRST_LINE);
+        wnd.getContentPane().add(app.buildApplicationPanel(), BorderLayout.CENTER);
         textPane.setBorder(border);
         taskPanel.add(textPane, BorderLayout.CENTER);
-        JScrollPane structuredEditorScrPane = new JScrollPane(structuredEditor);
-        //wnd.getContentPane().add(taskPanel, BorderLayout.CENTER);
-        wnd.getContentPane().add(structuredEditorScrPane, BorderLayout.CENTER);
+
+        //wnd.getContentPane().add(structuredEditorScrPane, BorderLayout.CENTER);
         structuredEditor.requestFocusInWindow();
         structuredEditor.setApp(app);
-        TestEditorGeom.createBars(wnd, structuredEditor, nodesRegistry);
+        JToolBar toolBar = TestEditorGeom.createBars(wnd, structuredEditor, nodesRegistry,styledDocument);
+        taskPanel.add(toolBar, BorderLayout.SOUTH);
         //---StructuredEditor
         wnd.setDropTarget(new DropTarget(wnd,
                 new geogebra.gui.FileDropTargetListener(app)));
         wnd.addWindowFocusListener(wnd);
         updateAllTitles();
         wnd.setVisible(true);
-
+        app.getGuiManager().setShowAlgebraView(false);
         // init some things in the background
         System.out.println("init some things in the background");
         if (!app.isApplet()) {
@@ -161,8 +176,9 @@ public class GeoGebraFrameStudent extends GeoGebraFrame {
         structuredEditor.repaint();
     }
 
-    public void updateSize() {
+    /*public void updateSize() {
         super.updateSize();
+        /*if (!structuredEditor.isView()){
         Dimension dim = getSize(),
                 dim1 = structuredEditor.getPreferredSize();
         structuredEditor.setSize(dim1);
@@ -177,7 +193,8 @@ public class GeoGebraFrameStudent extends GeoGebraFrame {
             setLocation(0, 0);
         }
         setSize(dim);
-    }
+      }
+    }  */
 
     private static StructuredEditor structuredEditor;
 

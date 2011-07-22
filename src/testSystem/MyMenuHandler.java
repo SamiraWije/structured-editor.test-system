@@ -14,6 +14,7 @@ import testSystem.lang.geom.Instrum;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 
 import javax.swing.*;
+import javax.swing.text.StyledDocument;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -29,7 +30,7 @@ import java.util.HashMap;
  * To change this template use File | Settings | File Templates.
  */
 public class MyMenuHandler implements ActionListener, ItemListener {
-    JFrame f;
+    JFrame f = new JFrame();
     //XMLViewer xmlV;
     StructuredEditor structuredEditor, answerEditor;
     NodesRegistry nodesRegistry;
@@ -37,7 +38,18 @@ public class MyMenuHandler implements ActionListener, ItemListener {
     HashMap<Instrum, Integer> instrumsModes;
     DSLBean ans;
     JTextField combAns;
+    StyledDocument styledDocument;
+    String openDir="";
+    boolean algView=false;
     //public MyMenuHandler(JFrame f, XMLViewer xmlV, StructuredEditor structuredEditor){
+
+    public MyMenuHandler(JFrame f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry, String subSystem,
+                             StructuredEditor answerEditor, JTextField combAns, StyledDocument styledDocument) {
+        this(f,structuredEditor,nodesRegistry,subSystem,answerEditor,combAns);
+        this.styledDocument=styledDocument;
+
+    }
+
 
     public MyMenuHandler(JFrame f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry, String subSystem,
                          StructuredEditor answerEditor, JTextField combAns) {
@@ -75,6 +87,19 @@ public class MyMenuHandler implements ActionListener, ItemListener {
         structuredEditor.getModel().setFocusedElement(null);
         structuredEditor.setModel(model);
         structuredEditor.getUI().redrawEditor();
+        if (subSystem.equals("geom") && styledDocument!=null){
+            String title = ((GeoStatement)model.getObject()).getTitle();
+            String text = ((GeoStatement)model.getObject()).getStatement();
+            try {
+                //((GeoStatement)model.getObject()).getTitle()
+                styledDocument.remove(0,styledDocument.getLength());
+                styledDocument.insertString(0,title+ "\n",styledDocument.getStyle("Heading2"));
+                styledDocument.insertString(styledDocument.getLength(),text+"\n",styledDocument.getStyle("Default"));
+                //styledDocument.setParagraphAttributes(1, 1, styledDocument.getStyle("Default"), false);
+            }catch (Exception e) {
+                throw new Error("Text HTML error"+e);
+            }
+        }
     }
 
     public void actionPerformed(ActionEvent ae) {
@@ -104,13 +129,18 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             fc.setDialogTitle("Загрузка задачи");
             XMLFilter filter = new XMLFilter();
             fc.setFileFilter(filter);
+            if (!openDir.equals(""))
+                fc.setCurrentDirectory(new File(openDir));
             int returnVal = fc.showOpenDialog(f);
             if (returnVal == JFileChooser.APPROVE_OPTION /*&& dir != null && fl != null*/) {
                 String fn = fc.getSelectedFile().getAbsolutePath();
                 File file = new File(fn.substring(0, fn.lastIndexOf('.')) + ".ggb");
+                openDir=fn.substring(0, fn.lastIndexOf('\\'));
                 Application app = (Application) structuredEditor.getApp();
                 if (app != null) {
                     app.getGuiManager().loadFile(file, false);
+                   // if (((Application)structuredEditor.getApp()).getGuiManager().getAlgebraView().isVisible())
+                   //     ((Application)structuredEditor.getApp()).getGuiManager().setShowAlgebraView(algView);
                 }
                 StructureBuilder structureBuilder = new StructureBuilder(fn, subSystem, (Application) structuredEditor.getApp());
 
@@ -134,7 +164,8 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                         String toolStr;
                         toolStr = "0";
                         for (int i = 0; i < instrums.length; i++) {
-                            toolStr += " | " + String.valueOf(instrumsModes.get(instrums[i]));
+                            if (instrumsModes.get(instrums[i])!=null)
+                                toolStr += " | " + String.valueOf(instrumsModes.get(instrums[i]));
                         }
                         app.getGuiManager().setToolBarDefinition(toolStr);
                         app.updateToolBar();
@@ -152,6 +183,8 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             fc.setDialogTitle("Сохранение задачи");
             XMLFilter filter = new XMLFilter();
             fc.setFileFilter(filter);
+            if (!openDir.equals(""))
+                fc.setCurrentDirectory(new File(openDir));
 
             int returnVal = fc.showSaveDialog(f);
             if (returnVal == JFileChooser.APPROVE_OPTION /*&& dir != null && fl != null*/) {
@@ -202,6 +235,9 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 }
             }
             JOptionPane.showMessageDialog(null, mes, "Помощь", JOptionPane.PLAIN_MESSAGE);
+        } else if (arg.equals("Панель объектов")) {
+            algView=!algView;
+            ((Application)structuredEditor.getApp()).getGuiManager().setShowAlgebraView(algView);
         }
     }
 

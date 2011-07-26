@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/dyngeom2.iml" filepath="$PROJECT_DIR$/dyngeom2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/structured-editor/editor-example/editor-example.iml" filepath="$PROJECT_DIR$/structured-editor/editor-example/editor-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/structured-editor/structured-editor.iml" filepath="$PROJECT_DIR$/structured-editor/structured-editor.iml" />
+    </modules>
+  </component>
+</project>
+

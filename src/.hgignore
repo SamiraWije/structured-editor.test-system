@@ -1,4 +1,0 @@
-#idea specific files
-^out/
-^.idea/workspace.xml$
-.svn

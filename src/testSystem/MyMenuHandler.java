@@ -41,6 +41,7 @@ public class MyMenuHandler implements ActionListener, ItemListener {
     StyledDocument styledDocument;
     String openDir="";
     boolean algView=false;
+    String filename="";
     //public MyMenuHandler(JFrame f, XMLViewer xmlV, StructuredEditor structuredEditor){
 
     public MyMenuHandler(JFrame f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry, String subSystem,
@@ -102,10 +103,42 @@ public class MyMenuHandler implements ActionListener, ItemListener {
         }
     }
 
+    private void saveAs(){
+        JFileChooser fc = new JFileChooser();
+        fc.setDialogTitle("Сохранение задачи");
+        XMLFilter filter = new XMLFilter();
+        fc.setFileFilter(filter);
+        if (!openDir.equals(""))
+              fc.setCurrentDirectory(new File(openDir));
+        int returnVal = fc.showSaveDialog(f);
+        if (returnVal == JFileChooser.APPROVE_OPTION /*&& dir != null && fl != null*/) {
+            save(fc.getSelectedFile().getAbsolutePath());
+        }
+
+    }
+
+    private void save(String fn){
+        if (!fn.endsWith(".xml"))
+            fn=fn+".xml";
+        System.out.println("You've saved the file: " + fn);
+
+        StructureSerializer structureSerializer = new StructureSerializer(fn, nodesRegistry);
+
+        structureSerializer.saveStructure(structuredEditor.getModel().getObject());
+        File file = new File(fn.substring(0, fn.lastIndexOf('.')) + ".ggb");
+        Application app = (Application) structuredEditor.getApp();
+        if (app != null) {
+            boolean success = ((Application) structuredEditor.getApp()).saveGeoGebraFile(file);
+            if (success)
+                ((Application) structuredEditor.getApp()).setCurrentFile(file);
+        }
+       filename=fn;
+    }
     public void actionPerformed(ActionEvent ae) {
         String arg = ae.getActionCommand();
         //System.out.println("You selected "+arg);
         if (arg.equals("Создать")) {
+            filename="";
             DSLBean bean;
             if (subSystem.equals("geom")) {
                 bean = new GeoStatement();
@@ -134,6 +167,7 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             int returnVal = fc.showOpenDialog(f);
             if (returnVal == JFileChooser.APPROVE_OPTION /*&& dir != null && fl != null*/) {
                 String fn = fc.getSelectedFile().getAbsolutePath();
+                filename=fn;
                 File file = new File(fn.substring(0, fn.lastIndexOf('.')) + ".ggb");
                 openDir=fn.substring(0, fn.lastIndexOf('\\'));
                 Application app = (Application) structuredEditor.getApp();
@@ -178,33 +212,15 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 //EmptyFieldsRegistry.getInstance().clear();
             }
 
-        } else if (arg.equals("Сохранить . . .")) {
-            JFileChooser fc = new JFileChooser();
-            fc.setDialogTitle("Сохранение задачи");
-            XMLFilter filter = new XMLFilter();
-            fc.setFileFilter(filter);
-            if (!openDir.equals(""))
-                fc.setCurrentDirectory(new File(openDir));
+        } else if (arg.equals("Сохранить")) {
+            if (filename.equals(""))
+                saveAs();
+            else
+                save(filename);
 
-            int returnVal = fc.showSaveDialog(f);
-            if (returnVal == JFileChooser.APPROVE_OPTION /*&& dir != null && fl != null*/) {
-                String fn = fc.getSelectedFile().getAbsolutePath();
-                if (!fn.endsWith(".xml"))
-                    fn=fn+".xml";
-                System.out.println("You've saved the file: " + fn);
-
-                StructureSerializer structureSerializer = new StructureSerializer(fn, nodesRegistry);
-
-                structureSerializer.saveStructure(structuredEditor.getModel().getObject());
-                File file = new File(fn.substring(0, fn.lastIndexOf('.')) + ".ggb");
-                Application app = (Application) structuredEditor.getApp();
-                if (app != null) {
-                    boolean success = ((Application) structuredEditor.getApp()).saveGeoGebraFile(file);
-                    if (success)
-                        ((Application) structuredEditor.getApp()).setCurrentFile(file);
-                }
-            }
-        } else if (arg.equals("Выход")) {
+        } else if (arg.equals("Сохранить как . . .")) {
+            saveAs();
+        } if (arg.equals("Выход")) {
             f.setVisible(false);
             System.exit(0);
         } else if (arg.equals("Отменить")) {

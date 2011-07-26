@@ -128,7 +128,7 @@ public class TestEditorGeom {
         algView.setState(false);
 
         JMenu file = new JMenu("Задача");
-        JMenuItem item1, item2, item3, item4, item5, helpItem;
+        JMenuItem item1, item2, item3, item4, item5, helpItem, item6;
 
         item2 = new JMenuItem("Открыть . . .");
 
@@ -141,7 +141,9 @@ public class TestEditorGeom {
         } else{
             file.add(item1 = new JMenuItem("Создать"));
             file.add(item2);
-            file.add(item3 = new JMenuItem("Сохранить . . ."));
+            file.add(item3 = new JMenuItem("Сохранить"));
+            file.add(item6 = new JMenuItem("Сохранить как . . ."));
+            item6.addActionListener(handler);
             item1.addActionListener(handler);
             item3.addActionListener(handler);
         }
@@ -175,7 +177,7 @@ public class TestEditorGeom {
         if (structuredEditor.isView()){
             addButtonToToolBar(toolBar, "Проверить ответ!", "Проверить . . .", false, handler);
         } else {
-            addButtonToToolBar(toolBar, "save.png", "Сохранить . . .", true, handler);
+            addButtonToToolBar(toolBar, "save.png", "Сохранить", true, handler);
         }
         final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
         final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);

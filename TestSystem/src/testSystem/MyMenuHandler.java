@@ -4,7 +4,7 @@ import geogebra.euclidian.EuclidianView;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.main.Application;
 import ru.ipo.structurededitor.StructuredEditor;
-import ru.ipo.structurededitor.controller.ModificationVector;
+import ru.ipo.structurededitor.controller.ModificationHistory;
 import ru.ipo.structurededitor.model.DSLBean;
 import testSystem.structureBuilder.StructureBuilder;
 import testSystem.structureSerializer.NodesRegistry;
@@ -78,9 +78,9 @@ public class MyMenuHandler implements ActionListener, ItemListener {
 
     }
 
-    private void refreshEditor(DSLBean st, ModificationVector modificationVector) {
+    private void refreshEditor(DSLBean st, ModificationHistory modificationHistory) {
 
-        StructuredEditorModel model = new StructuredEditorModel(st, modificationVector);
+        StructuredEditorModel model = new StructuredEditorModel(st, modificationHistory);
         model.setBeansRegistry(structuredEditor.getModel().getBeansRegistry());
         model.setEditorsRegistry(structuredEditor.getModel().getEditorsRegistry());
         model.setView(structuredEditor.getModel().isView());
@@ -142,8 +142,8 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             DSLBean bean;
             if (subSystem.equals("geom")) {
                 bean = new GeoStatement();
-                refreshEditor(bean, structuredEditor.getModel().getModificationVector());
-                structuredEditor.getModel().getModificationVector().clearVector();
+                refreshEditor(bean, structuredEditor.getModel().getModificationHistory());
+                structuredEditor.getModel().getModificationHistory().clearVector();
                 Application app = (Application) structuredEditor.getApp();
                 //app.clearConstruction();
                 app.clearConstruction();
@@ -179,8 +179,8 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 StructureBuilder structureBuilder = new StructureBuilder(fn, subSystem, (Application) structuredEditor.getApp());
 
                 DSLBean bean = structureBuilder.getStructure();
-                refreshEditor(bean, structuredEditor.getModel().getModificationVector());
-                structuredEditor.getModel().getModificationVector().clearVector();
+                refreshEditor(bean, structuredEditor.getModel().getModificationHistory());
+                structuredEditor.getModel().getModificationHistory().clearVector();
                 if (subSystem.equals("log") && answerEditor != null) {
 
                     TaskVerifier verifier = new TaskVerifier(structuredEditor.getModel().getObject(), subSystem,
@@ -224,13 +224,13 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             f.setVisible(false);
             System.exit(0);
         } else if (arg.equals("Отменить")) {
-            structuredEditor.getModel().getModificationVector().undo();
+            structuredEditor.getModel().getModificationHistory().undo();
             refreshEditor(structuredEditor.getModel().getObject(),
-                    structuredEditor.getModel().getModificationVector());
+                    structuredEditor.getModel().getModificationHistory());
         } else if (arg.equals("Повторить")) {
-            structuredEditor.getModel().getModificationVector().redo();
+            structuredEditor.getModel().getModificationHistory().redo();
             refreshEditor(structuredEditor.getModel().getObject(),
-                    structuredEditor.getModel().getModificationVector());
+                    structuredEditor.getModel().getModificationHistory());
         } else if (arg.equals("Проверить . . .")) {
             TaskVerifier verifier = new TaskVerifier(structuredEditor.getModel().getObject(), subSystem,
                     (Application) structuredEditor.getApp(), ans, combAns == null ? null : combAns.getText());

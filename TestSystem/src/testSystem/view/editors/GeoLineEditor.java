@@ -19,7 +19,6 @@ import java.beans.PropertyChangeListener;
 public class GeoLineEditor extends FieldEditor {
     public GeoLineEditor(Object o, String fieldName, FieldMask mask, StructuredEditorModel model, EditorSettings settings) {
         super(o, fieldName, mask, model, settings);
-        setModificationVector(model.getModificationVector());
         GeoLine val = (GeoLine) getValue();
         final GeoLineLinkElement editorElement;
         editorElement = new GeoLineLinkElement(model, val);

@@ -1,6 +1,10 @@
 package testSystem.lang.geom;
 
 import ru.ipo.structurededitor.model.*;
+import ru.ipo.structurededitor.view.editors.settings.AbstractDSLBeanSettings;
+import ru.ipo.structurededitor.view.editors.settings.ArraySettings;
+import ru.ipo.structurededitor.view.editors.settings.EnumSettings;
+import ru.ipo.structurededitor.view.editors.settings.StringSettings;
 
 /**
  * Created by IntelliJ IDEA.
@@ -51,14 +55,74 @@ public class GeoStatement implements DSLBean, DSLBeanView {
         this.statement = statement;
     }
 
-
     public Cell getLayout() {
+        String headerHint = "<html><b>Заголовок</b><br>Это название задачи, отображается в списке задач<br>Надо лучше текст придумать</html>";
+        String statementHint = "<html><b>Условие</b><br>Это условие задачи, отображается для участника</html>";
+        String instrumentsHint = "<html><b>Инструменты</b><br>Набор инструментов, доступных участнику<br>во время решения задачи</html>";
+        String predicatesHint = "<html><b>Предикаты</b><br>Список условий, которые<br>должен удовлетворить участник</html>";
+
         return new Vert(
-                new Horiz(new ConstantCell("Заголовок:"), new FieldCell("title")),
-                new Horiz(new ConstantCell("Условие:"), new FieldCell("statement")),
-                new Horiz(new ConstantCell("Инструменты:"), new ArrayFieldCell("instrums", ArrayFieldCell.Orientation.Vertical)),
-                new Horiz(new ConstantCell("Предикаты:"), new ArrayFieldCell("preds", ArrayFieldCell.Orientation.Vertical))
+                new Horiz(
+                        new ConstantCell("Заголовок:", new ConstCellSettings().withToolTipText(headerHint)),
+                        new FieldCell(
+                                "title",
+                                new StringSettings()
+                                        .withToolTipText(headerHint)
+                                        .withEmptyText("Введите заголовок")
+                        )
+                ),
+                new Horiz(
+                        new ConstantCell("Условие:", new ConstCellSettings().withToolTipText(statementHint)),
+                        new FieldCell(
+                                "statement",
+                                new StringSettings().withSingleLine(false)
+                                        .withToolTipText(statementHint)
+                                        .withEmptyText("Введите условие")
+                        )
+                ),
+                new Horiz(
+                        new ConstantCell("Инструменты:", new ConstCellSettings().withToolTipText(instrumentsHint)),
+                        createInstrumentsArrayFieldCell()
+                ),
+                new Horiz(
+                        new ConstantCell("Предикаты:", new ConstCellSettings().withToolTipText(predicatesHint)),
+                        createPredicatesArrayFieldCell()
+                )
         );
+    }
+
+    private ArrayFieldCell createPredicatesArrayFieldCell() {
+        return new ArrayFieldCell("preds", ArrayFieldCell.Orientation.Vertical)
+                .withArraySettings(new ArraySettings()
+                        .withInsertActionText("Добавить предикат")
+                        .withRemoveActionText("Удалить предикат")
+                        .withClearArrayActionText("Удалить все предикаты")
+                        .withZeroElementsText("Предикаты не указаны")
+                        .withMinElements(1)
+                )
+                .withItemsSettings(new AbstractDSLBeanSettings()
+                        .withNullValueText("Выберите предикат")
+                        .withSelectVariantActionText("Выбрать предикат")
+                        .withSetNullActionText("Выбрать другой предикат")
+                );
+    }
+
+    private ArrayFieldCell createInstrumentsArrayFieldCell() {
+        ArraySettings arraySettings = new ArraySettings()
+                .withInsertActionText("Вставить инструмент")
+                .withZeroElementsText("Не ограничивать участника")
+                .withRemoveActionText("Удалить инструмент")
+                .withClearArrayActionText("Удалить все инструменты")
+                /*.withMinElements(1)*/;
+
+        EnumSettings instrSettings = new EnumSettings()
+                .withNullText("Выберите инструмент")
+                .withSelectVariantActionText("Выбрать инструмент")
+                .withSelectOtherVariantActionText("Выбрать другой инструмент");
+
+        return new ArrayFieldCell("instrums", ArrayFieldCell.Orientation.Vertical)
+                .withArraySettings(arraySettings)
+                .withItemsSettings(instrSettings);
     }
 
     public String getTitle() {
@@ -70,7 +134,7 @@ public class GeoStatement implements DSLBean, DSLBeanView {
     }
 
     public Cell getViewLayout() {
-        return  new Vert(
+        return new Vert(
                 new Horiz(new ConstantCell("Заголовок:"), new FieldCell("title")),
                 new Horiz(new ConstantCell("Условие:"), new FieldCell("statement"))
         );

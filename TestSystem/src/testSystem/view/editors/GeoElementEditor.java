@@ -20,7 +20,6 @@ import java.beans.PropertyChangeListener;
 public class GeoElementEditor extends FieldEditor {
     public GeoElementEditor(Object o, String fieldName, FieldMask mask, StructuredEditorModel model, EditorSettings settings) {
         super(o, fieldName, mask, model, settings);
-        setModificationVector(model.getModificationVector());
         GeoElement val = (GeoElement) getValue();
         final GeoLinkElement editorElement;
         editorElement = new GeoLinkElement(model, val);

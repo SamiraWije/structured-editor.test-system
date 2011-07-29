@@ -1,6 +1,7 @@
 package testSystem.frames;
 
 import geogebra.gui.app.GeoGebraFrame;
+import ru.ipo.structurededitor.StructuredEditorWithActions;
 import testSystem.TestEditorGeom;
 import geogebra.main.Application;
 import geogebra.main.DefaultApplication;
@@ -85,8 +86,7 @@ public class GeoGebraFrameWithStructEd extends GeoGebraFrame {
 
 //        f.add(new JScrollPane(new JTextArea("asdf")));
         structuredEditor = new StructuredEditor(model);
-        JScrollPane structuredEditorScrPane = new JScrollPane(structuredEditor);
-        wnd.getContentPane().add(structuredEditorScrPane, BorderLayout.CENTER);
+        wnd.getContentPane().add(new StructuredEditorWithActions(structuredEditor), BorderLayout.CENTER);
         structuredEditor.requestFocusInWindow();
         structuredEditor.setApp(app);
         app.getGuiManager().setShowAlgebraView(false);

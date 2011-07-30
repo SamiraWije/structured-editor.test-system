@@ -103,7 +103,7 @@ public class GeoStatement implements DSLBean, DSLBeanView {
                 .withItemsSettings(new AbstractDSLBeanSettings()
                         .withNullValueText("Выберите предикат")
                         .withSelectVariantActionText("Выбрать предикат")
-                        .withSetNullActionText("Выбрать другой предикат")
+                        .withSetNullActionText("Очистить предикат")
                 );
     }
 

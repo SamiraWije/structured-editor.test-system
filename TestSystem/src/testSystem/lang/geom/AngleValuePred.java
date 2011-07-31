@@ -7,9 +7,8 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * User: oleg
  * Date: 09.07.11
  * Time: 11:44
- * To change this template use File | Settings | File Templates.
  */
-@DSLBeanParams(shortcut = "/_=x", description = "Величина угла")
+@DSLBeanParams(shortcut = "∠ = x", description = "Величина угла")
 public class AngleValuePred extends ValuePred {
     public AngleValuePred() {
         op="=";

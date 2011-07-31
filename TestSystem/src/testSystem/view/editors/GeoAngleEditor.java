@@ -1,7 +1,6 @@
 package testSystem.view.editors;
 
 import geogebra.kernel.GeoAngle;
-import geogebra.kernel.GeoSegment;
 import ru.ipo.structurededitor.controller.FieldMask;
 import ru.ipo.structurededitor.model.EditorSettings;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
@@ -20,7 +19,6 @@ import java.beans.PropertyChangeListener;
 public class GeoAngleEditor extends FieldEditor {
     public GeoAngleEditor(Object o, String fieldName, FieldMask mask, StructuredEditorModel model, EditorSettings settings) {
         super(o, fieldName, mask, model, settings);
-        setModificationVector(model.getModificationVector());
         GeoAngle val = (GeoAngle) getValue();
         final GeoAngleLinkElement editorElement;
         editorElement = new GeoAngleLinkElement(model, val);

@@ -1,6 +1,5 @@
 package testSystem.view.editors;
 
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.GeoSegment;
 import ru.ipo.structurededitor.controller.FieldMask;
 import ru.ipo.structurededitor.model.EditorSettings;
@@ -20,7 +19,6 @@ import java.beans.PropertyChangeListener;
 public class GeoSegmentEditor extends FieldEditor {
     public GeoSegmentEditor(Object o, String fieldName, FieldMask mask, StructuredEditorModel model, EditorSettings settings) {
         super(o, fieldName, mask, model, settings);
-        setModificationVector(model.getModificationVector());
         GeoSegment val = (GeoSegment) getValue();
         final GeoSegmentLinkElement editorElement;
         editorElement = new GeoSegmentLinkElement(model, val);

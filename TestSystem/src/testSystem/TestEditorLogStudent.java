@@ -4,8 +4,8 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import ru.ipo.structurededitor.StructuredEditor;
+import ru.ipo.structurededitor.controller.ModificationHistory;
 import ru.ipo.structurededitor.controller.ModificationListener;
-import ru.ipo.structurededitor.controller.ModificationVector;
 import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.model.DSLBeansRegistry;
 import testSystem.lang.logic.*;
@@ -134,17 +134,17 @@ public class TestEditorLogStudent {
 
         structuredEditorScrPane.requestFocusInWindow();
         f.setVisible(true);
-        final ModificationVector modificationVector = model.getModificationVector();
-        modificationVector.addModificationListener(new ModificationListener() {
+        final ModificationHistory modificationHistory = model.getModificationHistory();
+        modificationHistory.addModificationListener(new ModificationListener() {
             public void modificationPerformed() {
-                if (modificationVector.canRedo()) {
+                if (modificationHistory.canRedo()) {
                     redoButton.setEnabled(true);
                     redoItem.setEnabled(true);
                 } else {
                     redoButton.setEnabled(false);
                     redoItem.setEnabled(false);
                 }
-                if (modificationVector.canUndo()) {
+                if (modificationHistory.canUndo()) {
                     undoButton.setEnabled(true);
                     undoItem.setEnabled(true);
                 } else {
@@ -153,7 +153,7 @@ public class TestEditorLogStudent {
                 }
             }
         });
-        //model.setModificationVector(modificationVector);
+        //model.setModificationHistory(modificationHistory);
 
 
         /*f.addKeyListener(new KeyListener() {

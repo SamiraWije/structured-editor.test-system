@@ -7,7 +7,6 @@ import ru.ipo.structurededitor.model.DSLBean;
  * User: oleg
  * Date: 31.03.11
  * Time: 17:53
- * To change this template use File | Settings | File Templates.
  */
 public abstract class AbstractGeoCircle implements DSLBean {
 

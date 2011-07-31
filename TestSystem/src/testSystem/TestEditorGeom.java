@@ -6,8 +6,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import ru.ipo.structurededitor.StructuredEditor;
 import ru.ipo.structurededitor.controller.EditorsRegistry;
+import ru.ipo.structurededitor.controller.ModificationHistory;
 import ru.ipo.structurededitor.controller.ModificationListener;
-import ru.ipo.structurededitor.controller.ModificationVector;
 import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.model.DSLBeansRegistry;
 import testSystem.lang.geom.*;
@@ -89,7 +89,7 @@ public class TestEditorGeom {
         structuredEditorScrPane.requestFocusInWindow();
         f.setVisible(true);
 
-        //model.setModificationVector(modificationVector);
+        //model.setModificationHistory(modificationVector);
 
 
         /*f.addKeyListener(new KeyListener() {
@@ -187,17 +187,17 @@ public class TestEditorGeom {
         }
         //addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);
         addButtonToToolBar(toolBar, "help.png", "Помощь", true, handler);
-        final ModificationVector modificationVector = structuredEditor.getModel().getModificationVector();
-        modificationVector.addModificationListener(new ModificationListener() {
+        final ModificationHistory modificationHistory = structuredEditor.getModel().getModificationHistory();
+        modificationHistory.addModificationListener(new ModificationListener() {
             public void modificationPerformed() {
-                if (modificationVector.canRedo()) {
+                if (modificationHistory.canRedo()) {
                     redoButton.setEnabled(true);
                     redoItem.setEnabled(true);
                 } else {
                     redoButton.setEnabled(false);
                     redoItem.setEnabled(false);
                 }
-                if (modificationVector.canUndo()) {
+                if (modificationHistory.canUndo()) {
                     undoButton.setEnabled(true);
                     undoItem.setEnabled(true);
                 } else {

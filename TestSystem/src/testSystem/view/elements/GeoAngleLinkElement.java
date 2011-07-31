@@ -16,7 +16,7 @@ public class GeoAngleLinkElement extends GeoLinkElement {
     public GeoAngleLinkElement(StructuredEditorModel model, GeoAngle value) {
         super(model, value);
         //typeStr = "Точка";
-        typeStr = "/_";
+        typeStr = "∠";
         emptyString = "[Выберите угол на чертеже]";
         setValue(value);
     }

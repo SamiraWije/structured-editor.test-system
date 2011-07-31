@@ -7,12 +7,11 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * User: oleg
  * Date: 17.03.11
  * Time: 15:12
- * To change this template use File | Settings | File Templates.
  */
-@DSLBeanParams(shortcut = "_|_", description = "Прямые или отрезки перпендикулярны")
+@DSLBeanParams(shortcut = "⊥", description = "Прямые или отрезки перпендикулярны")
 public class PerpendPred extends GeoSegLineBinPred {
     public PerpendPred() {
-        op = "_|_";
+        op = "⊥";
         vert = false;
     }
 }

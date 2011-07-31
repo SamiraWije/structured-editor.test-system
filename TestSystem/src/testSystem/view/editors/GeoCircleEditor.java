@@ -1,6 +1,5 @@
 package testSystem.view.editors;
 
-import geogebra.kernel.GeoAngle;
 import geogebra.kernel.GeoConic;
 import ru.ipo.structurededitor.controller.FieldMask;
 import ru.ipo.structurededitor.model.EditorSettings;
@@ -20,7 +19,6 @@ import java.beans.PropertyChangeListener;
 public class GeoCircleEditor extends FieldEditor {
     public GeoCircleEditor(Object o, String fieldName, FieldMask mask, StructuredEditorModel model, EditorSettings settings) {
         super(o, fieldName, mask, model, settings);
-        setModificationVector(model.getModificationVector());
         GeoConic val = (GeoConic) getValue();
         final GeoCircleLinkElement editorElement;
         editorElement = new GeoCircleLinkElement(model, val);

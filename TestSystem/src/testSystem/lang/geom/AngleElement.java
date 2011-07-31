@@ -1,6 +1,8 @@
 package testSystem.lang.geom;
 
 import ru.ipo.structurededitor.model.*;
+import ru.ipo.structurededitor.view.editors.settings.AbstractDSLBeanSettings;
+import ru.ipo.structurededitor.view.editors.settings.StringSettings;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,6 +23,9 @@ public class AngleElement extends AbstractGeoAngle{
     private String name;
 
     public Cell getLayout() {
-        return new Horiz(new ConstantCell("/_"), new FieldCell("name"));
+        return new Horiz(
+                new ConstantCell("∠"),
+                new FieldCell("name", new StringSettings().withEmptyText("[Угол]"))
+        );
     }
 }

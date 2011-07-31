@@ -19,7 +19,6 @@ import java.beans.PropertyChangeListener;
 public class GeoPointEditor extends FieldEditor {
     public GeoPointEditor(Object o, String fieldName, FieldMask mask, StructuredEditorModel model, EditorSettings settings) {
         super(o, fieldName, mask, model, settings);
-        setModificationVector(model.getModificationVector());
         GeoPoint val = (GeoPoint) getValue();
         final GeoPointLinkElement editorElement;
         editorElement = new GeoPointLinkElement(model, val);

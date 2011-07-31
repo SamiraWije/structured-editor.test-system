@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="3D">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Geogebra/3D/gluegen-rt.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Geogebra/3D/jogl.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/src/3D" recursive="false" />
+  </library>
+</component>

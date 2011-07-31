@@ -1,0 +1,32 @@
+package testSystem.lang.geom;
+
+import geogebra.kernel.GeoLine;
+import geogebra.kernel.GeoSegment;
+import ru.ipo.structurededitor.model.Cell;
+import ru.ipo.structurededitor.model.DSLBeanParams;
+import ru.ipo.structurededitor.model.FieldCell;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: oleg
+ * Date: 18.03.11
+ * Time: 14:18
+ * To change this template use File | Settings | File Templates.
+ */
+@DSLBeanParams(shortcut = "Ссылка_[]", description = "Отрезок с чертежа")
+public class GeoSegmentLink extends AbstractGeoSegment {
+
+    public GeoSegment getGeo() {
+        return geo;
+    }
+
+    public void setGeo(GeoSegment geo) {
+        this.geo = geo;
+    }
+
+    GeoSegment geo;
+
+    public Cell getLayout() {
+        return new FieldCell("geo");
+    }
+}

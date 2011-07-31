@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Geogebra/Geogebra.iml" filepath="$PROJECT_DIR$/Geogebra/Geogebra.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TestSystem/TestSystem.iml" filepath="$PROJECT_DIR$/TestSystem/TestSystem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/structured-editor/structured-editor.iml" filepath="$PROJECT_DIR$/structured-editor/structured-editor.iml" />
+    </modules>
+  </component>
+</project>
+

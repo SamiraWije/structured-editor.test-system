@@ -1,0 +1,10 @@
+#idea specific files
+^out
+^.idea/workspace.xml$
+
+#hg specific files
+.orig$
+
+#svn specific files
+glob:*.svn
+.svn

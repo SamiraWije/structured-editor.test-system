@@ -1,6 +1,7 @@
 package testSystem.lang.geom;
 
 import ru.ipo.structurededitor.model.*;
+import ru.ipo.structurededitor.view.editors.settings.AbstractDSLBeanSettings;
 
 /**
  * Created by IntelliJ IDEA.
@@ -56,8 +57,18 @@ public class GeoStatement implements DSLBean, DSLBeanView {
         return new Vert(
                 new Horiz(new ConstantCell("Заголовок:"), new FieldCell("title")),
                 new Horiz(new ConstantCell("Условие:"), new FieldCell("statement")),
-                new Horiz(new ConstantCell("Инструменты:"), new ArrayFieldCell("instrums", ArrayFieldCell.Orientation.Vertical)),
-                new Horiz(new ConstantCell("Предикаты:"), new ArrayFieldCell("preds", ArrayFieldCell.Orientation.Vertical))
+                new Horiz(new ConstantCell("Инструменты:"), new ArrayFieldCell("instrums",
+                        ArrayFieldCell.Orientation.Vertical).withItemsSettings(
+                        new AbstractDSLBeanSettings().withSelectVariantActionText("Выбрать инструмент").
+                                withSetNullActionText("Удалить инструмент")).withArraySettings(
+                        new AbstractDSLBeanSettings().withSelectVariantActionText("Добавить инструмент").
+                                withSetNullActionText("Удалить инструмент"))),
+                new Horiz(new ConstantCell("Формальные условия:"), new ArrayFieldCell("preds",
+                        ArrayFieldCell.Orientation.Vertical).withItemsSettings(
+                        new AbstractDSLBeanSettings().withSelectVariantActionText("Выбрать условие").
+                                withSetNullActionText("Удалить условие")).withArraySettings(
+                        new AbstractDSLBeanSettings().withSelectVariantActionText("Добавить условие").
+                                withSetNullActionText("Удалить условие")))
         );
     }
 

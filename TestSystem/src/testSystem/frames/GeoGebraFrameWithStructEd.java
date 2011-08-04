@@ -74,23 +74,31 @@ public class GeoGebraFrameWithStructEd extends GeoGebraFrame {
         app.setShowMenuBar(false);
         wnd.setApplication(app);
 
-        wnd.getContentPane().add(app.buildApplicationPanel(), BorderLayout.EAST);
-        //StructuredEditor
         NodesRegistry nodesRegistry = TestEditorGeom.nodesRegistryPrep();
 
+        //StructuredEditor
 
         //------------Frame preparation
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        splitPane.setResizeWeight(0.5);
+        splitPane.setContinuousLayout(true);
+        splitPane.setDividerSize(8);
+        wnd.add(splitPane, BorderLayout.CENTER);
+
+        splitPane.setRightComponent(app.buildApplicationPanel());
 
         GeoStatement st = new GeoStatement();
         final StructuredEditorModel model = TestEditorGeom.createModel(st);
 
-//        f.add(new JScrollPane(new JTextArea("asdf")));
         structuredEditor = new StructuredEditor(model);
-        wnd.getContentPane().add(new StructuredEditorWithActions(structuredEditor), BorderLayout.CENTER);
+
+        splitPane.setLeftComponent(new StructuredEditorWithActions(structuredEditor));
         structuredEditor.requestFocusInWindow();
         structuredEditor.setApp(app);
+
         app.getGuiManager().setShowAlgebraView(false);
-        wnd.add(TestEditorGeom.createBars(wnd, structuredEditor, nodesRegistry, null),BorderLayout.NORTH);
+        wnd.add(TestEditorGeom.createBars(wnd, structuredEditor, nodesRegistry, null), BorderLayout.NORTH);
+
         //---StructuredEditor
         wnd.setDropTarget(new DropTarget(wnd,
                 new geogebra.gui.FileDropTargetListener(app)));

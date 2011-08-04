@@ -1,0 +1,22 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Student_TestSystem:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TestSystem</output-path>
+    <root id="archive" name="Student_TestSystem.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/TestSystem/src/META-INF/MANIFEST-student.MF" output-file-name="MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="TestSystem" />
+      <element id="module-output" name="structured-editor" />
+      <element id="module-output" name="Geogebra" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Geogebra/libs/AppleJavaExtensions.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Geogebra/libs/laf.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Geogebra/libs/TableLayoutExtensions-all-jdk1.5-2009-08-26.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Geogebra/libs/TableLayout-bin-jdk1.5-2009-08-26.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Geogebra/libs/proguard44.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Geogebra/libs/netscape_javascript.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Geogebra/libs/p200ant_java5only.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Geogebra/3D/gluegen-rt.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Geogebra/3D/jogl.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

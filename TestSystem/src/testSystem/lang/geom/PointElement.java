@@ -1,6 +1,7 @@
 package testSystem.lang.geom;
 
 import ru.ipo.structurededitor.model.*;
+import ru.ipo.structurededitor.view.editors.settings.StringSettings;
 
 /**
  * Created by IntelliJ IDEA.
@@ -8,7 +9,7 @@ import ru.ipo.structurededitor.model.*;
  * Date: 22.03.11
  * Time: 14:35
  */
-@DSLBeanParams(shortcut = "Новая", description = "Точка для построения")
+@DSLBeanParams(shortcut = ". постр", description = "Точка для построения")
 public class PointElement extends AbstractGeoPoint {
     public String getName() {
         return name;
@@ -21,6 +22,14 @@ public class PointElement extends AbstractGeoPoint {
     private String name;
 
     public Cell getLayout() {
-        return new Horiz(/*new ConstantCell("Точка"),*/ new FieldCell("name"));
+        return new Horiz(
+                new ConstantCell("."),
+                new FieldCell(
+                        "name",
+                        new StringSettings()
+                                .withNullAllowed(false)
+                                .withEmptyText("[имя точки]")
+                                .withToolTipText("<html>Введите имя точки, которую участник<br>должен будет построить на чертеже</html>")
+                ));
     }
 }

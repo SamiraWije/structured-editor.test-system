@@ -8,10 +8,10 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Date: 09.07.11
  * Time: 11:44
  */
-@DSLBeanParams(shortcut = "∠ = x", description = "Величина угла")
+@DSLBeanParams(shortcut = "∠ = ?", description = "Величина угла")
 public class AngleValuePred extends ValuePred {
     public AngleValuePred() {
-        op="=";
+        op = "=";
     }
     AbstractGeoAngle e;
 

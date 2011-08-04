@@ -33,6 +33,7 @@ public class GeoElementEditor extends FieldEditor {
 
     @Override
     protected void updateElement() {
+        //TODO why is it casted to GetLineLinkElement
         GeoLinkElement editorElement = (GeoLineLinkElement) getElement();
         GeoElement val = (GeoElement) getValue();
         editorElement.setValue(val);

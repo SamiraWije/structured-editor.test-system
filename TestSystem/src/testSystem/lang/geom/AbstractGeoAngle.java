@@ -1,6 +1,8 @@
 package testSystem.lang.geom;
 
 import ru.ipo.structurededitor.model.DSLBean;
+import ru.ipo.structurededitor.model.EditorSettings;
+import ru.ipo.structurededitor.view.editors.settings.AbstractDSLBeanSettings;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,4 +12,10 @@ import ru.ipo.structurededitor.model.DSLBean;
  */
 public abstract class AbstractGeoAngle implements DSLBean {
 
+    public static EditorSettings getDefaultEditorSettings() {
+        return new AbstractDSLBeanSettings()
+                .withNullValueText("[Выберите тип угла]")
+                .withSelectVariantActionText("Выбрать тип угла")
+                .withSetNullActionText("Выбрать другой тип угла");
+    }
 }

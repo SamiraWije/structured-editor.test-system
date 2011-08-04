@@ -5,7 +5,6 @@ package testSystem.lang.geom;
  * User: oleg
  * Date: 18.03.11
  * Time: 14:26
- * To change this template use File | Settings | File Templates.
  */
 public abstract class GeoSegLineBinPred extends BinPred {
     public AbstractGeoSegLine getE1() {

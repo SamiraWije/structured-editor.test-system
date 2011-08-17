@@ -474,12 +474,14 @@ public class TestEditorGeom {
         StructuredEditorModel model = new StructuredEditorModel(st);
         model.setBeansRegistry(reg);
         EditorsRegistry editorsRegistry = model.getEditorsRegistry();
-        editorsRegistry.registerEditor(GeoLine.class, GeoLineEditor.class);
-        editorsRegistry.registerEditor(GeoPoint.class, GeoPointEditor.class);
-        editorsRegistry.registerEditor(GeoElement.class, GeoElementEditor.class);
-        editorsRegistry.registerEditor(GeoSegment.class, GeoSegmentEditor.class);
-        editorsRegistry.registerEditor(GeoAngle.class, GeoAngleEditor.class);
-        editorsRegistry.registerEditor(GeoConic.class, GeoCircleEditor.class);
+
+        editorsRegistry.registerEditor(GeoLine.class, GeoElementEditorV2.class);
+        editorsRegistry.registerEditor(GeoPoint.class, GeoElementEditorV2.class);
+        editorsRegistry.registerEditor(GeoElement.class, GeoElementEditorV2.class);
+        editorsRegistry.registerEditor(GeoSegment.class, GeoElementEditorV2.class);
+        editorsRegistry.registerEditor(GeoAngle.class, GeoElementEditorV2.class);
+        editorsRegistry.registerEditor(GeoConic.class, GeoElementEditorV2.class);
+
         model.setEditorsRegistry(editorsRegistry);
         return model;
     }

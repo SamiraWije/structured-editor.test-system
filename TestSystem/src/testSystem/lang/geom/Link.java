@@ -9,7 +9,6 @@ import ru.ipo.structurededitor.model.FieldCell;
  * User: oleg
  * Date: 18.03.11
  * Time: 14:06
- * To change this template use File | Settings | File Templates.
  */
 public abstract class Link implements DSLBean {
     public String getLinkName() {

@@ -8,7 +8,7 @@ import ru.ipo.structurededitor.model.*;
  * Date: 05.08.2010
  * Time: 16:25:07
  */
-@DSLBeanParams(shortcut = "Середина", description = "отрезка")
+@DSLBeanParams(shortcut = "сер |", description = "Середина отрезка")
 public class MidpointPred1 extends Pred {
 
     public AbstractGeoPoint getE1() {

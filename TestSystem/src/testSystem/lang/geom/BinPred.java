@@ -1,6 +1,11 @@
 package testSystem.lang.geom;
 
 import ru.ipo.structurededitor.model.*;
+import ru.ipo.structurededitor.view.editors.settings.AbstractDSLBeanSettings;
+
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
+import java.util.IllegalFormatFlagsException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,10 +19,27 @@ public abstract class BinPred extends Pred {
     protected boolean vert = false;
 
     public Cell getLayout() {
+        EditorSettings s1 = getSettingsForField("e1");
+        EditorSettings s2 = getSettingsForField("e2");
+
         if (vert)
-            return new Vert(new FieldCell("e1"), new ConstantCell(op), new FieldCell("e2"));
+            return new Vert(new FieldCell("e1", s1), new ConstantCell(op), new FieldCell("e2", s2));
         else
-            return new Horiz(new FieldCell("e1"), new ConstantCell(op),
-                    new FieldCell("e2"));
+            return new Horiz(new FieldCell("e1", s1), new ConstantCell(op), new FieldCell("e2", s2));
     }
+
+    private EditorSettings getSettingsForField(String propertyName) {
+        Class<?> propertyType;
+        try {
+            PropertyDescriptor pd = new PropertyDescriptor(propertyName, getClass());
+            propertyType = pd.getPropertyType();
+
+        } catch (IntrospectionException e) {
+            throw new Error("Fail in getting settings for field");
+        }
+
+        return null;
+    }
+
+
 }

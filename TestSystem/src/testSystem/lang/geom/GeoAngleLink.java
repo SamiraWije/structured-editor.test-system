@@ -12,7 +12,7 @@ import ru.ipo.structurededitor.model.FieldCell;
  * Date: 18.03.11
  * Time: 14:18
  */
-@DSLBeanParams(shortcut = "Ссылка", description = "Угол с чертежа")
+@DSLBeanParams(shortcut = "∠ чертеж", description = "Угол с чертежа")
 public class GeoAngleLink extends AbstractGeoAngle {
 
     public GeoAngle getGeo() {

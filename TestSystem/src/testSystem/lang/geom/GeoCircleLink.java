@@ -11,9 +11,8 @@ import ru.ipo.structurededitor.model.FieldCell;
  * User: oleg
  * Date: 18.03.11
  * Time: 14:18
- * To change this template use File | Settings | File Templates.
  */
-@DSLBeanParams(shortcut = "Ссылка", description = "Окружность с чертежа")
+@DSLBeanParams(shortcut = "∘ чертеж", description = "Окружность с чертежа")
 public class GeoCircleLink extends AbstractGeoCircle {
     public GeoConic getGeo() {
         return geo;

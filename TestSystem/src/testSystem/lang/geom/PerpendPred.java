@@ -11,7 +11,7 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
 @DSLBeanParams(shortcut = "⊥", description = "Прямые или отрезки перпендикулярны")
 public class PerpendPred extends GeoSegLineBinPred {
     public PerpendPred() {
-        op = "⊥";
+        op = "перп.";
         vert = false;
     }
 }

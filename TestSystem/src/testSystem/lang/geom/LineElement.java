@@ -1,6 +1,7 @@
 package testSystem.lang.geom;
 
 import ru.ipo.structurededitor.model.*;
+import ru.ipo.structurededitor.view.editors.settings.StringSettings;
 
 /**
  * Created by IntelliJ IDEA.
@@ -8,7 +9,7 @@ import ru.ipo.structurededitor.model.*;
  * Date: 22.03.11
  * Time: 14:35
  */
-@DSLBeanParams(shortcut = "Новая_пр", description = "Прямая для построения")
+@DSLBeanParams(shortcut = "/ постр", description = "Прямая для построения")
 public class LineElement extends AbstractGeoLine {
     public String getName() {
         return name;
@@ -21,6 +22,12 @@ public class LineElement extends AbstractGeoLine {
     private String name;
 
     public Cell getLayout() {
-        return new Horiz(/*new ConstantCell("Прямая"),*/ new FieldCell("name"));
+        return new Horiz(
+                new ConstantCell("/"),
+                new FieldCell("name", new StringSettings()
+                        .withNullAllowed(false)
+                        .withEmptyText("[имя прямой]")
+                        .withToolTipText("<html>Введите имя прямой, которую участник<br>должен будет построить на чертеже</html>")
+                ));
     }
 }

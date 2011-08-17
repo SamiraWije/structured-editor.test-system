@@ -2,7 +2,6 @@ package testSystem.view.elements;
 
 import geogebra.kernel.GeoAngle;
 import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoSegment;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.events.GeoSelectionChangedEvent;
 
@@ -17,7 +16,7 @@ public class GeoAngleLinkElement extends GeoLinkElement {
         super(model, value);
         //typeStr = "Точка";
         typeStr = "∠";
-        emptyString = "[Выберите угол на чертеже]";
+        setNullText("[Выберите угол на чертеже]");
         setValue(value);
     }
 

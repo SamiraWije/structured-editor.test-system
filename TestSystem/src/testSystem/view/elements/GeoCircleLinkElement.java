@@ -17,7 +17,7 @@ public class GeoCircleLinkElement extends GeoLinkElement {
         super(model, value);
         //typeStr = "Точка";
         typeStr = "окр. ";
-        emptyString = "[Выберите окружность на чертеже]";
+        setNullText("[Выберите окружность на чертеже]");
         setValue(value);
     }
 

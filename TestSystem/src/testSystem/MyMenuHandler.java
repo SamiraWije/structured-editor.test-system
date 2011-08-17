@@ -27,7 +27,6 @@ import java.util.HashMap;
  * User: Олег
  * Date: 26.08.2010
  * Time: 16:15:33
- * To change this template use File | Settings | File Templates.
  */
 public class MyMenuHandler implements ActionListener, ItemListener {
     JFrame f = new JFrame();
@@ -169,7 +168,8 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 String fn = fc.getSelectedFile().getAbsolutePath();
                 filename=fn;
                 File file = new File(fn.substring(0, fn.lastIndexOf('.')) + ".ggb");
-                openDir=fn.substring(0, fn.lastIndexOf('\\'));
+//                openDir=fn.substring(0, fn.lastIndexOf('\\'));
+                openDir = file.getParent(); //changed by iposov 04-08-2011
                 Application app = (Application) structuredEditor.getApp();
                 if (app != null) {
                     app.getGuiManager().loadFile(file, false);

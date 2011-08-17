@@ -5,7 +5,6 @@ package testSystem.lang.geom;
  * User: oleg
  * Date: 18.03.11
  * Time: 14:26
- * To change this template use File | Settings | File Templates.
  */
 public abstract class GeoPointGeoCircleBinPred extends BinPred {
 
@@ -17,10 +16,7 @@ public abstract class GeoPointGeoCircleBinPred extends BinPred {
         this.e1 = e1;
     }
 
-
-
     private AbstractGeoPoint e1;
-
 
     public AbstractGeoCircle getE2() {
         return e2;

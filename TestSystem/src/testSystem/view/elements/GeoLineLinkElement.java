@@ -17,7 +17,7 @@ public class GeoLineLinkElement extends GeoLinkElement {
         super(model, value);
         //typeStr = "Прямая";
         typeStr = "";
-        emptyString = "[Выберите прямую на чертеже]";
+        setNullText("[Выберите прямую на чертеже]");
         setValue(value);
     }
 

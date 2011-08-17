@@ -7,9 +7,8 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * User: oleg
  * Date: 17.03.11
  * Time: 15:12
- * To change this template use File | Settings | File Templates.
  */
-@DSLBeanParams(shortcut = "пр_кас_окр", description = "Прямая касается окружности")
+@DSLBeanParams(shortcut = "/ кас ∘", description = "Прямая касается окружности")
 public class LineCircleTangentPred extends GeoLineGeoCircleBinPred {
     public LineCircleTangentPred() {
         op = "касается";

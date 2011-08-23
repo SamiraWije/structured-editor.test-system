@@ -181,8 +181,10 @@ public class TaskVerifier {
 
 
                 System.out.println(relStr);
-                if (pred instanceof SegEqualPred && (Math.round(((GeoSegment) geo1).getLength() * 100) !=
-                        Math.round(((GeoSegment) geo2).getLength() * 100)))
+                if (pred instanceof SegEqualPred &&
+                        relStr.contains("не равны"))
+                        //&& (Math.round(((GeoSegment) geo1).getLength() * 100) !=
+                        //Math.round(((GeoSegment) geo2).getLength() * 100)))
                     return false;
             } else if (pred instanceof GeoAngleBinPred) {
                 GeoElement geo1, geo2;
@@ -203,10 +205,12 @@ public class TaskVerifier {
 
                 String relStr = rel.relation(geo1, geo2);
 
-
                 System.out.println(relStr);
-                if (pred instanceof AngleEqualPred && (Math.round(((GeoAngle) geo1).getRawAngle() * 100) !=
-                        Math.round(((GeoAngle) geo2).getRawAngle() * 100)))
+                if (pred instanceof AngleEqualPred &&
+                     relStr.contains("не идентичны"))
+
+                        //((GeoAngle) geo1).getRawAngle() * 100) !=
+                        //Math.round(((GeoAngle) geo2).getRawAngle() * 100)))
                     return false;
             } else if (pred instanceof GeoCircleBinPred) {
                 GeoElement geo1, geo2;

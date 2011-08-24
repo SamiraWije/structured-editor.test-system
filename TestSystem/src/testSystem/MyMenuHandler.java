@@ -195,14 +195,17 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 if (app != null) {
                     if (structuredEditor.isView()) {
                         Instrum instrums[] = ((GeoStatement) bean).getInstrums();
-                        String toolStr;
-                        toolStr = "0";
-                        for (int i = 0; i < instrums.length; i++) {
-                            if (instrumsModes.get(instrums[i])!=null)
-                                toolStr += " | " + String.valueOf(instrumsModes.get(instrums[i]));
+                        if (instrums!=null && instrums.length!=0){
+                            String toolStr;
+                            toolStr = "0";
+                            for (int i = 0; i < instrums.length; i++) {
+                                if (instrumsModes.get(instrums[i])!=null)
+                                    toolStr += " | " + String.valueOf(instrumsModes.get(instrums[i]));
+                            }
+                            app.getGuiManager().setToolBarDefinition(toolStr);
+
+                            app.updateToolBar();
                         }
-                        app.getGuiManager().setToolBarDefinition(toolStr);
-                        app.updateToolBar();
                     }
                 }
                 System.out.println("You've opened the file: " + fn);

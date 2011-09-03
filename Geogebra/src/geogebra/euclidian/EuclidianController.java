@@ -281,7 +281,7 @@ public class EuclidianController
         listenerList.remove(GeoSelectionChangedListener.class, l);
     }
 
-    protected void fireGeoSelectionChange(GeoSelectionChangedEvent ce) {
+  public void fireGeoSelectionChange(GeoSelectionChangedEvent ce) {
         Object[] listeners = listenerList.getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i] == GeoSelectionChangedListener.class) {
@@ -1958,6 +1958,8 @@ public class EuclidianController
             if (!selGeos.contains(geo)) {
                 app.clearSelectedGeos();
                 app.addSelectedGeo(geo);
+                //Change by Oleg Perchenok
+                fireGeoSelectionChange(new GeoSelectionChangedEvent(this,geo));
                 // app.geoElementSelected(geo, false); // copy definiton to input bar
             }
         }

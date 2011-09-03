@@ -37,6 +37,7 @@ import geogebra.plugin.ScriptManager;
 import geogebra.util.ImageManager;
 import geogebra.util.LowerCaseDictionary;
 import geogebra.util.Util;
+import ru.ipo.structurededitor.view.events.GeoSelectionChangedEvent;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -1151,7 +1152,7 @@ public abstract class Application implements KeyEventDispatcher {
     if (currentSelectionListener != null)
       currentSelectionListener.geoElementSelected(geo, addToSelection);
   }
-
+    //fireGeoSelectionChange(new GeoSelectionChangedEvent(this, geos.get(0)))
   // public void startEditing(GeoElement geo) {
   // if (showAlgebraView)
   // getApplicationGUImanager().startEditingAlgebraView(geo);

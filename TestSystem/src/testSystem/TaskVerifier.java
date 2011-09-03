@@ -203,11 +203,14 @@ public class TaskVerifier {
                     return false;
                 //GeoAngle s = new GeoAngle(app.getKernel().getConstruction());
 
+                GeoAngle geo3=new GeoAngle(app.getKernel().getConstruction(),2*Math.PI-((GeoAngle)geo2).getValue());
+
                 String relStr = rel.relation(geo1, geo2);
+                String relStr1 = rel.relation(geo1, geo3);
 
                 System.out.println(relStr);
                 if (pred instanceof AngleEqualPred &&
-                     relStr.contains("не идентичны"))
+                     relStr.contains("не идентичны") && relStr1.contains("не идентичны"))
 
                         //((GeoAngle) geo1).getRawAngle() * 100) !=
                         //Math.round(((GeoAngle) geo2).getRawAngle() * 100)))

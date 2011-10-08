@@ -1,6 +1,8 @@
 package testSystem.lang.geom;
 
 import ru.ipo.structurededitor.model.DSLBean;
+import ru.ipo.structurededitor.model.EditorSettings;
+import ru.ipo.structurededitor.view.editors.settings.AbstractDSLBeanSettings;
 
 /**
  * Created by IntelliJ IDEA.
@@ -8,6 +10,14 @@ import ru.ipo.structurededitor.model.DSLBean;
  * Date: 31.03.11
  * Time: 17:53
  */
-public abstract class AbstractGeoLine  extends AbstractGeoSegLine {
+public abstract class AbstractGeoLine extends AbstractGeoSegLine {
+
+    public static EditorSettings getDefaultEditorSettings() {
+        return new AbstractDSLBeanSettings()
+                .withNullValueText("[Выберите тип прямой]")
+                .withSelectVariantActionText("Выбрать тип прямой")
+                .withSetNullActionText("Выбрать другой тип прямой");
+    }
+
 
 }

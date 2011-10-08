@@ -2,12 +2,15 @@ package testSystem.structureBuilder;
 
 import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.GeoElement;
+import geogebra.kernel.GeoPoint;
+import geogebra.kernel.GeoSegment;
 import geogebra.main.Application;
 import org.w3c.dom.*;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import ru.ipo.structurededitor.model.DSLBean;
+import ru.ipo.structurededitor.view.editors.settings.StringSettings;
 import testSystem.lang.comb.*;
 import testSystem.lang.logic.*;
 import testSystem.lang.geom.*;
@@ -20,6 +23,7 @@ import java.io.FileNotFoundException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.jar.Pack200;
 
 /**
  * Created by IntelliJ IDEA.
@@ -156,8 +160,16 @@ public class StructureBuilder {
         app.selectAll(0);
         ArrayList geos = app.getSelectedGeos();
         GeoElement geoElement = null;
+        if (caption.matches("[A-Z][A-Z]")){
+            GeoPoint p1 =(GeoPoint)getGeoByCaption(String.valueOf(caption.charAt(0)),app);
+            GeoPoint p2 = (GeoPoint)getGeoByCaption(String.valueOf(caption.charAt(1)),app);
+            if (p1!=null&& p2!=null)
+                return new GeoSegment(app.getKernel().getConstruction(),p1,p2);
+        }
         for (Object geo : geos) {
             if (geo instanceof GeoElement && ((GeoElement) geo).getCaption().equals(caption)) {
+
+
                 geoElement = (GeoElement) geo;
                 break;
             }

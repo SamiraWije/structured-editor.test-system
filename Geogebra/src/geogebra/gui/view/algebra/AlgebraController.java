@@ -22,6 +22,7 @@ import geogebra.euclidian.EuclidianView;
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.Kernel;
 import geogebra.main.Application;
+import ru.ipo.structurededitor.view.events.GeoSelectionChangedEvent;
 
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -92,7 +93,10 @@ public class AlgebraController
 				app.storeUndoInfo();
 				kernel.notifyRepaint();
 				return;
-			}		
+			}
+            //Changed by Oleg Perchenok
+            app.getEuclidianView().getEuclidianController().fireGeoSelectionChange(new GeoSelectionChangedEvent(this,
+                    geo));
 		}
 		
 		// check double click

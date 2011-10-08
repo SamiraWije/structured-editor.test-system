@@ -8,7 +8,7 @@ import ru.ipo.structurededitor.model.*;
  * Date: 05.08.2010
  * Time: 16:25:07
  */
-@DSLBeanParams(shortcut = "[]=[]", description = "равенство отрезков")
+@DSLBeanParams(shortcut = "| = |", description = "Отрезки равны")
 public class SegEqualPred1 extends Pred {
 
     public AbstractGeoPoint getE1() {

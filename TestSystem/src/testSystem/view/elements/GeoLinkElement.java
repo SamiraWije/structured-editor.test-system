@@ -14,14 +14,15 @@ import ru.ipo.structurededitor.view.events.GeoSelectionChangedListener;
  * Time: 14:50
  */
 public class GeoLinkElement extends TextElement {
-    protected String typeStr,typeStr1="";
+    protected String typeStr, typeStr1="";
 
     private GeoElement value = null;
-    protected String emptyString; //added by iposov to as a dirty hack
 
     public GeoLinkElement(StructuredEditorModel model, GeoElement value) {
         super(model);
-        emptyString = "[Выберите элемент на чертеже]";
+
+        setNullText("[Выберите элемент на чертеже]");
+
         Application app = (Application)getModel().getApp();
         if (app!=null){
             app.getEuclidianView().getEuclidianController().addGeoSelectionChangedListener(new GeoSelectionChangedListener() {
@@ -41,11 +42,10 @@ public class GeoLinkElement extends TextElement {
     public void setValue(GeoElement value) {
         this.value = value;
         if (value != null)
-            setText(typeStr + value.getCaption()+typeStr1);
+            setText(typeStr + value.getCaption() + typeStr1);
         else
-            setText(emptyString);
+            setText(null);
     }
-
 
     public void processGeoSelectionChangedEvent(GeoSelectionChangedEvent e) {
 

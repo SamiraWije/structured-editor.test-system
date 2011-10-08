@@ -1,7 +1,6 @@
 package testSystem.view.elements;
 
 import geogebra.kernel.GeoElement;
-import geogebra.kernel.GeoPoint;
 import geogebra.kernel.GeoSegment;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.events.GeoSelectionChangedEvent;
@@ -11,7 +10,6 @@ import ru.ipo.structurededitor.view.events.GeoSelectionChangedEvent;
  * User: oleg
  * Date: 29.03.11
  * Time: 15:21
- * To change this template use File | Settings | File Templates.
  */
 public class GeoSegmentLinkElement extends GeoLinkElement {
     public GeoSegmentLinkElement(StructuredEditorModel model, GeoSegment value) {
@@ -19,7 +17,7 @@ public class GeoSegmentLinkElement extends GeoLinkElement {
         //typeStr = "Точка";
         typeStr = "[";
         typeStr1= "]";
-        emptyString = "[Выберите отрезок на чертеже]";
+        setNullText("[Выберите отрезок на чертеже]");
         setValue(value);
     }
 

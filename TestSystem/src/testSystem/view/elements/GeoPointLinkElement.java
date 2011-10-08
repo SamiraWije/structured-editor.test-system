@@ -16,7 +16,7 @@ public class GeoPointLinkElement extends GeoLinkElement {
         super(model, value);
         //typeStr = "Точка";
         typeStr = "";
-        emptyString = "[Выберите точку на чертеже]";
+        setNullText("[Выберите точку на чертеже]");
         setValue(value);
     }
 

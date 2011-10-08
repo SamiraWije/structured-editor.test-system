@@ -17,6 +17,7 @@ import java.beans.PropertyChangeListener;
  * Time: 22:36:47
  */
 public class GeoLineEditor extends FieldEditor {
+
     public GeoLineEditor(Object o, String fieldName, FieldMask mask, StructuredEditorModel model, EditorSettings settings) {
         super(o, fieldName, mask, model, settings);
         GeoLine val = (GeoLine) getValue();

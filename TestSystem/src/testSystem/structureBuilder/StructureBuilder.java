@@ -240,7 +240,7 @@ public class StructureBuilder {
                         processChildNodes(currentNode.getChildNodes(), bean, true);
                     } else if (nodeName.equals("description")) {
                         setValue(bean, "statement", (Element) currentNode, "", "text");
-                    } else if (nodeName.equals("constElement")) {
+                    } else if (nodeName.equals("const-element")) {
                         if (currentNode.getChildNodes().getLength() > 1) {
                             newBean = new InnerConstantElement();
                             setChildNodesToArray(newBean, "items", currentNode.getChildNodes());

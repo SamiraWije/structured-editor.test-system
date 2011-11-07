@@ -238,14 +238,31 @@ public class TaskVerifier {
                 System.out.println(relStr);
                 if (pred instanceof CircleTangentPred && relStr.contains("пересекается")) //Не работает
                     return false;
-            } else if (pred instanceof GeoLineGeoCircleBinPred) {
+            } else if (pred instanceof GeoSegLineGeoCircleBinPred) {
                 GeoElement geo1, geo2;
-                AbstractGeoLine seg1 = ((GeoLineGeoCircleBinPred) pred).getE1();
-                AbstractGeoCircle seg2 = ((GeoLineGeoCircleBinPred) pred).getE2();
-                if (seg1 instanceof GeoLineLink)
-                    geo1 = ((GeoLineLink) seg1).getGeo();
-                else
-                    geo1 = StructureBuilder.getGeoByCaption(((LineElement) seg1).getName(), app);
+                AbstractGeoSegLine line1 = ((GeoSegLineGeoCircleBinPred) pred).getE1();
+                AbstractGeoCircle seg2 = ((GeoSegLineGeoCircleBinPred) pred).getE2();
+
+
+                if (line1 instanceof AbstractGeoLine){
+                    if (line1 instanceof GeoLineLink)
+                        geo1 = ((GeoLineLink) line1).getGeo();
+                    else
+                        geo1 = StructureBuilder.getGeoByCaption(((LineElement) line1).getName(), app);
+                } else {
+                    if (line1 instanceof GeoSegmentLink)
+                        geo1 = ((GeoSegmentLink) line1).getGeo();
+                    else
+                        geo1 = StructureBuilder.getGeoByCaption(((SegmentElement) line1).getName(), app);
+                   if (geo1 instanceof GeoSegment){
+                    GeoLine geoLine1=new GeoLine(app.getKernel().getConstruction());
+                    GeoVec3D.lineThroughPoints(((GeoSegment)geo1).getStartPoint(),((GeoSegment)geo1).getEndPoint(),
+                            geoLine1);
+                    geo1 = geoLine1;
+                   }
+                }
+
+
                 if (seg2 instanceof GeoCircleLink)
                     geo2 = ((GeoCircleLink) seg2).getGeo();
                 else

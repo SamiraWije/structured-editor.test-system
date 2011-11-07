@@ -6,18 +6,18 @@ package testSystem.lang.geom;
  * Date: 18.03.11
  * Time: 14:26
  */
-public abstract class GeoLineGeoCircleBinPred extends BinPred {
+public abstract class GeoSegLineGeoCircleBinPred extends BinPred {
 
 
-    public AbstractGeoLine getE1() {
+    public AbstractGeoSegLine getE1() {
         return e1;
     }
 
-    public void setE1(AbstractGeoLine e1) {
+    public void setE1(AbstractGeoSegLine e1) {
         this.e1 = e1;
     }
 
-    private AbstractGeoLine e1;
+    private AbstractGeoSegLine e1;
 
 
     public AbstractGeoCircle getE2() {

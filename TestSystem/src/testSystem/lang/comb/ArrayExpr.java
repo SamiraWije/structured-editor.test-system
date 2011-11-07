@@ -23,8 +23,9 @@ public abstract class ArrayExpr extends Expr {
 
     public Cell getLayout() {
         if (vert)
-            return new ArrayFieldCell("items", ArrayFieldCell.Orientation.Vertical);
+            return new ArrayFieldCell("items", ArrayFieldCell.Orientation.Vertical).withSpaceChar(op);
         else
-            return new Horiz(new ConstantCell("("), new ArrayFieldCell("items", ArrayFieldCell.Orientation.Horizontal), new ConstantCell(")"));
+            return new Horiz(new ConstantCell("("), new ArrayFieldCell("items", ArrayFieldCell.Orientation.Horizontal)
+                    .withSpaceChar(op), new ConstantCell(")"));
     }
 }

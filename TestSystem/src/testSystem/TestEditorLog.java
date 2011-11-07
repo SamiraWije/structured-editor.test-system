@@ -4,6 +4,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import ru.ipo.structurededitor.StructuredEditor;
+import ru.ipo.structurededitor.StructuredEditorWithActions;
 import ru.ipo.structurededitor.controller.ModificationHistory;
 import ru.ipo.structurededitor.controller.ModificationListener;
 import ru.ipo.structurededitor.model.DSLBean;
@@ -66,8 +67,7 @@ public class TestEditorLog {
         final StructuredEditor structuredEditor = new StructuredEditor(model,false);
         JScrollPane structuredEditorScrPane = new JScrollPane(structuredEditor);
 
-
-        f.add(structuredEditorScrPane, BorderLayout.CENTER);
+        f.add(new StructuredEditorWithActions(structuredEditor), BorderLayout.CENTER);
 
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(640, 480);

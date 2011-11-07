@@ -17,6 +17,8 @@ import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.images.ImageGetter;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.text.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.*;
@@ -68,7 +70,43 @@ public class TestEditorLogStudent {
         LogicAnswer ans=new LogicAnswer();
         final StructuredEditor answerEditor = new StructuredEditor(new StructuredEditorModel(ans),false);
         JScrollPane answerEditorScrPane = new JScrollPane(answerEditor);
-        f.add(structuredEditorScrPane, BorderLayout.CENTER);
+
+        JPanel taskPanel= new JPanel(new BorderLayout());
+
+
+        StyleContext sc = new StyleContext();
+        final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
+
+
+        JTextPane textPane = new JTextPane(doc);
+        taskPanel.add(textPane, BorderLayout.CENTER);
+
+        textPane.setEditable(false);
+        final Style heading2Style = sc.addStyle("Heading2", null);
+        //heading2Style.addAttribute(StyleConstants.Foreground, Color.red);
+        heading2Style.addAttribute(StyleConstants.FontSize, 16);
+        heading2Style.addAttribute(StyleConstants.FontFamily, "serif");
+        heading2Style.addAttribute(StyleConstants.Bold, true);
+        heading2Style.addAttribute(StyleConstants.ALIGN_CENTER, true);
+
+        final Style defaultStyle = sc.addStyle("Default", null);
+
+        StyledDocument styledDocument =  textPane.getStyledDocument();
+
+        try {
+            //((GeoStatement)model.getObject()).getTitle()
+
+            styledDocument.remove(0,styledDocument.getLength());
+            styledDocument.insertString(0,"Откройте задачу\n Здесь будет условие\n",null);
+            //doc.setParagraphAttributes(0, 1, heading2Style, false);
+
+        }catch (Exception e) {
+            throw new Error("Text HTML error"+e);
+        }
+        Border border = BorderFactory.createLineBorder(Color.GRAY);
+        textPane.setBorder(border);
+
+        f.add(taskPanel, BorderLayout.CENTER);
         f.add(answerEditorScrPane, BorderLayout.EAST);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(640, 480);
@@ -104,7 +142,8 @@ public class TestEditorLogStudent {
         Menu help = new Menu("Помощь");
         menuBar.add(help);
         //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
-        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "log",answerEditor,null);
+        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "log",answerEditor,null,
+                styledDocument);
         //item1.addActionListener(handler);
         item2.addActionListener(handler);
         //item3.addActionListener(handler);
@@ -114,7 +153,7 @@ public class TestEditorLogStudent {
         redoItem.addActionListener(handler);
 
         //Status Bar
-        StatusBar statusBar = new StatusBar("Нажмите Ctrl+Пробел для выбора вариантов ввода");
+        StatusBar statusBar = new StatusBar("Для инвертирования значения логической переменной перейдите на него и нажмите Пробел");
         f.add(statusBar, BorderLayout.SOUTH);
 
         //ToolBar
@@ -124,7 +163,7 @@ public class TestEditorLogStudent {
         addButtonToToolBar(toolBar, "verify.png", "Проверить . . .", true, handler);
         final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
         final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
-        addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);
+        //addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);
         addButtonToToolBar(toolBar, "help.png", "Помощь", true, handler);
 
         undoButton.setEnabled(false);

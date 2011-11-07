@@ -4,9 +4,11 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import ru.ipo.structurededitor.StructuredEditor;
+import ru.ipo.structurededitor.StructuredEditorWithActions;
 import ru.ipo.structurededitor.controller.ModificationHistory;
 import ru.ipo.structurededitor.controller.ModificationListener;
 import ru.ipo.structurededitor.model.DSLBean;
+import ru.ipo.structurededitor.model.DSLBeansRegistry;
 import testSystem.lang.comb.*;
 import testSystem.structureBuilder.MyErrorHandler;
 import testSystem.structureSerializer.NodesRegistry;
@@ -63,7 +65,12 @@ public class TestEditorComb {
 //        f.add(new JScrollPane(new JTextArea("asdf")));
         final StructuredEditor structuredEditor = new StructuredEditor(model);
         JScrollPane structuredEditorScrPane = new JScrollPane(structuredEditor);
-        f.add(structuredEditorScrPane, BorderLayout.CENTER);
+        //f.add(structuredEditorScrPane, BorderLayout.CENTER);
+        f.add(new StructuredEditorWithActions(structuredEditor));
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        splitPane.setResizeWeight(0.5);
+        splitPane.setContinuousLayout(true);
+        splitPane.setDividerSize(8);
 
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(640, 480);
@@ -113,7 +120,7 @@ public class TestEditorComb {
         //ToolBar
         JToolBar toolBar = new JToolBar();
         addButtonToToolBar(toolBar, "menu-open.png", "Открыть . . .", true, handler);
-        addButtonToToolBar(toolBar, "save.png", "Сохранить . . .", true, handler);
+        addButtonToToolBar(toolBar, "save.png", "Сохранить", true, handler);
         final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
         final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
         addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);
@@ -247,7 +254,7 @@ public class TestEditorComb {
             enumerationSet.setAttribute("type", "EnumerationSet");
             nodesRegistry.registerNode(EnumKit.class, enumerationSet);
 
-            Element constElement = document.createElement("constElement");
+            Element constElement = document.createElement("const-element");
             nodesRegistry.registerNode(InnerConstantElement.class, constElement);
             nodesRegistry.registerNode(IntConstantElement.class, constElement);
 
@@ -375,10 +382,46 @@ public class TestEditorComb {
         root.add(new ContainerElement(model, _4thLine));*/
 
         //Bean1 bean1 = new Bean1();
-        //DSLBeansRegistry reg=new DSLBeansRegistry();
-
-        return new StructuredEditorModel(st);
-
-
+        DSLBeansRegistry reg=new DSLBeansRegistry();
+        reg.registerBean(ArrayExpr.class);
+        reg.registerBean(BinExpr.class);
+        reg.registerBean(CountExaminer.class);
+        reg.registerBean(IndexExaminer.class);
+        reg.registerBean(ListExaminer.class);
+        reg.registerBean(AnswerExaminer.class);
+        reg.registerBean(CurElementExpr.class);
+        reg.registerBean(DescartesPower.class);
+        reg.registerBean(EqExpr.class);
+        reg.registerBean(Expr.class);
+        reg.registerBean(IntSegment.class);
+        reg.registerBean(PrjExpr.class);
+        reg.registerBean(Kit.class);
+        reg.registerBean(Statement.class);
+        reg.registerBean(Examiner.class);
+        reg.registerBean(CombKit.class);
+        reg.registerBean(LayoutKit.class);
+        reg.registerBean(EnumKit.class);
+        reg.registerBean(ConstantElement.class);
+        reg.registerBean(InnerConstantElement.class);
+        reg.registerBean(IntConstantElement.class);
+        reg.registerBean(AddExpr.class);
+        reg.registerBean(DiffExpr.class);
+        reg.registerBean(RemExpr.class);
+        reg.registerBean(IntDivExpr.class);
+        reg.registerBean(EvExpr.class);
+        reg.registerBean(NotEvExpr.class);
+        reg.registerBean(LogAndExpr.class);
+        reg.registerBean(LogNotExpr.class);
+        reg.registerBean(LkExpr.class);
+        reg.registerBean(LogOrExpr.class);
+        reg.registerBean(GtExpr.class);
+        reg.registerBean(SlExpr.class);
+        reg.registerBean(ToNumExpr.class);
+        reg.registerBean(CalcExpr.class);
+        reg.registerBean(CalculableExpr.class);
+        reg.registerBean(ModCalculableExpr.class);
+        StructuredEditorModel model = new StructuredEditorModel(st);
+        model.setBeansRegistry(reg);
+        return model;
     }
 }

@@ -6,6 +6,7 @@ import geogebra.main.Application;
 import ru.ipo.structurededitor.StructuredEditor;
 import ru.ipo.structurededitor.controller.ModificationHistory;
 import ru.ipo.structurededitor.model.DSLBean;
+import testSystem.lang.logic.LogicStatement;
 import testSystem.structureBuilder.StructureBuilder;
 import testSystem.structureSerializer.NodesRegistry;
 import testSystem.structureSerializer.StructureSerializer;
@@ -87,9 +88,16 @@ public class MyMenuHandler implements ActionListener, ItemListener {
         //structuredEditor.getModel().setFocusedElement(null); //commented out by iposov
         structuredEditor.setModel(model);
         structuredEditor.getUI().redrawEditor();
-        if (subSystem.equals("geom") && styledDocument!=null){
-            String title = ((GeoStatement)model.getObject()).getTitle();
-            String text = ((GeoStatement)model.getObject()).getStatement();
+        if (subSystem.equals("geom") || subSystem.equals("log") && styledDocument!=null){
+            String title="";
+            String text="";
+            if (subSystem.equals("geom")){
+                title = ((GeoStatement)model.getObject()).getTitle();
+                text = ((GeoStatement)model.getObject()).getStatement();
+            } else {
+                title = ((LogicStatement)model.getObject()).getTitle();
+                text = ((LogicStatement)model.getObject()).getStatement();
+            }
             try {
                 //((GeoStatement)model.getObject()).getTitle()
                 styledDocument.remove(0,styledDocument.getLength());
@@ -184,7 +192,8 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 if (subSystem.equals("log") && answerEditor != null) {
 
                     TaskVerifier verifier = new TaskVerifier(structuredEditor.getModel().getObject(), subSystem,
-                            (Application) structuredEditor.getApp(), ans, combAns.getText());
+                            (Application) structuredEditor.getApp(), ans, "");
+                    //combAns.getText()
                     verifier.makeLogAnswer();
                     StructuredEditorModel model = new StructuredEditorModel(ans);
 //                    answerEditor.getModel().setFocusedElement(null);  //commented out by iposov

@@ -261,6 +261,13 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 } else {
                     mes = "Введите условия задачи в текстовой и математической форме, постройте исходный чертеж на полотне.";
                 }
+            } else if (subSystem.equals("log")) {
+                if (structuredEditor.isView()) {
+                    mes = "Откройте нужную задачу (пункт меню \"Задача/Открыть\"). Задайте значения логических переменных " +
+                            "и выберите пункт меню \"Задача/Проверить\"";
+                } else {
+                    mes = "Введите условия задачи в текстовой и математической форме.";
+                }
             }
             JOptionPane.showMessageDialog(null, mes, "Помощь", JOptionPane.PLAIN_MESSAGE);
         } else if (arg.equals("Панель объектов")) {

@@ -84,7 +84,7 @@ public class TestEditorLog {
         MenuBar menuBar = new MenuBar();
         f.setMenuBar(menuBar);
         Menu file = new Menu("Файл");
-        MenuItem item1, item2, item3, item4, item5;
+        MenuItem item1, item2, item3, item4, item5,helpItem;
         file.add(item1 = new MenuItem("Создать"));
         file.add(item2 = new MenuItem("Открыть . . ."));
         file.add(item3 = new MenuItem("Сохранить . . ."));
@@ -99,9 +99,14 @@ public class TestEditorLog {
         redoItem.setEnabled(false);
         menuBar.add(edit);
         Menu help = new Menu("Помощь");
+        help.add(helpItem = new MenuItem("Работа"));
+
+        //MyJMenuHandler handler = new MyJMenuHandler(f,xmlV,structuredEditor);
+        helpItem.setActionCommand("Помощь");
         menuBar.add(help);
         //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
         MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "log",null,null);
+        helpItem.addActionListener(handler);
         item1.addActionListener(handler);
         item2.addActionListener(handler);
         item3.addActionListener(handler);

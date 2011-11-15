@@ -269,16 +269,25 @@ public class StructureBuilder {
                             setValue(newBean, "from", (Element) currentNode, "first", "int");
                             setValue(newBean, "to", (Element) currentNode, "last", "int");
                             processChildren = false;
-                        } else if (kitType.equals("DecartSet")) {
+                        } else if (kitType.equals("DecartPower")) {
                             newBean = new DescartesPower();
                             setValue(newBean, "pow", (Element) currentNode, "power", "int");
-                        } else
+                        }  else if (kitType.equals("DecartSet")) {
+                            newBean = new DescartesKit();
+                            setChildNodesToArray(newBean, "kit", currentNode.getChildNodes());
+                            processChildren = false;
+                        }
+                        else
                             newBean = null;
                         if (bean instanceof Statement || bean instanceof DescartesPower || bean instanceof CombKit ||
                                 bean instanceof LayoutKit) {
                             immedSetValue(bean, "kit", newBean);
                         } else if (bean instanceof IndexExaminer) {
                             immedSetValue(bean, "indexingElem", newBean);
+                        } else if (bean instanceof DescartesKit) {
+                            int index = Array.getLength(arr);
+                            arr = resizeArray(arr, index + 1);
+                            Array.set(arr, index, newBean);
                         }
 
                         if (processChildren)

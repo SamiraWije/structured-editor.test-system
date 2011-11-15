@@ -234,9 +234,13 @@ public class TestEditorComb {
 
             Element decartSet = document.createElement("set");
             decartSet.setAttribute("type", "DecartSet");
-            nodesRegistry.registerNode(DescartesPower.class, decartSet);
-            Attr decartSetPower = document.createAttribute("power");
-            nodesRegistry.registerNode(DescartesPower.class, "pow", decartSetPower);
+            nodesRegistry.registerNode(DescartesKit.class, decartSet);
+
+            Element decartPower = document.createElement("set");
+            decartPower.setAttribute("type", "DecartPower");
+            nodesRegistry.registerNode(DescartesPower.class, decartPower);
+            Attr decartPowerPower = document.createAttribute("power");
+            nodesRegistry.registerNode(DescartesPower.class, "pow", decartPowerPower);
 
             Element combinationSet = document.createElement("set");
             combinationSet.setAttribute("type", "CombinationSet");
@@ -420,6 +424,7 @@ public class TestEditorComb {
         reg.registerBean(CalcExpr.class);
         reg.registerBean(CalculableExpr.class);
         reg.registerBean(ModCalculableExpr.class);
+        reg.registerBean(DescartesKit.class);
         StructuredEditorModel model = new StructuredEditorModel(st);
         model.setBeansRegistry(reg);
         return model;

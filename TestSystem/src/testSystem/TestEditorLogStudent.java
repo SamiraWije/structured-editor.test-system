@@ -132,25 +132,28 @@ public class TestEditorLogStudent {
         file.add(new MenuItem("-"));
         file.add(item5 = new MenuItem("Выход"));
        menuBar.add(file);
-        Menu edit = new Menu("Редактирование");
-        final MenuItem undoItem, redoItem;
-        edit.add(undoItem = new MenuItem("Отменить"));
-        edit.add(redoItem = new MenuItem("Повторить"));
-        undoItem.setEnabled(false);
-        redoItem.setEnabled(false);
-        menuBar.add(edit);
+        //Menu edit = new Menu("Редактирование");
+        final MenuItem undoItem, redoItem,helpItem;
+        //edit.add(undoItem = new MenuItem("Отменить"));
+        //edit.add(redoItem = new MenuItem("Повторить"));
+        //undoItem.setEnabled(false);
+        //redoItem.setEnabled(false);
+        //menuBar.add(edit);
         Menu help = new Menu("Помощь");
         menuBar.add(help);
+        help.add(helpItem = new MenuItem("Работа"));
+        helpItem.setActionCommand("Помощь");
         //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
         MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "log",answerEditor,null,
                 styledDocument);
         //item1.addActionListener(handler);
+        helpItem.addActionListener(handler);
         item2.addActionListener(handler);
         //item3.addActionListener(handler);
         item4.addActionListener(handler);
         item5.addActionListener(handler);
-        undoItem.addActionListener(handler);
-        redoItem.addActionListener(handler);
+        //undoItem.addActionListener(handler);
+        //redoItem.addActionListener(handler);
 
         //Status Bar
         StatusBar statusBar = new StatusBar("Для инвертирования значения логической переменной перейдите на него и нажмите Пробел");
@@ -161,19 +164,19 @@ public class TestEditorLogStudent {
         addButtonToToolBar(toolBar, "menu-open.png", "Открыть . . .", true, handler);
         //addButtonToToolBar(toolBar, "save.png", "Сохранить . . .", true, handler);
         addButtonToToolBar(toolBar, "verify.png", "Проверить . . .", true, handler);
-        final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
-        final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
+        //final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
+        //final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
         //addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);
         addButtonToToolBar(toolBar, "help.png", "Помощь", true, handler);
 
-        undoButton.setEnabled(false);
-        redoButton.setEnabled(false);
+        //undoButton.setEnabled(false);
+        //redoButton.setEnabled(false);
 
         f.add(toolBar, BorderLayout.NORTH);
 
         structuredEditorScrPane.requestFocusInWindow();
         f.setVisible(true);
-        final ModificationHistory modificationHistory = model.getModificationHistory();
+        /*final ModificationHistory modificationHistory = model.getModificationHistory();
         modificationHistory.addModificationListener(new ModificationListener() {
             public void modificationPerformed() {
                 if (modificationHistory.canRedo()) {
@@ -192,6 +195,7 @@ public class TestEditorLogStudent {
                 }
             }
         });
+
         //model.setModificationHistory(modificationHistory);
 
 

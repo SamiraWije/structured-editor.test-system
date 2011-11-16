@@ -6,6 +6,7 @@ import geogebra.main.Application;
 import ru.ipo.structurededitor.StructuredEditor;
 import ru.ipo.structurededitor.controller.ModificationHistory;
 import ru.ipo.structurededitor.model.DSLBean;
+import testSystem.lang.comb.Statement;
 import testSystem.lang.logic.LogicStatement;
 import testSystem.structureBuilder.StructureBuilder;
 import testSystem.structureSerializer.NodesRegistry;
@@ -162,6 +163,12 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                     ai.replaceString(null);
                 }
                 //app.updateContentPane();
+            } else if (subSystem.equals("log")) {
+                bean = new LogicStatement();
+                refreshEditor(bean, structuredEditor.getModel().getModificationHistory());
+            } else if (subSystem.equals("comb")) {
+                bean = new Statement();
+                refreshEditor(bean, structuredEditor.getModel().getModificationHistory());
             }
 
         } else if (arg.equals("Открыть . . .")) {

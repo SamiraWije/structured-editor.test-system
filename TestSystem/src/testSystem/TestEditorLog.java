@@ -87,7 +87,7 @@ public class TestEditorLog {
         MenuItem item1, item2, item3, item4, item5,helpItem;
         file.add(item1 = new MenuItem("Создать"));
         file.add(item2 = new MenuItem("Открыть . . ."));
-        file.add(item3 = new MenuItem("Сохранить . . ."));
+        file.add(item3 = new MenuItem("Сохранить"));
         file.add(item4 = new MenuItem("-"));
         file.add(item5 = new MenuItem("Выход"));
         menuBar.add(file);
@@ -122,7 +122,7 @@ public class TestEditorLog {
         //ToolBar
         JToolBar toolBar = new JToolBar();
         addButtonToToolBar(toolBar, "menu-open.png", "Открыть . . .", true, handler);
-        addButtonToToolBar(toolBar, "save.png", "Сохранить . . .", true, handler);
+        addButtonToToolBar(toolBar, "save.png", "Сохранить", true, handler);
         final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
         final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
         addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);
@@ -234,6 +234,14 @@ public class TestEditorLog {
             andFnc.setAttribute("type", "And");
             nodesRegistry.registerNode(LogAndExpr.class, andFnc);
 
+            Element implFnc = document.createElement("function");
+            implFnc.setAttribute("type", "Impl");
+            nodesRegistry.registerNode(LogImplExpr.class, implFnc);
+
+            Element equivFnc = document.createElement("function");
+            equivFnc.setAttribute("type", "Equiv");
+            nodesRegistry.registerNode(LogEquivExpr.class, equivFnc);
+
             //Atom
             Element atom = document.createElement("atom");
             nodesRegistry.registerNode(LogicAtom.class, atom);
@@ -299,6 +307,8 @@ public class TestEditorLog {
         reg.registerBean(LogOrExpr.class);
         reg.registerBean(LogNotExpr.class);
         reg.registerBean(Expr.class);
+        reg.registerBean(LogEquivExpr.class);
+        reg.registerBean(LogImplExpr.class);
 
         StructuredEditorModel model = new StructuredEditorModel(st);
         model.setBeansRegistry(reg);

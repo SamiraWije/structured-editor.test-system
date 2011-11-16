@@ -352,6 +352,15 @@ public class TaskVerifier {
                 }
             }
             return res;
+        } else if (expr instanceof BinExpr) {
+            Boolean pe1 = parse(((BinExpr) expr).getE1());
+            Boolean pe2 = parse(((BinExpr) expr).getE2());
+            if (expr instanceof LogEquivExpr){
+                return (pe1 && pe2) || (!pe1 && !pe2);
+            } else if (expr instanceof LogImplExpr){
+                return !pe1 || pe2;
+            } else
+                return false;
         } else if (expr instanceof LogNotExpr) {
             return !parse(((LogNotExpr) expr).getExpr());
         } else if (expr instanceof LogicAtom) {

@@ -545,7 +545,11 @@ public class StructureBuilder {
                                 newBean = new LogAndExpr();
                             } else if (functionType.equals("Or")) {
                                 newBean = new LogOrExpr();
-                            } else newBean = null;
+                            } else if (functionType.equals("Impl")) {
+                                newBean = new LogImplExpr();
+                            }else if (functionType.equals("Equiv")) {
+                                newBean = new LogEquivExpr();
+                            }else newBean = null;
                         }
                         if (bean instanceof UnExpr) {
                             immedSetValue(bean, "expr", newBean);

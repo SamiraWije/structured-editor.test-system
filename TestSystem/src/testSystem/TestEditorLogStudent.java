@@ -31,16 +31,21 @@ import java.awt.event.ActionListener;
  * Time: 17:05:46
  */
 public class TestEditorLogStudent {
-
+    public static void main(String[] args) {
+        StructuredEditor.initializeStructuredEditorUI();
+        new TestEditorLogStudent();
+    }
     /*static {
         UIManager.installLookAndFeel("UI for structured editor", ComponentUI.class.getName());
     }*/
 
     //private StructuredEditorModel model;
+    public TestEditorLogStudent(JApplet f,String filename) {
+        StructuredEditor.initializeStructuredEditorUI();
+        makeContainer(f, filename);
+    }
 
-    public TestEditorLogStudent() {
-        JFrame f = new JFrame("Модуль ученика");
-        //f.setLayout(new GridLayout(2,1));
+    public void makeContainer(Container f, String filename) {
         BorderLayout br = new BorderLayout();
         f.setLayout(br);
         //TODO think of the appropriate place to this default registrations
@@ -65,13 +70,13 @@ public class TestEditorLogStudent {
         final StructuredEditorModel model = createModel(st);
 
 //        f.add(new JScrollPane(new JTextArea("asdf")));
-        final StructuredEditor structuredEditor = new StructuredEditor(model,true);
+        final StructuredEditor structuredEditor = new StructuredEditor(model, true);
         JScrollPane structuredEditorScrPane = new JScrollPane(structuredEditor);
-        LogicAnswer ans=new LogicAnswer();
-        final StructuredEditor answerEditor = new StructuredEditor(new StructuredEditorModel(ans),false);
+        LogicAnswer ans = new LogicAnswer();
+        final StructuredEditor answerEditor = new StructuredEditor(new StructuredEditorModel(ans), false);
         JScrollPane answerEditorScrPane = new JScrollPane(answerEditor);
 
-        JPanel taskPanel= new JPanel(new BorderLayout());
+        JPanel taskPanel = new JPanel(new BorderLayout());
 
 
         StyleContext sc = new StyleContext();
@@ -91,28 +96,37 @@ public class TestEditorLogStudent {
 
         final Style defaultStyle = sc.addStyle("Default", null);
 
-        StyledDocument styledDocument =  textPane.getStyledDocument();
+        StyledDocument styledDocument = textPane.getStyledDocument();
 
         try {
             //((GeoStatement)model.getObject()).getTitle()
 
-            styledDocument.remove(0,styledDocument.getLength());
-            styledDocument.insertString(0,"Откройте задачу\n Здесь будет условие\n",null);
+            styledDocument.remove(0, styledDocument.getLength());
+            styledDocument.insertString(0, "Откройте задачу\n Здесь будет условие\n", null);
             //doc.setParagraphAttributes(0, 1, heading2Style, false);
 
-        }catch (Exception e) {
-            throw new Error("Text HTML error"+e);
+        } catch (Exception e) {
+            throw new Error("Text HTML error" + e);
         }
         Border border = BorderFactory.createLineBorder(Color.GRAY);
         textPane.setBorder(border);
 
         f.add(taskPanel, BorderLayout.CENTER);
         f.add(answerEditorScrPane, BorderLayout.EAST);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(640, 480);
         //structuredEditorScrPane.setSize(320,480);
-        f.setLocationRelativeTo(null);
-
+        //f.setLocationRelativeTo(null);
+        JMenuBar menuBar = new JMenuBar();
+        if (f instanceof JFrame) {
+            ((JFrame) f).setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            ((JFrame) f).setLocationRelativeTo(null);
+            ((JFrame) f).setJMenuBar(menuBar);
+        } else if (f instanceof JApplet) {
+            //((JApplet) f).setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            //((JApplet) f).setLocationRelativeTo(null);
+            ((JApplet) f).setJMenuBar(menuBar);
+        }
 
         /* //XMLViewer
         XMLViewer xmlV = new XMLViewer("f:\\dsl\\IDEA_DSL\\ru\\ipo\\structurededitor\\xmlViewer\\emptytask.xml");
@@ -120,31 +134,31 @@ public class TestEditorLogStudent {
 
 
         // Menu
-        MenuBar menuBar = new MenuBar();
-        f.setMenuBar(menuBar);
-        Menu file = new Menu("Файл");
-        MenuItem item1, item2, item3, item4, item5;
+
+        //f.setMenuBar(menuBar);
+        JMenu file = new JMenu("Файл");
+        JMenuItem item1, item2, item3, item4, item5;
         //file.add(item1 = new MenuItem("Создать"));
-        file.add(item2 = new MenuItem("Открыть . . ."));
+        file.add(item2 = new JMenuItem("Открыть . . ."));
         //file.add(item3 = new MenuItem("Сохранить . . ."));
-        file.add(new MenuItem("-"));
-        file.add(item4 = new MenuItem("Проверить . . ."));
-        file.add(new MenuItem("-"));
-        file.add(item5 = new MenuItem("Выход"));
-       menuBar.add(file);
+        file.addSeparator();
+        file.add(item4 = new JMenuItem("Проверить . . ."));
+        file.addSeparator();
+        file.add(item5 = new JMenuItem("Выход"));
+        menuBar.add(file);
         //Menu edit = new Menu("Редактирование");
-        final MenuItem undoItem, redoItem,helpItem;
+        final JMenuItem undoItem, redoItem, helpItem;
         //edit.add(undoItem = new MenuItem("Отменить"));
         //edit.add(redoItem = new MenuItem("Повторить"));
         //undoItem.setEnabled(false);
         //redoItem.setEnabled(false);
         //menuBar.add(edit);
-        Menu help = new Menu("Помощь");
+        JMenu help = new JMenu("Помощь");
         menuBar.add(help);
-        help.add(helpItem = new MenuItem("Работа"));
+        help.add(helpItem = new JMenuItem("Работа"));
         helpItem.setActionCommand("Помощь");
         //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
-        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "log",answerEditor,null,
+        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "log", answerEditor, null,
                 styledDocument);
         //item1.addActionListener(handler);
         helpItem.addActionListener(handler);
@@ -176,49 +190,14 @@ public class TestEditorLogStudent {
 
         structuredEditorScrPane.requestFocusInWindow();
         f.setVisible(true);
-        /*final ModificationHistory modificationHistory = model.getModificationHistory();
-        modificationHistory.addModificationListener(new ModificationListener() {
-            public void modificationPerformed() {
-                if (modificationHistory.canRedo()) {
-                    redoButton.setEnabled(true);
-                    redoItem.setEnabled(true);
-                } else {
-                    redoButton.setEnabled(false);
-                    redoItem.setEnabled(false);
-                }
-                if (modificationHistory.canUndo()) {
-                    undoButton.setEnabled(true);
-                    undoItem.setEnabled(true);
-                } else {
-                    undoButton.setEnabled(false);
-                    undoItem.setEnabled(false);
-                }
-            }
-        });
+        if (filename!=null && !filename.equals("")){
+            handler.openTask(filename);
+        }
+    }
 
-        //model.setModificationHistory(modificationHistory);
+    public TestEditorLogStudent() {
+        makeContainer(new JFrame("Модуль ученика"),"");
 
-
-        /*f.addKeyListener(new KeyListener() {
-            public void keyTyped(KeyEvent e) {
-            }
-
-            public void keyPressed(KeyEvent e) {
-                ((CompositeElement)model.getRootElement()).add(new TextElement(TestEditor.this.model, "!!!"),0);
-
-                System.out.println("e.getKeyCode() = " + e.getKeyCode());
-                System.out.println("e.getKeyChar() = '" + e.getKeyChar() + "' (" + (int)e.getKeyChar() + ")");
-                System.out.println("e.getModifiers() = " + e.getModifiers());
-                System.out.println("e.getModifiersEx() = " + e.getModifiersEx());
-
-                System.out.println();
-            }
-
-            public void keyReleased(KeyEvent e) {
-            }
-        });*/
-
-        //model.getRootElement().gainFocus(new TextPosition(0,0), false, false);
     }
 
     private NodesRegistry nodesRegistryPrep() {

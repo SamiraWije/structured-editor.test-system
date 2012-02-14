@@ -35,7 +35,10 @@ public class TestEditorComb {
     }*/
 
     //private StructuredEditorModel model;
-
+    public static void main(String[] args) {
+        StructuredEditor.initializeStructuredEditorUI();
+        new TestEditorComb();
+    }
     public TestEditorComb() {
         JFrame f = new JFrame("Модуль учителя");
         //f.setLayout(new GridLayout(2,1));

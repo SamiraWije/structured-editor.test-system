@@ -1,6 +1,7 @@
 package testSystem.lang.comb;
 
 import ru.ipo.structurededitor.model.*;
+import ru.ipo.structurededitor.view.editors.settings.StringSettings;
 
 /**
  * Created by IntelliJ IDEA.
@@ -43,7 +44,8 @@ public class Statement implements DSLBean, DSLBeanView {
     public Cell getLayout() {
         return new Vert(
                 new Horiz(new ConstantCell("Заголовок:"), new FieldCell("title")),
-                new Horiz(new ConstantCell("Условие:"), new FieldCell("statement")),
+                new Horiz(new ConstantCell("Условие:"), new FieldCell("statement",
+                         new StringSettings().withSingleLine(false))),
                 new Horiz(new ConstantCell("Множество:"), new FieldCell("kit")),
                 new Horiz(new ConstantCell("Верификатор:"), new FieldCell("examiner"))
         );

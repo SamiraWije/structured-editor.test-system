@@ -27,30 +27,33 @@ import java.awt.event.ActionListener;
  * Time: 17:05:46
  */
 public class TestEditorCombStudent {
-
+    public static void main(String[] args) {
+        StructuredEditor.initializeStructuredEditorUI();
+        new TestEditorCombStudent();
+    }
+    public TestEditorCombStudent(JApplet f){
+        StructuredEditor.initializeStructuredEditorUI();
+        makeContainer(f);
+    }
     /*static {
         UIManager.installLookAndFeel("UI for structured editor", ComponentUI.class.getName());
     }*/
 
     //private StructuredEditorModel model;
 
-    public TestEditorCombStudent() {
-        StructuredEditor.initializeStructuredEditorUI();
-
-        JFrame f = new JFrame("Модуль учителя");
-        //f.setLayout(new GridLayout(2,1));
+    public void makeContainer(Container f) {
         BorderLayout br = new BorderLayout();
         f.setLayout(br);
         //TODO think of the appropriate place to this default registrations
         //-------Editors registry preparation
         /*EditorsRegistry editorsRegistry = EditorsRegistry.getInstance();
-        editorsRegistry.setDefaultEditor(VoidEditor.class);
-        // editorsRegistry.setNextArrayEditor(NextArrayDSLBeanEditor.class);
-        editorsRegistry.registerEditor(String.class, StringEditor.class);
-        editorsRegistry.registerEditor(int.class, IntEditor.class);
-        editorsRegistry.registerEditor(double.class, DoubleEditor.class);
-        editorsRegistry.registerEditor(Boolean.class, BooleanEditor.class);
-        editorsRegistry.registerEditor(Count.class, EnumEditor.class);     */
+  editorsRegistry.setDefaultEditor(VoidEditor.class);
+  // editorsRegistry.setNextArrayEditor(NextArrayDSLBeanEditor.class);
+  editorsRegistry.registerEditor(String.class, StringEditor.class);
+  editorsRegistry.registerEditor(int.class, IntEditor.class);
+  editorsRegistry.registerEditor(double.class, DoubleEditor.class);
+  editorsRegistry.registerEditor(Boolean.class, BooleanEditor.class);
+  editorsRegistry.registerEditor(Count.class, EnumEditor.class);     */
 
 
         //-------Nodes registry preparation
@@ -63,7 +66,7 @@ public class TestEditorCombStudent {
         final StructuredEditorModel model = createModel(st);
 
 //        f.add(new JScrollPane(new JTextArea("asdf")));
-        final StructuredEditor structuredEditor = new StructuredEditor(model,true);
+        final StructuredEditor structuredEditor = new StructuredEditor(model, true);
         JPanel ansPanel = new JPanel();
         //ansPanel.setLayout(new GridLayout(3,1));
         ansPanel.add(new JLabel("Ответ:"));
@@ -73,34 +76,37 @@ public class TestEditorCombStudent {
         JScrollPane structuredEditorScrPane = new JScrollPane(structuredEditor);
         f.add(structuredEditorScrPane, BorderLayout.CENTER);
         f.add(ansPanel, BorderLayout.EAST);
-
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        MenuBar menuBar = new MenuBar();
+        if (f instanceof JFrame) {
+            ((JFrame) f).setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            ((JFrame) f).setLocationRelativeTo(null);
+            ((JFrame) f).setMenuBar(menuBar);
+        }
         f.setSize(640, 480);
         //structuredEditorScrPane.setSize(320,480);
-        f.setLocationRelativeTo(null);
 
-        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry,"comb",null,ans);
-        MenuBar menuBar = new MenuBar();
-        f.setMenuBar(menuBar);
+        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "comb", null, ans);
+
+
         Menu file = new Menu("Задача");
         MenuItem item1, item2, item3, item4, item5;
 
         item2 = new MenuItem("Открыть . . .");
 
-        if (structuredEditor.isView()){
+        if (structuredEditor.isView()) {
             file.add(item2);
-            file.add(new MenuItem("-"));
+            file.addSeparator();
             file.add(item4 = new MenuItem("Проверить . . ."));
-            file.add(new MenuItem("-"));
+            file.addSeparator();
             item4.addActionListener(handler);
-        } else{
+        } else {
             file.add(item1 = new MenuItem("Создать"));
             file.add(item2);
             file.add(item3 = new MenuItem("Сохранить . . ."));
             item1.addActionListener(handler);
             item3.addActionListener(handler);
         }
-        file.add(new MenuItem("-"));
+        file.addSeparator();
         file.add(item5 = new MenuItem("Выход"));
         menuBar.add(file);
         Menu edit = new Menu("Редактирование");
@@ -121,7 +127,7 @@ public class TestEditorCombStudent {
         //ToolBar
         JToolBar toolBar = new JToolBar();
         addButtonToToolBar(toolBar, "menu-open.png", "Открыть . . .", true, handler);
-        if (structuredEditor.isView()){
+        if (structuredEditor.isView()) {
             addButtonToToolBar(toolBar, "verify.png", "Проверить . . .", true, handler);
         } else {
             addButtonToToolBar(toolBar, "save.png", "Сохранить . . .", true, handler);
@@ -129,39 +135,39 @@ public class TestEditorCombStudent {
         final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
         final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
         /* //XMLViewer
-        XMLViewer xmlV = new XMLViewer("f:\\dsl\\IDEA_DSL\\ru\\ipo\\structurededitor\\xmlViewer\\emptytask.xml");
-        f.add(new JScrollPane(xmlV));*/
+       XMLViewer xmlV = new XMLViewer("f:\\dsl\\IDEA_DSL\\ru\\ipo\\structurededitor\\xmlViewer\\emptytask.xml");
+       f.add(new JScrollPane(xmlV));*/
         //TestEditorGeom.createBars(f,structuredEditor, nodesRegistry);
         /*
-        // Menu
-        MenuBar menuBar = new MenuBar();
-        f.setMenuBar(menuBar);
-        Menu file = new Menu("Файл");
-        MenuItem item1, item2, item3, item4, item5;
-        file.add(item1 = new MenuItem("Создать"));
-        file.add(item2 = new MenuItem("Открыть . . ."));
-        file.add(item3 = new MenuItem("Сохранить . . ."));
-        file.add(item4 = new MenuItem("-"));
-        file.add(item5 = new MenuItem("Выход"));
-        menuBar.add(file);
-        Menu edit = new Menu("Редактирование");
-        final MenuItem undoItem, redoItem;
-        edit.add(undoItem = new MenuItem("Отменить"));
-        edit.add(redoItem = new MenuItem("Повторить"));
-        undoItem.setEnabled(false);
-        redoItem.setEnabled(false);
-        menuBar.add(edit);
-        Menu help = new Menu("Помощь");
-        menuBar.add(help);
-        //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
-        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry,"comb",null,ans);
-        item1.addActionListener(handler);
-        item2.addActionListener(handler);
-        item3.addActionListener(handler);
-        item4.addActionListener(handler);
-        item5.addActionListener(handler);
-        undoItem.addActionListener(handler);
-        redoItem.addActionListener(handler);  */
+      // Menu
+      MenuBar menuBar = new MenuBar();
+      f.setMenuBar(menuBar);
+      Menu file = new Menu("Файл");
+      MenuItem item1, item2, item3, item4, item5;
+      file.add(item1 = new MenuItem("Создать"));
+      file.add(item2 = new MenuItem("Открыть . . ."));
+      file.add(item3 = new MenuItem("Сохранить . . ."));
+      file.add(item4 = new MenuItem("-"));
+      file.add(item5 = new MenuItem("Выход"));
+      menuBar.add(file);
+      Menu edit = new Menu("Редактирование");
+      final MenuItem undoItem, redoItem;
+      edit.add(undoItem = new MenuItem("Отменить"));
+      edit.add(redoItem = new MenuItem("Повторить"));
+      undoItem.setEnabled(false);
+      redoItem.setEnabled(false);
+      menuBar.add(edit);
+      Menu help = new Menu("Помощь");
+      menuBar.add(help);
+      //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
+      MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry,"comb",null,ans);
+      item1.addActionListener(handler);
+      item2.addActionListener(handler);
+      item3.addActionListener(handler);
+      item4.addActionListener(handler);
+      item5.addActionListener(handler);
+      undoItem.addActionListener(handler);
+      redoItem.addActionListener(handler);  */
 
 
         //Status Bar
@@ -198,6 +204,14 @@ public class TestEditorCombStudent {
                 }
             }
         });
+    }
+
+    public TestEditorCombStudent() {
+        StructuredEditor.initializeStructuredEditorUI();
+
+        makeContainer(new JFrame("Модуль учителя"));
+
+        //f.setLayout(new GridLayout(2,1));
         //model.setModificationHistory(modificationHistory);
 
 

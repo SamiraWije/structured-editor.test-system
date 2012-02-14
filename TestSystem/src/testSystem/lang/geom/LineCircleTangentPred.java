@@ -8,7 +8,7 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Date: 17.03.11
  * Time: 15:12
  */
-@DSLBeanParams(shortcut = "/ кас ∘", description = "Прямая касается окружности")
+@DSLBeanParams(shortcut = "/ кас ∘", description = "Линия касается окружности")
 public class LineCircleTangentPred extends GeoSegLineGeoCircleBinPred {
     public LineCircleTangentPred() {
         op = "касается";

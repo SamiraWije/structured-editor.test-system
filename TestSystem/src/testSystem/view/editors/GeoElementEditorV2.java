@@ -8,6 +8,8 @@ import ru.ipo.structurededitor.model.EditorSettings;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.editors.FieldEditor;
 import ru.ipo.structurededitor.view.elements.TextElement;
+import ru.ipo.structurededitor.view.events.CaretEvent;
+import ru.ipo.structurededitor.view.events.CaretListener;
 import ru.ipo.structurededitor.view.events.GeoSelectionChangedEvent;
 import ru.ipo.structurededitor.view.events.GeoSelectionChangedListener;
 
@@ -38,8 +40,14 @@ public class GeoElementEditorV2 extends FieldEditor {
         };
 
         //add listener for geogebra selection changed
-        Application app = (Application) getModel().getApp();
+        final Application app = (Application) getModel().getApp();
         if (app != null) {
+             model.addCaretListener(new CaretListener() {
+            @Override
+            public void showCaret(CaretEvent e) {
+               app.setMoveMode();
+            }
+        });
             app.getEuclidianView().getEuclidianController().addGeoSelectionChangedListener(new GeoSelectionChangedListener() {
                 public void geoSelectionChanged(GeoSelectionChangedEvent e) {
                     GeoElement elem = (GeoElement) e.getSelectedGeo();

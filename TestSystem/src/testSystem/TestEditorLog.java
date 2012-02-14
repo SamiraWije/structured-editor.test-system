@@ -30,7 +30,10 @@ import java.awt.event.ActionListener;
  * Time: 17:05:46
  */
 public class TestEditorLog {
-
+    public static void main(String[] args) {
+        StructuredEditor.initializeStructuredEditorUI();
+        new TestEditorLog();
+    }
     /*static {
         UIManager.installLookAndFeel("UI for structured editor", ComponentUI.class.getName());
     }*/

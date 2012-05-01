@@ -38,6 +38,11 @@ public class NodesRegistry {
      */
     private HashMap<Class<?>, Node> propTypeToNode = new HashMap<Class<?>, Node>();
 
+     /**
+     * Соответствие типов свойств и свойств этих типов
+     */
+    private HashMap<Class<?>, String> propTypeToProp = new HashMap<Class<?>, String>();
+
     public Node getDefaultNode() {
         return defaultNode.cloneNode(true);
     }
@@ -68,6 +73,10 @@ public class NodesRegistry {
 
     public void registerNode(Class<?> cls, Node node) {
         propTypeToNode.put(cls, node);
+    }
+
+    public void registerProp(Class<?> cls, String propertyName) {
+        propTypeToProp.put(cls, propertyName);
     }
 
     private String getKey(Class<?> beanClass, String propertyName) {
@@ -102,6 +111,20 @@ public class NodesRegistry {
             return defaultNode;
         } catch (Exception e) {
             throw new Error("Failed to return node: ", e);
+        }
+    }
+
+    /**
+     * Получение имени свойства для типа поля DSLBean
+     *
+     * @param beanClass    класс бина
+     * @return имя свойства для типа свойства
+     */
+    public String getPropertyName(Class<?> beanClass) {
+        try {
+           return propTypeToProp.get(beanClass);
+        } catch (Exception e) {
+            throw new Error("Failed to return property name: ", e);
         }
     }
 

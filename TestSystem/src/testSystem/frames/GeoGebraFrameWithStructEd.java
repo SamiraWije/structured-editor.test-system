@@ -71,7 +71,8 @@ public class GeoGebraFrameWithStructEd extends GeoGebraFrame {
 
         // init GUI
         System.out.println("init GUI");
-        app.setShowMenuBar(false);
+        //app.setShowMenuBar(false);
+        //app.setShowMenuBar(true);
         wnd.setApplication(app);
 
         NodesRegistry nodesRegistry = TestEditorGeom.nodesRegistryPrep();

@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 
@@ -35,12 +36,14 @@ import java.lang.reflect.Method;
 
 public class StructureSerializer {
     private String fileName;
+    private String subSystem;
     private Document document;
     private NodesRegistry nodesRegistry;
 
-    public StructureSerializer(String fileName, NodesRegistry nodesRegistry) {
+    public StructureSerializer(String fileName, NodesRegistry nodesRegistry, String subSystem) {
         this.nodesRegistry = nodesRegistry;
         this.fileName = fileName;
+        this.subSystem = subSystem;
     }
 
 
@@ -130,16 +133,16 @@ public class StructureSerializer {
                                 node.setAttribute(newNode.getNodeName(), (String) val);
                                 break;
                             case Node.ELEMENT_NODE:
-                                if (newNode.getNodeName().equals("verifier")) {
+                                if (subSystem.equals("comb") && newNode.getNodeName().equals("verifier")) {
                                     Element tmpNode = node;
                                     node = document.createElement("mathDescription");
                                     tmpNode.appendChild(node);
                                 }
                                 Element node1 = (Element) node.getParentNode();
-                                if (newNode.getNodeName().equals("description") && (node1 != null)) {
+                                if (subSystem.equals("comb") && newNode.getNodeName().equals("description") && (node1 != null)) {
                                     node = node1;
                                 }
-                                if (newNode.getNodeName().equals("set") && bean instanceof Statement) {
+                                if (subSystem.equals("comb") && newNode.getNodeName().equals("set") && bean instanceof Statement) {
                                     Element tmpNode = node;
                                     node = document.createElement("sourceSet");
                                     tmpNode.appendChild(node);
@@ -153,7 +156,7 @@ public class StructureSerializer {
                                         newNode.appendChild(cdata);
                                     } else if (val.getClass().isArray()) {
                                         node.appendChild(newNode);
-                                        node1 = (Element) node;
+                                        node1 = node;
                                         node = (Element) newNode;
                                         for (int i = 0; i < Array.getLength(val); i++) {
                                             Object item = Array.get(val, i);
@@ -205,9 +208,14 @@ public class StructureSerializer {
                                 Text txt = document.createTextNode(String.valueOf(val));
                                 node.appendChild(txt);
                             } else if (val.getClass().isArray()) {
-                                if (newNode.getNodeName().equals("predicate")) {
+                                if (subSystem.equals("geom") && newNode.getNodeName().equals("predicate")) {
                                     Element tmpNode = node;
                                     node = document.createElement("predicates");
+                                    tmpNode.appendChild(node);
+                                } else
+                                if (subSystem.equals("DSP")) {
+                                    Element tmpNode = node;
+                                    node = document.createElement("tools");
                                     tmpNode.appendChild(node);
                                 }
                                 for (int i = 0; i < Array.getLength(val); i++) {
@@ -226,8 +234,20 @@ public class StructureSerializer {
                                             if (newNode.getNodeName().equals("set") && bean instanceof Statement && node1 != null) {
                                                 node = node1;
                                             }
-                                        } else
-                                            node.appendChild(newNode);
+                                        } else {
+                                            String propName = nodesRegistry.getPropertyName(item.getClass());
+                                            if (propName != null) {
+                                                Object val1 = getValue(item, propName);
+                                                newNode = nodesRegistry.getNode(val1.getClass());
+                                                newNode = document.adoptNode(newNode);
+                                                if (!newNode.isEqualNode(nodesRegistry.getDefaultNode())) {
+                                                    node.appendChild(makeElement((Element) newNode, val1));
+                                                } else
+                                                    node.appendChild(newNode);
+                                            } else
+                                                node.appendChild(newNode);
+                                        }
+
                                     } else {
                                         newNode = nodesRegistry.getEmptyNode();
                                         newNode = document.adoptNode(newNode);
@@ -235,7 +255,9 @@ public class StructureSerializer {
                                     }
                                 }
                                 Element node1 = (Element) node.getParentNode();
-                                if (newNode.getNodeName().equals("predicate") && node1 != null) {
+                                if ((subSystem.equals("comb") && newNode.getNodeName().equals("predicate")
+                                     || subSystem.equals("DSP"))
+                                     && node1 != null) {
                                     node = node1;
                                 }
 

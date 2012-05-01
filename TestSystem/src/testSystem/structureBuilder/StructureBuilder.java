@@ -11,6 +11,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.view.editors.settings.StringSettings;
+import testSystem.lang.DSP.*;
 import testSystem.lang.comb.*;
 import testSystem.lang.logic.*;
 import testSystem.lang.geom.*;
@@ -63,6 +64,8 @@ public class StructureBuilder {
                 rootBean = new GeoStatement();
             } else if (subSystem.equals("log")) {
                 rootBean = new LogicStatement();
+            } else if (subSystem.equals("DSP")) {
+                rootBean = new DSPStatement();
             } else
                 rootBean = new Statement();
 
@@ -571,6 +574,89 @@ public class StructureBuilder {
                         }
                         if (processChildren)
                             processChildNodes(currentNode.getChildNodes(), newBean, true);
+                    } else
+                        processChildNodes(currentNode.getChildNodes(), bean, true);
+                }else if (subSystem.equals("DSP")) {
+                    if (nodeName.equals("empty")) {
+
+                            int index = Array.getLength(arr);
+                            arr = resizeArray(arr, index + 1);
+
+                    } else if (nodeName.equals("task")) {
+                        setValue(bean, "title", (Element) currentNode, "title", "");
+                        processChildNodes(currentNode.getChildNodes(), bean, true);
+                    } else if (nodeName.equals("description")) {
+                        setValue(bean, "statement", (Element) currentNode, "", "text");
+                    } else if (nodeName.equals("verifier")) {
+                        setValue(bean, "verifier", (Element) currentNode, "", "text");
+                    } else if (nodeName.equals("cate")) {
+                        String predName = currentNode.getAttributes().getNamedItem("name").getNodeValue();
+                        if (predName.equals("Parall")) {
+                            newBean = new ParallPred();
+                        } else if (predName.equals("Perpend")) {
+                            newBean = new PerpendPred();
+                        } else if (predName.equals("LaysOn")) {
+                            newBean = new LaysOnPred();
+                        } else if (predName.equals("LaysOnSegment")) {
+                            newBean = new LaysOnSegmentPred();
+                        } else if (predName.equals("LaysOnCircle")) {
+                            newBean = new LaysOnCirclePred();
+                        } else if (predName.equals("Midpoint")) {
+                            newBean = new MidpointPred();
+                        }else if (predName.equals("SegEqual")) {
+                            newBean = new SegEqualPred();
+                        }else if (predName.equals("AngleEqual")) {
+                            newBean = new AngleEqualPred();
+                        } else if (predName.equals("CircleTangent")) {
+                            newBean = new CircleTangentPred();
+                        } else if (predName.equals("LineCircleTangent")) {
+                            newBean = new LineCircleTangentPred();
+                        } else if (predName.equals("SegmentValue")) {
+                            newBean = new SegmentValuePred();
+                            setValue(newBean, "value", (Element) currentNode, "value", "double");
+                        } else if (predName.equals("AngleValue")) {
+                            newBean = new AngleValuePred();
+                            setValue(newBean, "value", (Element) currentNode, "value", "double");
+                        }
+                        else
+                            newBean = null;
+                        int index = Array.getLength(arr);
+                        arr = resizeArray(arr, index + 1);
+                        Array.set(arr, index, newBean);
+                        if (newBean instanceof BinPred) {
+                            processChildren = false;
+                            processBinaryChildren(currentNode.getChildNodes(), newBean);
+                        }
+                        if (processChildren)
+                            processChildNodes(currentNode.getChildNodes(), newBean, true);
+                    } else if (nodeName.equals("tools")) {
+                        setChildNodesToArray(bean, "tools", currentNode.getChildNodes());
+                    } else if (nodeName.equals("tool")) {
+                        String toolType = currentNode.getAttributes().getNamedItem("type").getNodeValue();
+                        String value = currentNode.getAttributes().getNamedItem("name").getNodeValue();
+                        Enum tool=null;
+                        AbstractTool aTool=null;
+                        if (toolType.equals("Block")) {
+                            tool = Enum.valueOf(Block.class, value);
+                            aTool = new BlockTool();
+                            ((BlockTool)aTool).setTool((Block)tool);
+                        } else if (toolType.equals("Blockset")) {
+                            tool = Enum.valueOf(Blockset.class, value);
+                            aTool = new BlocksetTool();
+                            ((BlocksetTool)aTool).setTool((Blockset)tool);
+                        } if (toolType.equals("Func")) {
+                            tool = Enum.valueOf(Funct.class, value);
+                            aTool = new FunctTool();
+                            ((FunctTool)aTool).setTool((Funct)tool);
+                        } if (toolType.equals("Toolbox")) {
+                            tool = Enum.valueOf(Toolbox.class, value);
+                            aTool = new ToolboxTool();
+                            ((ToolboxTool)aTool).setTool((Toolbox)tool);
+                        }
+
+                        int index = Array.getLength(arr);
+                        arr = resizeArray(arr, index + 1);
+                        Array.set(arr, index, aTool);
                     } else
                         processChildNodes(currentNode.getChildNodes(), bean, true);
                 }

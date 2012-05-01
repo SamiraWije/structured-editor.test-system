@@ -6,6 +6,7 @@ import geogebra.main.Application;
 import ru.ipo.structurededitor.StructuredEditor;
 import ru.ipo.structurededitor.controller.ModificationHistory;
 import ru.ipo.structurededitor.model.DSLBean;
+import testSystem.lang.DSP.DSPStatement;
 import testSystem.lang.comb.Statement;
 import testSystem.lang.logic.LogicStatement;
 import testSystem.structureBuilder.StructureBuilder;
@@ -17,12 +18,15 @@ import ru.ipo.structurededitor.view.StructuredEditorModel;
 
 import javax.swing.*;
 import javax.swing.text.StyledDocument;
+import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 
 /**
@@ -128,17 +132,20 @@ public class MyMenuHandler implements ActionListener, ItemListener {
     private void save(String fn) {
         if (!fn.endsWith(".xml"))
             fn = fn + ".xml";
-        System.out.println("You've saved the file: " + fn);
+        System.out.println("You begin to save the file: " + fn);
 
-        StructureSerializer structureSerializer = new StructureSerializer(fn, nodesRegistry);
+        StructureSerializer structureSerializer = new StructureSerializer(fn, nodesRegistry,subSystem);
 
         structureSerializer.saveStructure(structuredEditor.getModel().getObject());
         File file = new File(fn.substring(0, fn.lastIndexOf('.')) + ".ggb");
         Application app = (Application) structuredEditor.getApp();
         if (app != null) {
+            System.out.println("You begin to save the GGB part");
             boolean success = ((Application) structuredEditor.getApp()).saveGeoGebraFile(file);
-            if (success)
+            if (success){
+                System.out.println("You've saved the file: " + fn);
                 ((Application) structuredEditor.getApp()).setCurrentFile(file);
+            }
         }
         filename = fn;
     }
@@ -218,6 +225,9 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             } else if (subSystem.equals("comb")) {
                 bean = new Statement();
                 refreshEditor(bean, structuredEditor.getModel().getModificationHistory());
+            } else if (subSystem.equals("DSP")) {
+                bean = new DSPStatement();
+                refreshEditor(bean, structuredEditor.getModel().getModificationHistory());
             }
 
         } else if (arg.equals("Открыть . . .")) {
@@ -262,11 +272,23 @@ public class MyMenuHandler implements ActionListener, ItemListener {
         } else if (arg.equals("Проверить . . .")) {
             TaskVerifier verifier = new TaskVerifier(structuredEditor.getModel().getObject(), subSystem,
                     (Application) structuredEditor.getApp(), ans, combAns == null ? null : combAns.getText());
-            String mes;
-            if (verifier.verify())
+            String mes,AnsScore;
+            if (verifier.verify()){
                 mes = "Ответ правильный!";
-            else
+                AnsScore="1";
+            }
+            else {
                 mes = "Ответ неправильный!";
+                AnsScore="0";
+            }
+            if (f instanceof Applet){
+                 try {
+                    ((Applet) f).getAppletContext().showDocument(
+                          new URL("javascript:setDataValue(\"cmi.score.scaled\","+AnsScore+"); commitData()"));
+                     } catch(MalformedURLException me){
+                          System.out.println("Bad JavaScript!");
+                     }
+            }
             JOptionPane.showMessageDialog(null, mes, "Проверка", JOptionPane.PLAIN_MESSAGE);
         } else if (arg.equals("Помощь")) {
             String mes = "Система контроля знаний";

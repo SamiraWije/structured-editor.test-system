@@ -2,10 +2,12 @@ package testSystem;
 
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.inputbar.AlgebraInput;
+import geogebra.gui.layout.DockSplitPane;
 import geogebra.main.Application;
 import ru.ipo.structurededitor.StructuredEditor;
 import ru.ipo.structurededitor.controller.ModificationHistory;
 import ru.ipo.structurededitor.model.DSLBean;
+import testSystem.lang.DSP.DSPAnswer;
 import testSystem.lang.DSP.DSPStatement;
 import testSystem.lang.comb.Statement;
 import testSystem.lang.logic.LogicStatement;
@@ -93,15 +95,18 @@ public class MyMenuHandler implements ActionListener, ItemListener {
         //structuredEditor.getModel().setFocusedElement(null); //commented out by iposov
         structuredEditor.setModel(model);
         structuredEditor.getUI().redrawEditor();
-        if ((subSystem.equals("geom") || subSystem.equals("log")) && styledDocument != null) {
+        if ((subSystem.equals("geom") || subSystem.equals("log") || subSystem.equals("DSP")) && styledDocument != null) {
             String title = "";
             String text = "";
             if (subSystem.equals("geom")) {
                 title = ((GeoStatement) model.getObject()).getTitle();
                 text = ((GeoStatement) model.getObject()).getStatement();
-            } else {
+            } else if (subSystem.equals("log")) {
                 title = ((LogicStatement) model.getObject()).getTitle();
                 text = ((LogicStatement) model.getObject()).getStatement();
+            } else if (subSystem.equals("DSP")) {
+                title = ((DSPStatement) model.getObject()).getTitle();
+                text = ((DSPStatement) model.getObject()).getStatement();
             }
             try {
                 //((GeoStatement)model.getObject()).getTitle()
@@ -134,15 +139,15 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             fn = fn + ".xml";
         System.out.println("You begin to save the file: " + fn);
 
-        StructureSerializer structureSerializer = new StructureSerializer(fn, nodesRegistry,subSystem);
+        StructureSerializer structureSerializer = new StructureSerializer(fn, nodesRegistry, subSystem);
 
         structureSerializer.saveStructure(structuredEditor.getModel().getObject());
         File file = new File(fn.substring(0, fn.lastIndexOf('.')) + ".ggb");
         Application app = (Application) structuredEditor.getApp();
-        if (app != null) {
+        if (subSystem.equals("geom") && app != null) {
             System.out.println("You begin to save the GGB part");
             boolean success = ((Application) structuredEditor.getApp()).saveGeoGebraFile(file);
-            if (success){
+            if (success) {
                 System.out.println("You've saved the file: " + fn);
                 ((Application) structuredEditor.getApp()).setCurrentFile(file);
             }
@@ -156,7 +161,7 @@ public class MyMenuHandler implements ActionListener, ItemListener {
 //                openDir=fn.substring(0, fn.lastIndexOf('\\'));
         openDir = file.getParent(); //changed by iposov 04-08-2011
         Application app = (Application) structuredEditor.getApp();
-        if (app != null) {
+        if (subSystem.equals("geom") && app != null) {
             app.getGuiManager().loadFile(file, false);
 
             // if (((Application)structuredEditor.getApp()).getGuiManager().getAlgebraView().isVisible())
@@ -167,19 +172,21 @@ public class MyMenuHandler implements ActionListener, ItemListener {
         DSLBean bean = structureBuilder.getStructure();
         refreshEditor(bean, structuredEditor.getModel().getModificationHistory());
         structuredEditor.getModel().getModificationHistory().clearVector();
-        if (subSystem.equals("log") && answerEditor != null) {
+        if (answerEditor != null) {
+            if (subSystem.equals("log")) {
 
-            TaskVerifier verifier = new TaskVerifier(structuredEditor.getModel().getObject(), subSystem,
-                    (Application) structuredEditor.getApp(), ans, "");
-            //combAns.getText()
-            verifier.makeLogAnswer();
+                TaskVerifier verifier = new TaskVerifier(structuredEditor.getModel().getObject(), subSystem,
+                        (Application) structuredEditor.getApp(), ans, "");
+                //combAns.getText()
+                verifier.makeLogAnswer();
+            } else if (subSystem.equals("DSP")) {
+                ans = new DSPAnswer();
+            }
             StructuredEditorModel model = new StructuredEditorModel(ans);
-//                    answerEditor.getModel().setFocusedElement(null);  //commented out by iposov
             answerEditor.setModel(model);
             answerEditor.getUI().redrawEditor();
         }
-
-        if (app != null) {
+        if (subSystem.equals("geom") && app != null) {
             if (structuredEditor.isView()) {
                 Instrum instrums[] = ((GeoStatement) bean).getInstrums();
                 if (instrums != null && instrums.length != 0) {
@@ -272,22 +279,21 @@ public class MyMenuHandler implements ActionListener, ItemListener {
         } else if (arg.equals("Проверить . . .")) {
             TaskVerifier verifier = new TaskVerifier(structuredEditor.getModel().getObject(), subSystem,
                     (Application) structuredEditor.getApp(), ans, combAns == null ? null : combAns.getText());
-            String mes,AnsScore;
-            if (verifier.verify()){
+            String mes, AnsScore;
+            if (verifier.verify()) {
                 mes = "Ответ правильный!";
-                AnsScore="1";
-            }
-            else {
+                AnsScore = "1";
+            } else {
                 mes = "Ответ неправильный!";
-                AnsScore="0";
+                AnsScore = "0";
             }
-            if (f instanceof Applet){
-                 try {
+            if (f instanceof Applet) {
+                try {
                     ((Applet) f).getAppletContext().showDocument(
-                          new URL("javascript:setDataValue(\"cmi.score.scaled\","+AnsScore+"); commitData()"));
-                     } catch(MalformedURLException me){
-                          System.out.println("Bad JavaScript!");
-                     }
+                            new URL("javascript:setDataValue(\"cmi.score.scaled\"," + AnsScore + "); commitData()"));
+                } catch (MalformedURLException me) {
+                    System.out.println("Bad JavaScript!");
+                }
             }
             JOptionPane.showMessageDialog(null, mes, "Проверка", JOptionPane.PLAIN_MESSAGE);
         } else if (arg.equals("Помощь")) {

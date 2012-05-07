@@ -4,25 +4,19 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import ru.ipo.structurededitor.StructuredEditor;
-import ru.ipo.structurededitor.StructuredEditorWithActions;
-import ru.ipo.structurededitor.controller.ModificationHistory;
-import ru.ipo.structurededitor.controller.ModificationListener;
 import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.model.DSLBeansRegistry;
 import ru.ipo.structurededitor.view.StatusBar;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.images.ImageGetter;
 import testSystem.lang.DSP.*;
-import testSystem.lang.comb.Expr;
-import testSystem.lang.comb.LogAndExpr;
-import testSystem.lang.comb.LogNotExpr;
-import testSystem.lang.comb.LogOrExpr;
-import testSystem.lang.logic.*;
+
 import testSystem.structureBuilder.MyErrorHandler;
 import testSystem.structureSerializer.NodesRegistry;
 
 import javax.swing.*;
-import javax.tools.Tool;
+import javax.swing.border.Border;
+import javax.swing.text.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.*;
@@ -34,20 +28,22 @@ import java.awt.event.ActionListener;
  * Date: 02.01.2010
  * Time: 17:05:46
  */
-public class TestEditorDSP {
+public class TestEditorDSPStudent {
     public static void main(String[] args) {
         StructuredEditor.initializeStructuredEditorUI();
-        new TestEditorDSP();
+        new TestEditorDSPStudent();
     }
     /*static {
         UIManager.installLookAndFeel("UI for structured editor", ComponentUI.class.getName());
     }*/
 
     //private StructuredEditorModel model;
+    public TestEditorDSPStudent(JApplet f, String filename) {
+        StructuredEditor.initializeStructuredEditorUI();
+        makeContainer(f, filename);
+    }
 
-    public TestEditorDSP() {
-        JFrame f = new JFrame("Модуль учителя");
-        //f.setLayout(new GridLayout(2,1));
+    public void makeContainer(Container f, String filename) {
         BorderLayout br = new BorderLayout();
         f.setLayout(br);
         //TODO think of the appropriate place to this default registrations
@@ -72,16 +68,68 @@ public class TestEditorDSP {
         final StructuredEditorModel model = createModel(st);
 
 //        f.add(new JScrollPane(new JTextArea("asdf")));
-        final StructuredEditor structuredEditor = new StructuredEditor(model,false);
+        final StructuredEditor structuredEditor = new StructuredEditor(model, true);
         JScrollPane structuredEditorScrPane = new JScrollPane(structuredEditor);
+        DSPAnswer ans = new DSPAnswer();
+        final StructuredEditor answerEditor = new StructuredEditor(new StructuredEditorModel(ans), false);
+        JScrollPane answerEditorScrPane = new JScrollPane(answerEditor);
 
-        f.add(new StructuredEditorWithActions(structuredEditor), BorderLayout.CENTER);
+        JPanel taskPanel = new JPanel(new BorderLayout());
 
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        StyleContext sc = new StyleContext();
+        final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
+
+
+        JTextPane textPane = new JTextPane(doc);
+        taskPanel.add(textPane, BorderLayout.CENTER);
+
+        textPane.setEditable(false);
+        final Style heading2Style = sc.addStyle("Heading2", null);
+        //heading2Style.addAttribute(StyleConstants.Foreground, Color.red);
+        heading2Style.addAttribute(StyleConstants.FontSize, 16);
+        heading2Style.addAttribute(StyleConstants.FontFamily, "serif");
+        heading2Style.addAttribute(StyleConstants.Bold, true);
+        heading2Style.addAttribute(StyleConstants.ALIGN_CENTER, true);
+
+        final Style defaultStyle = sc.addStyle("Default", null);
+
+        StyledDocument styledDocument = textPane.getStyledDocument();
+
+        try {
+            //((GeoStatement)model.getObject()).getTitle()
+
+            styledDocument.remove(0, styledDocument.getLength());
+            styledDocument.insertString(0, "Откройте задачу\n Здесь будет условие\n", null);
+            //doc.setParagraphAttributes(0, 1, heading2Style, false);
+
+        } catch (Exception e) {
+            throw new Error("Text HTML error" + e);
+        }
+        Border border = BorderFactory.createLineBorder(Color.GRAY);
+        textPane.setBorder(border);
+
+        JPanel mainPane= new JPanel(new GridLayout(2,1));
+        mainPane.add(taskPanel);
+        mainPane.add(answerEditorScrPane);
+
+        //f.add(taskPanel, BorderLayout.CENTER);
+
+        f.add(mainPane, BorderLayout.CENTER);
+        //f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(640, 480);
         //structuredEditorScrPane.setSize(320,480);
-        f.setLocationRelativeTo(null);
-
+        //f.setLocationRelativeTo(null);
+        JMenuBar menuBar = new JMenuBar();
+        if (f instanceof JFrame) {
+            ((JFrame) f).setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            ((JFrame) f).setLocationRelativeTo(null);
+            ((JFrame) f).setJMenuBar(menuBar);
+        } else if (f instanceof JApplet) {
+            //((JApplet) f).setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            //((JApplet) f).setLocationRelativeTo(null);
+            ((JApplet) f).setJMenuBar(menuBar);
+        }
 
         /* //XMLViewer
         XMLViewer xmlV = new XMLViewer("f:\\dsl\\IDEA_DSL\\ru\\ipo\\structurededitor\\xmlViewer\\emptytask.xml");
@@ -89,102 +137,70 @@ public class TestEditorDSP {
 
 
         // Menu
-        MenuBar menuBar = new MenuBar();
-        f.setMenuBar(menuBar);
-        Menu file = new Menu("Файл");
-        MenuItem item1, item2, item3, item4, item5,helpItem;
-        file.add(item1 = new MenuItem("Создать"));
-        file.add(item2 = new MenuItem("Открыть . . ."));
-        file.add(item3 = new MenuItem("Сохранить"));
-        file.add(item4 = new MenuItem("-"));
-        file.add(item5 = new MenuItem("Выход"));
-        menuBar.add(file);
-        Menu edit = new Menu("Редактирование");
-        final MenuItem undoItem, redoItem;
-        edit.add(undoItem = new MenuItem("Отменить"));
-        edit.add(redoItem = new MenuItem("Повторить"));
-        undoItem.setEnabled(false);
-        redoItem.setEnabled(false);
-        menuBar.add(edit);
-        Menu help = new Menu("Помощь");
-        help.add(helpItem = new MenuItem("Работа"));
 
-        //MyJMenuHandler handler = new MyJMenuHandler(f,xmlV,structuredEditor);
-        helpItem.setActionCommand("Помощь");
+        //f.setMenuBar(menuBar);
+        JMenu file = new JMenu("Файл");
+        JMenuItem item1, item2, item3, item4, item5;
+        //file.add(item1 = new MenuItem("Создать"));
+        file.add(item2 = new JMenuItem("Открыть . . ."));
+        //file.add(item3 = new MenuItem("Сохранить . . ."));
+        file.addSeparator();
+        file.add(item4 = new JMenuItem("Проверить . . ."));
+        file.addSeparator();
+        file.add(item5 = new JMenuItem("Выход"));
+        menuBar.add(file);
+        //Menu edit = new Menu("Редактирование");
+        final JMenuItem undoItem, redoItem, helpItem;
+        //edit.add(undoItem = new MenuItem("Отменить"));
+        //edit.add(redoItem = new MenuItem("Повторить"));
+        //undoItem.setEnabled(false);
+        //redoItem.setEnabled(false);
+        //menuBar.add(edit);
+        JMenu help = new JMenu("Помощь");
         menuBar.add(help);
+        help.add(helpItem = new JMenuItem("Работа"));
+        helpItem.setActionCommand("Помощь");
         //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
-        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "DSP",null,null);
+        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "DSP", answerEditor, null,
+                styledDocument);
+        //item1.addActionListener(handler);
         helpItem.addActionListener(handler);
-        item1.addActionListener(handler);
         item2.addActionListener(handler);
-        item3.addActionListener(handler);
+        //item3.addActionListener(handler);
         item4.addActionListener(handler);
         item5.addActionListener(handler);
-        undoItem.addActionListener(handler);
-        redoItem.addActionListener(handler);
+        //undoItem.addActionListener(handler);
+        //redoItem.addActionListener(handler);
 
         //Status Bar
-        StatusBar statusBar = new StatusBar("Нажмите Ctrl+Пробел для выбора вариантов ввода");
+        StatusBar statusBar = new StatusBar("Для инвертирования значения логической переменной перейдите на него и нажмите Пробел");
         f.add(statusBar, BorderLayout.SOUTH);
 
         //ToolBar
         JToolBar toolBar = new JToolBar();
         addButtonToToolBar(toolBar, "menu-open.png", "Открыть . . .", true, handler);
-        addButtonToToolBar(toolBar, "save.png", "Сохранить", true, handler);
-        final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
-        final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
-        addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);
+        //addButtonToToolBar(toolBar, "save.png", "Сохранить . . .", true, handler);
+        addButtonToToolBar(toolBar, "verify.png", "Проверить . . .", true, handler);
+        //final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
+        //final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
+        //addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);
         addButtonToToolBar(toolBar, "help.png", "Помощь", true, handler);
 
-        undoButton.setEnabled(false);
-        redoButton.setEnabled(false);
+        //undoButton.setEnabled(false);
+        //redoButton.setEnabled(false);
 
         f.add(toolBar, BorderLayout.NORTH);
 
         structuredEditorScrPane.requestFocusInWindow();
         f.setVisible(true);
-        final ModificationHistory modificationHistory = model.getModificationHistory();
-        modificationHistory.addModificationListener(new ModificationListener() {
-            public void modificationPerformed() {
-                if (modificationHistory.canRedo()) {
-                    redoButton.setEnabled(true);
-                    redoItem.setEnabled(true);
-                } else {
-                    redoButton.setEnabled(false);
-                    redoItem.setEnabled(false);
-                }
-                if (modificationHistory.canUndo()) {
-                    undoButton.setEnabled(true);
-                    undoItem.setEnabled(true);
-                } else {
-                    undoButton.setEnabled(false);
-                    undoItem.setEnabled(false);
-                }
-            }
-        });
-        //model.setModificationHistory(modificationHistory);
+        if (filename != null && !filename.equals("")) {
+            handler.openTask(filename);
+        }
+    }
 
+    public TestEditorDSPStudent() {
+        makeContainer(new JFrame("Модуль ученика"), "");
 
-        /*f.addKeyListener(new KeyListener() {
-            public void keyTyped(KeyEvent e) {
-            }
-
-            public void keyPressed(KeyEvent e) {
-                ((CompositeElement)model.getRootElement()).add(new TextElement(TestEditor.this.model, "!!!"),0);
-
-                System.out.println("e.getKeyCode() = " + e.getKeyCode());
-                System.out.println("e.getKeyChar() = '" + e.getKeyChar() + "' (" + (int)e.getKeyChar() + ")");
-                System.out.println("e.getModifiers() = " + e.getModifiers());
-                System.out.println("e.getModifiersEx() = " + e.getModifiersEx());
-
-                System.out.println();
-            }
-
-            public void keyReleased(KeyEvent e) {
-            }
-        });*/
-
-        //model.getRootElement().gainFocus(new TextPosition(0,0), false, false);
     }
 
     private NodesRegistry nodesRegistryPrep() {
@@ -238,10 +254,11 @@ public class TestEditorDSP {
             nodesRegistry.registerProp(ToolboxTool.class, "tool");
 
             /*Element tools = document.createElement("tools");
-            nodesRegistry.registerNode(DSPStatement.class, "tools", tools);*/
+          nodesRegistry.registerNode(DSPStatement.class, "tools", tools);*/
 
             Element verifier = document.createElement("verifier");
             nodesRegistry.registerNode(DSPStatement.class, "verifier", verifier);
+
 
             return nodesRegistry;
 
@@ -293,12 +310,14 @@ public class TestEditorDSP {
         //Bean1 bean1 = new Bean1();
         DSLBeansRegistry reg = new DSLBeansRegistry();
         reg.clearRegistry();
+
         reg.registerBean(DSPStatement.class);
         reg.registerBean(AbstractTool.class);
         reg.registerBean(BlockTool.class);
         reg.registerBean(BlocksetTool.class);
         reg.registerBean(FunctTool.class);
         reg.registerBean(ToolboxTool.class);
+
         StructuredEditorModel model = new StructuredEditorModel(st);
         model.setBeansRegistry(reg);
         return model;

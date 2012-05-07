@@ -2,12 +2,18 @@ package testSystem;
 
 import geogebra.kernel.*;
 import geogebra.main.Application;
+import matlabcontrol.*;
 import ru.ipo.structurededitor.model.DSLBean;
+import testSystem.lang.DSP.DSPAnswer;
+import testSystem.lang.DSP.DSPStatement;
 import testSystem.lang.comb.*;
 import testSystem.lang.logic.*;
 import testSystem.lang.geom.*;
 import testSystem.structureBuilder.StructureBuilder;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 
 
@@ -19,12 +25,14 @@ import java.util.HashMap;
  */
 public class TaskVerifier {
     private DSLBean bean, ans;
+    private String dspSolution;
     private String subSystem;
     private Application app;
     private HashMap<String, Boolean> varValues;
     private boolean formAnswer = false;
     private Examiner ver;
     private int count;
+    public final String SOLUTION_MACROS="Решение;";
 
     public TaskVerifier(DSLBean bean, String subSystem, Application app, DSLBean ans, String combAns) {
         this.subSystem = subSystem;
@@ -36,6 +44,8 @@ public class TaskVerifier {
             prepareVarValues((LogicAnswer) ans);
         } else if (subSystem.equals("comb")) {
             this.combAns = combAns;
+        } else if (subSystem.equals("DSP")) {
+            this.dspSolution=((DSPAnswer)ans).getAnswer();
         }
     }
 
@@ -327,6 +337,49 @@ public class TaskVerifier {
         return processKit(kit);
     }
 
+    private boolean dspVerify(){
+       String verFunc = ((DSPStatement)bean).getVerifier();
+       String funcName= verFunc.substring(verFunc.indexOf('=')+1,verFunc.indexOf('('));
+       funcName=funcName.trim();
+       String funcFileName = funcName+".m";
+       verFunc = verFunc.replaceAll(SOLUTION_MACROS,dspSolution);
+       System.out.println(verFunc);
+       File funcFile=null;
+        try {
+            String tmpDir = System.getenv("TEMP");
+            String functFullFileName=tmpDir+"\\"+funcFileName;
+            funcFile=new File(functFullFileName);
+            System.out.println("Temporary m-file name: "+functFullFileName);
+            FileOutputStream fOut = new FileOutputStream(funcFile);
+            fOut.write(verFunc.getBytes());
+            fOut.close();
+            MatlabProxyFactoryOptions options = new MatlabProxyFactoryOptions.Builder()
+                .setUsePreviouslyControlledSession(true).build();
+
+            //Create a proxy, which we will use to control MATLAB
+            MatlabProxyFactory factory = new MatlabProxyFactory(options);
+            MatlabProxy proxy = factory.getProxy();
+            proxy.eval("cd "+tmpDir);
+            Object[] res = proxy.returningFeval(funcName,1);
+            proxy.disconnect();
+            funcFile.delete();
+            boolean bVal=((boolean [])(res[0]))[0];
+            System.out.print("Verifier has returned: "+Boolean.toString(bVal));
+            return bVal;
+        } catch (IOException e) {
+            System.out.println("Functional m-file writing error! "+e);
+        } catch (MatlabConnectionException e){
+            System.out.println("Matlab connection error: "+e);
+        } catch (MatlabInvocationException e){
+            System.out.println("Matlab invocation error: "+e);
+        } catch (ClassCastException e){
+            System.out.println("Verifier function must return 0 or 1! "+e);
+        }
+
+
+       return false;
+    }
+
     public boolean verify() {
         if (subSystem.equals("geom"))
             return geomVerify();
@@ -334,6 +387,8 @@ public class TaskVerifier {
             return logVerify();
         else if (subSystem.equals("comb"))
             return combVerify();
+        else if (subSystem.equals("DSP"))
+            return dspVerify();
         return false;
     }
 

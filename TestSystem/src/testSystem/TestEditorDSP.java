@@ -243,6 +243,9 @@ public class TestEditorDSP {
             Element verifier = document.createElement("verifier");
             nodesRegistry.registerNode(DSPStatement.class, "verifier", verifier);
 
+            Element picture = document.createElement("picture");
+            nodesRegistry.registerNode(DSPStatement.class, "picture", picture);
+
             return nodesRegistry;
 
         } catch (Exception e) {

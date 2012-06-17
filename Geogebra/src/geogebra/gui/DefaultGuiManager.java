@@ -1223,11 +1223,14 @@ public class DefaultGuiManager implements GuiManager {
     // Michael Borcherds 2008-05-04
     Object[] options = {geogebra.Menu.Save, geogebra.Menu.DontSave,
         geogebra.Menu.Cancel};
-    int returnVal = JOptionPane.showOptionDialog(comp,
+    int returnVal = 1;
+
+    //Commented out by Oleg Perchenok 2012-06-17
+    /*JOptionPane.showOptionDialog(comp,
         Menu.DoYouWantToSaveYourChanges, geogebra.Menu.CloseFile,
         JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
 
-        null, options, options[0]);
+        null, options, options[0]);*/
 
     /*
      * int returnVal = JOptionPane.showConfirmDialog( comp,

@@ -589,6 +589,8 @@ public class StructureBuilder {
                         setValue(bean, "statement", (Element) currentNode, "", "text");
                     } else if (nodeName.equals("verifier")) {
                         setValue(bean, "verifier", (Element) currentNode, "", "text");
+                    } else if (nodeName.equals("picture")) {
+                        setValue(bean, "picture", (Element) currentNode, "", "text");
                     } else if (nodeName.equals("tools")) {
                         setChildNodesToArray(bean, "tools", currentNode.getChildNodes());
                     } else if (nodeName.equals("tool")) {

@@ -3,7 +3,10 @@ package testSystem.lang.DSP;
 import ru.ipo.structurededitor.model.*;
 import ru.ipo.structurededitor.view.editors.settings.ArraySettings;
 import ru.ipo.structurededitor.view.editors.settings.EnumSettings;
+import ru.ipo.structurededitor.view.editors.settings.PictureSettings;
 import ru.ipo.structurededitor.view.editors.settings.StringSettings;
+
+import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,8 +18,17 @@ public class DSPStatement implements DSLBean, DSLBeanView {
 
     private String title;
     private String statement;
+    private String picture;
     private AbstractTool[] tools;
     private String verifier;
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 
     public AbstractTool[] getTools() {
         return tools;
@@ -55,6 +67,8 @@ public class DSPStatement implements DSLBean, DSLBeanView {
                 new Horiz(new ConstantCell("Заголовок:"), new FieldCell("title")),
                 new Horiz(new ConstantCell("Условие:"), new FieldCell("statement",
                                  new StringSettings().withSingleLine(false))),
+                new Horiz(new ConstantCell("Изображение к условию:"),new PictureCell("picture",
+                        new PictureSettings().withDimension(new Dimension(25,5)))),
                 new Horiz(new ConstantCell("Инструменты:"), createInstrumentsArrayFieldCell()),
                 new Horiz(new ConstantCell("Верификатор:"), new FieldCell("verifier",
                                  new StringSettings().withSingleLine(false)))

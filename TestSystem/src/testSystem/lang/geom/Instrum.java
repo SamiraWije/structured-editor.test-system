@@ -27,6 +27,10 @@ public enum Instrum {
     ANGLE_FIXED,
     @EnumFieldParams(displayText = "Окружность по центру и точке")
     CIRCLE_CENTER_POINT,
+    @EnumFieldParams(displayText = "Отрезок заданной длины")
+    SEGMENT_FIXED,
+    @EnumFieldParams(displayText = "Луч по двум точкам")
+    RAY_TWO_POINTS,
     @EnumFieldParams(displayText = "Угол по трем точкам")
     ANGLE_THREE_POINTS
 }

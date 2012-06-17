@@ -139,7 +139,10 @@ public class TestEditorLogStudent {
         JMenu file = new JMenu("Файл");
         JMenuItem item1, item2, item3, item4, item5;
         //file.add(item1 = new MenuItem("Создать"));
-        file.add(item2 = new JMenuItem("Открыть . . ."));
+        item2 = new JMenuItem("Open");
+        item2.setName("Открыть . . .");
+        item2.setActionCommand("Open");
+        file.add(item2);
         //file.add(item3 = new MenuItem("Сохранить . . ."));
         file.addSeparator();
         file.add(item4 = new JMenuItem("Проверить . . ."));
@@ -175,7 +178,7 @@ public class TestEditorLogStudent {
 
         //ToolBar
         JToolBar toolBar = new JToolBar();
-        addButtonToToolBar(toolBar, "menu-open.png", "Открыть . . .", true, handler);
+        addButtonToToolBar(toolBar, "menu-open.png", "Open", true, handler);
         //addButtonToToolBar(toolBar, "save.png", "Сохранить . . .", true, handler);
         addButtonToToolBar(toolBar, "verify.png", "Проверить . . .", true, handler);
         //final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);

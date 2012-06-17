@@ -91,8 +91,11 @@ public class TestEditorCombStudent {
         Menu file = new Menu("Задача");
         MenuItem item1, item2, item3, item4, item5;
 
-        item2 = new MenuItem("Открыть . . .");
-
+        //item2 = new MenuItem("Открыть . . .");
+        item2 = new MenuItem("Open");
+        item2.setName("Открыть . . .");
+        item2.setActionCommand("Open");
+        //file.add(item2);
         if (structuredEditor.isView()) {
             file.add(item2);
             file.addSeparator();
@@ -126,7 +129,7 @@ public class TestEditorCombStudent {
         redoItem.addActionListener(handler);
         //ToolBar
         JToolBar toolBar = new JToolBar();
-        addButtonToToolBar(toolBar, "menu-open.png", "Открыть . . .", true, handler);
+        addButtonToToolBar(toolBar, "menu-open.png", "Open", true, handler);
         if (structuredEditor.isView()) {
             addButtonToToolBar(toolBar, "verify.png", "Проверить . . .", true, handler);
         } else {

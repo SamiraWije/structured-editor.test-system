@@ -13,6 +13,7 @@ import testSystem.lang.DSP.*;
 
 import testSystem.structureBuilder.MyErrorHandler;
 import testSystem.structureSerializer.NodesRegistry;
+import testSystem.view.PicturePanel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -74,15 +75,17 @@ public class TestEditorDSPStudent {
         final StructuredEditor answerEditor = new StructuredEditor(new StructuredEditorModel(ans), false);
         JScrollPane answerEditorScrPane = new JScrollPane(answerEditor);
 
-        JPanel taskPanel = new JPanel(new BorderLayout());
+        JPanel taskPanel = new JPanel(new GridLayout(1,2));
 
 
         StyleContext sc = new StyleContext();
         final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
 
+        PicturePanel picturePanel = new PicturePanel();
 
         JTextPane textPane = new JTextPane(doc);
-        taskPanel.add(textPane, BorderLayout.CENTER);
+        taskPanel.add(textPane);
+        taskPanel.add(picturePanel);
 
         textPane.setEditable(false);
         final Style heading2Style = sc.addStyle("Heading2", null);
@@ -162,7 +165,7 @@ public class TestEditorDSPStudent {
         helpItem.setActionCommand("Помощь");
         //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
         MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "DSP", answerEditor, null,
-                styledDocument);
+                styledDocument,picturePanel);
         //item1.addActionListener(handler);
         helpItem.addActionListener(handler);
         item2.addActionListener(handler);
@@ -258,6 +261,9 @@ public class TestEditorDSPStudent {
 
             Element verifier = document.createElement("verifier");
             nodesRegistry.registerNode(DSPStatement.class, "verifier", verifier);
+
+            Element picture = document.createElement("picture");
+            nodesRegistry.registerNode(DSPStatement.class, "picture", picture);
 
 
             return nodesRegistry;

@@ -4,9 +4,12 @@ import geogebra.euclidian.EuclidianView;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.layout.DockSplitPane;
 import geogebra.main.Application;
+import org.mathpiper.builtin.functions.core.FileSize;
 import ru.ipo.structurededitor.StructuredEditor;
 import ru.ipo.structurededitor.controller.ModificationHistory;
 import ru.ipo.structurededitor.model.DSLBean;
+import ru.ipo.structurededitor.view.events.ImageLoadEvent;
+import ru.ipo.structurededitor.view.events.ImageLoadListener;
 import testSystem.lang.DSP.DSPAnswer;
 import testSystem.lang.DSP.DSPStatement;
 import testSystem.lang.comb.Statement;
@@ -17,7 +20,11 @@ import testSystem.structureSerializer.StructureSerializer;
 import testSystem.lang.geom.GeoStatement;
 import testSystem.lang.geom.Instrum;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
+import testSystem.view.PicturePanel;
 
+import java.awt.image.BufferedImage;
+import java.io.*;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.StyledDocument;
 import java.applet.Applet;
@@ -38,7 +45,7 @@ import java.util.HashMap;
  * Time: 16:15:33
  */
 public class MyMenuHandler implements ActionListener, ItemListener {
-    Container f;
+    final Container f;
     //XMLViewer xmlV;
     StructuredEditor structuredEditor, answerEditor;
     NodesRegistry nodesRegistry;
@@ -50,16 +57,112 @@ public class MyMenuHandler implements ActionListener, ItemListener {
     String openDir = "";
     boolean algView = false;
     String filename = "";
+    private PicturePanel picturePanel;
     //public MyMenuHandler(JFrame f, XMLViewer xmlV, StructuredEditor structuredEditor){
 
-    public MyMenuHandler(Container f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry, String subSystem,
+    public MyMenuHandler(final Container f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry,
+                         String subSystem, StructuredEditor answerEditor, JTextField combAns,
+                         StyledDocument styledDocument, PicturePanel picturePanel) {
+        this(f, structuredEditor, nodesRegistry, subSystem, answerEditor, combAns, styledDocument);
+        this.picturePanel = picturePanel;
+    }
+
+    public MyMenuHandler(final Container f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry, String subSystem,
                          StructuredEditor answerEditor, JTextField combAns, StyledDocument styledDocument) {
         this(f, structuredEditor, nodesRegistry, subSystem, answerEditor, combAns);
         this.styledDocument = styledDocument;
     }
 
+    private boolean fileCopy(String srFile, String dtFile) {
+        try {
+            File f1 = new File(srFile);
+            File f2 = new File(dtFile);
+            InputStream in = new FileInputStream(f1);
 
-    public MyMenuHandler(Container f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry, String subSystem,
+            //For Append the file.
+//  OutputStream out = new FileOutputStream(f2,true);
+
+            //For Overwrite the file.
+            OutputStream out = new FileOutputStream(f2);
+
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            in.close();
+            out.close();
+            System.out.println("File copied.");
+            return true;
+        } catch (FileNotFoundException ex) {
+            System.out.println(ex.getMessage() + " in the specified directory.");
+            System.exit(0);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
+    private void installImageListeners(StructuredEditorModel model) {
+        model.addImageLoadListener(new ImageLoadListener() {
+            @Override
+            public Image loadImage(ImageLoadEvent e) {
+                String fullName = openDir;
+                if (openDir.endsWith("\\")) {
+                    fullName += e.getFileName();
+                } else {
+                    fullName += "\\" + e.getFileName();
+                }
+                System.out.println("Getting image: " + fullName);
+                try {
+                    return ImageIO.read(new File(fullName));
+                } catch (IOException e1) {
+                    System.out.println("Error in creating of image " + fullName);
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                return null;
+                //return new BufferedImage(100,100,BufferedImage.TYPE_INT_RGB);
+                //return structuredEditor.getToolkit().getImage(fullName);
+            }
+
+            @Override
+            public String selectImage() {
+                JFileChooser fc = new JFileChooser();
+                fc.setDialogTitle("Загрузка изображения");
+                ImgFilter filter = new ImgFilter();
+                fc.setFileFilter(filter);
+                if (!openDir.equals(""))
+                    fc.setCurrentDirectory(new File(openDir));
+                else {
+                    saveAs();
+                    if (!openDir.equals("")) {
+                        fc.setCurrentDirectory(new File(openDir));
+                    } else {
+                        return null;
+                    }
+                }
+
+                int returnVal = fc.showOpenDialog(f);
+                if (returnVal == JFileChooser.APPROVE_OPTION /*&& dir != null && fl != null*/) {
+                    File picFile = fc.getSelectedFile();
+                    String ffn = picFile.getAbsolutePath();
+                    String fn = picFile.getName();
+                    if (!picFile.getParent().equals(openDir)) {
+                        if (!fileCopy(ffn, openDir + "\\" + fn))
+                            return null;
+                    }
+                    return fn;
+                    //xmlV.setFileName(fn);
+
+
+                    //EmptyFieldsRegistry.getInstance().clear();
+                }
+                return null;
+            }
+        });
+    }
+
+    public MyMenuHandler(final Container f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry, String subSystem,
                          StructuredEditor answerEditor, JTextField combAns) {
         this.f = f;
         //this.xmlV=xmlV;
@@ -80,14 +183,20 @@ public class MyMenuHandler implements ActionListener, ItemListener {
         instrumsModes.put(Instrum.CIRCLE_CENTER_POINT, EuclidianView.MODE_CIRCLE_TWO_POINTS);
         instrumsModes.put(Instrum.MIDPOINT, EuclidianView.MODE_MIDPOINT);
         instrumsModes.put(Instrum.SEGMENT_TWO_POINTS, EuclidianView.MODE_SEGMENT);
+        instrumsModes.put(Instrum.SEGMENT_FIXED, EuclidianView.MODE_SEGMENT_FIXED);
         instrumsModes.put(Instrum.ANGLE_THREE_POINTS, EuclidianView.MODE_ANGLE);
         instrumsModes.put(Instrum.ANGLE_FIXED, EuclidianView.MODE_ANGLE_FIXED);
+        instrumsModes.put(Instrum.RAY_TWO_POINTS, EuclidianView.MODE_RAY);
 
+
+        //Image Load Listener for PictureTextElement
+        installImageListeners(structuredEditor.getModel());
     }
 
     private void refreshEditor(DSLBean st, ModificationHistory modificationHistory) {
 
         StructuredEditorModel model = new StructuredEditorModel(st, modificationHistory);
+        installImageListeners(model);
         model.setBeansRegistry(structuredEditor.getModel().getBeansRegistry());
         model.setEditorsRegistry(structuredEditor.getModel().getEditorsRegistry());
         model.setView(structuredEditor.getModel().isView());
@@ -98,6 +207,7 @@ public class MyMenuHandler implements ActionListener, ItemListener {
         if ((subSystem.equals("geom") || subSystem.equals("log") || subSystem.equals("DSP")) && styledDocument != null) {
             String title = "";
             String text = "";
+            String imageFile = "";
             if (subSystem.equals("geom")) {
                 title = ((GeoStatement) model.getObject()).getTitle();
                 text = ((GeoStatement) model.getObject()).getStatement();
@@ -107,6 +217,7 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             } else if (subSystem.equals("DSP")) {
                 title = ((DSPStatement) model.getObject()).getTitle();
                 text = ((DSPStatement) model.getObject()).getStatement();
+                imageFile = ((DSPStatement) model.getObject()).getPicture();
             }
             try {
                 //((GeoStatement)model.getObject()).getTitle()
@@ -116,6 +227,15 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 //styledDocument.setParagraphAttributes(1, 1, styledDocument.getStyle("Default"), false);
             } catch (Exception e) {
                 throw new Error("Text HTML error" + e);
+            }
+            if (subSystem.equals("DSP")) {
+                String fullImageFile = openDir;
+                if (openDir.endsWith("\\")) {
+                    fullImageFile += imageFile;
+                } else {
+                    fullImageFile += "\\" + imageFile;
+                }
+                picturePanel.loadImage(fullImageFile);
             }
         }
     }
@@ -130,6 +250,7 @@ public class MyMenuHandler implements ActionListener, ItemListener {
         int returnVal = fc.showSaveDialog(f);
         if (returnVal == JFileChooser.APPROVE_OPTION /*&& dir != null && fl != null*/) {
             save(fc.getSelectedFile().getAbsolutePath());
+            openDir = fc.getSelectedFile().getParent();
         }
 
     }
@@ -159,10 +280,16 @@ public class MyMenuHandler implements ActionListener, ItemListener {
         filename = fn;
         File file = new File(fn.substring(0, fn.lastIndexOf('.')) + ".ggb");
 //                openDir=fn.substring(0, fn.lastIndexOf('\\'));
-        openDir = file.getParent(); //changed by iposov 04-08-2011
+        openDir = (new File(fn)).getParent(); //changed by iposov 04-08-2011
         Application app = (Application) structuredEditor.getApp();
         if (subSystem.equals("geom") && app != null) {
-            app.getGuiManager().loadFile(file, false);
+            if (file.exists()){
+                app.getGuiManager().loadFile(file, false);
+            }
+            else {
+
+                app.clearConstruction();
+            }
 
             // if (((Application)structuredEditor.getApp()).getGuiManager().getAlgebraView().isVisible())
             //     ((Application)structuredEditor.getApp()).getGuiManager().setShowAlgebraView(algView);
@@ -237,7 +364,7 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 refreshEditor(bean, structuredEditor.getModel().getModificationHistory());
             }
 
-        } else if (arg.equals("Открыть . . .")) {
+        } else if (arg.equals("Open")) {
             JFileChooser fc = new JFileChooser();
             fc.setDialogTitle("Загрузка задачи");
             XMLFilter filter = new XMLFilter();

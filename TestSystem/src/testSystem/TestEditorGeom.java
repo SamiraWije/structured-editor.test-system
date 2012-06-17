@@ -130,7 +130,9 @@ public class TestEditorGeom {
         JMenu file = new JMenu("Задача");
         JMenuItem item1, item2, item3, item4, item5, helpItem, item6;
 
-        item2 = new JMenuItem("Открыть . . .");
+        item2 = new JMenuItem("Open");
+        item2.setText("Открыть . . .");
+        item2.setActionCommand("Open");
 
         if (structuredEditor.isView()){
             file.add(item2);
@@ -173,12 +175,12 @@ public class TestEditorGeom {
         redoItem.addActionListener(handler);
         //ToolBar
         JToolBar toolBar = new JToolBar();
-        addButtonToToolBar(toolBar, "menu-open.png", "Открыть . . .", true, handler);
         if (structuredEditor.isView()){
             addButtonToToolBar(toolBar, "Проверить ответ!", "Проверить . . .", false, handler);
         } else {
             addButtonToToolBar(toolBar, "save.png", "Сохранить", true, handler);
         }
+        addButtonToToolBar(toolBar, "menu-open.png", "Open", true, handler);
         final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
         final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
         if (structuredEditor.isView()){

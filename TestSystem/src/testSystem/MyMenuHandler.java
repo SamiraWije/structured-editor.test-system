@@ -6,12 +6,13 @@ import geogebra.gui.layout.DockSplitPane;
 import geogebra.main.Application;
 import org.mathpiper.builtin.functions.core.FileSize;
 import ru.ipo.structurededitor.StructuredEditor;
+import ru.ipo.structurededitor.controller.EditorsRegistry;
 import ru.ipo.structurededitor.controller.ModificationHistory;
 import ru.ipo.structurededitor.model.DSLBean;
+import ru.ipo.structurededitor.model.EnumFieldParams;
 import ru.ipo.structurededitor.view.events.ImageLoadEvent;
 import ru.ipo.structurededitor.view.events.ImageLoadListener;
-import testSystem.lang.DSP.DSPAnswer;
-import testSystem.lang.DSP.DSPStatement;
+import testSystem.lang.DSP.*;
 import testSystem.lang.comb.Statement;
 import testSystem.lang.logic.LogicStatement;
 import testSystem.structureBuilder.StructureBuilder;
@@ -34,6 +35,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -57,14 +59,17 @@ public class MyMenuHandler implements ActionListener, ItemListener {
     String openDir = "";
     boolean algView = false;
     String filename = "";
-    private PicturePanel picturePanel;
+    private JPanel taskPanel;
+    private PicturePanel picturePanel=null;
+    private StructuredEditor panelEditor;
     //public MyMenuHandler(JFrame f, XMLViewer xmlV, StructuredEditor structuredEditor){
 
     public MyMenuHandler(final Container f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry,
                          String subSystem, StructuredEditor answerEditor, JTextField combAns,
-                         StyledDocument styledDocument, PicturePanel picturePanel) {
+                         StyledDocument styledDocument, JPanel taskPanel, StructuredEditor panelEditor) {
         this(f, structuredEditor, nodesRegistry, subSystem, answerEditor, combAns, styledDocument);
-        this.picturePanel = picturePanel;
+        this.taskPanel = taskPanel;
+        this.panelEditor = panelEditor;
     }
 
     public MyMenuHandler(final Container f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry, String subSystem,
@@ -229,13 +234,65 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 throw new Error("Text HTML error" + e);
             }
             if (subSystem.equals("DSP")) {
-                String fullImageFile = openDir;
-                if (openDir.endsWith("\\")) {
-                    fullImageFile += imageFile;
-                } else {
-                    fullImageFile += "\\" + imageFile;
+                //Picture - attachment to the problem text
+                if (imageFile !=null && !imageFile.equals("")){
+                    String fullImageFile = openDir;
+                    if (openDir.endsWith("\\")) {
+                        fullImageFile += imageFile;
+                    } else {
+                        fullImageFile += "\\" + imageFile;
+                    }
+                    picturePanel = new PicturePanel(fullImageFile);
+                    taskPanel.add(picturePanel);
+                    //picturePanel.loadImage(fullImageFile);
+                } else if (picturePanel!=null){
+                    taskPanel.remove(picturePanel);
+                    picturePanel=null;
                 }
-                picturePanel.loadImage(fullImageFile);
+                //Tool panel
+                DSPPanel panel = (DSPPanel)(panelEditor.getModel().getObject());
+                AbstractTool[] tools = ((DSPStatement) structuredEditor.getModel().getObject()).getTools();
+                PanelTool[] panelTools = new PanelTool[tools.length];
+                int i=0;
+                for (AbstractTool tool : tools){
+                   if (tool instanceof FunctTool){
+                      panelTools[i] = new FunctionPanelTool();
+
+                try {
+                    String displayText;
+                    Funct value = ((FunctTool) tool).getTool();
+                    Field field = Funct.class.getField(value.name());
+                    EnumFieldParams fieldParams = field.getAnnotation(EnumFieldParams.class);
+                    displayText = fieldParams == null ? value.name() : fieldParams.displayText();
+                    ((FunctionPanelTool) panelTools[i]).setFunName(displayText);
+                }  catch (NoSuchFieldException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    ((FunctionPanelTool) panelTools[i]).setFunName("bad_function");
+                }
+
+                   } else if (tool instanceof ToolboxTool){
+                        switch (((ToolboxTool) tool).getTool()){
+                            case CS_TOOLBOX: panelTools[i] = new CSToolboxPanelTool();
+                                             break;
+                            case DSP_TOOLBOX: panelTools[i] = new DSPToolboxPanelTool();
+                        }
+                   } else if (tool instanceof BlockTool){
+
+                   } else if (tool instanceof BlocksetTool){
+
+                   }
+                   i++;
+                }
+                panel.setTools(panelTools);
+                StructuredEditorModel model1 = new StructuredEditorModel(panel);
+                installImageListeners(model1);
+                model1.setBeansRegistry(panelEditor.getModel().getBeansRegistry());
+                model1.setEditorsRegistry(panelEditor.getModel().getEditorsRegistry());
+                model1.setView(panelEditor.getModel().isView());
+                //model.setApp(panelEditor.getModel().getApp());
+                //structuredEditor.getModel().setFocusedElement(null); //commented out by iposov
+                panelEditor.setModel(model1);
+                panelEditor.getUI().redrawEditor();                        
             }
         }
     }
@@ -264,13 +321,16 @@ public class MyMenuHandler implements ActionListener, ItemListener {
 
         structureSerializer.saveStructure(structuredEditor.getModel().getObject());
         File file = new File(fn.substring(0, fn.lastIndexOf('.')) + ".ggb");
-        Application app = (Application) structuredEditor.getApp();
-        if (subSystem.equals("geom") && app != null) {
+
+        if (subSystem.equals("geom")) {
+            Application app = (Application) structuredEditor.getApp();
             System.out.println("You begin to save the GGB part");
             boolean success = ((Application) structuredEditor.getApp()).saveGeoGebraFile(file);
             if (success) {
                 System.out.println("You've saved the file: " + fn);
                 ((Application) structuredEditor.getApp()).setCurrentFile(file);
+            } else {
+               System.out.println("Error in saving of the file: " + fn);
             }
         }
         filename = fn;
@@ -281,8 +341,9 @@ public class MyMenuHandler implements ActionListener, ItemListener {
         File file = new File(fn.substring(0, fn.lastIndexOf('.')) + ".ggb");
 //                openDir=fn.substring(0, fn.lastIndexOf('\\'));
         openDir = (new File(fn)).getParent(); //changed by iposov 04-08-2011
-        Application app = (Application) structuredEditor.getApp();
-        if (subSystem.equals("geom") && app != null) {
+
+        if (subSystem.equals("geom")) {
+            Application app = (Application) structuredEditor.getApp();
             if (file.exists()){
                 app.getGuiManager().loadFile(file, false);
             }
@@ -294,8 +355,13 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             // if (((Application)structuredEditor.getApp()).getGuiManager().getAlgebraView().isVisible())
             //     ((Application)structuredEditor.getApp()).getGuiManager().setShowAlgebraView(algView);
         }
-        StructureBuilder structureBuilder = new StructureBuilder(fn, subSystem, (Application) structuredEditor.getApp());
 
+        StructureBuilder structureBuilder;
+        if (subSystem.equals("geom")){
+            structureBuilder = new StructureBuilder(fn, subSystem, (Application) structuredEditor.getApp());
+        } else {
+            structureBuilder = new StructureBuilder(fn, subSystem, null);
+        }
         DSLBean bean = structureBuilder.getStructure();
         refreshEditor(bean, structuredEditor.getModel().getModificationHistory());
         structuredEditor.getModel().getModificationHistory().clearVector();
@@ -303,17 +369,25 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             if (subSystem.equals("log")) {
 
                 TaskVerifier verifier = new TaskVerifier(structuredEditor.getModel().getObject(), subSystem,
-                        (Application) structuredEditor.getApp(), ans, "");
+                        null, ans, "");
                 //combAns.getText()
                 verifier.makeLogAnswer();
             } else if (subSystem.equals("DSP")) {
                 ans = new DSPAnswer();
             }
+            EditorsRegistry editorsRegistry = answerEditor.getModel().getEditorsRegistry();
+
             StructuredEditorModel model = new StructuredEditorModel(ans);
+
             answerEditor.setModel(model);
+            model.setEditorsRegistry(editorsRegistry);
+            if (subSystem.equals("DSP")) {
+                 answerEditor.setApp(panelEditor);
+            }
             answerEditor.getUI().redrawEditor();
         }
-        if (subSystem.equals("geom") && app != null) {
+        if (subSystem.equals("geom")) {
+            Application app = (Application) structuredEditor.getApp();
             if (structuredEditor.isView()) {
                 Instrum instrums[] = ((GeoStatement) bean).getInstrums();
                 if (instrums != null && instrums.length != 0) {
@@ -404,8 +478,17 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             refreshEditor(structuredEditor.getModel().getObject(),
                     structuredEditor.getModel().getModificationHistory());
         } else if (arg.equals("Проверить . . .")) {
-            TaskVerifier verifier = new TaskVerifier(structuredEditor.getModel().getObject(), subSystem,
+            TaskVerifier verifier;
+            if (subSystem.equals("geom")){
+                verifier = new TaskVerifier(structuredEditor.getModel().getObject(), subSystem,
                     (Application) structuredEditor.getApp(), ans, combAns == null ? null : combAns.getText());
+            }
+            else {
+                verifier = new TaskVerifier(structuredEditor.getModel().getObject(), subSystem,
+                                    null, ans, combAns == null ? null : combAns.getText());
+
+            }
+
             String mes, AnsScore;
             if (verifier.verify()) {
                 mes = "Ответ правильный!";
@@ -441,7 +524,8 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                 }
             }
             JOptionPane.showMessageDialog(null, mes, "Помощь", JOptionPane.PLAIN_MESSAGE);
-        } else if (arg.equals("Панель объектов")) {
+        } else if (arg.equals("Панель объектов") && subSystem.equals("geom")) {
+
             algView = !algView;
             ((Application) structuredEditor.getApp()).getGuiManager().setShowAlgebraView(algView);
         }

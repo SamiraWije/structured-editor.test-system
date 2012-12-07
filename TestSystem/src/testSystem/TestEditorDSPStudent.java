@@ -4,16 +4,22 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import ru.ipo.structurededitor.StructuredEditor;
+import ru.ipo.structurededitor.controller.EditorsRegistry;
+import ru.ipo.structurededitor.controller.EditorsRegistryHook;
+import ru.ipo.structurededitor.controller.FieldMask;
 import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.model.DSLBeansRegistry;
 import ru.ipo.structurededitor.view.StatusBar;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
+import ru.ipo.structurededitor.view.editors.EnumEditor;
+import ru.ipo.structurededitor.view.editors.FieldEditor;
 import ru.ipo.structurededitor.view.images.ImageGetter;
 import testSystem.lang.DSP.*;
 
 import testSystem.structureBuilder.MyErrorHandler;
 import testSystem.structureSerializer.NodesRegistry;
 import testSystem.view.PicturePanel;
+import testSystem.view.editors.MATLABEditor;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -71,9 +77,18 @@ public class TestEditorDSPStudent {
 //        f.add(new JScrollPane(new JTextArea("asdf")));
         final StructuredEditor structuredEditor = new StructuredEditor(model, true);
         JScrollPane structuredEditorScrPane = new JScrollPane(structuredEditor);
+
+
+        DSPPanel toolPanel = new DSPPanel();
+        final StructuredEditor panelEditor = new StructuredEditor(createPanelModel(toolPanel), false);
+        JScrollPane panelEditorScrPane = new JScrollPane(panelEditor);
+
         DSPAnswer ans = new DSPAnswer();
-        final StructuredEditor answerEditor = new StructuredEditor(new StructuredEditorModel(ans), false);
+
+        final StructuredEditor answerEditor = new StructuredEditor(createAnswerModel(ans), false);
+        answerEditor.setApp(panelEditor);
         JScrollPane answerEditorScrPane = new JScrollPane(answerEditor);
+
 
         JPanel taskPanel = new JPanel(new GridLayout(1,2));
 
@@ -81,11 +96,11 @@ public class TestEditorDSPStudent {
         StyleContext sc = new StyleContext();
         final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
 
-        PicturePanel picturePanel = new PicturePanel();
+        //PicturePanel picturePanel = new PicturePanel();
 
         JTextPane textPane = new JTextPane(doc);
         taskPanel.add(textPane);
-        taskPanel.add(picturePanel);
+        //taskPanel.add(picturePanel);
 
         textPane.setEditable(false);
         final Style heading2Style = sc.addStyle("Heading2", null);
@@ -112,8 +127,9 @@ public class TestEditorDSPStudent {
         Border border = BorderFactory.createLineBorder(Color.GRAY);
         textPane.setBorder(border);
 
-        JPanel mainPane= new JPanel(new GridLayout(2,1));
+        JPanel mainPane= new JPanel(new GridLayout(3,1));
         mainPane.add(taskPanel);
+        mainPane.add(panelEditorScrPane);
         mainPane.add(answerEditorScrPane);
 
         //f.add(taskPanel, BorderLayout.CENTER);
@@ -145,7 +161,7 @@ public class TestEditorDSPStudent {
         JMenu file = new JMenu("Файл");
         JMenuItem item1, item2, item3, item4, item5;
         //file.add(item1 = new MenuItem("Создать"));
-        file.add(item2 = new JMenuItem("Открыть . . ."));
+        file.add(item2 = new JMenuItem("Open"));
         //file.add(item3 = new MenuItem("Сохранить . . ."));
         file.addSeparator();
         file.add(item4 = new JMenuItem("Проверить . . ."));
@@ -165,7 +181,7 @@ public class TestEditorDSPStudent {
         helpItem.setActionCommand("Помощь");
         //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
         MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "DSP", answerEditor, null,
-                styledDocument,picturePanel);
+                styledDocument,taskPanel, panelEditor);
         //item1.addActionListener(handler);
         helpItem.addActionListener(handler);
         item2.addActionListener(handler);
@@ -176,12 +192,12 @@ public class TestEditorDSPStudent {
         //redoItem.addActionListener(handler);
 
         //Status Bar
-        StatusBar statusBar = new StatusBar("Для инвертирования значения логической переменной перейдите на него и нажмите Пробел");
+        StatusBar statusBar = new StatusBar("Для выбора новой функции из набора перейдите на поле имени и нажмите Ctrl+Пробел");
         f.add(statusBar, BorderLayout.SOUTH);
 
         //ToolBar
         JToolBar toolBar = new JToolBar();
-        addButtonToToolBar(toolBar, "menu-open.png", "Открыть . . .", true, handler);
+        addButtonToToolBar(toolBar, "menu-open.png", "Open", true, handler);
         //addButtonToToolBar(toolBar, "save.png", "Сохранить . . .", true, handler);
         addButtonToToolBar(toolBar, "verify.png", "Проверить . . .", true, handler);
         //final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
@@ -200,7 +216,20 @@ public class TestEditorDSPStudent {
             handler.openTask(filename);
         }
     }
-
+    private StructuredEditorModel createAnswerModel(DSPAnswer ans) {
+        StructuredEditorModel model = new StructuredEditorModel(ans);
+        EditorsRegistry editorsRegistry = model.getEditorsRegistry();
+            editorsRegistry.registerHook(new EditorsRegistryHook() {
+                public Class<? extends FieldEditor> substituteEditor(Class<? extends DSLBean> beanClass,
+                                                                     String propertyName, FieldMask mask, Class valueType) {
+                    if (propertyName.equals("answerMATLAB")) {
+                        return MATLABEditor.class;
+                    }
+                    return null;
+                }
+            });
+        return model;
+    }
     public TestEditorDSPStudent() {
         makeContainer(new JFrame("Модуль ученика"), "");
 
@@ -285,7 +314,20 @@ public class TestEditorDSPStudent {
         toolBar.add(but);
         return but;
     }
+//panel
+    private StructuredEditorModel createPanelModel(DSLBean st) {
+        DSLBeansRegistry reg = new DSLBeansRegistry();
 
+        reg.registerBean(DSPPanel.class);
+        reg.registerBean(PanelTool.class);
+        reg.registerBean(FunctionPanelTool.class);
+        reg.registerBean(ToolboxPanelTool.class);
+        reg.registerBean(CSToolboxPanelTool.class);
+        reg.registerBean(DSPToolboxPanelTool.class);
+        StructuredEditorModel model = new StructuredEditorModel(st);
+        model.setBeansRegistry(reg);
+        return model;
+    }
     private StructuredEditorModel createModel(DSLBean st) {
         /*CompositeElement root = new CompositeElement(model, CompositeElement.Orientation.Vertical);
 
@@ -323,7 +365,13 @@ public class TestEditorDSPStudent {
         reg.registerBean(BlocksetTool.class);
         reg.registerBean(FunctTool.class);
         reg.registerBean(ToolboxTool.class);
-
+        //panel
+        reg.registerBean(DSPPanel.class);
+        reg.registerBean(PanelTool.class);
+        reg.registerBean(FunctionPanelTool.class);
+        reg.registerBean(ToolboxPanelTool.class);
+        reg.registerBean(CSToolboxPanelTool.class);
+        reg.registerBean(DSPToolboxPanelTool.class);
         StructuredEditorModel model = new StructuredEditorModel(st);
         model.setBeansRegistry(reg);
         return model;

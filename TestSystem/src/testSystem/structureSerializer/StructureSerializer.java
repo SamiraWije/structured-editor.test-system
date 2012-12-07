@@ -152,7 +152,9 @@ public class StructureSerializer {
                                 if (val != null) {
                                     if (val instanceof String) {
                                         node.appendChild(newNode);
-                                        CDATASection cdata = document.createCDATASection((String) val);
+                                        String str = (String) val;
+                                        str = str.replace("\t","   ");
+                                        CDATASection cdata = document.createCDATASection(str);
                                         newNode.appendChild(cdata);
                                     } else if (val.getClass().isArray()) {
                                         node.appendChild(newNode);

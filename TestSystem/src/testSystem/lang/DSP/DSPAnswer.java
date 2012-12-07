@@ -2,7 +2,6 @@ package testSystem.lang.DSP;
 
 import ru.ipo.structurededitor.model.*;
 import ru.ipo.structurededitor.view.editors.settings.StringSettings;
-import testSystem.lang.logic.LogicAtomValue;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,20 +10,20 @@ import testSystem.lang.logic.LogicAtomValue;
  * Time: 15:47:18
  */
 public class DSPAnswer implements DSLBean{
-    public String getAnswer() {
-        return answer;
+    public String getAnswerMATLAB() {
+        return answerMATLAB;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public void setAnswerMATLAB(String answerMATLAB) {
+        this.answerMATLAB = answerMATLAB;
     }
 
-    private String answer;
+    private String answerMATLAB;
 
 
      public Cell getLayout() {
         return new Vert(
-              new Horiz(new ConstantCell("Решение:"), new FieldCell("answer",
+              new Horiz(new ConstantCell("Решение:"), new FieldCell("answerMATLAB",
                       new StringSettings().withSingleLine(false)))
         );
     }

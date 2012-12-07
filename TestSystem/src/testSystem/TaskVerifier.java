@@ -45,7 +45,7 @@ public class TaskVerifier {
         } else if (subSystem.equals("comb")) {
             this.combAns = combAns;
         } else if (subSystem.equals("DSP")) {
-            this.dspSolution=((DSPAnswer)ans).getAnswer();
+            this.dspSolution=((DSPAnswer)ans).getAnswerMATLAB();
         }
     }
 

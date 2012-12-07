@@ -14,5 +14,7 @@ public enum Funct {
     @EnumFieldParams(displayText = "tf")
     TF,
     @EnumFieldParams(displayText = "fmin")
-    FMIN
+    FMIN,
+    @EnumFieldParams(displayText = "abs")
+    ABS
 }

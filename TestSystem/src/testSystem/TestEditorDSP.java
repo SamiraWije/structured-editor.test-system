@@ -94,7 +94,7 @@ public class TestEditorDSP {
         Menu file = new Menu("Файл");
         MenuItem item1, item2, item3, item4, item5,helpItem;
         file.add(item1 = new MenuItem("Создать"));
-        file.add(item2 = new MenuItem("Открыть . . ."));
+        file.add(item2 = new MenuItem("Open"));
         file.add(item3 = new MenuItem("Сохранить"));
         file.add(item4 = new MenuItem("-"));
         file.add(item5 = new MenuItem("Выход"));
@@ -129,7 +129,7 @@ public class TestEditorDSP {
 
         //ToolBar
         JToolBar toolBar = new JToolBar();
-        addButtonToToolBar(toolBar, "menu-open.png", "Открыть . . .", true, handler);
+        addButtonToToolBar(toolBar, "menu-open.png", "Open", true, handler);
         addButtonToToolBar(toolBar, "save.png", "Сохранить", true, handler);
         final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
         final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);

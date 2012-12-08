@@ -9,7 +9,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="structured-editor" />
     <orderEntry type="module" module-name="Geogebra" />
-    <orderEntry type="module" module-name="MatlabWrapper" />
   </component>
 </module>
 

@@ -2,7 +2,7 @@ package testSystem;
 
 import geogebra.kernel.*;
 import geogebra.main.Application;
-import matlabcontrol.*;
+//import matlabcontrol.*;
 import ru.ipo.structurededitor.model.DSLBean;
 import testSystem.lang.DSP.DSPAnswer;
 import testSystem.lang.DSP.DSPStatement;
@@ -107,12 +107,13 @@ public class TaskVerifier {
                         geo1 = ((GeoSegmentLink) line1).getGeo();
                     else
                         geo1 = StructureBuilder.getGeoByCaption(((SegmentElement) line1).getName(), app);
-                   if (geo1 instanceof GeoSegment){
+
+                   }
+                if (geo1 instanceof GeoSegment){
                     GeoLine geoLine1=new GeoLine(app.getKernel().getConstruction());
                     GeoVec3D.lineThroughPoints(((GeoSegment)geo1).getStartPoint(),((GeoSegment)geo1).getEndPoint(),
                             geoLine1);
                     geo1 = geoLine1;
-                   }
                 }
                 if (line2 instanceof AbstractGeoLine){
                     if (line2 instanceof GeoLineLink)
@@ -124,13 +125,13 @@ public class TaskVerifier {
                         geo2 = ((GeoSegmentLink) line2).getGeo();
                     else
                         geo2 = StructureBuilder.getGeoByCaption(((SegmentElement) line2).getName(), app);
+
+                   }
                    if (geo2 instanceof GeoSegment){
                         GeoLine geoLine2=new GeoLine(app.getKernel().getConstruction());
                         GeoVec3D.lineThroughPoints(((GeoSegment)geo2).getStartPoint(),((GeoSegment)geo2).getEndPoint(),
                             geoLine2);
                         geo2 = geoLine2;
-                   }
-
                 }
                 if (geo1 == null || geo2 == null || !(geo1 instanceof GeoLine) || !(geo2 instanceof GeoLine))
                     return false;
@@ -338,7 +339,7 @@ public class TaskVerifier {
     }
 
     private boolean dspVerify(){
-       String verFunc = ((DSPStatement)bean).getVerifier();
+    /*   String verFunc = ((DSPStatement)bean).getVerifier();
        String funcName= verFunc.substring(verFunc.indexOf('=')+1,verFunc.indexOf('('));
        funcName=funcName.trim();
        String funcFileName = funcName+".m";
@@ -376,10 +377,9 @@ public class TaskVerifier {
             System.out.println("Verifier function must return 0 or 1! "+e);
         }
 
-
+      */
        return false;
     }
-
     public boolean verify() {
         if (subSystem.equals("geom"))
             return geomVerify();

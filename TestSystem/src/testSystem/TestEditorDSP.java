@@ -46,7 +46,7 @@ public class TestEditorDSP {
     //private StructuredEditorModel model;
 
     public TestEditorDSP() {
-        JFrame f = new JFrame("Модуль учителя");
+        JFrame f = new JFrame("WiseTasksDSP - Модуль преподавателя");
         //f.setLayout(new GridLayout(2,1));
         BorderLayout br = new BorderLayout();
         f.setLayout(br);

@@ -1,0 +1,19 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="testSystem1">
+    <output-path>$PROJECT_DIR$/out/artifacts/testSystem1</output-path>
+    <root id="archive" name="testSystem1.jar">
+      <element id="module-output" name="Geogebra" />
+      <element id="library" level="project" name="3D" />
+      <element id="file-copy" path="$PROJECT_DIR$/Geogebra/libs/p200ant_java5only.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/Geogebra/libs/TableLayoutExtensions-all-jdk1.5-2009-08-26.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/Geogebra/libs/TableLayout-bin-jdk1.5-2009-08-26.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/Geogebra/libs/proguard44.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/Geogebra/libs/AppleJavaExtensions.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/Geogebra/libs/netscape_javascript.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/Geogebra/libs/laf.jar" />
+      <element id="module-output" name="structured-editor" />
+      <element id="module-output" name="MatlabWrapper" />
+      <element id="module-output" name="TestSystem" />
+    </root>
+  </artifact>
+</component>

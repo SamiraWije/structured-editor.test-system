@@ -2,9 +2,7 @@ package testSystem;
 
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.inputbar.AlgebraInput;
-import geogebra.gui.layout.DockSplitPane;
 import geogebra.main.Application;
-import org.mathpiper.builtin.functions.core.FileSize;
 import ru.ipo.structurededitor.StructuredEditor;
 import ru.ipo.structurededitor.controller.EditorsRegistry;
 import ru.ipo.structurededitor.controller.ModificationHistory;
@@ -23,7 +21,6 @@ import testSystem.lang.geom.Instrum;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import testSystem.view.PicturePanel;
 
-import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -274,7 +271,7 @@ public class MyMenuHandler implements ActionListener, ItemListener {
                         switch (((ToolboxTool) tool).getTool()){
                             case CS_TOOLBOX: panelTools[i] = new CSToolboxPanelTool();
                                              break;
-                            case DSP_TOOLBOX: panelTools[i] = new DSPToolboxPanelTool();
+                            case SP_TOOLBOX: panelTools[i] = new SPToolboxPanelTool();
                         }
                    } else if (tool instanceof BlockTool){
 

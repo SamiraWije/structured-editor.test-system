@@ -9,19 +9,19 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Time: 11:36:14
  * To change this template use File | Settings | File Templates.
  */
-@DSLBeanParams(shortcut = "DSP", description = "DSP System Toolbox")
-public class DSPToolboxPanelTool extends ToolboxPanelTool {
-    DSPToolboxEnum toolboxEnum;
+@DSLBeanParams(shortcut = "SP", description = "Signal Processing Toolbox")
+public class SPToolboxPanelTool extends ToolboxPanelTool {
+    SPToolboxEnum toolboxEnum;
 
-    public DSPToolboxEnum getToolboxEnum() {
+    public SPToolboxEnum getToolboxEnum() {
         return toolboxEnum;
     }
 
-    public void setToolboxEnum(DSPToolboxEnum toolboxEnum) {
+    public void setToolboxEnum(SPToolboxEnum toolboxEnum) {
         this.toolboxEnum = toolboxEnum;
     }
 
-    public DSPToolboxPanelTool() {
-        toolboxName="DSP Toolbox";
+    public SPToolboxPanelTool() {
+        toolboxName="SP Toolbox";
     }
 }

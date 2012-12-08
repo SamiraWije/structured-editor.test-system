@@ -11,14 +11,12 @@ import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.model.DSLBeansRegistry;
 import ru.ipo.structurededitor.view.StatusBar;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
-import ru.ipo.structurededitor.view.editors.EnumEditor;
 import ru.ipo.structurededitor.view.editors.FieldEditor;
 import ru.ipo.structurededitor.view.images.ImageGetter;
 import testSystem.lang.DSP.*;
 
 import testSystem.structureBuilder.MyErrorHandler;
 import testSystem.structureSerializer.NodesRegistry;
-import testSystem.view.PicturePanel;
 import testSystem.view.editors.MATLABEditor;
 
 import javax.swing.*;
@@ -231,7 +229,7 @@ public class TestEditorDSPStudent {
         return model;
     }
     public TestEditorDSPStudent() {
-        makeContainer(new JFrame("Модуль ученика"), "");
+        makeContainer(new JFrame("WiseTasksDSP - Модуль студента"), "");
 
     }
 
@@ -323,7 +321,7 @@ public class TestEditorDSPStudent {
         reg.registerBean(FunctionPanelTool.class);
         reg.registerBean(ToolboxPanelTool.class);
         reg.registerBean(CSToolboxPanelTool.class);
-        reg.registerBean(DSPToolboxPanelTool.class);
+        reg.registerBean(SPToolboxPanelTool.class);
         StructuredEditorModel model = new StructuredEditorModel(st);
         model.setBeansRegistry(reg);
         return model;
@@ -371,7 +369,7 @@ public class TestEditorDSPStudent {
         reg.registerBean(FunctionPanelTool.class);
         reg.registerBean(ToolboxPanelTool.class);
         reg.registerBean(CSToolboxPanelTool.class);
-        reg.registerBean(DSPToolboxPanelTool.class);
+        reg.registerBean(SPToolboxPanelTool.class);
         StructuredEditorModel model = new StructuredEditorModel(st);
         model.setBeansRegistry(reg);
         return model;

@@ -9,7 +9,7 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  * Time: 9:38
  * To change this template use File | Settings | File Templates.
  */
-@DSLBeanParams(shortcut = "blockset", description = "Набор элемент Simulink")
+@DSLBeanParams(shortcut = "blockset", description = "Набор элементов Simulink")
 public class BlocksetTool extends AbstractTool {
     Blockset tool;
 

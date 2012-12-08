@@ -11,8 +11,8 @@ import ru.ipo.structurededitor.model.EnumFieldParams;
 public enum Toolbox {
     @EnumFieldParams(displayText = "Control System Toolbox")
     CS_TOOLBOX,
-    @EnumFieldParams(displayText = "DSP System Toolbox")
-    DSP_TOOLBOX,
+    @EnumFieldParams(displayText = "Singnal Processing Toolbox")
+    SP_TOOLBOX,
     @EnumFieldParams(displayText = "Optimization Toolbox")
     OPTIM_TOOLBOX
 }

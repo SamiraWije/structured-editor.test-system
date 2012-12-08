@@ -15,6 +15,12 @@ public enum Funct {
     TF,
     @EnumFieldParams(displayText = "fmin")
     FMIN,
-    @EnumFieldParams(displayText = "abs")
-    ABS
+    @EnumFieldParams(displayText = "fft")
+    FFT,
+    @EnumFieldParams(displayText = "ifft")
+    IFFT,
+    @EnumFieldParams(displayText = "floor")
+    FLOOR,
+    @EnumFieldParams(displayText = "max")
+    MAX,
 }

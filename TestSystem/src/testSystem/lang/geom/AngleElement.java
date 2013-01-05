@@ -1,8 +1,11 @@
 package testSystem.lang.geom;
 
+import geogebra.kernel.GeoAngle;
+import geogebra.kernel.GeoElement;
+import geogebra.main.Application;
 import ru.ipo.structurededitor.model.*;
-import ru.ipo.structurededitor.view.editors.settings.AbstractDSLBeanSettings;
 import ru.ipo.structurededitor.view.editors.settings.StringSettings;
+import testSystem.util.GeogebraUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,6 +24,12 @@ public class AngleElement extends AbstractGeoAngle {
     }
 
     private String name;
+
+    @Override
+    public GeoAngle resolve(Application app) {
+        final GeoElement res = GeogebraUtils.getGeoByCaption(name, app);
+        return res instanceof GeoAngle ? (GeoAngle) res : null;
+    }
 
     public Cell getLayout() {
         return new Horiz(

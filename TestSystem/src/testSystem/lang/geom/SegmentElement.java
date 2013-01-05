@@ -1,7 +1,11 @@
 package testSystem.lang.geom;
 
+import geogebra.kernel.GeoElement;
+import geogebra.kernel.GeoSegment;
+import geogebra.main.Application;
 import ru.ipo.structurededitor.model.*;
 import ru.ipo.structurededitor.view.editors.settings.StringSettings;
+import testSystem.util.GeogebraUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,6 +24,12 @@ public class SegmentElement extends AbstractGeoSegment {
     }
 
     private String name;
+
+    @Override
+    public GeoSegment resolveSegment(Application app) {
+        final GeoElement res = GeogebraUtils.getGeoByCaption(name, app);
+        return res instanceof GeoSegment ? (GeoSegment) res : null;
+    }
 
     public Cell getLayout() {
         return new Horiz(

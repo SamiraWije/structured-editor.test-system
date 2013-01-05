@@ -1,6 +1,7 @@
 package testSystem.lang.geom;
 
 import geogebra.kernel.GeoPoint;
+import geogebra.main.Application;
 import ru.ipo.structurededitor.model.Cell;
 import ru.ipo.structurededitor.model.DSLBeanParams;
 import ru.ipo.structurededitor.model.FieldCell;
@@ -22,6 +23,11 @@ public class GeoPointLink extends AbstractGeoPoint {
     }
 
     private GeoPoint geo;
+
+    @Override
+    public GeoPoint resolve(Application app) {
+        return geo;
+    }
 
     public Cell getLayout() {
         return new FieldCell("geo");

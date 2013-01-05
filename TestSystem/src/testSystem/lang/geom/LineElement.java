@@ -1,7 +1,11 @@
 package testSystem.lang.geom;
 
+import geogebra.kernel.GeoElement;
+import geogebra.kernel.GeoLine;
+import geogebra.main.Application;
 import ru.ipo.structurededitor.model.*;
 import ru.ipo.structurededitor.view.editors.settings.StringSettings;
+import testSystem.util.GeogebraUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,6 +24,12 @@ public class LineElement extends AbstractGeoLine {
     }
 
     private String name;
+
+    @Override
+    public GeoLine resolveLine(Application app) {
+        final GeoElement res = GeogebraUtils.getGeoByCaption(name, app);
+        return res instanceof GeoLine ? (GeoLine) res : null;
+    }
 
     public Cell getLayout() {
         return new Horiz(

@@ -10,10 +10,12 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  */
 @DSLBeanParams(shortcut = "| = ?", description = "Длина отрезка")
 public class SegmentValuePred extends ValuePred {
-    public SegmentValuePred() {
+    @Override
+    public void init() {
         op = "=";
     }
-    AbstractGeoSegment e;
+
+    private AbstractGeoSegment e;
 
     public AbstractGeoSegment getE() {
         return e;

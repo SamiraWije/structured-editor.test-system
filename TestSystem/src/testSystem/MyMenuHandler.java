@@ -1,5 +1,6 @@
 package testSystem;
 
+import com.thoughtworks.xstream.converters.Converter;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.main.Application;
@@ -8,20 +9,20 @@ import ru.ipo.structurededitor.controller.EditorsRegistry;
 import ru.ipo.structurededitor.controller.ModificationHistory;
 import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.model.EnumFieldParams;
+import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.events.ImageLoadEvent;
 import ru.ipo.structurededitor.view.events.ImageLoadListener;
 import testSystem.lang.DSP.*;
 import testSystem.lang.comb.Statement;
-import testSystem.lang.logic.LogicStatement;
-import testSystem.structureBuilder.StructureBuilder;
-import testSystem.structureSerializer.NodesRegistry;
-import testSystem.structureSerializer.StructureSerializer;
 import testSystem.lang.geom.GeoStatement;
 import testSystem.lang.geom.Instrum;
-import ru.ipo.structurededitor.view.StructuredEditorModel;
+import testSystem.lang.logic.LogicStatement;
+import testSystem.structureBuilder.XStreamBuilder;
+import testSystem.structureSerializer.NodesRegistry;
+import testSystem.structureSerializer.XStreamSerializer;
+import testSystem.util.GeoElementConverter;
 import testSystem.view.PicturePanel;
 
-import java.io.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.StyledDocument;
@@ -31,11 +32,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.File;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -314,9 +316,14 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             fn = fn + ".xml";
         System.out.println("You begin to save the file: " + fn);
 
-        StructureSerializer structureSerializer = new StructureSerializer(fn, nodesRegistry, subSystem);
+        final List<Converter> converters = new ArrayList<Converter>();
+        if (subSystem.equals("geom")) {
+            Application app = (Application) structuredEditor.getApp();
+            converters.add(new GeoElementConverter(app));
+        }
+        final XStreamSerializer serializer = new XStreamSerializer(converters);
 
-        structureSerializer.saveStructure(structuredEditor.getModel().getObject());
+        serializer.saveStructure(fn, subSystem, structuredEditor.getModel().getObject());
         File file = new File(fn.substring(0, fn.lastIndexOf('.')) + ".ggb");
 
         if (subSystem.equals("geom")) {
@@ -343,9 +350,8 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             Application app = (Application) structuredEditor.getApp();
             if (file.exists()){
                 app.getGuiManager().loadFile(file, false);
-            }
-            else {
-
+                //todo make all predefined elements not changeable if loaded in student's module
+            } else {
                 app.clearConstruction();
             }
 
@@ -353,13 +359,14 @@ public class MyMenuHandler implements ActionListener, ItemListener {
             //     ((Application)structuredEditor.getApp()).getGuiManager().setShowAlgebraView(algView);
         }
 
-        StructureBuilder structureBuilder;
-        if (subSystem.equals("geom")){
-            structureBuilder = new StructureBuilder(fn, subSystem, (Application) structuredEditor.getApp());
-        } else {
-            structureBuilder = new StructureBuilder(fn, subSystem, null);
+        final List<Converter> converters = new ArrayList<Converter>();
+        if (subSystem.equals("geom")) {
+            Application app = (Application) structuredEditor.getApp();
+            converters.add(new GeoElementConverter(app));
         }
-        DSLBean bean = structureBuilder.getStructure();
+        final XStreamBuilder builder = new XStreamBuilder(converters);
+        final DSLBean bean = builder.getStructure(filename);
+
         refreshEditor(bean, structuredEditor.getModel().getModificationHistory());
         structuredEditor.getModel().getModificationHistory().clearVector();
         if (answerEditor != null) {

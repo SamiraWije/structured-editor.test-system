@@ -10,7 +10,8 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  */
 @DSLBeanParams(shortcut = ". лежит на /", description = "Точка лежит на прямой")
 public class LaysOnPred extends GeoPointGeoLineBinPred {
-    public LaysOnPred() {
+    @Override
+    public void init() {
         op = "лежит на";
         vert = false;
     }

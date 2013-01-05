@@ -21,7 +21,7 @@ public class GeoPointLink extends AbstractGeoPoint {
         this.geo = geo;
     }
 
-    GeoPoint geo;
+    private GeoPoint geo;
 
     public Cell getLayout() {
         return new FieldCell("geo");

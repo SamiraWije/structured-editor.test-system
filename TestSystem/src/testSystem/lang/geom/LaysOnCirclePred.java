@@ -10,7 +10,8 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  */
 @DSLBeanParams(shortcut = ". лежит на ∘", description = "Точка лежит на окружности")
 public class LaysOnCirclePred extends GeoPointGeoCircleBinPred {
-    public LaysOnCirclePred() {
+    @Override
+    public void init() {
         op = "лежит на";
         vert = false;
     }

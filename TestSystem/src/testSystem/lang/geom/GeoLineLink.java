@@ -21,7 +21,7 @@ public class GeoLineLink extends AbstractGeoLine {
         this.geo = geo;
     }
 
-    GeoLine geo;
+    private GeoLine geo;
 
     public Cell getLayout() {
         return new FieldCell("geo");

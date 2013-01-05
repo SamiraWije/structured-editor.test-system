@@ -10,7 +10,8 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  */
 @DSLBeanParams(shortcut = "∘ кас ∘", description = "Окружности касаются")
 public class CircleTangentPred extends GeoCircleBinPred {
-    public CircleTangentPred() {
+    @Override
+    public void init() {
         op = "касается";
         vert = false;
     }

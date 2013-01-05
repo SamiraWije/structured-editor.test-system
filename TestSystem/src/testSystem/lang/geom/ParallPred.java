@@ -10,7 +10,8 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  */
 @DSLBeanParams(shortcut = "||",     description = "Прямые или отрезки параллельны")
 public class ParallPred extends GeoSegLineBinPred {
-    public ParallPred() {
+    @Override
+    public void init() {
         op = "||";
         vert = false;
     }

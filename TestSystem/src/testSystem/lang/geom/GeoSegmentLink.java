@@ -1,6 +1,5 @@
 package testSystem.lang.geom;
 
-import geogebra.kernel.GeoLine;
 import geogebra.kernel.GeoSegment;
 import ru.ipo.structurededitor.model.Cell;
 import ru.ipo.structurededitor.model.DSLBeanParams;
@@ -23,7 +22,7 @@ public class GeoSegmentLink extends AbstractGeoSegment {
         this.geo = geo;
     }
 
-    GeoSegment geo;
+    private GeoSegment geo;
 
     public Cell getLayout() {
         return new FieldCell("geo");

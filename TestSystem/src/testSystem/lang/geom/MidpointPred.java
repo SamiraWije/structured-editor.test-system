@@ -10,7 +10,8 @@ import ru.ipo.structurededitor.model.*;
  */
 @DSLBeanParams(shortcut = "cер |", description = "Середина отрезка")
 public class MidpointPred extends GeoPointGeoSegmentBinPred {
-    public MidpointPred() {
+    @Override
+    public void init() {
         op = "середина";
         vert = false;
     }

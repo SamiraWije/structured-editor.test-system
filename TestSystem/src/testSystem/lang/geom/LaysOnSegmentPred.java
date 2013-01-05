@@ -10,7 +10,8 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  */
 @DSLBeanParams(shortcut = ". лежит на |", description = "Точка лежит на отрезке")
 public class LaysOnSegmentPred extends GeoPointGeoSegmentBinPred {
-    public LaysOnSegmentPred() {
+    @Override
+    public void init() {
         op = "лежит на";
         vert = false;
     }

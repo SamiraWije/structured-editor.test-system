@@ -1,6 +1,5 @@
 package testSystem.lang.geom;
 
-import geogebra.kernel.GeoAngle;
 import ru.ipo.structurededitor.model.DSLBeanParams;
 
 /**
@@ -11,7 +10,8 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  */
 @DSLBeanParams(shortcut = "∠ = ∠", description = "Углы равны")
 public class AngleEqualPred extends GeoAngleBinPred {
-    public AngleEqualPred() {
+    @Override
+    public void init() {
         op = "=";
         vert = false;
     }

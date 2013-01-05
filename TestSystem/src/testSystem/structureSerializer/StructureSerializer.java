@@ -3,8 +3,8 @@ package testSystem.structureSerializer;
 import geogebra.kernel.GeoElement;
 import org.w3c.dom.*;
 import ru.ipo.structurededitor.model.DSLBean;
-import testSystem.structureBuilder.MyErrorHandler;
 import testSystem.lang.comb.Statement;
+import testSystem.structureBuilder.MyErrorHandler;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 
@@ -33,7 +32,7 @@ import java.lang.reflect.Method;
  * To change this template use File | Settings | File Templates.
  */
 
-
+@Deprecated
 public class StructureSerializer {
     private String fileName;
     private String subSystem;

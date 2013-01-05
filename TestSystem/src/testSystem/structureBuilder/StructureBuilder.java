@@ -1,20 +1,15 @@
 package testSystem.structureBuilder;
 
-import geogebra.euclidian.EuclidianView;
-import geogebra.kernel.*;
-import geogebra.kernel.GeoPoint;
-import geogebra.kernel.GeoSegment;
 import geogebra.main.Application;
 import org.w3c.dom.*;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import ru.ipo.structurededitor.model.DSLBean;
-import ru.ipo.structurededitor.view.editors.settings.StringSettings;
 import testSystem.lang.DSP.*;
 import testSystem.lang.comb.*;
-import testSystem.lang.logic.*;
 import testSystem.lang.geom.*;
+import testSystem.lang.logic.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,8 +18,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.jar.Pack200;
+
+import static testSystem.util.GeogebraUtils.getGeoByCaption;
+import static testSystem.util.ArrayUtils.resizeArray;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,6 +28,7 @@ import java.util.jar.Pack200;
  * Date: 28.08.2010
  * Time: 12:24:05
  */
+@Deprecated
 public class StructureBuilder {
     private String fileName;
     private String subSystem;
@@ -153,63 +150,6 @@ public class StructureBuilder {
             throw new Error("Fail in indexed StructureBuilder.setValue()");
         }
     } */
-    public static GeoElement getGeoByCaption(String caption, Application app ) {
-        /*if (geoType.equals("Line") && geoLocType.equals("new")) {
-            newBean = new LineElement();
-            setValue(newBean, "name", (Element) currentNode, "name", "");
-        } else if (geoType.equals("Line") && geoLocType.equals("given")) {*/
-        EuclidianView ev = app.getEuclidianView();
-        //ev.setSelectionRectangle(new Rectangle(ev.getSize()));
-        app.selectAll(0);
-        ArrayList geos = app.getSelectedGeos();
-        GeoElement geoElement = null;
-        if (caption.matches("[A-Z][A-Z]")){
-            GeoPoint p1 =(GeoPoint)getGeoByCaption(String.valueOf(caption.charAt(0)),app);
-            GeoPoint p2 = (GeoPoint)getGeoByCaption(String.valueOf(caption.charAt(1)),app);
-            if (p1!=null&& p2!=null){
-                GeoSegment gs = new GeoSegment(app.getKernel().getConstruction(),p1,p2);
-                gs.calcLength();
-                return gs;
-            }
-        } else if (caption.matches("[A-Z][A-Z][A-Z]")){
-            GeoPoint p1 =(GeoPoint)getGeoByCaption(String.valueOf(caption.charAt(0)),app);
-            GeoPoint p2 = (GeoPoint)getGeoByCaption(String.valueOf(caption.charAt(1)),app);
-            GeoPoint p3 = (GeoPoint)getGeoByCaption(String.valueOf(caption.charAt(2)),app);
-
-            if (p1!=null&& p2!=null && p3!=null){
-                GeoAngle gs = new GeoAngle(app.getKernel().getConstruction());
-                double bx, by, vx, vy, wx, wy;
-                bx = p2.inhomX;
-                by = p2.inhomY;
-                vx = p1.inhomX - bx;
-                vy = p1.inhomY - by;
-                wx = p3.inhomX - bx;
-                wy = p3.inhomY - by;
-                if (app.getKernel().isZero(vx) && app.getKernel().isZero(vy) ||
-        		   app.getKernel().isZero(wx) && app.getKernel().isZero(wy)) {
-                    gs.setUndefined();
-        	        return gs;
-                  }
-
-                double det = vx * wy - vy * wx;
-    	        double prod = vx * wx + vy * wy;
-    	        double value = Math.atan2(det, prod);
-                                
-                gs.setValue(value);
-                return gs;
-            }
-        }
-        for (Object geo : geos) {
-            if (geo instanceof GeoElement && ((GeoElement) geo).getCaption().equals(caption)) {
-
-
-                geoElement = (GeoElement) geo;
-                break;
-            }
-        }
-        app.clearSelectedGeos();
-        return geoElement;
-    }
 
     private Object processNode(Node currentNode, DSLBean bean, Object arr) {
         switch (currentNode.getNodeType()) {
@@ -680,29 +620,4 @@ public class StructureBuilder {
         this.fileName = fileName;
     }
 
-    /**
-     * Reallocates an array with a new size, and copies the contents
-     * of the old array to the new array.
-     *
-     * @param oldArray the old array, to be reallocated.
-     * @param newSize  the new array size.
-     * @return A new array with the same contents.
-     */
-    @SuppressWarnings({"SuspiciousSystemArraycopy"})
-    public static Object resizeArray(Object oldArray, int newSize) {
-        try {
-            int oldSize = java.lang.reflect.Array.getLength(oldArray);
-            Class elementType = oldArray.getClass().getComponentType();
-            Object newArray = java.lang.reflect.Array.newInstance(
-                    elementType, newSize);
-            int preserveLength = Math.min(oldSize, newSize);
-            if (preserveLength > 0) {
-                System.arraycopy(oldArray, 0, newArray, 0, preserveLength);
-            }
-            return newArray;
-        } catch (Exception e) {
-            System.out.println("Error in array resizing! " + e);
-        }
-        return null;
-    }
 }

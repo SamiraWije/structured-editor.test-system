@@ -9,6 +9,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="structured-editor" />
     <orderEntry type="module" module-name="Geogebra" />
+    <orderEntry type="library" name="com.thoughtworks.xstream:xstream:1.4.3" level="project" />
   </component>
 </module>
 

@@ -11,8 +11,19 @@ import ru.ipo.structurededitor.view.editors.settings.NumberSettings;
  */
 public abstract class ValuePred extends Pred {
 
-    protected String op;
-    protected EditorSettings eSettings;
+    protected transient String op;
+    protected transient EditorSettings eSettings;
+
+    protected abstract void init();
+
+    protected ValuePred() {
+        init();
+    }
+
+    private Object readResolve() {
+        init();
+        return this;
+    }
 
     public double getValue() {
         return value;

@@ -2,20 +2,17 @@ package testSystem;
 
 import geogebra.kernel.*;
 import geogebra.main.Application;
-//import matlabcontrol.*;
 import ru.ipo.structurededitor.model.DSLBean;
 import testSystem.lang.DSP.DSPAnswer;
-import testSystem.lang.DSP.DSPStatement;
 import testSystem.lang.comb.*;
-import testSystem.lang.logic.*;
 import testSystem.lang.geom.*;
-import testSystem.structureBuilder.StructureBuilder;
+import testSystem.lang.logic.*;
+import testSystem.util.ArrayUtils;
+import testSystem.util.GeogebraUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 
+//import matlabcontrol.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -79,11 +76,11 @@ public class TaskVerifier {
                 if (point instanceof GeoPointLink)
                     geo1 = ((GeoPointLink) point).getGeo();
                 else
-                    geo1 = StructureBuilder.getGeoByCaption(((PointElement) point).getName(), app);
+                    geo1 = GeogebraUtils.getGeoByCaption(((PointElement) point).getName(), app);
                 if (line instanceof GeoLineLink)
                     geo2 = ((GeoLineLink) line).getGeo();
                 else
-                    geo2 = StructureBuilder.getGeoByCaption(((LineElement) line).getName(), app);
+                    geo2 = GeogebraUtils.getGeoByCaption(((LineElement) line).getName(), app);
                 Relation rel = new Relation(app.getKernel());
                 if (geo1 == null || geo2 == null || !(geo1 instanceof GeoPoint) || !(geo2 instanceof GeoLine))
                     return false;
@@ -101,12 +98,12 @@ public class TaskVerifier {
                     if (line1 instanceof GeoLineLink)
                         geo1 = ((GeoLineLink) line1).getGeo();
                     else
-                        geo1 = StructureBuilder.getGeoByCaption(((LineElement) line1).getName(), app);
+                        geo1 = GeogebraUtils.getGeoByCaption(((LineElement) line1).getName(), app);
                 } else {
                     if (line1 instanceof GeoSegmentLink)
                         geo1 = ((GeoSegmentLink) line1).getGeo();
                     else
-                        geo1 = StructureBuilder.getGeoByCaption(((SegmentElement) line1).getName(), app);
+                        geo1 = GeogebraUtils.getGeoByCaption(((SegmentElement) line1).getName(), app);
 
                    }
                 if (geo1 instanceof GeoSegment){
@@ -119,12 +116,12 @@ public class TaskVerifier {
                     if (line2 instanceof GeoLineLink)
                         geo2 = ((GeoLineLink) line1).getGeo();
                     else
-                        geo2 = StructureBuilder.getGeoByCaption(((LineElement) line2).getName(), app);
+                        geo2 = GeogebraUtils.getGeoByCaption(((LineElement) line2).getName(), app);
                 } else {
                     if (line2 instanceof GeoSegmentLink)
                         geo2 = ((GeoSegmentLink) line2).getGeo();
                     else
-                        geo2 = StructureBuilder.getGeoByCaption(((SegmentElement) line2).getName(), app);
+                        geo2 = GeogebraUtils.getGeoByCaption(((SegmentElement) line2).getName(), app);
 
                    }
                    if (geo2 instanceof GeoSegment){
@@ -149,11 +146,11 @@ public class TaskVerifier {
                 if (point instanceof GeoPointLink)
                     geo1 = ((GeoPointLink) point).getGeo();
                 else
-                    geo1 = StructureBuilder.getGeoByCaption(((PointElement) point).getName(), app);
+                    geo1 = GeogebraUtils.getGeoByCaption(((PointElement) point).getName(), app);
                 if (seg instanceof GeoSegmentLink)
                     geo2 = ((GeoSegmentLink) seg).getGeo();
                 else
-                    geo2 = StructureBuilder.getGeoByCaption(((SegmentElement) seg).getName(), app);
+                    geo2 = GeogebraUtils.getGeoByCaption(((SegmentElement) seg).getName(), app);
                 Relation rel = new Relation(app.getKernel());
                 if (geo1 == null || geo2 == null || !(geo1 instanceof GeoPoint) || !(geo2 instanceof GeoSegment))
                     return false;
@@ -178,11 +175,11 @@ public class TaskVerifier {
                 if (seg1 instanceof GeoSegmentLink)
                     geo1 = ((GeoSegmentLink) seg1).getGeo();
                 else
-                    geo1 = StructureBuilder.getGeoByCaption(((SegmentElement) seg1).getName(), app);
+                    geo1 = GeogebraUtils.getGeoByCaption(((SegmentElement) seg1).getName(), app);
                 if (seg2 instanceof GeoSegmentLink)
                     geo2 = ((GeoSegmentLink) seg2).getGeo();
                 else
-                    geo2 = StructureBuilder.getGeoByCaption(((SegmentElement) seg2).getName(), app);
+                    geo2 = GeogebraUtils.getGeoByCaption(((SegmentElement) seg2).getName(), app);
                 Relation rel = new Relation(app.getKernel());
                 if (geo1 == null || geo2 == null || !(geo1 instanceof GeoSegment) || !(geo2 instanceof GeoSegment))
                     return false;
@@ -204,11 +201,11 @@ public class TaskVerifier {
                 if (seg1 instanceof GeoAngleLink)
                     geo1 = ((GeoAngleLink) seg1).getGeo();
                 else
-                    geo1 = StructureBuilder.getGeoByCaption(((AngleElement) seg1).getName(), app);
+                    geo1 = GeogebraUtils.getGeoByCaption(((AngleElement) seg1).getName(), app);
                 if (seg2 instanceof GeoAngleLink)
                     geo2 = ((GeoAngleLink) seg2).getGeo();
                 else
-                    geo2 = StructureBuilder.getGeoByCaption(((AngleElement) seg2).getName(), app);
+                    geo2 = GeogebraUtils.getGeoByCaption(((AngleElement) seg2).getName(), app);
                 Relation rel = new Relation(app.getKernel());
                 if (geo1 == null || geo2 == null || !(geo1 instanceof GeoAngle) || !(geo2 instanceof GeoAngle))
                     return false;
@@ -233,11 +230,11 @@ public class TaskVerifier {
                 if (seg1 instanceof GeoCircleLink)
                     geo1 = ((GeoCircleLink) seg1).getGeo();
                 else
-                    geo1 = StructureBuilder.getGeoByCaption(((CircleElement) seg1).getName(), app);
+                    geo1 = GeogebraUtils.getGeoByCaption(((CircleElement) seg1).getName(), app);
                 if (seg2 instanceof GeoCircleLink)
                     geo2 = ((GeoCircleLink) seg2).getGeo();
                 else
-                    geo2 = StructureBuilder.getGeoByCaption(((CircleElement) seg2).getName(), app);
+                    geo2 = GeogebraUtils.getGeoByCaption(((CircleElement) seg2).getName(), app);
                 Relation rel = new Relation(app.getKernel());
                 if (geo1 == null || geo2 == null || !(geo1 instanceof GeoConic) || !(geo2 instanceof GeoConic))
                     return false;
@@ -259,12 +256,12 @@ public class TaskVerifier {
                     if (line1 instanceof GeoLineLink)
                         geo1 = ((GeoLineLink) line1).getGeo();
                     else
-                        geo1 = StructureBuilder.getGeoByCaption(((LineElement) line1).getName(), app);
+                        geo1 = GeogebraUtils.getGeoByCaption(((LineElement) line1).getName(), app);
                 } else {
                     if (line1 instanceof GeoSegmentLink)
                         geo1 = ((GeoSegmentLink) line1).getGeo();
                     else
-                        geo1 = StructureBuilder.getGeoByCaption(((SegmentElement) line1).getName(), app);
+                        geo1 = GeogebraUtils.getGeoByCaption(((SegmentElement) line1).getName(), app);
                    if (geo1 instanceof GeoSegment){
                     GeoLine geoLine1=new GeoLine(app.getKernel().getConstruction());
                     GeoVec3D.lineThroughPoints(((GeoSegment)geo1).getStartPoint(),((GeoSegment)geo1).getEndPoint(),
@@ -277,7 +274,7 @@ public class TaskVerifier {
                 if (seg2 instanceof GeoCircleLink)
                     geo2 = ((GeoCircleLink) seg2).getGeo();
                 else
-                    geo2 = StructureBuilder.getGeoByCaption(((CircleElement) seg2).getName(), app);
+                    geo2 = GeogebraUtils.getGeoByCaption(((CircleElement) seg2).getName(), app);
                 Relation rel = new Relation(app.getKernel());
                 if (geo1 == null || geo2 == null || !(geo2 instanceof GeoConic) || !(geo1 instanceof GeoLine))
                     return false;
@@ -297,7 +294,7 @@ public class TaskVerifier {
                     if (seg instanceof GeoSegmentLink)
                         geo = ((GeoSegmentLink) seg).getGeo();
                     else
-                        geo = StructureBuilder.getGeoByCaption(((SegmentElement) seg).getName(), app);
+                        geo = GeogebraUtils.getGeoByCaption(((SegmentElement) seg).getName(), app);
                     if (geo==null || !(geo instanceof GeoSegment))
                         return false;
                     return Math.round(((GeoSegment)geo).getLength()*100)==Math.round(value*100);
@@ -307,7 +304,7 @@ public class TaskVerifier {
                     if (seg instanceof GeoAngleLink)
                         geo = ((GeoAngleLink) seg).getGeo();
                     else
-                        geo = StructureBuilder.getGeoByCaption(((AngleElement) seg).getName(), app);
+                        geo = GeogebraUtils.getGeoByCaption(((AngleElement) seg).getName(), app);
                     if (geo==null || !(geo instanceof GeoAngle))
                         return false;
                     return Math.round(((GeoAngle)geo).getRawAngle()/Math.PI*1800)==Math.round(value*10);
@@ -431,7 +428,7 @@ public class TaskVerifier {
                 }
                 if (flag) {
                     int size = java.lang.reflect.Array.getLength(arr);
-                    arr = StructureBuilder.resizeArray(arr, size + 1);
+                    arr = ArrayUtils.resizeArray(arr, size + 1);
                     LogicAtomValue item = new LogicAtomValue();
                     item.setName(name);
                     item.setVal(false);

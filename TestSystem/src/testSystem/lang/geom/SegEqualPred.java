@@ -10,7 +10,8 @@ import ru.ipo.structurededitor.model.DSLBeanParams;
  */
 @DSLBeanParams(shortcut = "| = |", description = "Отрезки равны")
 public class SegEqualPred extends GeoSegmentBinPred {
-    public SegEqualPred() {
+    @Override
+    public void init() {
         op = "=";
         vert = false;
     }

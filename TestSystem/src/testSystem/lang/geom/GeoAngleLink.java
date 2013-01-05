@@ -1,7 +1,6 @@
 package testSystem.lang.geom;
 
 import geogebra.kernel.GeoAngle;
-import geogebra.kernel.GeoLine;
 import ru.ipo.structurededitor.model.Cell;
 import ru.ipo.structurededitor.model.DSLBeanParams;
 import ru.ipo.structurededitor.model.FieldCell;
@@ -23,7 +22,7 @@ public class GeoAngleLink extends AbstractGeoAngle {
         this.geo = geo;
     }
 
-    GeoAngle geo;
+    private GeoAngle geo;
 
     public Cell getLayout() {
         return new FieldCell("geo");

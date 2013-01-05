@@ -1,7 +1,6 @@
 package testSystem.lang.geom;
 
 import geogebra.kernel.GeoConic;
-import geogebra.kernel.GeoPoint;
 import ru.ipo.structurededitor.model.Cell;
 import ru.ipo.structurededitor.model.DSLBeanParams;
 import ru.ipo.structurededitor.model.FieldCell;
@@ -22,7 +21,7 @@ public class GeoCircleLink extends AbstractGeoCircle {
         this.geo = geo;
     }
 
-    GeoConic geo;
+    private GeoConic geo;
 
     public Cell getLayout() {
         return new FieldCell("geo");

@@ -1,11 +1,9 @@
 package testSystem.lang.geom;
 
 import ru.ipo.structurededitor.model.*;
-import ru.ipo.structurededitor.view.editors.settings.AbstractDSLBeanSettings;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
-import java.util.IllegalFormatFlagsException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,8 +13,19 @@ import java.util.IllegalFormatFlagsException;
  */
 public abstract class BinPred extends Pred {
 
-    protected String op;
-    protected boolean vert = false;
+    protected transient String op;
+    protected transient boolean vert = false;
+
+    protected BinPred() {
+        init();
+    }
+
+    protected abstract void init();
+
+    private Object readResolve() {
+        init();
+        return this;
+    }
 
     public Cell getLayout() {
         EditorSettings s1 = getSettingsForField("e1");
@@ -40,6 +49,4 @@ public abstract class BinPred extends Pred {
 
         return null;
     }
-
-
 }

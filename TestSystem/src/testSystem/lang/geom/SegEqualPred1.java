@@ -1,6 +1,9 @@
 package testSystem.lang.geom;
 
+import geogebra.main.Application;
 import ru.ipo.structurededitor.model.*;
+
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,6 +13,7 @@ import ru.ipo.structurededitor.model.*;
  */
 @DSLBeanParams(shortcut = "| = |", description = "Отрезки равны")
 public class SegEqualPred1 extends Pred {
+    private static final Logger log = Logger.getLogger("SegEqualPred1");
 
     public AbstractGeoPoint getE1() {
         return e1;
@@ -48,11 +52,15 @@ public class SegEqualPred1 extends Pred {
         this.e4 = e4;
     }
 
-
-
     public Cell getLayout() {
             return new Horiz(new ConstantCell("["),new FieldCell("e1"), new ConstantCell(","), new FieldCell("e2"),
                     new ConstantCell("] = ["),
                     new FieldCell("e3"), new ConstantCell(","), new FieldCell("e4"), new ConstantCell("]"));
+    }
+
+    @Override
+    public boolean verify(Application app) {
+        log.severe("SegEqualPred1 is not implemented");
+        return false;
     }
 }

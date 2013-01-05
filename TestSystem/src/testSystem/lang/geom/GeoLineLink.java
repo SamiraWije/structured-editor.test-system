@@ -1,6 +1,7 @@
 package testSystem.lang.geom;
 
 import geogebra.kernel.GeoLine;
+import geogebra.main.Application;
 import ru.ipo.structurededitor.model.Cell;
 import ru.ipo.structurededitor.model.DSLBeanParams;
 import ru.ipo.structurededitor.model.FieldCell;
@@ -22,6 +23,11 @@ public class GeoLineLink extends AbstractGeoLine {
     }
 
     private GeoLine geo;
+
+    @Override
+    public GeoLine resolveLine(Application app) {
+        return geo;
+    }
 
     public Cell getLayout() {
         return new FieldCell("geo");

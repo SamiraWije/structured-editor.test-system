@@ -1,6 +1,8 @@
 package testSystem.lang.geom;
 
-import ru.ipo.structurededitor.model.DSLBean;
+import geogebra.kernel.GeoLine;
+import geogebra.kernel.GeoSegment;
+import geogebra.main.Application;
 import ru.ipo.structurededitor.model.EditorSettings;
 import ru.ipo.structurededitor.view.editors.settings.AbstractDSLBeanSettings;
 
@@ -11,6 +13,13 @@ import ru.ipo.structurededitor.view.editors.settings.AbstractDSLBeanSettings;
  * Time: 17:53
  */
 public abstract class AbstractGeoSegment extends AbstractGeoSegLine {
+
+    public abstract GeoSegment resolveSegment(Application app);
+
+    @Override
+    public GeoLine resolveLine(Application app) {
+        return resolveSegment(app);
+    }
 
     public static EditorSettings getDefaultEditorSettings() {
         return new AbstractDSLBeanSettings()

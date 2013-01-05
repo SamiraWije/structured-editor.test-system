@@ -7,8 +7,6 @@ package testSystem.lang.geom;
  * Time: 14:26
  */
 public abstract class GeoSegmentBinPred extends BinPred {
-
-
     public AbstractGeoSegment getE1() {
         return e1;
     }

@@ -1,5 +1,6 @@
 package testSystem.lang.geom;
 
+import geogebra.main.Application;
 import ru.ipo.structurededitor.model.DSLBean;
 
 /**
@@ -9,4 +10,6 @@ import ru.ipo.structurededitor.model.DSLBean;
  * Time: 15:28
  */
 public abstract class Pred implements DSLBean {
+
+    public abstract boolean verify(Application app);
 }

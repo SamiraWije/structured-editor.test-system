@@ -1,7 +1,11 @@
 package testSystem.lang.geom;
 
+import geogebra.kernel.GeoConic;
+import geogebra.kernel.GeoElement;
+import geogebra.main.Application;
 import ru.ipo.structurededitor.model.*;
 import ru.ipo.structurededitor.view.editors.settings.StringSettings;
+import testSystem.util.GeogebraUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,7 +14,7 @@ import ru.ipo.structurededitor.view.editors.settings.StringSettings;
  * Time: 14:35
  */
 @DSLBeanParams(shortcut = "∘ постр", description = "Окружность для построения")
-public class CircleElement extends AbstractGeoCircle{
+public class CircleElement extends AbstractGeoCircle {
     public String getName() {
         return name;
     }
@@ -20,6 +24,12 @@ public class CircleElement extends AbstractGeoCircle{
     }
 
     private String name;
+
+    @Override
+    public GeoConic resolve(Application app) {
+        final GeoElement res = GeogebraUtils.getGeoByCaption(name, app);
+        return res instanceof GeoConic ? (GeoConic) res : null;
+    }
 
     public Cell getLayout() {
         return new Horiz(new ConstantCell("∘"), new FieldCell("name", new StringSettings()

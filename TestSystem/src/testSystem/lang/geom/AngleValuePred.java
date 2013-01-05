@@ -1,5 +1,7 @@
 package testSystem.lang.geom;
 
+import geogebra.kernel.GeoAngle;
+import geogebra.main.Application;
 import ru.ipo.structurededitor.model.DSLBeanParams;
 
 /**
@@ -23,5 +25,14 @@ public class AngleValuePred extends ValuePred {
 
     public void setE(AbstractGeoAngle e) {
         this.e = e;
+    }
+
+    @Override
+    public boolean verify(Application app) {
+        final double value = getValue();
+        final GeoAngle angle = getE().resolve(app);
+
+        return angle != null
+                && Math.round(angle.getRawAngle() / Math.PI * 180 * 10) == Math.round(value * 10);
     }
 }

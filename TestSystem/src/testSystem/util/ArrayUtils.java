@@ -1,9 +1,13 @@
 package testSystem.util;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * User: Vladislav Dolbilov (darl@yandex-team.ru)
  */
 public class ArrayUtils {
+    private static final Logger log = Logger.getLogger(ArrayUtils.class.getName());
 
     /**
      * Reallocates an array with a new size, and copies the contents
@@ -26,7 +30,7 @@ public class ArrayUtils {
             }
             return newArray;
         } catch (Exception e) {
-            System.out.println("Error in array resizing! " + e);
+            log.log(Level.SEVERE, "Error in array resizing", e);
         }
         return null;
     }

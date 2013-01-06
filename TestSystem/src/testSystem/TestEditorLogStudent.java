@@ -4,17 +4,18 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import ru.ipo.structurededitor.StructuredEditor;
-import ru.ipo.structurededitor.controller.ModificationHistory;
-import ru.ipo.structurededitor.controller.ModificationListener;
 import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.model.DSLBeansRegistry;
-import testSystem.lang.logic.*;
-import testSystem.lang.comb.*;
-import testSystem.structureBuilder.MyErrorHandler;
-import testSystem.structureSerializer.NodesRegistry;
 import ru.ipo.structurededitor.view.StatusBar;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.images.ImageGetter;
+import testSystem.lang.comb.Expr;
+import testSystem.lang.comb.LogAndExpr;
+import testSystem.lang.comb.LogNotExpr;
+import testSystem.lang.comb.LogOrExpr;
+import testSystem.lang.logic.*;
+import testSystem.structureBuilder.MyErrorHandler;
+import testSystem.structureSerializer.NodesRegistry;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -161,14 +162,14 @@ public class TestEditorLogStudent {
         help.add(helpItem = new JMenuItem("Работа"));
         helpItem.setActionCommand("Помощь");
         //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
-        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "log", answerEditor, null,
+        MenuHandlerFactory handler = new MenuHandlerFactory(f, structuredEditor, nodesRegistry, "log", answerEditor, null,
                 styledDocument);
         //item1.addActionListener(handler);
-        helpItem.addActionListener(handler);
-        item2.addActionListener(handler);
+        helpItem.addActionListener(handler.helpHandler());
+        item2.addActionListener(handler.openHandler());
         //item3.addActionListener(handler);
-        item4.addActionListener(handler);
-        item5.addActionListener(handler);
+        item4.addActionListener(handler.verifyHandler());
+        item5.addActionListener(handler.exitHandler());
         //undoItem.addActionListener(handler);
         //redoItem.addActionListener(handler);
 
@@ -178,13 +179,13 @@ public class TestEditorLogStudent {
 
         //ToolBar
         JToolBar toolBar = new JToolBar();
-        addButtonToToolBar(toolBar, "menu-open.png", "Open", true, handler);
+        addButtonToToolBar(toolBar, "menu-open.png", "Open", true, handler.openHandler());
         //addButtonToToolBar(toolBar, "save.png", "Сохранить . . .", true, handler);
-        addButtonToToolBar(toolBar, "verify.png", "Проверить . . .", true, handler);
+        addButtonToToolBar(toolBar, "verify.png", "Проверить . . .", true, handler.verifyHandler());
         //final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
         //final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
         //addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);
-        addButtonToToolBar(toolBar, "help.png", "Помощь", true, handler);
+        addButtonToToolBar(toolBar, "help.png", "Помощь", true, handler.helpHandler());
 
         //undoButton.setEnabled(false);
         //redoButton.setEnabled(false);
@@ -203,6 +204,7 @@ public class TestEditorLogStudent {
 
     }
 
+    @Deprecated
     private NodesRegistry nodesRegistryPrep() {
         Document document;
         // obtain the default parser

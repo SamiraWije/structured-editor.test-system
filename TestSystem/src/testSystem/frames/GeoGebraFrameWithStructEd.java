@@ -15,6 +15,7 @@ import ru.ipo.structurededitor.view.StructuredEditorModel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.dnd.DropTarget;
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,8 +24,10 @@ import java.awt.dnd.DropTarget;
  * Time: 18:50
  */
 public class GeoGebraFrameWithStructEd extends GeoGebraFrame {
-    public static synchronized void main(String[] args) {
-        System.out.println("check java version");
+    private static final Logger log = Logger.getLogger(GeoGebraFrameWithStructEd.class.getName());
+
+    public static void main(String[] args) {
+        log.fine("check java version");
         double javaVersion = Util.getJavaVersion();
         if (javaVersion < 1.42) {
             JOptionPane
@@ -40,20 +43,20 @@ public class GeoGebraFrameWithStructEd extends GeoGebraFrame {
             initMacSpecifics();
 
         // set system look and feel
-        System.out.println("set system look and feel");
+        log.fine("set system look and feel");
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
             Application.debug(e + "");
         }
 
-        System.out.println("load list of previously used files");
+        log.fine("load list of previously used files");
         GeoGebraPreferences.getPref().loadFileList();
 
         StructuredEditor.initializeStructuredEditorUI();
 
         // create first window and show it
-        System.out.println("create first window and show it");
+        log.fine("create first window and show it");
         createNewWindow(args);
     }
 
@@ -65,12 +68,12 @@ public class GeoGebraFrameWithStructEd extends GeoGebraFrame {
 
         final DefaultApplication app = new DefaultApplication(args, wnd, true);
 
-        System.out.println("Load GUI JAR");
+        log.info("Load GUI JAR");
         app.loadGUIJar();
         app.getGuiManager().initMenubar();
 
         // init GUI
-        System.out.println("init GUI");
+        log.info("init GUI");
         //app.setShowMenuBar(false);
         //app.setShowMenuBar(true);
         wnd.setApplication(app);
@@ -109,21 +112,21 @@ public class GeoGebraFrameWithStructEd extends GeoGebraFrame {
         wnd.setVisible(true);
 
         // init some things in the background
-        System.out.println("init some things in the background");
+        log.info("init some things in the background");
         if (!app.isApplet()) {
             Thread runner = new Thread() {
                 @Override
                 public void run() {
-                    System.out.println("init CAS");
+                    log.info("init CAS");
                     app.initCAS();
 
-                    System.out.println("init properties dialog");
+                    log.info("init properties dialog");
                     app.getGuiManager().initPropertiesDialog();
 
-                    System.out.println("init file chooser");
+                    log.info("init file chooser");
                     app.getGuiManager().initFileChooser();
 
-                    System.out.println("copy Jar files to temp directory");
+                    log.info("copy Jar files to temp directory");
                     app.downloadJarFiles();
                 }
             };

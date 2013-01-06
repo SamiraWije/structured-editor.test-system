@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  */
 @DSLBeanParams(shortcut = "сер |", description = "Середина отрезка")
 public class MidpointPred1 extends Pred {
-    private static final Logger log = Logger.getLogger("MidpointPred1");
+    private static final Logger log = Logger.getLogger(MidpointPred1.class.getName());
 
     public AbstractGeoPoint getE1() {
         return e1;

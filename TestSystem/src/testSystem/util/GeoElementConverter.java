@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  * User: Vladislav Dolbilov (darl@yandex-team.ru)
  */
 public class GeoElementConverter implements Converter {
-    private static final Logger log = Logger.getLogger("GeoElementConverter");
+    private static final Logger log = Logger.getLogger(GeoElementConverter.class.getName());
 
     private final Application app;
 

@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 @DSLBeanParams(shortcut = "⊥", description = "Прямые или отрезки перпендикулярны")
 public class PerpendPred extends GeoSegLineBinPred {
-    private static final Logger log = Logger.getLogger("PerpendPred");
+    private static final Logger log = Logger.getLogger(PerpendPred.class.getName());
 
     @Override
     public void init() {

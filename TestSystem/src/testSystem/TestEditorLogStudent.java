@@ -16,6 +16,7 @@ import testSystem.lang.comb.LogOrExpr;
 import testSystem.lang.logic.*;
 import testSystem.structureBuilder.MyErrorHandler;
 import testSystem.structureSerializer.NodesRegistry;
+import testSystem.util.LogConfigLoader;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -33,6 +34,7 @@ import java.awt.event.ActionListener;
  */
 public class TestEditorLogStudent {
     public static void main(String[] args) {
+        LogConfigLoader.configureLogger();
         StructuredEditor.initializeStructuredEditorUI();
         new TestEditorLogStudent();
     }

@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 @DSLBeanParams(shortcut = "||",     description = "Прямые или отрезки параллельны")
 public class ParallPred extends GeoSegLineBinPred {
-    private static final Logger log = Logger.getLogger("ParallPred");
+    private static final Logger log = Logger.getLogger(ParallPred.class.getName());
 
     @Override
     public void init() {

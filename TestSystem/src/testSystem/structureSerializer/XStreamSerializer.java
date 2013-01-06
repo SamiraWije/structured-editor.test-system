@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * User: Vladislav Dolbilov (dvladislv@gmail.com)
  */
 public class XStreamSerializer {
-    private static final Logger log = Logger.getLogger("XStreamSerializer");
+    private static final Logger log = Logger.getLogger(XStreamSerializer.class.getName());
 
     private final List<Converter> converters;
 

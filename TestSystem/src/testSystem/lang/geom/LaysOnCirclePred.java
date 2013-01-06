@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  */
 @DSLBeanParams(shortcut = ". лежит на ∘", description = "Точка лежит на окружности")
 public class LaysOnCirclePred extends GeoPointGeoCircleBinPred {
-    private static final Logger log = Logger.getLogger("LaysOnCirclePred");
+    private static final Logger log = Logger.getLogger(LaysOnCirclePred.class.getName());
 
     @Override
     public void init() {

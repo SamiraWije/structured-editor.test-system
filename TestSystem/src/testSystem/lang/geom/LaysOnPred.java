@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  */
 @DSLBeanParams(shortcut = ". лежит на /", description = "Точка лежит на прямой")
 public class LaysOnPred extends GeoPointGeoLineBinPred {
-    private static final Logger log = Logger.getLogger("LaysOnPred");
+    private static final Logger log = Logger.getLogger(LaysOnPred.class.getName());
 
     @Override
     public void init() {

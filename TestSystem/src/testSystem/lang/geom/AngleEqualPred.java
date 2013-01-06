@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 @DSLBeanParams(shortcut = "∠ = ∠", description = "Углы равны")
 public class AngleEqualPred extends GeoAngleBinPred {
-    private static final Logger log = Logger.getLogger("AngleEqualPred");
+    private static final Logger log = Logger.getLogger(AngleEqualPred.class.getName());
 
     @Override
     public void init() {

@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  * Time: 12:00
  */
 public class TaskVerifier {
-    private static final Logger log = Logger.getLogger("TaskVerifier");
+    private static final Logger log = Logger.getLogger(TaskVerifier.class.getName());
 
     private DSLBean bean, ans;
     private String dspSolution;

@@ -11,6 +11,7 @@ import ru.ipo.structurededitor.StructuredEditor;
 import testSystem.structureSerializer.NodesRegistry;
 import testSystem.lang.geom.GeoStatement;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
+import testSystem.util.LogConfigLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +28,7 @@ public class GeoGebraFrameWithStructEd extends GeoGebraFrame {
     private static final Logger log = Logger.getLogger(GeoGebraFrameWithStructEd.class.getName());
 
     public static void main(String[] args) {
+        LogConfigLoader.configureLogger();
         log.fine("check java version");
         double javaVersion = Util.getJavaVersion();
         if (javaVersion < 1.42) {

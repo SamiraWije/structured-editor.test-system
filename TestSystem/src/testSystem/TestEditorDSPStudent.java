@@ -16,6 +16,7 @@ import ru.ipo.structurededitor.view.images.ImageGetter;
 import testSystem.lang.DSP.*;
 import testSystem.structureBuilder.MyErrorHandler;
 import testSystem.structureSerializer.NodesRegistry;
+import testSystem.util.LogConfigLoader;
 import testSystem.view.editors.MATLABEditor;
 
 import javax.swing.*;
@@ -34,6 +35,7 @@ import java.awt.event.ActionListener;
  */
 public class TestEditorDSPStudent {
     public static void main(String[] args) {
+        LogConfigLoader.configureLogger();
         StructuredEditor.initializeStructuredEditorUI();
         new TestEditorDSPStudent();
     }

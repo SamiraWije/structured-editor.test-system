@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 @DSLBeanParams(shortcut = "| = |", description = "Отрезки равны")
 public class SegEqualPred extends GeoSegmentBinPred {
-    private static final Logger log = Logger.getLogger("SegEqualPred");
+    private static final Logger log = Logger.getLogger(SegEqualPred.class.getName());
 
     @Override
     public void init() {

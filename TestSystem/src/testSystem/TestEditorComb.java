@@ -9,12 +9,12 @@ import ru.ipo.structurededitor.controller.ModificationHistory;
 import ru.ipo.structurededitor.controller.ModificationListener;
 import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.model.DSLBeansRegistry;
-import testSystem.lang.comb.*;
-import testSystem.structureBuilder.MyErrorHandler;
-import testSystem.structureSerializer.NodesRegistry;
 import ru.ipo.structurededitor.view.StatusBar;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.images.ImageGetter;
+import testSystem.lang.comb.*;
+import testSystem.structureBuilder.MyErrorHandler;
+import testSystem.structureSerializer.NodesRegistry;
 
 import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
@@ -110,15 +110,14 @@ public class TestEditorComb {
         menuBar.add(edit);
         Menu help = new Menu("Помощь");
         menuBar.add(help);
-        //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
-        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry,"comb",null,null);
-        item1.addActionListener(handler);
-        item2.addActionListener(handler);
-        item3.addActionListener(handler);
-        item4.addActionListener(handler);
-        item5.addActionListener(handler);
-        undoItem.addActionListener(handler);
-        redoItem.addActionListener(handler);
+        //MyMenuHandler mhf = new MyMenuHandler(f,xmlV,structuredEditor);
+        MenuHandlerFactory mhf = new MenuHandlerFactory(f, structuredEditor, nodesRegistry, "comb", null, null);
+        item1.addActionListener(mhf.createHandler());
+        item2.addActionListener(mhf.openHandler());
+        item3.addActionListener(mhf.saveHandler());
+        item5.addActionListener(mhf.exitHandler());
+        undoItem.addActionListener(mhf.undoHandler());
+        redoItem.addActionListener(mhf.redoHandler());
 
         //Status Bar
         StatusBar statusBar = new StatusBar("Нажмите Ctrl+Пробел для выбора вариантов ввода");
@@ -126,12 +125,12 @@ public class TestEditorComb {
 
         //ToolBar
         JToolBar toolBar = new JToolBar();
-        addButtonToToolBar(toolBar, "menu-open.png", "Open", true, handler);
-        addButtonToToolBar(toolBar, "save.png", "Сохранить", true, handler);
-        final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
-        final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
-        addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);
-        addButtonToToolBar(toolBar, "help.png", "Помощь", true, handler);
+        addButtonToToolBar(toolBar, "menu-open.png", "Open", true, mhf.openHandler());
+        addButtonToToolBar(toolBar, "save.png", "Сохранить", true, mhf.saveHandler());
+        final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, mhf.undoHandler());
+        final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, mhf.redoHandler());
+        addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, mhf.emptyHandler());
+        addButtonToToolBar(toolBar, "help.png", "Помощь", true, mhf.helpHandler());
 
         undoButton.setEnabled(false);
         redoButton.setEnabled(false);
@@ -184,6 +183,7 @@ public class TestEditorComb {
         //model.getRootElement().gainFocus(new TextPosition(0,0), false, false);
     }
 
+    @Deprecated
     public static NodesRegistry nodesRegistryPrep() {
         Document document;
         // obtain the default parser
@@ -393,7 +393,7 @@ public class TestEditorComb {
         root.add(new ContainerElement(model, _4thLine));*/
 
         //Bean1 bean1 = new Bean1();
-        DSLBeansRegistry reg=new DSLBeansRegistry();
+        DSLBeansRegistry reg = new DSLBeansRegistry();
         reg.registerBean(ArrayExpr.class);
         reg.registerBean(BinExpr.class);
         reg.registerBean(CountExaminer.class);

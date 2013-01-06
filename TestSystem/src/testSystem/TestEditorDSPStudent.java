@@ -14,7 +14,6 @@ import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.editors.FieldEditor;
 import ru.ipo.structurededitor.view.images.ImageGetter;
 import testSystem.lang.DSP.*;
-
 import testSystem.structureBuilder.MyErrorHandler;
 import testSystem.structureSerializer.NodesRegistry;
 import testSystem.view.editors.MATLABEditor;
@@ -88,7 +87,7 @@ public class TestEditorDSPStudent {
         JScrollPane answerEditorScrPane = new JScrollPane(answerEditor);
 
 
-        JPanel taskPanel = new JPanel(new GridLayout(1,2));
+        JPanel taskPanel = new JPanel(new GridLayout(1, 2));
 
 
         StyleContext sc = new StyleContext();
@@ -125,7 +124,7 @@ public class TestEditorDSPStudent {
         Border border = BorderFactory.createLineBorder(Color.GRAY);
         textPane.setBorder(border);
 
-        JPanel mainPane= new JPanel(new GridLayout(3,1));
+        JPanel mainPane = new JPanel(new GridLayout(3, 1));
         mainPane.add(taskPanel);
         mainPane.add(panelEditorScrPane);
         mainPane.add(answerEditorScrPane);
@@ -178,14 +177,14 @@ public class TestEditorDSPStudent {
         help.add(helpItem = new JMenuItem("Работа"));
         helpItem.setActionCommand("Помощь");
         //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
-        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "DSP", answerEditor, null,
-                styledDocument,taskPanel, panelEditor);
+        MenuHandlerFactory handler = new MenuHandlerFactory(f, structuredEditor, nodesRegistry, "DSP", answerEditor, null,
+                styledDocument, taskPanel, panelEditor);
         //item1.addActionListener(handler);
-        helpItem.addActionListener(handler);
-        item2.addActionListener(handler);
+        helpItem.addActionListener(handler.helpHandler());
+        item2.addActionListener(handler.openHandler());
         //item3.addActionListener(handler);
-        item4.addActionListener(handler);
-        item5.addActionListener(handler);
+        item4.addActionListener(handler.verifyHandler());
+        item5.addActionListener(handler.exitHandler());
         //undoItem.addActionListener(handler);
         //redoItem.addActionListener(handler);
 
@@ -195,13 +194,13 @@ public class TestEditorDSPStudent {
 
         //ToolBar
         JToolBar toolBar = new JToolBar();
-        addButtonToToolBar(toolBar, "menu-open.png", "Open", true, handler);
+        addButtonToToolBar(toolBar, "menu-open.png", "Open", true, handler.openHandler());
         //addButtonToToolBar(toolBar, "save.png", "Сохранить . . .", true, handler);
-        addButtonToToolBar(toolBar, "verify.png", "Проверить . . .", true, handler);
+        addButtonToToolBar(toolBar, "verify.png", "Проверить . . .", true, handler.verifyHandler());
         //final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
         //final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
         //addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);
-        addButtonToToolBar(toolBar, "help.png", "Помощь", true, handler);
+        addButtonToToolBar(toolBar, "help.png", "Помощь", true, handler.helpHandler());
 
         //undoButton.setEnabled(false);
         //redoButton.setEnabled(false);
@@ -214,20 +213,22 @@ public class TestEditorDSPStudent {
             handler.openTask(filename);
         }
     }
+
     private StructuredEditorModel createAnswerModel(DSPAnswer ans) {
         StructuredEditorModel model = new StructuredEditorModel(ans);
         EditorsRegistry editorsRegistry = model.getEditorsRegistry();
-            editorsRegistry.registerHook(new EditorsRegistryHook() {
-                public Class<? extends FieldEditor> substituteEditor(Class<? extends DSLBean> beanClass,
-                                                                     String propertyName, FieldMask mask, Class valueType) {
-                    if (propertyName.equals("answerMATLAB")) {
-                        return MATLABEditor.class;
-                    }
-                    return null;
+        editorsRegistry.registerHook(new EditorsRegistryHook() {
+            public Class<? extends FieldEditor> substituteEditor(Class<? extends DSLBean> beanClass,
+                                                                 String propertyName, FieldMask mask, Class valueType) {
+                if (propertyName.equals("answerMATLAB")) {
+                    return MATLABEditor.class;
                 }
-            });
+                return null;
+            }
+        });
         return model;
     }
+
     public TestEditorDSPStudent() {
         makeContainer(new JFrame("WiseTasksDSP - Модуль студента"), "");
 
@@ -312,7 +313,8 @@ public class TestEditorDSPStudent {
         toolBar.add(but);
         return but;
     }
-//panel
+
+    //panel
     private StructuredEditorModel createPanelModel(DSLBean st) {
         DSLBeansRegistry reg = new DSLBeansRegistry();
 
@@ -326,6 +328,7 @@ public class TestEditorDSPStudent {
         model.setBeansRegistry(reg);
         return model;
     }
+
     private StructuredEditorModel createModel(DSLBean st) {
         /*CompositeElement root = new CompositeElement(model, CompositeElement.Orientation.Vertical);
 

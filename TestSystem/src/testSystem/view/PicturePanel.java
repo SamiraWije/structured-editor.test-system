@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,6 +18,7 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 public class PicturePanel extends JPanel {
+    private static final Logger log = Logger.getLogger(PicturePanel.class.getName());
 
     private Image img = null;
 
@@ -31,8 +34,7 @@ public class PicturePanel extends JPanel {
         try {
             img = ImageIO.read(new File(file));
         } catch (IOException e) {
-            System.out.println("Error in image loading: "+file);
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            log.log(Level.SEVERE, "Error in image loading from file: " + file, e);
         }
 
         Dimension size = getSize();
@@ -49,9 +51,9 @@ public class PicturePanel extends JPanel {
         // draw to fill the entire component
         //g.drawImage(img, i.left, i.top, d.width - i.left - i.right, d.height - i.top - i.bottom, this);
        if (g.drawImage(img,0,0,null)){
-           System.out.println("Image OK");
+           log.fine("Image OK");
        } else {
-           System.out.println("Bad Image!");
+           log.warning("Bad Image!");
        }
     }
 

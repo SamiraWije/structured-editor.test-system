@@ -10,13 +10,13 @@ import ru.ipo.structurededitor.controller.ModificationHistory;
 import ru.ipo.structurededitor.controller.ModificationListener;
 import ru.ipo.structurededitor.model.DSLBean;
 import ru.ipo.structurededitor.model.DSLBeansRegistry;
-import testSystem.lang.geom.*;
-import testSystem.structureBuilder.MyErrorHandler;
-import testSystem.structureSerializer.NodesRegistry;
 import ru.ipo.structurededitor.view.StatusBar;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.images.ImageGetter;
-import testSystem.view.editors.*;
+import testSystem.lang.geom.*;
+import testSystem.structureBuilder.MyErrorHandler;
+import testSystem.structureSerializer.NodesRegistry;
+import testSystem.view.editors.GeoElementEditorV2;
 
 import javax.swing.*;
 import javax.swing.text.StyledDocument;
@@ -118,13 +118,13 @@ public class TestEditorGeom {
     public static JToolBar createBars(JFrame f, StructuredEditor structuredEditor, NodesRegistry nodesRegistry,
                                   StyledDocument styledDocument) {
 
-        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "geom",null,null, styledDocument);
+        MenuHandlerFactory handler = new MenuHandlerFactory(f, structuredEditor, nodesRegistry, "geom",null,null, styledDocument);
         JMenuBar menuBar = new JMenuBar();
         f.setJMenuBar(menuBar);
         JCheckBoxMenuItem algView;
         JMenu view = new JMenu("Вид");
         view.add(algView = new JCheckBoxMenuItem("Панель объектов"));
-        algView.addActionListener(handler);
+        algView.addActionListener(handler.objectPanelHandler());
         algView.setState(false);
 
         JMenu file = new JMenu("Задача");
@@ -139,15 +139,15 @@ public class TestEditorGeom {
             file.addSeparator();
             file.add(item4 = new JMenuItem("Проверить . . ."));
             file.addSeparator();
-            item4.addActionListener(handler);
+            item4.addActionListener(handler.verifyHandler());
         } else{
             file.add(item1 = new JMenuItem("Создать"));
             file.add(item2);
             file.add(item3 = new JMenuItem("Сохранить"));
             file.add(item6 = new JMenuItem("Сохранить как . . ."));
-            item6.addActionListener(handler);
-            item1.addActionListener(handler);
-            item3.addActionListener(handler);
+            item6.addActionListener(handler.saveAsHandler());
+            item1.addActionListener(handler.createHandler());
+            item3.addActionListener(handler.saveHandler());
         }
         file.addSeparator();
         file.add(item5 = new JMenuItem("Выход"));
@@ -164,31 +164,31 @@ public class TestEditorGeom {
         }
         JMenu help = new JMenu("Помощь");
         menuBar.add(help);
-        help.addActionListener(handler);
+//        help.addActionListener(handler.helpHandler());
         help.add(helpItem = new JMenuItem("Работа"));
-        helpItem.addActionListener(handler);
+        helpItem.addActionListener(handler.helpHandler());
         //MyJMenuHandler handler = new MyJMenuHandler(f,xmlV,structuredEditor);
         helpItem.setActionCommand("Помощь");
-        item2.addActionListener(handler);
-        item5.addActionListener(handler);
-        undoItem.addActionListener(handler);
-        redoItem.addActionListener(handler);
+        item2.addActionListener(handler.openHandler());
+        item5.addActionListener(handler.exitHandler());
+        undoItem.addActionListener(handler.undoHandler());
+        redoItem.addActionListener(handler.redoHandler());
         //ToolBar
         JToolBar toolBar = new JToolBar();
         if (structuredEditor.isView()){
-            addButtonToToolBar(toolBar, "Проверить ответ!", "Проверить . . .", false, handler);
+            addButtonToToolBar(toolBar, "Проверить ответ!", "Проверить . . .", false, handler.verifyHandler());
         } else {
-            addButtonToToolBar(toolBar, "save.png", "Сохранить", true, handler);
+            addButtonToToolBar(toolBar, "save.png", "Сохранить", true, handler.saveHandler());
         }
-        addButtonToToolBar(toolBar, "menu-open.png", "Open", true, handler);
-        final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
-        final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
+        addButtonToToolBar(toolBar, "menu-open.png", "Open", true, handler.openHandler());
+        final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler.undoHandler());
+        final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler.redoHandler());
         if (structuredEditor.isView()){
             redoButton.setVisible(false);
             undoButton.setVisible(false);
         }
         //addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);
-        addButtonToToolBar(toolBar, "help.png", "Помощь", true, handler);
+        addButtonToToolBar(toolBar, "help.png", "Помощь", true, handler.helpHandler());
         final ModificationHistory modificationHistory = structuredEditor.getModel().getModificationHistory();
         modificationHistory.addModificationListener(new ModificationListener() {
             public void modificationPerformed() {

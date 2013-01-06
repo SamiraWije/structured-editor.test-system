@@ -13,16 +13,10 @@ import ru.ipo.structurededitor.view.StatusBar;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.images.ImageGetter;
 import testSystem.lang.DSP.*;
-import testSystem.lang.comb.Expr;
-import testSystem.lang.comb.LogAndExpr;
-import testSystem.lang.comb.LogNotExpr;
-import testSystem.lang.comb.LogOrExpr;
-import testSystem.lang.logic.*;
 import testSystem.structureBuilder.MyErrorHandler;
 import testSystem.structureSerializer.NodesRegistry;
 
 import javax.swing.*;
-import javax.tools.Tool;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.*;
@@ -113,15 +107,15 @@ public class TestEditorDSP {
         helpItem.setActionCommand("Помощь");
         menuBar.add(help);
         //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
-        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "DSP",null,null);
-        helpItem.addActionListener(handler);
-        item1.addActionListener(handler);
-        item2.addActionListener(handler);
-        item3.addActionListener(handler);
-        item4.addActionListener(handler);
-        item5.addActionListener(handler);
-        undoItem.addActionListener(handler);
-        redoItem.addActionListener(handler);
+        MenuHandlerFactory handler = new MenuHandlerFactory(f, structuredEditor, nodesRegistry, "DSP",null,null);
+        helpItem.addActionListener(handler.helpHandler());
+        item1.addActionListener(handler.createHandler());
+        item2.addActionListener(handler.openHandler());
+        item3.addActionListener(handler.saveHandler());
+//        item4.addActionListener(handler);
+        item5.addActionListener(handler.exitHandler());
+        undoItem.addActionListener(handler.undoHandler());
+        redoItem.addActionListener(handler.redoHandler());
 
         //Status Bar
         StatusBar statusBar = new StatusBar("Нажмите Ctrl+Пробел для выбора вариантов ввода");
@@ -129,12 +123,12 @@ public class TestEditorDSP {
 
         //ToolBar
         JToolBar toolBar = new JToolBar();
-        addButtonToToolBar(toolBar, "menu-open.png", "Open", true, handler);
-        addButtonToToolBar(toolBar, "save.png", "Сохранить", true, handler);
-        final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
-        final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
-        addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);
-        addButtonToToolBar(toolBar, "help.png", "Помощь", true, handler);
+        addButtonToToolBar(toolBar, "menu-open.png", "Open", true, handler.openHandler());
+        addButtonToToolBar(toolBar, "save.png", "Сохранить", true, handler.saveHandler());
+        final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler.undoHandler());
+        final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler.redoHandler());
+        addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler.emptyHandler());
+        addButtonToToolBar(toolBar, "help.png", "Помощь", true, handler.helpHandler());
 
         undoButton.setEnabled(false);
         redoButton.setEnabled(false);

@@ -7,12 +7,12 @@ import ru.ipo.structurededitor.StructuredEditor;
 import ru.ipo.structurededitor.controller.ModificationHistory;
 import ru.ipo.structurededitor.controller.ModificationListener;
 import ru.ipo.structurededitor.model.DSLBean;
-import testSystem.lang.comb.*;
-import testSystem.structureBuilder.MyErrorHandler;
-import testSystem.structureSerializer.NodesRegistry;
 import ru.ipo.structurededitor.view.StatusBar;
 import ru.ipo.structurededitor.view.StructuredEditorModel;
 import ru.ipo.structurededitor.view.images.ImageGetter;
+import testSystem.lang.comb.*;
+import testSystem.structureBuilder.MyErrorHandler;
+import testSystem.structureSerializer.NodesRegistry;
 
 import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
@@ -85,7 +85,7 @@ public class TestEditorCombStudent {
         f.setSize(640, 480);
         //structuredEditorScrPane.setSize(320,480);
 
-        MyMenuHandler handler = new MyMenuHandler(f, structuredEditor, nodesRegistry, "comb", null, ans);
+        MenuHandlerFactory handler = new MenuHandlerFactory(f, structuredEditor, nodesRegistry, "comb", null, ans);
 
 
         Menu file = new Menu("Задача");
@@ -101,13 +101,13 @@ public class TestEditorCombStudent {
             file.addSeparator();
             file.add(item4 = new MenuItem("Проверить . . ."));
             file.addSeparator();
-            item4.addActionListener(handler);
+            item4.addActionListener(handler.verifyHandler());
         } else {
             file.add(item1 = new MenuItem("Создать"));
             file.add(item2);
             file.add(item3 = new MenuItem("Сохранить . . ."));
-            item1.addActionListener(handler);
-            item3.addActionListener(handler);
+            item1.addActionListener(handler.createHandler());
+            item3.addActionListener(handler.saveHandler());
         }
         file.addSeparator();
         file.add(item5 = new MenuItem("Выход"));
@@ -123,20 +123,20 @@ public class TestEditorCombStudent {
         menuBar.add(help);
         //MyMenuHandler handler = new MyMenuHandler(f,xmlV,structuredEditor);
 
-        item2.addActionListener(handler);
-        item5.addActionListener(handler);
-        undoItem.addActionListener(handler);
-        redoItem.addActionListener(handler);
+        item2.addActionListener(handler.openHandler());
+        item5.addActionListener(handler.exitHandler());
+        undoItem.addActionListener(handler.undoHandler());
+        redoItem.addActionListener(handler.redoHandler());
         //ToolBar
         JToolBar toolBar = new JToolBar();
-        addButtonToToolBar(toolBar, "menu-open.png", "Open", true, handler);
+        addButtonToToolBar(toolBar, "menu-open.png", "Open", true, handler.openHandler());
         if (structuredEditor.isView()) {
-            addButtonToToolBar(toolBar, "verify.png", "Проверить . . .", true, handler);
+            addButtonToToolBar(toolBar, "verify.png", "Проверить . . .", true, handler.verifyHandler());
         } else {
-            addButtonToToolBar(toolBar, "save.png", "Сохранить . . .", true, handler);
+            addButtonToToolBar(toolBar, "save.png", "Сохранить . . .", true, handler.saveHandler());
         }
-        final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler);
-        final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler);
+        final JButton undoButton = addButtonToToolBar(toolBar, "undo.png", "Отменить", true, handler.undoHandler());
+        final JButton redoButton = addButtonToToolBar(toolBar, "redo.png", "Повторить", true, handler.redoHandler());
         /* //XMLViewer
        XMLViewer xmlV = new XMLViewer("f:\\dsl\\IDEA_DSL\\ru\\ipo\\structurededitor\\xmlViewer\\emptytask.xml");
        f.add(new JScrollPane(xmlV));*/
@@ -178,8 +178,8 @@ public class TestEditorCombStudent {
         f.add(statusBar, BorderLayout.SOUTH);
 
 
-        addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler);
-        addButtonToToolBar(toolBar, "help.png", "Помощь", true, handler);
+        addButtonToToolBar(toolBar, "Примеры задач", "Примеры задач . . .", false, handler.emptyHandler());
+        addButtonToToolBar(toolBar, "help.png", "Помощь", true, handler.helpHandler());
 
         undoButton.setEnabled(false);
         redoButton.setEnabled(false);

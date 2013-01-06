@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  */
 @DSLBeanParams(shortcut = ". лежит на |", description = "Точка лежит на отрезке")
 public class LaysOnSegmentPred extends GeoPointGeoSegmentBinPred {
-    private static final Logger log = Logger.getLogger("LaysOnSegmentPred");
+    private static final Logger log = Logger.getLogger(LaysOnSegmentPred.class.getName());
 
     @Override
     public void init() {

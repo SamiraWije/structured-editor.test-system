@@ -8,7 +8,7 @@ import java.util.logging.Logger;
  * User: Vladislav Dolbilov (darl@yandex-team.ru)
  */
 public class IOUtils {
-    private static final Logger log = Logger.getLogger("IOUtils");
+    private static final Logger log = Logger.getLogger(IOUtils.class.getName());
 
     public static void closeSilently(Closeable closeable) {
         try {

@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  */
 @DSLBeanParams(shortcut = "cер |", description = "Середина отрезка")
 public class MidpointPred extends GeoPointGeoSegmentBinPred {
-    private static final Logger log = Logger.getLogger("MidpointPred");
+    private static final Logger log = Logger.getLogger(MidpointPred.class.getName());
 
     @Override
     public void init() {

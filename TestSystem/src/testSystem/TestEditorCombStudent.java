@@ -13,6 +13,7 @@ import ru.ipo.structurededitor.view.images.ImageGetter;
 import testSystem.lang.comb.*;
 import testSystem.structureBuilder.MyErrorHandler;
 import testSystem.structureSerializer.NodesRegistry;
+import testSystem.util.LogConfigLoader;
 
 import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
@@ -28,6 +29,7 @@ import java.awt.event.ActionListener;
  */
 public class TestEditorCombStudent {
     public static void main(String[] args) {
+        LogConfigLoader.configureLogger();
         StructuredEditor.initializeStructuredEditorUI();
         new TestEditorCombStudent();
     }

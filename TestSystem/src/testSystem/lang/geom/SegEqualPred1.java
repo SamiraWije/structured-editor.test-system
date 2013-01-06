@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  */
 @DSLBeanParams(shortcut = "| = |", description = "Отрезки равны")
 public class SegEqualPred1 extends Pred {
-    private static final Logger log = Logger.getLogger("SegEqualPred1");
+    private static final Logger log = Logger.getLogger(SegEqualPred1.class.getName());
 
     public AbstractGeoPoint getE1() {
         return e1;

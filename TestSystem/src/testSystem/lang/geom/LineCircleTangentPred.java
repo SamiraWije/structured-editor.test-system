@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  */
 @DSLBeanParams(shortcut = "/ кас ∘", description = "Линия касается окружности")
 public class LineCircleTangentPred extends GeoSegLineGeoCircleBinPred {
-    private static final Logger log = Logger.getLogger("LineCircleTangentPred");
+    private static final Logger log = Logger.getLogger(LineCircleTangentPred.class.getName());
 
     @Override
     public void init() {

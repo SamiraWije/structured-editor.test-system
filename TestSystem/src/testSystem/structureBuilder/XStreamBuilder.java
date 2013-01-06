@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * User: Vladislav Dolbilov (darl@yandex-team.ru)
  */
 public class XStreamBuilder {
-    private static final Logger log = Logger.getLogger("XStreamBuilder");
+    private static final Logger log = Logger.getLogger(XStreamBuilder.class.getName());
 
     private final List<Converter> converters;
 

@@ -4,7 +4,6 @@ import com.thoughtworks.xstream.converters.Converter;
 import geogebra.euclidian.EuclidianConstants;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.inputbar.AlgebraInput;
-import geogebra.kernel.GeoElement;
 import geogebra.main.Application;
 import ru.ipo.structurededitor.StructuredEditor;
 import ru.ipo.structurededitor.controller.EditorsRegistry;
@@ -23,7 +22,6 @@ import testSystem.structureBuilder.XStreamBuilder;
 import testSystem.structureSerializer.NodesRegistry;
 import testSystem.structureSerializer.XStreamSerializer;
 import testSystem.util.GeoElementConverter;
-import testSystem.util.GeogebraUtils;
 import testSystem.util.IOUtils;
 import testSystem.view.PicturePanel;
 
@@ -334,13 +332,6 @@ public class MenuHandlerFactory {
             final Application app = (Application) structuredEditor.getApp();
             if (file.exists()) {
                 app.getGuiManager().loadFile(file, false);
-                if (structuredEditor.isView()) {
-                    for (GeoElement element : GeogebraUtils.getAllElements(app)) {
-                        // makes element not changeable
-                        // but it still possible to turn off this flag in ui
-                        element.setFixed(true);
-                    }
-                }
             } else {
                 app.clearConstruction();
             }

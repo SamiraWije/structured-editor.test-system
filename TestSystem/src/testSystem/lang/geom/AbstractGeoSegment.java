@@ -2,6 +2,7 @@ package testSystem.lang.geom;
 
 import geogebra.kernel.GeoLine;
 import geogebra.kernel.GeoSegment;
+import geogebra.kernel.GeoVec3D;
 import geogebra.main.Application;
 import ru.ipo.structurededitor.model.EditorSettings;
 import ru.ipo.structurededitor.view.editors.settings.AbstractDSLBeanSettings;
@@ -18,7 +19,10 @@ public abstract class AbstractGeoSegment extends AbstractGeoSegLine {
 
     @Override
     public GeoLine resolveLine(Application app) {
-        return resolveSegment(app);
+        final GeoSegment seg = resolveSegment(app);
+        final GeoLine line = new GeoLine(app.getKernel().getConstruction());
+        GeoVec3D.lineThroughPoints(seg.getStartPoint(), seg.getEndPoint(), line);
+        return line;
     }
 
     public static EditorSettings getDefaultEditorSettings() {

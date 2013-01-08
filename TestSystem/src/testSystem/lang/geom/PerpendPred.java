@@ -1,7 +1,6 @@
 package testSystem.lang.geom;
 
 import geogebra.kernel.GeoLine;
-import geogebra.kernel.Relation;
 import geogebra.main.Application;
 import ru.ipo.structurededitor.model.DSLBeanParams;
 
@@ -33,10 +32,6 @@ public class PerpendPred extends GeoSegLineBinPred {
             return false;
         }
 
-        final Relation rel = new Relation(app.getKernel());
-        final String relStr = rel.relation(line1, line2);
-
-        log.info(relStr);
-        return relStr.contains("перпендикулярны");
+        return line1.isPerpendicular(line2);
     }
 }

@@ -279,7 +279,7 @@ public class ConditionalEventPump implements EventPump, EventFilterable {
         if (debug)
           System.out.println("[ConditionalEventPump] Waiting for events...");
         try {
-          queue.wait();
+          queue.wait(50);
         } catch (InterruptedException x) {
           Thread.currentThread().interrupt();
           return null;

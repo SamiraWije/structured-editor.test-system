@@ -8,10 +8,9 @@
 
 package geogebra.gui.util.foxtrot.pumps;
 
-import java.awt.AWTEvent;
-import java.awt.EventQueue;
-
 import sun.awt.SunToolkit;
+
+import java.awt.*;
 
 /**
  * Specialized ConditionalEventPump for Sun's JDK 1.4, 5.0 and 6.0.
@@ -52,7 +51,7 @@ public class SunJDK14ConditionalEventPump extends ConditionalEventPump
                 if (debug) System.out.println("[SunJDK14ConditionalEventPump] Waiting for events...");
                 try
                 {
-                    queue.wait();
+                    queue.wait(50);
                 }
                 catch (InterruptedException e)
                 {

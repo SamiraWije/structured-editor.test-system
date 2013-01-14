@@ -1,4 +1,4 @@
-package testSystem.matlabtest;
+/*package testSystem.matlabtest;
 
 import matlabcontrol.*;
 
@@ -8,7 +8,7 @@ import matlabcontrol.*;
  * Date: 14.04.12
  * Time: 14:42
  * To change this template use File | Settings | File Templates.
- */
+ */ /*
 public class MatlabControlTest {
 public static void main(String[] args) throws MatlabConnectionException, MatlabInvocationException
 {
@@ -25,4 +25,4 @@ public static void main(String[] args) throws MatlabConnectionException, MatlabI
     //Disconnect the proxy from MATLAB
     proxy.disconnect();
 }
-}
+}     */

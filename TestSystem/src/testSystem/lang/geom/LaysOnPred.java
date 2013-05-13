@@ -28,7 +28,6 @@ public class LaysOnPred extends GeoPointGeoLineBinPred {
     public boolean verify(Application app) {
         final GeoPoint point = getE1().resolve(app);
         final GeoLine line = getE2().resolveLine(app);
-
         if (point == null || line == null) {
             log.severe("Point or line not defined: point = " + point + " line = " + line);
             return false;
@@ -36,7 +35,6 @@ public class LaysOnPred extends GeoPointGeoLineBinPred {
 
         final Relation rel = new Relation(app.getKernel());
         final String relStr = rel.relation(point, line);
-
         log.info(relStr);
         return !(relStr.contains("не лежит на"));
     }

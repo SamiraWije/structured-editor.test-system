@@ -212,6 +212,7 @@ public class MenuHandlerFactory {
                 log.log(Level.SEVERE, "Text HTML error", e);
                 throw new RuntimeException("Text HTML error", e);
             }
+            //taskPanel.setPreferredSize(new Dimension(200,200));
             if (subSystem.equals("DSP")) {
                 //Picture - attachment to the problem text
                 if (imageFile !=null && !imageFile.equals("")){
@@ -382,6 +383,9 @@ public class MenuHandlerFactory {
                         if (mode != null)
                             toolStr += " | " + String.valueOf(mode);
                     }
+                    toolStr+=" | " + String.valueOf(EuclidianConstants.MODE_TRANSLATEVIEW)+" "
+                            + String.valueOf(EuclidianConstants.MODE_ZOOM_IN)+" "
+                            + String.valueOf(EuclidianConstants.MODE_ZOOM_OUT);
                     app.getGuiManager().setToolBarDefinition(toolStr);
 
                     app.updateToolBar();
@@ -564,7 +568,14 @@ public class MenuHandlerFactory {
             @Override
             public void actionPerformed(ActionEvent e) {
                 algView = !algView;
+                if (algView){
+                    ((Application) structuredEditor.getApp()).getGuiManager().getAlgebraView().setMinimumSize(new Dimension(100,100));
+
+                }
+                ((Application) structuredEditor.getApp()).getGuiManager().getAlgebraView().setSize(new Dimension(100,100));
                 ((Application) structuredEditor.getApp()).getGuiManager().setShowAlgebraView(algView);
+                ((Application) structuredEditor.getApp()).getGuiManager().updateLayout();
+
             }
         };
     }

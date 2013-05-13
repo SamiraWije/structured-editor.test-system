@@ -2,6 +2,8 @@ package testSystem.lang.geom;
 
 import geogebra.kernel.GeoElement;
 import geogebra.kernel.GeoLine;
+import geogebra.kernel.GeoSegment;
+import geogebra.kernel.GeoVec3D;
 import geogebra.main.Application;
 import ru.ipo.structurededitor.model.*;
 import ru.ipo.structurededitor.view.editors.settings.StringSettings;
@@ -28,6 +30,12 @@ public class LineElement extends AbstractGeoLine {
     @Override
     public GeoLine resolveLine(Application app) {
         final GeoElement res = GeogebraUtils.getGeoByCaption(name, app);
+        if (res instanceof GeoSegment){
+            GeoLine geoLine1=new GeoLine(app.getKernel().getConstruction());
+            GeoVec3D.lineThroughPoints(((GeoSegment) res).getStartPoint(), ((GeoSegment) res).getEndPoint(),
+                    geoLine1);
+            return geoLine1;
+        }
         return res instanceof GeoLine ? (GeoLine) res : null;
     }
 

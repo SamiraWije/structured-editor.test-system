@@ -1,6 +1,8 @@
 package testSystem.frames;
 
+import geogebra.euclidian.EuclidianView;
 import geogebra.gui.app.GeoGebraFrame;
+import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import testSystem.TestEditorGeom;
 import geogebra.main.Application;
 import geogebra.main.DefaultApplication;
@@ -26,6 +28,9 @@ import java.util.logging.Logger;
  * Time: 18:50
  */
 public class GeoGebraFrameStudent extends GeoGebraFrame {
+    private static final int DEFAULT_WIDTH = 900;
+    private static final int DEFAULT_HEIGHT = 650;
+
     private static final Logger log = Logger.getLogger(GeoGebraFrameStudent.class.getName());
 
     public static void main(String[] args) {
@@ -68,7 +73,7 @@ public class GeoGebraFrameStudent extends GeoGebraFrame {
         // TODO: Add layout glass pane (F.S.)
         GeoGebraFrame wnd = new GeoGebraFrameStudent();
         wnd.setLayout(new BorderLayout());
-
+        //wnd.setLayout(new BoxLayout(wnd.getContentPane(),BoxLayout.Y_AXIS));
         final DefaultApplication app = new DefaultApplication(args, wnd, true);
 
         log.info("Load GUI JAR");
@@ -90,10 +95,10 @@ public class GeoGebraFrameStudent extends GeoGebraFrame {
         final StructuredEditorModel model = TestEditorGeom.createModel(st);
 
 //        f.add(new JScrollPane(new JTextArea("asdf")));
-        structuredEditor = new StructuredEditor(model,true);
+        StructuredEditor structuredEditor = new StructuredEditor(model,true);
 
 
-        JPanel taskPanel= new JPanel(new BorderLayout());
+        taskPanel= new JPanel(new BorderLayout());
 
 
         StyleContext sc = new StyleContext();
@@ -128,8 +133,10 @@ public class GeoGebraFrameStudent extends GeoGebraFrame {
         Border border = BorderFactory.createLineBorder(Color.BLACK);
 
         JScrollPane structuredEditorScrPane = new JScrollPane(structuredEditor);
-        wnd.getContentPane().add(taskPanel, BorderLayout.BEFORE_FIRST_LINE);
-        wnd.getContentPane().add(app.buildApplicationPanel(), BorderLayout.CENTER);
+        //wnd.getContentPane().add(taskPanel, BorderLayout.BEFORE_FIRST_LINE);
+        taskPanel.setPreferredSize(new Dimension(wnd.getWidth(),100));
+        wnd.getContentPane().add(app.buildApplicationPanel(), BorderLayout.CENTER); //, BorderLayout.CENTER);
+        wnd.getContentPane().add(taskPanel, BorderLayout.NORTH);
         textPane.setBorder(border);
         taskPanel.add(textPane, BorderLayout.CENTER);
 
@@ -144,7 +151,6 @@ public class GeoGebraFrameStudent extends GeoGebraFrame {
         wnd.addWindowFocusListener(wnd);
         updateAllTitles();
         wnd.setVisible(true);
-        app.getGuiManager().setShowAlgebraView(false);
 
         log.info("init some things in the background");
         if (!app.isApplet()) {
@@ -164,6 +170,9 @@ public class GeoGebraFrameStudent extends GeoGebraFrame {
                     app.downloadJarFiles();
                 }
             };
+ /*           if (app.getGuiManager().getAlgebraView()!=null)
+                app.getGuiManager().setShowAlgebraView(false); */
+
             runner.start();
         }
         //structuredEditor.getApp().getEuclidianView().setSelectionRectangle(new Rectangle(
@@ -172,34 +181,82 @@ public class GeoGebraFrameStudent extends GeoGebraFrame {
         return wnd;
     }
 
+   /*
     @Override
     public void setVisible(boolean flag) {
         super.setVisible(flag);
         structuredEditor.setSize(structuredEditor.getPreferredSize());
         structuredEditor.repaint();
     }
+    */
+    public void updateSize() {
+        //super.updateSize();
+        Dimension frameSize;
 
-    /*public void updateSize() {
-        super.updateSize();
-        /*if (!structuredEditor.isView()){
-        Dimension dim = getSize(),
-                dim1 = structuredEditor.getPreferredSize();
-        structuredEditor.setSize(dim1);
+        // use euclidian view pref size to set frame size
+        EuclidianView ev = app.getEuclidianView();
+        SpreadsheetView sv = null;
 
-        dim.setSize(dim.getWidth() + dim1.getWidth(), dim.getHeight() + dim1.getHeight());
+        if (app.getGuiManager().hasSpreadsheetView())
+            sv = (SpreadsheetView) app.getGuiManager().getSpreadsheetView();
+
+        // no preferred size
+        if (ev.hasPreferredSize()) {
+            ev.setMinimumSize(new Dimension(50, 50));
+            Dimension evPref = ev.getPreferredSize();
+            ev.setPreferredSize(evPref);
+
+            Dimension svPref = null;
+            if (sv != null) {
+                svPref = sv.getPreferredSize();
+                sv.setPreferredSize(svPref);
+            }
+
+            // pack frame and correct size to really get the preferred size for
+            // euclidian view
+            // Michael Borcherds 2007-12-08 BEGIN pack() sometimes fails (only when
+            // run from Eclipse??)
+           try {
+                pack();
+            } catch (Exception e) {
+                // do nothing
+                Application.debug("updateSize: pack() failed");
+            }
+            frameSize = getSize();
+            Dimension evSize = ev.getSize();
+            Dimension svSize = null;
+            if (sv != null)
+                svSize = sv.getSize();
+
+            frameSize.width = frameSize.width + evPref.width - evSize.width
+                    + (sv == null ? 0 : svPref.width - svSize.width);
+            frameSize.height = frameSize.height + evPref.height - evSize.height
+                    + (sv == null ? 0 : svPref.height - svSize.height);
+        } else
+            frameSize = new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        Dimension dim = app.getPreferredSize(),
+            dim1 = taskPanel.getPreferredSize();
+        //taskPanel.setPreferredSize(dim1);
+
+        dim.setSize(Math.max(dim.getWidth(),dim1.getWidth()), dim.getHeight() + dim1.getHeight());
         Rectangle screenSize = app.getScreenSize();
-
+        /*
         if (dim.width > screenSize.width
                 || dim.height > screenSize.height) {
+           log.severe("Frame is larger then screen. Resized");
             dim.width = screenSize.width;
             dim.height = screenSize.height;
             setLocation(0, 0);
         }
+        */
+
+
         setSize(dim);
       }
-    }  */
+
+
 
     private static StructuredEditor structuredEditor;
-
+    private static JPanel taskPanel;
 
 }

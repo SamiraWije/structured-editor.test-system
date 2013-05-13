@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 public class GeoGebraFrameWithStructEd extends GeoGebraFrame {
     private static final Logger log = Logger.getLogger(GeoGebraFrameWithStructEd.class.getName());
 
+    private static JToolBar toolBar;
     public static void main(String[] args) {
         LogConfigLoader.configureLogger();
         log.fine("check java version");
@@ -85,25 +86,31 @@ public class GeoGebraFrameWithStructEd extends GeoGebraFrame {
         //StructuredEditor
 
         //------------Frame preparation
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        /*JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+
         splitPane.setResizeWeight(0.5);
         splitPane.setContinuousLayout(true);
-        splitPane.setDividerSize(8);
+        splitPane.setDividerSize(8); */
+        JPanel splitPane = new JPanel(new BorderLayout());
         wnd.add(splitPane, BorderLayout.CENTER);
 
-        splitPane.setRightComponent(app.buildApplicationPanel());
+        //splitPane.setRightComponent(app.buildApplicationPanel());
+        splitPane.add(app.buildApplicationPanel(),BorderLayout.CENTER);
 
         GeoStatement st = new GeoStatement();
         final StructuredEditorModel model = TestEditorGeom.createModel(st);
 
         structuredEditor = new StructuredEditor(model);
 
-        splitPane.setLeftComponent(new StructuredEditorWithActions(structuredEditor));
+        //splitPane.setLeftComponent(new StructuredEditorWithActions(structuredEditor));
+
+        splitPane.add(new StructuredEditorWithActions(structuredEditor),BorderLayout.NORTH);
         structuredEditor.requestFocusInWindow();
         structuredEditor.setApp(app);
 
         app.getGuiManager().setShowAlgebraView(false);
-        wnd.add(TestEditorGeom.createBars(wnd, structuredEditor, nodesRegistry, null), BorderLayout.NORTH);
+        toolBar=TestEditorGeom.createBars(wnd, structuredEditor, nodesRegistry, null);
+        wnd.add(toolBar, BorderLayout.NORTH);
 
         //---StructuredEditor
         wnd.setDropTarget(new DropTarget(wnd,
@@ -152,9 +159,9 @@ public class GeoGebraFrameWithStructEd extends GeoGebraFrame {
         Dimension dim = getSize(),
                 dim1 = structuredEditor.getPreferredSize();
         structuredEditor.setSize(dim1);
-
-        dim.setSize(dim.getWidth() + dim1.getWidth(), dim.getHeight() + dim1.getHeight());
-        Rectangle screenSize = app.getScreenSize();
+        //dim.setSize(dim.getWidth() + dim1.getWidth(), toolBar.getHeight()+Math.max(dim.getHeight(),dim1.getHeight()));
+        dim.setSize(Math.max(dim.getWidth(),dim1.getWidth()), toolBar.getHeight()+dim.getHeight()+dim1.getHeight());
+         Rectangle screenSize = app.getScreenSize();
 
         if (dim.width > screenSize.width
                 || dim.height > screenSize.height) {

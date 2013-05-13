@@ -86,17 +86,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JApplet;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 
 public abstract class Application implements KeyEventDispatcher {
@@ -3332,9 +3322,14 @@ public abstract class Application implements KeyEventDispatcher {
       cp = frame.getContentPane();
 
     addMacroCommands();
-    cp.removeAll();
-    cp.add(buildApplicationPanel());
-    setLAFFontSize();
+    // Oleg Perchenok 2013-05-07
+    //cp.removeAll();
+    //cp.remove(getContentPane());
+    /*Component cp1 = cp.getComponent(1);
+    if (cp.getComponent(0) instanceof JToolBar)
+        ((JPanel)cp1).add(buildApplicationPanel(),BorderLayout.CENTER); */
+    // END OF code by Oleg Perchenok
+      setLAFFontSize();
 
     // update sizes
     euclidianView.updateSize();

@@ -1968,7 +1968,7 @@ public class DefaultGuiManager implements GuiManager {
       app.updateContentPane();
     } else // update GUI
     if (app.getEuclidianView().hasPreferredSize()) {
-
+       /*
       // Michael Borcherds 2008-04-27 BEGIN
       // Scale drawing pad down if it doesn't fit on the screen
 
@@ -2105,13 +2105,13 @@ public class DefaultGuiManager implements GuiManager {
           }
 
         i++;
-      }
+      } */
 
       // Michael Borcherds 2007-04-27 END
 
       // update GUI: size of euclidian view was set
         //OlegPerchenok
-      //app.updateContentPaneAndSize();
+      app.updateContentPaneAndSize();
     } else
      app.updateContentPane();
   }

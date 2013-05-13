@@ -1,5 +1,9 @@
 package testSystem.lang.geom;
 
+import geogebra.kernel.GeoConic;
+import geogebra.kernel.GeoLine;
+import geogebra.kernel.GeoPoint;
+import geogebra.kernel.Relation;
 import geogebra.main.Application;
 import ru.ipo.structurededitor.model.DSLBeanParams;
 
@@ -23,7 +27,20 @@ public class LaysOnCirclePred extends GeoPointGeoCircleBinPred {
 
     @Override
     public boolean verify(Application app) {
-        log.severe("LaysOnCirclePred is not implemented");
-        return false;
+       // log.severe("LaysOnCirclePred is not implemented");
+        final GeoPoint point = getE1().resolve(app);
+        final GeoConic circle = getE2().resolve(app);
+
+        if (point == null || circle == null) {
+            log.severe("Point or line not defined: point = " + point + " line = " + circle);
+            return false;
+        }
+
+        final Relation rel = new Relation(app.getKernel());
+        final String relStr = rel.relation(point, circle);
+
+        log.info(relStr);
+        return !(relStr.contains("не лежит на"));
+        //return false;
     }
 }

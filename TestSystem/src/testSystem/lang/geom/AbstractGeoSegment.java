@@ -20,6 +20,8 @@ public abstract class AbstractGeoSegment extends AbstractGeoSegLine {
     @Override
     public GeoLine resolveLine(Application app) {
         final GeoSegment seg = resolveSegment(app);
+        if (seg == null)
+            return null;
         final GeoLine line = new GeoLine(app.getKernel().getConstruction());
         GeoVec3D.lineThroughPoints(seg.getStartPoint(), seg.getEndPoint(), line);
         return line;

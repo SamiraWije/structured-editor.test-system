@@ -34,6 +34,7 @@ public class LineElement extends AbstractGeoLine {
             GeoLine geoLine1=new GeoLine(app.getKernel().getConstruction());
             GeoVec3D.lineThroughPoints(((GeoSegment) res).getStartPoint(), ((GeoSegment) res).getEndPoint(),
                     geoLine1);
+
             return geoLine1;
         }
         return res instanceof GeoLine ? (GeoLine) res : null;

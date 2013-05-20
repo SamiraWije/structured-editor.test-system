@@ -32,15 +32,16 @@ public class LaysOnCirclePred extends GeoPointGeoCircleBinPred {
         final GeoConic circle = getE2().resolve(app);
 
         if (point == null || circle == null) {
-            log.severe("Point or line not defined: point = " + point + " line = " + circle);
+            log.severe("Point or circle not defined: point = " + point + " circle = " + circle);
             return false;
         }
 
-        final Relation rel = new Relation(app.getKernel());
+        /*final Relation rel = new Relation(app.getKernel());
         final String relStr = rel.relation(point, circle);
 
-        log.info(relStr);
-        return !(relStr.contains("не лежит на"));
+        log.info(relStr); */
+        boolean res = circle.isIntersectionPointIncident(point,0.0001);
+        return res;
         //return false;
     }
 }

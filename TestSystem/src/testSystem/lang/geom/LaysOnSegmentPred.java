@@ -34,10 +34,12 @@ public class LaysOnSegmentPred extends GeoPointGeoSegmentBinPred {
             return false;
         }
 
-        final Relation rel = new Relation(app.getKernel());
+        /*final Relation rel = new Relation(app.getKernel());
         final String relStr = rel.relation(point, seg);
 
         log.info(relStr);
-        return !relStr.contains("не лежит на");
+        return !relStr.contains("не лежит на");*/
+        boolean res = seg.isIntersectionPointIncident(point,0.0001);
+        return res;
     }
 }

@@ -32,7 +32,9 @@ public class AngleValuePred extends ValuePred {
         final double value = getValue();
         final GeoAngle angle = getE().resolve(app);
 
-        return angle != null
-                && Math.round(angle.getRawAngle() / Math.PI * 180 * 10) == Math.round(value * 10);
+        boolean res =  angle != null
+                && (Math.round(angle.getRawAngle() / Math.PI * 180 * 10) == Math.round(value * 10) ||
+                Math.round(angle.getRawAngle() / Math.PI * 180 * 10) == Math.round((360 - value) * 10));
+        return res;
     }
 }

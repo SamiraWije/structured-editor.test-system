@@ -1,5 +1,9 @@
 package testSystem.lang.geom;
 
+import geogebra.kernel.AlgoIntersectLineConic;
+import geogebra.kernel.Construction;
+import geogebra.kernel.GeoConic;
+import geogebra.kernel.GeoLine;
 import geogebra.main.Application;
 import ru.ipo.structurededitor.model.DSLBean;
 
@@ -11,5 +15,5 @@ import ru.ipo.structurededitor.model.DSLBean;
  */
 public abstract class Pred implements DSLBean {
 
-    public abstract boolean verify(Application app);
+        public abstract boolean verify(Application app);
 }

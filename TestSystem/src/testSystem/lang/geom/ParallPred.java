@@ -33,10 +33,12 @@ public class ParallPred extends GeoSegLineBinPred {
             return false;
         }
 
-        final Relation rel = new Relation(app.getKernel());
+        /*final Relation rel = new Relation(app.getKernel());
         final String relStr = rel.relation(line1, line2);
 
         log.info(relStr);
-        return relStr.contains("параллельны");
+        return relStr.contains("параллельны");           */
+        boolean res = line1.isParallel(line2);
+        return res;
     }
 }

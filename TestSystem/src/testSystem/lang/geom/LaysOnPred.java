@@ -33,9 +33,11 @@ public class LaysOnPred extends GeoPointGeoLineBinPred {
             return false;
         }
 
-        final Relation rel = new Relation(app.getKernel());
+        /*final Relation rel = new Relation(app.getKernel());
         final String relStr = rel.relation(point, line);
         log.info(relStr);
-        return !(relStr.contains("не лежит на"));
+        return !(relStr.contains("не лежит на"));*/
+        boolean res = line.isIntersectionPointIncident(point,0.0001);
+        return res;
     }
 }

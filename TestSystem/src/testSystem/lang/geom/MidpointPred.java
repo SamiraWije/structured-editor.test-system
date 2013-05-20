@@ -34,8 +34,8 @@ public class MidpointPred extends GeoPointGeoSegmentBinPred {
             return false;
         }
 
-        final Relation rel = new Relation(app.getKernel());
-        final String relStr = rel.relation(point, seg);
+       /* final Relation rel = new Relation(app.getKernel());
+        final String relStr = rel.relation(point, seg);*/
 
         final GeoPoint lineStart = seg.getStartPoint();
         final GeoPoint lineEnd = seg.getEndPoint();
@@ -45,8 +45,11 @@ public class MidpointPred extends GeoPointGeoSegmentBinPred {
         s1.calcLength();
         s2.calcLength();
 
-        log.info(relStr);
+        /*log.info(relStr);
 
-        return !(relStr.contains("не лежит на") || (Math.round(s1.getLength() * 100) != Math.round(s2.getLength() * 100)));
+        return !(relStr.contains("не лежит на") || (Math.round(s1.getLength() * 100) != Math.round(s2.getLength() * 100)));*/
+        boolean res = (Math.round(s1.getLength() * 100) == Math.round(s2.getLength() * 100)) &&
+                seg.isIntersectionPointIncident(point,0.0001);
+        return res;
     }
 }

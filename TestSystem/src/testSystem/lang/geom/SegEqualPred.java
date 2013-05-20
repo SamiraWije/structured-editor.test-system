@@ -33,10 +33,12 @@ public class SegEqualPred extends GeoSegmentBinPred {
             return false;
         }
 
-        final Relation rel = new Relation(app.getKernel());
+        /* final Relation rel = new Relation(app.getKernel());
         final String relStr = rel.relation(seg1, seg2);
 
         log.info(relStr);
-        return !relStr.contains("не равны");
+        return !relStr.contains("не равны"); */
+        boolean res=Math.round(seg1.getLength() * 100) == Math.round(seg2.getLength() * 100);
+        return res;
     }
 }

@@ -35,13 +35,18 @@ public class AngleEqualPred extends GeoAngleBinPred {
 
         final GeoAngle inverted = new GeoAngle(app.getKernel().getConstruction(), 2 * Math.PI - geo2.getValue());
 
-        final Relation rel = new Relation(app.getKernel());
+        /* final Relation rel = new Relation(app.getKernel());
         final String relStr = rel.relation(geo1, geo2);
         final String relStrInverted = rel.relation(geo1, inverted);
 
         log.info(relStr);
         log.info(relStrInverted);
 
-        return !(relStr.contains("не идентичны") && relStrInverted.contains("не идентичны"));
+        return !(relStr.contains("не идентичны") && relStrInverted.contains("не идентичны")); */
+        boolean res=Math.round(geo1.getRawAngle() / Math.PI * 180 * 10) ==
+                Math.round(geo2.getRawAngle() / Math.PI * 180 * 10) ||
+                Math.round(geo1.getRawAngle() / Math.PI * 180 * 10) ==
+                                Math.round(inverted.getRawAngle() / Math.PI * 180 * 10);
+        return res;
     }
 }

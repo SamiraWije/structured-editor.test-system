@@ -40,4 +40,7 @@ public class SegmentElement extends AbstractGeoSegment {
                         .withToolTipText("<html>Введите имя отрезка, которую участник<br>должен будет построить на чертеже</html>"))
         );
     }
+    public String toString() {
+                return " |"+name+" ";
+    }
 }

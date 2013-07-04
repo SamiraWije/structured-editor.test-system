@@ -49,4 +49,7 @@ public class LineElement extends AbstractGeoLine {
                         .withToolTipText("<html>Введите имя прямой, которую участник<br>должен будет построить на чертеже</html>")
                 ));
     }
+    public String toString() {
+                return " /"+name+" ";
+    }
 }

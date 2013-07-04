@@ -33,4 +33,7 @@ public class GeoSegmentLink extends AbstractGeoSegment {
     public Cell getLayout() {
         return new FieldCell("geo");
     }
+    public String toString() {
+          return " |"+geo.getCaption()+" ";
+    }
 }

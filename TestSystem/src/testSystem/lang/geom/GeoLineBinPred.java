@@ -25,4 +25,7 @@ public abstract class GeoLineBinPred extends BinPred {
 
     private AbstractGeoLine e1;
     private AbstractGeoLine e2;
+    public String toString() {
+          return e1.toString()+" "+op+" "+e2.toString();
+    }
 }

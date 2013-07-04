@@ -32,4 +32,7 @@ public class GeoLineLink extends AbstractGeoLine {
     public Cell getLayout() {
         return new FieldCell("geo");
     }
+    public String toString() {
+       return " /"+geo.getCaption()+" ";
+    }
 }

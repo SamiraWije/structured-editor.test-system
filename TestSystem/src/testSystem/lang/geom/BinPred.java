@@ -37,6 +37,7 @@ public abstract class BinPred extends Pred {
             return new Horiz(new FieldCell("e1", s1), new ConstantCell(op), new FieldCell("e2", s2));
     }
 
+
     private EditorSettings getSettingsForField(String propertyName) {
         Class<?> propertyType;
         try {

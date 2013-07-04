@@ -33,4 +33,7 @@ public class GeoAngleLink extends AbstractGeoAngle {
     public Cell getLayout() {
         return new FieldCell("geo");
     }
+    public String toString() {
+        return " ∠"+geo.getCaption()+" ";
+    }
 }

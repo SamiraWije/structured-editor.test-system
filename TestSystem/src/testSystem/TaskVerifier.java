@@ -68,12 +68,12 @@ public class TaskVerifier {
             }
     }
 
-    private boolean geomVerify() {
+    private Object geomVerify() {
         final Pred[] preds = ((GeoStatement) bean).getPreds();
 
         for (Pred pred : preds) {
             if (pred != null && !pred.verify(app)) {
-                return false;
+                return pred;
             }
         }
         return true;
@@ -141,7 +141,7 @@ public class TaskVerifier {
       */
        return false;
     }
-    public boolean verify() {
+    public Object verify() {
         if (subSystem.equals("geom"))
             return geomVerify();
         else if (subSystem.equals("log"))

@@ -37,4 +37,8 @@ public class AngleValuePred extends ValuePred {
                 Math.round(angle.getRawAngle() / Math.PI * 180 * 10) == Math.round((360 - value) * 10));
         return res;
     }
+
+    public String toString() {
+                   return e.toString()+" = "+Double.toString(value);
+    }
 }

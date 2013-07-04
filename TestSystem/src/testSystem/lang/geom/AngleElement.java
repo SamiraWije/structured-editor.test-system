@@ -40,4 +40,7 @@ public class AngleElement extends AbstractGeoAngle {
                         .withToolTipText("<html>Введите имя угла, который участник<br>должен будет построить на чертеже</html>"))
         );
     }
+    public String toString() {
+            return " ∠"+name+" ";
+    }
 }

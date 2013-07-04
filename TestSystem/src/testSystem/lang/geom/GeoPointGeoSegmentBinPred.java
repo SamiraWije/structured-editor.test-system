@@ -27,4 +27,7 @@ public abstract class GeoPointGeoSegmentBinPred extends BinPred {
     }
 
     private AbstractGeoSegment e2;
+    public String toString() {
+          return e1.toString()+" "+op+" "+e2.toString();
+    }
 }

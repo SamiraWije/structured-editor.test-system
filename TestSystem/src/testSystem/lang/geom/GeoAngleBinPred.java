@@ -26,4 +26,7 @@ public abstract class GeoAngleBinPred extends BinPred {
 
     private AbstractGeoAngle e1;
     private AbstractGeoAngle e2;
+    public String toString() {
+      return e1.toString()+" "+op+" "+e2.toString();
+    }
 }

@@ -518,11 +518,18 @@ public class MenuHandlerFactory {
                         app, ans, combAns == null ? null : combAns.getText());
 
                 final String message, ansScore;
-                if (verifier.verify()) {
+                Object ver = verifier.verify();
+                if (ver instanceof Boolean && (Boolean)ver) {
                     message = "Ответ правильный!";
                     ansScore = "1";
                 } else {
-                    message = "Ответ неправильный!";
+
+                    if (ver instanceof Boolean){
+                        message = "Ответ неправильный!";
+                    }
+                    else{
+                        message="Ответ неправильный! Не выполнено условие: "+ver.toString();
+                    }
                     ansScore = "0";
                 }
                 if (f instanceof Applet) {

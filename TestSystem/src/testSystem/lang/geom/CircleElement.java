@@ -37,4 +37,7 @@ public class CircleElement extends AbstractGeoCircle {
                         .withEmptyText("[имя окружности]")
                         .withToolTipText("<html>Введите имя окружности, которую участник<br>должен будет построить на чертеже</html>")));
     }
+    public String toString() {
+                return " ∘"+name+" ";
+        }
 }

@@ -35,4 +35,8 @@ public class SegmentValuePred extends ValuePred {
         return seg != null
                 && Math.round(seg.getLength() * 100) == Math.round(value * 100);
     }
+
+    public String toString() {
+                return e.toString()+" = "+Double.toString(value);
+    }
 }

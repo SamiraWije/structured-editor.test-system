@@ -32,5 +32,8 @@ public class GeoPointLink extends AbstractGeoPoint {
     public Cell getLayout() {
         return new FieldCell("geo");
     }
+    public String toString() {
+          return " ."+geo.getCaption()+" ";
+    }
 }
 

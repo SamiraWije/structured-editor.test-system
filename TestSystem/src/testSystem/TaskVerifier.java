@@ -3,16 +3,18 @@ package testSystem;
 import geogebra.main.Application;
 import ru.ipo.structurededitor.model.DSLBean;
 import testSystem.lang.DSP.DSPAnswer;
+import testSystem.lang.DSP.DSPStatement;
 import testSystem.lang.comb.*;
 import testSystem.lang.geom.GeoStatement;
 import testSystem.lang.geom.Pred;
 import testSystem.lang.logic.*;
 import testSystem.util.ArrayUtils;
 
+import java.io.*;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-//import matlabcontrol.*;
+import matlabcontrol.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -100,7 +102,7 @@ public class TaskVerifier {
     }
 
     private boolean dspVerify(){
-    /*   String verFunc = ((DSPStatement)bean).getVerifier();
+       String verFunc = ((DSPStatement)bean).getVerifier();
        String funcName= verFunc.substring(verFunc.indexOf('=')+1,verFunc.indexOf('('));
        funcName=funcName.trim();
        String funcFileName = funcName+".m";
@@ -138,7 +140,7 @@ public class TaskVerifier {
             System.out.println("Verifier function must return 0 or 1! "+e);
         }
 
-      */
+
        return false;
     }
     public Object verify() {

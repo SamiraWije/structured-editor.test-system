@@ -1,5 +1,7 @@
 package testSystem;
 
+import geogebra.kernel.GeoElement;
+import geogebra.kernel.GeoPoint;
 import geogebra.main.Application;
 import ru.ipo.structurededitor.model.DSLBean;
 import testSystem.lang.DSP.DSPAnswer;
@@ -8,8 +10,11 @@ import testSystem.lang.geom.GeoStatement;
 import testSystem.lang.geom.Pred;
 import testSystem.lang.logic.*;
 import testSystem.util.ArrayUtils;
+import testSystem.util.GeogebraUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Logger;
 
 //import matlabcontrol.*;
@@ -67,16 +72,72 @@ public class TaskVerifier {
                     varValues.put(item.getName(), item.getVal());
             }
     }
-
-    private Object geomVerify() {
-        final Pred[] preds = ((GeoStatement) bean).getPreds();
-
-        for (Pred pred : preds) {
-            if (pred != null && !pred.verify(app)) {
-                return pred;
+    private Object verifyList(List<GeoPoint> geoList){
+        Object res;
+        double[] coords = new double[3];
+        res=verifyConstruction();
+        if (res==null || !res.equals(true))
+                        return res;
+        for (GeoPoint point: geoList){
+            /*List<GeoPoint> newGeoList=new ArrayList<GeoPoint>(geoList);
+            newGeoList.remove(point);
+            res=verifyConstruction();
+            if (res==null || !res.equals(true))
+                break;
+            if (!newGeoList.isEmpty())
+                res = verifyList(newGeoList);
+            if (res==null || !res.equals(true))
+                break; */
+            point.getCoords(coords);
+            point.setCoords(coords[0]+1,coords[1]+1,coords[2]);
+            //GeogebraUtils.updateAllElements(app);
+            point.update();
+            point.updateCascade();
+            //app.getEuclidianView().repaintEuclidianView();
+            res=verifyConstruction();
+            if (res==null || !res.equals(true)){
+                point.setCoords(coords[0],coords[1],coords[2]);
+                point.updateCascade();
+                break;
             }
+            /*if (!newGeoList.isEmpty())
+                res = verifyList(newGeoList);
+              if (res==null || !res.equals(true))
+                  break; */
+            point.setCoords(coords[0]-1,coords[1]-1,coords[2]);
+            //GeogebraUtils.updateAllElements(app);
+            point.updateCascade();
+            app.getEuclidianView().repaintEuclidianView();
+            res=verifyConstruction();
+            if (res==null || !res.equals(true)){
+                point.setCoords(coords[0],coords[1],coords[2]);
+                point.updateCascade();
+                break;
+            }
+            /*if (!newGeoList.isEmpty())
+                res = verifyList(newGeoList);
+            if (res==null || !res.equals(true))
+                break;  */
+            point.setCoords(coords[0],coords[1],coords[2]);
+            point.updateCascade();
         }
-        return true;
+
+        return res;
+    }
+    private Object geomVerify() {
+        List<GeoPoint> geoList = GeogebraUtils.getAllFreeGeoPoints(app);
+        return verifyList(geoList);
+
+    }
+
+    private Object verifyConstruction() {
+        final Pred[] preds = ((GeoStatement) bean).getPreds();
+               for (Pred pred : preds) {
+                    if (pred != null && !pred.verify(app)) {
+                        return pred;
+                    }
+                }
+                return true;
     }
 
     private boolean processKit(Kit kit) {

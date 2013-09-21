@@ -42,4 +42,7 @@ public class PointElement extends AbstractGeoPoint {
                                 .withToolTipText("<html>Введите имя точки, которую участник<br>должен будет построить на чертеже</html>")
                 ));
     }
+    public String toString() {
+                   return " ."+name+" ";
+       }
 }

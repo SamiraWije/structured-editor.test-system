@@ -60,6 +60,13 @@ public class GeogebraUtils {
         return null;
     }
 
+    public static void updateAllElements(Application app) {
+        List <GeoElement> elems = getAllElements(app);
+        for (GeoElement geo: elems){
+            geo.updateCascade();
+            //app.getEuclidianView().update(geo);
+        }
+    }
     public static List<GeoElement> getAllElements(Application app) {
         app.selectAll(0);
         final List<Object> selected = new ArrayList<Object>(app.getSelectedGeos());
@@ -74,4 +81,21 @@ public class GeogebraUtils {
 
         return result;
     }
+    public static List<GeoPoint> getAllFreeGeoPoints(Application app) {
+           app.selectAll(0);
+           final List<Object> selected = new ArrayList<Object>(app.getSelectedGeos());
+           app.clearSelectedGeos();
+
+           final List<GeoPoint> result = new ArrayList<GeoPoint>(selected.size());
+           for (Object o: selected) {
+               if (o instanceof GeoPoint) {
+                   GeoPoint point = (GeoPoint) o;
+                   if (!point.isFixed() && !point.isPointInRegion() && !point.isPointOnPath()
+                   && point.getParentAlgorithm()==null)
+                      result.add(point);
+               }
+           }
+
+           return result;
+       }
 }
